@@ -3,6 +3,7 @@
   <h2>🔥타닥타닥 모닥불 앞에서 타닥타닥 코딩하는 서비스🔥</h2>
   <a href="https://painted-albatross-4c9.notion.site/bf8781900de84dfc9652697dda563767">노션</a>　|　
   <a href="https://github.com/boostcampwm-2021/web15-TadakTadak/wiki">위키</a>　|　
+  <a href="https://docs.google.com/spreadsheets/d/1CU1PgQIW_dnDCA-VG4ktHpzJs4md3HHGEevrcdp1MXc/edit#gid=0">백로그</a>　|　
   <a href="https://painted-albatross-4c9.notion.site/fd520bbe4d9247c0babe86b15369ae25">갤러리</a>　|　
   <a href="">팀 기술 블로그</a>
   <br><br>
