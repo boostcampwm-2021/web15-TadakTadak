@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/66074802/139095282-6cfa9dc3-e46c-4728-b4df-383d74be13a1.png" width="250">  
+  <img src="https://user-images.githubusercontent.com/66074802/139232831-0cb3c8e9-7883-4c64-8aa5-a6cd24a7e7f6.png" width="500">  
   <h2>🔥타닥타닥 모닥불 앞에서 타닥타닥 코딩하는 서비스🔥</h2>
   <a href="https://painted-albatross-4c9.notion.site/bf8781900de84dfc9652697dda563767">노션</a>　|　
   <a href="https://github.com/boostcampwm-2021/web15-TadakTadak/wiki">위키</a>　|　
