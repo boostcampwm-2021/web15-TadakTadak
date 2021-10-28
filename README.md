@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-0.0.0-61DAFB?logo=React"> 
   <img src="https://img.shields.io/badge/Docker-0.0.0-2496ED?logo=Docker"> 
   <img src="https://img.shields.io/badge/Nginx-0.0.0-009639?logo=Nginx"> 
-</div>
+<!-- </div>
 
 <div align="center">
   <img src="https://img.shields.io/badge/ESLint-0.0.0-4B32C3?logo=ESLint"> 
@@ -30,13 +30,13 @@
   <img src="https://img.shields.io/badge/Styled_Components-0.0.0-DB7093?logo=styled-components"> 
   <img src="https://img.shields.io/badge/Webpack-0.0.0-8DD6F9?logo=Webpack"> 
 </div>
-
+ -->
 <div align="center">
-  <img src="https://img.shields.io/badge/GitHub_Actions-0.0.0-2088FF?logo=GitHub Actions"> 
+<!--   <img src="https://img.shields.io/badge/GitHub_Actions-0.0.0-2088FF?logo=GitHub Actions">  -->
   <img src="https://img.shields.io/badge/MySQL-0.0.0-4479A1?logo=MySQL"> 
   <img src="https://img.shields.io/badge/Socket.io-0.0.0-010101?logo=Socket.io"> 
   <img src="https://img.shields.io/badge/WebRTC-0.0.0-333333?logo=WebRTC"> 
-  <img src="https://img.shields.io/badge/Ubuntu-0.0.0-E95420?logo=Ubuntu"> 
+<!--   <img src="https://img.shields.io/badge/Ubuntu-0.0.0-E95420?logo=Ubuntu">  -->
   <img src="https://img.shields.io/badge/Naver_Cloud_Platform-0.0.0-03C75A?logo=Naver"> 
 </div>
 
