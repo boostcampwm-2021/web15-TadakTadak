@@ -8,8 +8,7 @@ export class AuthController {
 
   @Post('/login')
   login(@Body() authRequestDto: AuthRequestDto) {
-    console.log(authRequestDto.email);
-    console.log(authRequestDto.password);
-    return 'hello';
+    console.log('login');
+    return this.authService.userLogin(authRequestDto);
   }
 }

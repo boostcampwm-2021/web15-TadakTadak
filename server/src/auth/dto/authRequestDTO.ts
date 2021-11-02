@@ -5,5 +5,5 @@ export class AuthRequestDto {
   readonly email: string;
 
   @IsNotEmpty()
-  readonly password: number;
+  readonly password: string;
 }
