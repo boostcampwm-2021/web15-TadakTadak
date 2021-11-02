@@ -1,12 +1,21 @@
-import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { AuthRequestDto } from '../dto/authRequestDTO';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../auth.entity';
+import { AuthRepository } from '../auth.repository';
+import { LoginRequestDto } from '../dto/loginRequestDTO';
 
 @Injectable()
 export class AuthService {
-  async userLogin(authRequestDTO: AuthRequestDto): Promise<string> {
-    const hash = await bcrypt.hash(authRequestDTO.password, 10);
+  constructor(@InjectRepository(AuthRepository) private readonly authRepository: AuthRepository) {}
 
-    return 'Hello World!';
+  async login(loginRequestDTO: LoginRequestDto): Promise<boolean> {
+    const user: User = await this.authRepository.findOne({
+      where: { email: loginRequestDTO.email },
+    });
+    if (user === undefined) return false;
+    const isSamePassword = await bcrypt.compare(loginRequestDTO.password, user.password);
+    if (!isSamePassword) return false;
+    return true;
   }
 }

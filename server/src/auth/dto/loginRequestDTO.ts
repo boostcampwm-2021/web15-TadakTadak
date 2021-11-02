@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
-export class AuthRequestDto {
+export class LoginRequestDto {
   @IsEmail()
   @IsNotEmpty()
   readonly email: string;
