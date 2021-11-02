@@ -2376,6 +2376,17 @@
     "clean-stack" "^2.0.0"
     "indent-string" "^4.0.0"
 
+"agora-rtc-react@github:AgoraIO-Community/agora-rtc-react#v1.1.0":
+  "resolved" "git+ssh://git@github.com/AgoraIO-Community/agora-rtc-react.git#6733ddd0fd196b0e9556ee1cd75f09dcb81b6e69"
+  "version" "1.1.0"
+  dependencies:
+    "agora-rtc-sdk-ng" "^4.3.0"
+
+"agora-rtc-sdk-ng@^4.3.0", "agora-rtc-sdk-ng@^4.7.2":
+  "integrity" "sha512-zouSIrPL1JILyK1QBQ6ap9zAqvCmlS8HnQTDW61hM8pgl7IuETl+++3RC8uuTpyKe0m4j30y5n3Ghol3ESwB8w=="
+  "resolved" "https://registry.npmjs.org/agora-rtc-sdk-ng/-/agora-rtc-sdk-ng-4.7.2.tgz"
+  "version" "4.7.2"
+
 "ajv-errors@^1.0.0":
   "integrity" "sha512-DCRfO/4nQ+89p/RK43i8Ezd41EqdGIU4ld7nGF8OQ14oc/we5rEntLCUa7+jrn3nn83BosfwZA0wb4pon2o8iQ=="
   "resolved" "https://registry.npmjs.org/ajv-errors/-/ajv-errors-1.0.1.tgz"
@@ -9667,7 +9678,7 @@
   optionalDependencies:
     "fsevents" "^2.1.3"
 
-"react@*", "react@^17.0.2", "react@>= 16", "react@>= 16.8.0", "react@17.0.2":
+"react@*", "react@^16.8.0 || ^17", "react@^17.0.2", "react@>= 16", "react@>= 16.8.0", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"

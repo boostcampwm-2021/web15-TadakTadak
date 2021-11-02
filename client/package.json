@@ -11,6 +11,8 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.1.15",
+    "agora-rtc-react": "github:AgoraIO-Community/agora-rtc-react#v1.1.0",
+    "agora-rtc-sdk-ng": "^4.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
