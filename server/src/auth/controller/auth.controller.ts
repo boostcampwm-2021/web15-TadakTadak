@@ -4,10 +4,8 @@ import { AuthRequestDto } from '../dto/authRequestDTO';
 @Controller('/api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-
   @Post('/login')
-  login(@Body() authRequestDto : AuthRequestDto) {
-    return "hello";
+  login(@Body() authRequestDto: AuthRequestDto) {
+    return 'hello';
   }
 }
