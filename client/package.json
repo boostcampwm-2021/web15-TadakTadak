@@ -22,6 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "ci": "npm run format && npm run lint",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
