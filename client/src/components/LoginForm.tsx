@@ -2,21 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import useInput from '../hooks/useInput';
 
-export const Container = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const Form = styled.form`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
 
-export const Input = styled.input`
+const Input = styled.input`
   font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
-export const Button = styled.button`
+const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@ export const Button = styled.button`
   border-radius: 1rem;
 `;
 
-export const GithubLoginButton = styled.button`
+const GithubLoginButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,17 +39,12 @@ export const GithubLoginButton = styled.button`
   border-radius: 1rem;
 `;
 
-export const JoinButton = styled.button`
+const ModalToggleSpan = styled.span`
   margin-top: ${({ theme }) => theme.margins.lg};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${({ theme }) => theme.colors.tertiary};
-  color: ${({ theme }) => theme.colors.black};
-  padding: ${({ theme }) => theme.paddings.sm};
-  width: 16rem;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  border-radius: 1rem;
+  cursor: pointer;
+  :hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 interface LoginProps {
@@ -87,7 +82,7 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle }) => {
         <Button>로그인</Button>
       </Form>
       <GithubLoginButton onClick={onClickGithubLogin}>Github 로그인</GithubLoginButton>
-      <JoinButton onClick={onClickModalToggle}>가입하기</JoinButton>
+      <ModalToggleSpan onClick={onClickModalToggle}>회원가입 하러 가기</ModalToggleSpan>
     </Container>
   );
 };

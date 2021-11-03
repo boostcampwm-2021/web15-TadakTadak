@@ -39,17 +39,12 @@ const GithubLoginButton = styled.button`
   border-radius: 1rem;
 `;
 
-const LoginButton = styled.button`
+const ModalToggleSpan = styled.span`
   margin-top: ${({ theme }) => theme.margins.lg};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${({ theme }) => theme.colors.tertiary};
-  color: ${({ theme }) => theme.colors.black};
-  padding: ${({ theme }) => theme.paddings.sm};
-  width: 16rem;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  border-radius: 1rem;
+  cursor: pointer;
+  :hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 interface JoinProps {
@@ -96,7 +91,7 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle }) => {
         <Button>회원가입</Button>
       </Form>
       <GithubLoginButton onClick={onClickGithubJoin}>Github 회원가입</GithubLoginButton>
-      <LoginButton onClick={onClickModalToggle}>로그인하기</LoginButton>
+      <ModalToggleSpan onClick={onClickModalToggle}>로그인 하러 가기</ModalToggleSpan>
     </Container>
   );
 };
