@@ -33,8 +33,13 @@ export class AuthService {
   }
 
   async join(joinRequestDto: JoinRequestDto) {
-    if (await this.authRepository.exists(joinRequestDto)) return;
-
-    console.log('없닿ㅎ');
+    if (await this.authRepository.exists(joinRequestDto)) return false;
+    const user: User = await this.authRepository.create();
+    user.nickName = joinRequestDto.nickname;
+    user.email = joinRequestDto.email;
+    user.password = Bcrypt.hash(joinRequestDto.password);
+    user.imageUrl = '디폴트 이미지 주소 자리';
+    await this.authRepository.save(user);
+    return true;
   }
 }

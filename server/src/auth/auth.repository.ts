@@ -1,4 +1,4 @@
-import { EntityRepository, getConnection, Repository } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import { User } from './auth.entity';
 
 @EntityRepository(User)
