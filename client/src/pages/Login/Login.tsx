@@ -1,5 +1,6 @@
 import React from 'react';
 import useInput from '../../hooks/useInput';
+import { Container, Title, Form, Input, Button } from './style';
 
 const Login: React.FC = () => {
   const [email, onChangeEmail] = useInput('');
@@ -10,15 +11,15 @@ const Login: React.FC = () => {
     if (!email || !password) {
       return;
     }
+    // Login request
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmitForm}>
-        <label htmlFor="email">Email</label>
-        <input type="text" placeholder="Email" id="email" value={email} onChange={onChangeEmail} maxLength={50} />
-        <label htmlFor="password">Password</label>
-        <input
+    <Container>
+      <Title>로그인 화면</Title>
+      <Form onSubmit={onSubmitForm}>
+        <Input type="text" placeholder="Email" id="email" value={email} onChange={onChangeEmail} maxLength={50} />
+        <Input
           type="password"
           placeholder="Password"
           id="password"
@@ -26,9 +27,9 @@ const Login: React.FC = () => {
           maxLength={15}
           onChange={onChangePassword}
         />
-        <input type="submit" value="제출" />
-      </form>
-    </div>
+        <Button>로그인</Button>
+      </Form>
+    </Container>
   );
 };
 export default Login;
