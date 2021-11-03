@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useInput from '../../hooks/useInput';
 
-const Login: React.FC = (): JSX.Element => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setEmail(e.target.value);
-  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setPassword(e.target.value);
+const Login: React.FC = () => {
+  const [email, onChangeEmail] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
   const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
