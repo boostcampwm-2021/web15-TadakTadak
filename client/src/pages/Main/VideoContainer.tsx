@@ -22,9 +22,7 @@ const VideoContainer = (props: {
         await client.subscribe(user, mediaType);
         console.log('subscribe success');
         if (mediaType === 'video') {
-          setUsers((prevUsers) => {
-            return [...prevUsers, user];
-          });
+          setUsers((prevUsers) => [...new Set([...prevUsers, user])]);
         }
         if (mediaType === 'audio') {
           user.audioTrack?.play();
@@ -37,9 +35,7 @@ const VideoContainer = (props: {
           user.audioTrack?.stop();
         }
         if (type === 'video') {
-          setUsers((prevUsers) => {
-            return prevUsers.filter((User) => User.uid !== user.uid);
-          });
+          user.videoTrack?.stop();
         }
       });
 
