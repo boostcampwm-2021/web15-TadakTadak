@@ -1,0 +1,57 @@
+name: front-end CI & CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+
+    strategy:
+      matrix:
+        node-version: [16.13]
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: npm 모듈들을 캐싱합니다.
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+
+      - name: npm 으로 패키지 다운로드합니다.
+        run: npm install
+
+      - name: 리액트 파일을 빌드합니다.
+        run: npm run build
+
+      - name: CI 작업을 수행합니다.
+        run: npm run ci
+
+      - name: 기존에 배포된 파일 삭제합니다.
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.STATIC_SERVER_HOST }}
+          username: ${{ secrets.STATIC_SERVER_USERNAME }}
+          password: ${{ secrets.STATIC_SERVER_PASSWORD }}
+          port: ${{ secrets.STATIC_SERVER_PORT }}
+          script: |
+            rm -rf /var/www/tadaktadak.com/html/*
+
+      - name: 빌드 된 파일 scp를 통해 배포합니다.
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.STATIC_SERVER_HOST }}
+          username: ${{ secrets.STATIC_SERVER_USERNAME }}
+          password: ${{ secrets.STATIC_SERVER_PASSWORD }}
+          port: ${{ secrets.STATIC_SERVER_PORT }}
+          source: "./client/build/*"
+          target: "/var/www/tadaktadak.com/html"
+          strip_components: 2
