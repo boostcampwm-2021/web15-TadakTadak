@@ -1,5 +1,8 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
-export class LoginRequestDto {
+export class JoinRequestDto {
+  @IsNotEmpty()
+  readonly nickname: string;
+
   @IsEmail()
   @IsNotEmpty()
   readonly email: string;
