@@ -18,6 +18,7 @@ export class AuthController {
   @Post('/join')
   join(@Body() joinRequestDto: JoinRequestDto) {
     console.log(joinRequestDto.nickname);
+    this.authService.join(joinRequestDto);
     return 'hello';
   }
 }
