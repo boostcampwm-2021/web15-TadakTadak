@@ -13,9 +13,7 @@ export class AuthService {
     const user: User = await this.authRepository.findOne({
       where: { email: loginRequestDTO.email },
     });
-    if (user === undefined) return false;
-    const isSamePassword = await bcrypt.compare(loginRequestDTO.password, user.password);
-    if (!isSamePassword) return false;
-    return true;
+    if (user && (await bcrypt.compare(loginRequestDTO.password, user.password))) return true;
+    return false;
   }
 }
