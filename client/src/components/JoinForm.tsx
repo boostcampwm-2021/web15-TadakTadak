@@ -17,9 +17,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${({ theme }) => theme.flexCenter}
   background-color: ${({ theme }) => theme.colors.primary};
   padding: ${({ theme }) => theme.paddings.sm};
   width: 16rem;
@@ -28,9 +26,7 @@ const Button = styled.button`
 `;
 
 const GithubLoginButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${({ theme }) => theme.flexCenter}
   background-color: ${({ theme }) => theme.colors.tertiary};
   color: ${({ theme }) => theme.colors.black};
   padding: ${({ theme }) => theme.paddings.sm};

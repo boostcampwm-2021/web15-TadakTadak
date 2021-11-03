@@ -18,10 +18,8 @@ export const ModalBackground = styled.div`
 `;
 
 export const ModalWrapper = styled.div`
-  display: flex;
+  ${({ theme }) => theme.flexCenter}
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding: 2rem 2rem 1.5rem 2rem;
   width: 50vw;
   height: 40vh;

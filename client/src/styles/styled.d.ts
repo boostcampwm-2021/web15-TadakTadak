@@ -28,5 +28,6 @@ declare module 'styled-components' {
       normal: number;
       bold: number;
     };
+    flexCenter: string;
   }
 }

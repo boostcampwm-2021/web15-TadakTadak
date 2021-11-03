@@ -33,6 +33,11 @@ const theme: DefaultTheme = {
     normal: 400,
     bold: 700,
   },
+  flexCenter: `
+    display:flex;
+    justify-contents:center;
+    align-items:center;
+  `,
 };
 
 export { theme };
