@@ -1,7 +1,29 @@
 import React, { useState } from 'react';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { useClient } from './videoConfig';
-import { FaVolumeMute, FaVolumeUp, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import { MdOutlineExitToApp } from 'react-icons/md';
+import Button from '../../components/Button';
+import styled, { css } from 'styled-components';
+
+const ButtonContainer = styled.div``;
+const Controls = styled.div`
+  position: fixed;
+  ${({ theme }) => css`
+    ${theme.flexCenter}
+    bottom: ${theme.margins.xl};
+    left: 0;
+    right: 0;
+  `}
+`;
+
+const GetoutDiv = styled.div`
+  position: fixed;
+  ${({ theme }) => css`
+    top: ${theme.margins.xl};
+    right: ${theme.margins.sm};
+  `}
+`;
 
 const VideoController = (props: {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
@@ -36,15 +58,25 @@ const VideoController = (props: {
   };
 
   return (
-    <div className="controls">
-      <button className={trackState.audio ? 'on' : ''} onClick={() => mute('audio')}>
-        {trackState.audio ? <FaVolumeUp /> : <FaVolumeMute />}
-      </button>
-      <button className={trackState.video ? 'on' : ''} onClick={() => mute('video')}>
-        {trackState.video ? <FaVideo /> : <FaVideoSlash />}
-      </button>
-      <button onClick={() => leaveChannel()}>나가기</button>
-    </div>
+    <ButtonContainer>
+      <Controls>
+        <Button
+          icon={trackState.audio ? <FaMicrophone /> : <FaMicrophoneSlash />}
+          text={''}
+          className={trackState.audio ? 'on' : ''}
+          onClick={() => mute('audio')}
+        />
+        <Button
+          icon={trackState.video ? <FaVideo /> : <FaVideoSlash />}
+          text={''}
+          className={trackState.video ? 'on' : ''}
+          onClick={() => mute('video')}
+        />
+      </Controls>
+      <GetoutDiv>
+        <Button icon={<MdOutlineExitToApp />} text={''} onClick={() => leaveChannel()} />
+      </GetoutDiv>
+    </ButtonContainer>
   );
 };
 

@@ -59,8 +59,8 @@ const VideoContainer = (props: {
 
   return (
     <div className="video-container">
-      {ready && tracks && <VideoController tracks={tracks} setStart={setStart} setInCall={setInCall} />}
       {start && tracks && <Videos users={users} tracks={tracks} />}
+      {ready && tracks && <VideoController tracks={tracks} setStart={setStart} setInCall={setInCall} />}
     </div>
   );
 };
