@@ -9,14 +9,14 @@ interface ButtonProps {
 }
 
 const StyledButton = styled.button`
-  margin: 0;
   border: none;
   cursor: pointer;
   border-radius: 50%;
   font-family: 'Noto Sans KR', sans-serif;
   ${({ theme }) => css`
-    width: ${theme.buttonSizes.lg};
-    height: ${theme.buttonSizes.lg};
+    margin: 0 ${theme.margins.lg};
+    width: ${theme.buttonSizes.base};
+    height: ${theme.buttonSizes.base};
     font-size: ${theme.fontSizes.xl};
     padding: ${theme.fontSizes.sm};
     background: ${theme.colors.primary};
