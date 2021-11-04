@@ -1,15 +1,27 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
 import reset from 'styled-reset';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
+  ${({ theme }) => css`
+    * {
+      color: ${theme.colors.white};
+    }
+    body {
+      background-color: ${theme.colors.black};
+      font-size: ${theme.fontSizes.base};
+      font-weight: ${theme.fontWeights.normal};
+    }
+  `}
   * {
     box-sizing: border-box;
+  }
+  html{
+    font-size : 62.5%; // 1rem === 10px
   }
   body {
     font-family: --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
       sans-serif;
-    font-size: 16px;
   }
   a {
     text-decoration: none;
@@ -18,6 +30,8 @@ const GlobalStyles = createGlobalStyle`
   button,
   input {
     outline: none;
+    background-color:transparent;
+    border:none;
   }
   button {
     cursor: pointer;
