@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 export const ModalContainer = styled.div`
@@ -37,24 +37,20 @@ export const Title = styled.h4`
 
 interface ModalProps {
   title?: string;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, title }) => {
-  const [modal, setModal] = useState(true);
+const Modal: React.FC<ModalProps> = ({ setModal, children, title }) => {
   const onClickModalBackground = () => setModal(false);
   return (
-    <>
-      {modal && (
-        <ModalContainer>
-          <ModalBackground onClick={onClickModalBackground}>
-            <ModalWrapper onClick={(e) => e.stopPropagation()}>
-              {title && <Title>{title}</Title>}
-              {children}
-            </ModalWrapper>
-          </ModalBackground>
-        </ModalContainer>
-      )}
-    </>
+    <ModalContainer>
+      <ModalBackground onClick={onClickModalBackground}>
+        <ModalWrapper onClick={(e) => e.stopPropagation()}>
+          {title && <Title>{title}</Title>}
+          {children}
+        </ModalWrapper>
+      </ModalBackground>
+    </ModalContainer>
   );
 };
 
