@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import Login from '../pages/Login';
+import LoginModal from './LoginModal';
 
 const SideBarContainer = styled.div`
   padding: ${({ theme }) => theme.paddings.lg};
@@ -29,7 +29,7 @@ const SideBar: React.FC = () => {
   return (
     <SideBarContainer>
       <LoginBtn onClick={onClick}>로그인</LoginBtn>
-      {loginModal && <Login modal={loginModal} setModal={setLoginModal} />}
+      {loginModal && <LoginModal modal={loginModal} setModal={setLoginModal} />}
     </SideBarContainer>
   );
 };
