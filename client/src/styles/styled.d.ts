@@ -23,6 +23,7 @@ interface Sizes {
 }
 
 interface Colors {
+  bold: string;
   primary: string;
   secondary: string;
   tertiary: string;

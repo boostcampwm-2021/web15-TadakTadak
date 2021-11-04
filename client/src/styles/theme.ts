@@ -14,6 +14,7 @@ const theme: DefaultTheme = {
     xl: '15rem',
   },
   colors: {
+    bold: '#009292',
     primary: '#00C9C8',
     secondary: '#A3CFCD',
     tertiary: '#BFFCF9',

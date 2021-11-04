@@ -23,11 +23,13 @@ const StyledButton = styled.button`
     color: ${theme.colors.white};
     ${theme.flexCenter}
   `}
+  &:hover {
+    background: ${({ theme }) => theme.colors.bold};
+  }
   &:active {
     background: ${({ theme }) => theme.colors.secondary};
-  }
-  &:hover {
-    background: ${({ theme }) => theme.colors.tertiary};
+    transform: scale(0.9);
+    transition: background 0.1s;
   }
   &:focus {
   }
