@@ -1,7 +1,18 @@
 import { DefaultTheme } from 'styled-components';
 
 const theme: DefaultTheme = {
-  borderRadius: '0.4rem',
+  borderRadius: {
+    sm: '0.4rem',
+    base: '1.0rem',
+    lg: '2.0rem',
+    xl: '3.0rem',
+  },
+  buttonSizes: {
+    sm: '5rem',
+    base: '7.5rem',
+    lg: '10rem',
+    xl: '15rem',
+  },
   colors: {
     primary: '#00C9C8',
     secondary: '#A3CFCD',
@@ -35,7 +46,7 @@ const theme: DefaultTheme = {
   },
   flexCenter: `
     display:flex;
-    justify-contents:center;
+    justify-content:center;
     align-items:center;
   `,
 };
