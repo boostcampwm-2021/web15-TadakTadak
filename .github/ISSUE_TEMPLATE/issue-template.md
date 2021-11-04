@@ -9,7 +9,6 @@ assignees: ''
 
 ## Story
 
->
 
 ## Progress
 - [ ]

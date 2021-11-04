@@ -1,0 +1,39 @@
+name: front-end CI & CD
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+
+    strategy:
+      matrix:
+        node-version: [16.13]
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: npm 모듈들을 캐싱합니다.
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+
+      - name: npm 으로 패키지 다운로드합니다.
+        run: npm install
+
+      - name: 리액트 파일을 빌드합니다.
+        run: npm run build
+
+      - name: CI 작업을 수행합니다.
+        run: npm run ci
