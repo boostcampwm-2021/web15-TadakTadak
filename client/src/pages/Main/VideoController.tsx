@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { useClient } from './videoConfig';
-import { FaVolumeMute, FaVolumeUp, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp } from 'react-icons/md';
 import Button from '../../components/Button';
 import styled, { css } from 'styled-components';
@@ -61,7 +61,7 @@ const VideoController = (props: {
     <ButtonContainer>
       <Controls>
         <Button
-          icon={trackState.audio ? <FaVolumeUp /> : <FaVolumeMute />}
+          icon={trackState.audio ? <FaMicrophone /> : <FaMicrophoneSlash />}
           text={''}
           className={trackState.audio ? 'on' : ''}
           onClick={() => mute('audio')}
