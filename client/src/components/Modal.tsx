@@ -44,16 +44,16 @@ const Modal: React.FC<ModalProps> = ({ children, title }) => {
   const onClickModalBackground = () => setModal(false);
   return (
     <>
-      {modal ? (
+      {modal && (
         <ModalContainer>
           <ModalBackground onClick={onClickModalBackground}>
             <ModalWrapper onClick={(e) => e.stopPropagation()}>
-              {title ? <Title>{title}</Title> : null}
+              {title && <Title>{title}</Title>}
               {children}
             </ModalWrapper>
           </ModalBackground>
         </ModalContainer>
-      ) : null}
+      )}
     </>
   );
 };
