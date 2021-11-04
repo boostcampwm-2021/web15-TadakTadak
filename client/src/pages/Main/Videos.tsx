@@ -1,29 +1,47 @@
 import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack, ICameraVideoTrack, AgoraVideoPlayer } from 'agora-rtc-react';
-import DefaultScreen from './DefaultScreen';
+import styled from 'styled-components';
+import defaultImage from '../../assets/default-avatar.jpeg';
+
+const VIDEO_WIDTH = 300;
+const VIDEO_HEIGHT = 300;
+
+const VideoWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${VIDEO_WIDTH}px;
+  height: ${VIDEO_HEIGHT}px;
+  background-image: url(${defaultImage});
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  overflow: hidden;
+`;
 
 const Videos = (props: {
   users: IAgoraRTCRemoteUser[];
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
 }): JSX.Element => {
   const { users, tracks } = props;
-
   return (
     <div>
       <div id="videos">
-        <AgoraVideoPlayer style={{ height: '500px', width: '500px' }} className="video" videoTrack={tracks[1]} />
+        <VideoWrap>
+          <AgoraVideoPlayer style={{ height: '100%', width: '100%' }} className="video" videoTrack={tracks[1]} />
+        </VideoWrap>
         {users.length > 0 &&
-          users.map((user) => {
-            if (user.videoTrack) {
-              return (
+          users.map((user) => (
+            <VideoWrap key={user.uid}>
+              {user.videoTrack && (
                 <AgoraVideoPlayer
-                  style={{ height: '500px', width: '500px' }}
+                  style={{ height: '100%', width: '100%' }}
                   className="video"
                   videoTrack={user.videoTrack}
-                  key={user.uid}
                 />
-              );
-            } else return <DefaultScreen key={user.uid} />;
-          })}
+              )}
+            </VideoWrap>
+          ))}
       </div>
     </div>
   );
