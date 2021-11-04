@@ -29,7 +29,7 @@ const SideBar: React.FC = () => {
   return (
     <SideBarContainer>
       <LoginBtn onClick={onClick}>로그인</LoginBtn>
-      {loginModal && <Login />}
+      {loginModal && <Login modal={loginModal} setModal={setLoginModal} />}
     </SideBarContainer>
   );
 };

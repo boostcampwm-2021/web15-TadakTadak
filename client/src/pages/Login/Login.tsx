@@ -3,19 +3,28 @@ import Modal from '../../components/Modal';
 import JoinForm from '../../components/JoinForm';
 import LoginForm from '../../components/LoginForm';
 
-const Login: React.FC = () => {
+interface LoginProps {
+  modal: boolean;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Login: React.FC<LoginProps> = ({ modal, setModal }) => {
   const [isLogin, setIsLogin] = useState(true);
 
   const onClickModalToggle = () => setIsLogin(!isLogin);
 
   return (
-    <Modal title={isLogin ? '로그인' : '회원가입'}>
-      {isLogin ? (
-        <LoginForm onClickModalToggle={onClickModalToggle} />
-      ) : (
-        <JoinForm onClickModalToggle={onClickModalToggle} />
+    <>
+      {modal && (
+        <Modal title={isLogin ? '로그인' : '회원가입'} setModal={setModal}>
+          {isLogin ? (
+            <LoginForm onClickModalToggle={onClickModalToggle} />
+          ) : (
+            <JoinForm onClickModalToggle={onClickModalToggle} />
+          )}
+        </Modal>
       )}
-    </Modal>
+    </>
   );
 };
 
