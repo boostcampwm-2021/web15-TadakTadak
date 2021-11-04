@@ -6,11 +6,24 @@ const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
 const RoomContainer = styled.div`
   ${({ theme }) => theme.flexCenter};
   flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.secondary};
+  background-color: ${({ theme }) => theme.colors.primary};
   width: ${ROOM_WIDTH}rem;
   height: ${ROOM_HEIGHT}rem;
   border-radius: 2rem;
   cursor: pointer;
+  &:hover {
+    background: ${({ theme }) => theme.colors.bold};
+  }
+  &:active {
+    background: ${({ theme }) => theme.colors.secondary};
+    transform: scale(0.9);
+    transition: background 0.1s;
+  }
+`;
+
+const RoomTitle = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.title};
+  margin-bottom: ${({ theme }) => theme.margins.base};
 `;
 
 const RoomBox = (props: {
@@ -33,7 +46,7 @@ const RoomBox = (props: {
 
   return (
     <RoomContainer onClick={onClick}>
-      <p>{roomName}</p>
+      <RoomTitle>{roomName}</RoomTitle>
       <p>참가하기</p>
     </RoomContainer>
   );
