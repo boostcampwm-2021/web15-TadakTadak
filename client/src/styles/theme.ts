@@ -35,7 +35,7 @@ const theme: DefaultTheme = {
   },
   flexCenter: `
     display:flex;
-    justify-contents:center;
+    justify-content:center;
     align-items:center;
   `,
 };

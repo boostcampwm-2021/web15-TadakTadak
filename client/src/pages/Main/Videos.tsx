@@ -1,5 +1,18 @@
 import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack, ICameraVideoTrack } from 'agora-rtc-react';
+import styled from 'styled-components';
 import VideoBox from '../../components/VideoBox';
+
+const VideosContainer = styled.div`
+  ${({ theme }) => theme.flexCenter}
+  height: 100%;
+`;
+
+const VideosGrid = styled.div`
+  padding: ${({ theme }) => theme.paddings.lg};
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 2rem;
+`;
 
 const Videos = (props: {
   users: IAgoraRTCRemoteUser[];
@@ -8,12 +21,12 @@ const Videos = (props: {
   const { users, tracks } = props;
   const myVideoTrack = tracks[1];
   return (
-    <div>
-      <div id="videos">
+    <VideosContainer>
+      <VideosGrid id="videos">
         <VideoBox videoTrack={myVideoTrack} />
         {users.length > 0 && users.map((user) => <VideoBox key={user.uid} videoTrack={user.videoTrack} />)}
-      </div>
-    </div>
+      </VideosGrid>
+    </VideosContainer>
   );
 };
 
