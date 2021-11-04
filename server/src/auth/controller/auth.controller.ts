@@ -1,4 +1,5 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthService } from '../service/auth.service';
 import { LocalAuthGuard } from '../guard/local-auth.guard';
 import { LoginRequestDto } from '../dto/login-request.dto';
@@ -11,8 +12,9 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   // @authPublic()
   @Post('/login')
-  login(@Body() loginRequestDto: LoginRequestDto) {
-    return this.authService.login(loginRequestDto);
+  login(@Body() loginRequestDto: LoginRequestDto, @Res({ passthrough: true }) res: Response) {
+    res.cookie('access-token', this.authService.login(loginRequestDto));
+    return { msg: 'treu' };
   }
 
   @Post('/join')
