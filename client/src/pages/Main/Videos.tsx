@@ -1,5 +1,4 @@
 import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack, ICameraVideoTrack, AgoraVideoPlayer } from 'agora-rtc-react';
-import DefaultScreen from './DefaultScreen';
 
 const Videos = (props: {
   users: IAgoraRTCRemoteUser[];
@@ -22,7 +21,7 @@ const Videos = (props: {
                   key={user.uid}
                 />
               );
-            } else return <DefaultScreen key={user.uid} />;
+            } else return;
           })}
       </div>
     </div>
