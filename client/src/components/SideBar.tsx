@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import LoginModal from './LoginModal';
 
+const SIDEBAR_MIN_WIDTH = '33rem';
+
 const SideBarContainer = styled.div`
   padding: ${({ theme }) => theme.paddings.lg};
   display: flex;
   flex-direction: column;
   width: 23vw;
+  min-width: ${SIDEBAR_MIN_WIDTH};
   height: 100%;
   background-color: #21272e;
 `;
@@ -20,6 +23,9 @@ const LoginBtn = styled.button`
   `};
   width: 100%;
   text-align: center;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 const SideBar: React.FC = () => {
