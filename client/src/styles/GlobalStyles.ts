@@ -11,6 +11,7 @@ const GlobalStyles = createGlobalStyle`
       background-color: ${theme.colors.black};
       font-size: ${theme.fontSizes.base};
       font-weight: ${theme.fontWeights.normal};
+      height: 100vh;
     }
   `}
   * {
