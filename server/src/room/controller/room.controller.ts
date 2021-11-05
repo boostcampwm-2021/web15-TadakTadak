@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { RoomService } from '../service/room.service';
 
 @Controller('room')
@@ -7,17 +7,17 @@ export class RoomController {
   }
 
   @Get('tadak')
-  getTDTDListAll(): void {
+  getTDTDListAll(@Query('page') page: number, @Query('search') search: string): void {
     return;
   }
 
   @Get('camp')
-  getCampListAll(): void {
+  getCampListAll(@Query('page') page: number, @Query('search') search: string): void {
     return;
   }
 
   @Get('live')
-  getLiveListAll(): void {
+  getLiveListAll(@Query('page') page: number, @Query('search') search: string): void {
     return;
   }
 
@@ -26,8 +26,8 @@ export class RoomController {
     return;
   }
 
-  @Delete()
-  deleteRoom(): void {
+  @Delete('/:roomId')
+  deleteRoom(@Param('roomId') id): void {
     return;
   }
 }
