@@ -22,4 +22,17 @@ export class User {
 
   @Column({ type: 'varchar', length: 511, unique: false, nullable: true })
   introduction: string;
+
+  @Column({ default: false })
+  isSocial: boolean;
+
+  @OneToOne((type) => DevField)
+  @JoinColumn()
+  devField: DevField;
+
+  @OneToMany(() => Follow, (follow) => follow.to)
+  follows: Follow[];
+
+  @OneToMany(() => History, (history) => history.user)
+  historys: History[];
 }
