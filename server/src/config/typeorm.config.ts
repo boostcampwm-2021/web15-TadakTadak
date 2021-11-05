@@ -9,4 +9,5 @@ export const TypeOrmConfig: TypeOrmModuleOptions = {
   database: process.env.DB_MYSQL_DATABASE,
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
   synchronize: true,
+  namingStrategy: new SnakeNamingStrategy(),
 };
