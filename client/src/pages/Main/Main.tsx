@@ -1,20 +1,43 @@
 import { useState } from 'react';
-import { MainContainer } from './style';
+import { MainWrapper, MainContainer, MainTitle, RoomListGrid } from './style';
 import VideoContainer from './VideoContainer';
-import ChannelForm from './ChannelForm';
+import RoomBox from '../../components/RoomBox';
+import SideBar from '../../components/SideBar';
+
+const roomInfos = [
+  {
+    channelName: 'test',
+    roomName: 'test room',
+  },
+];
 
 const Main = (): JSX.Element => {
   const [inCall, setInCall] = useState(false);
   const [channelName, setChannelName] = useState('');
   return (
-    <MainContainer>
-      <h1 className="heading">Agora RTC 테스트</h1>
-      {inCall ? (
-        <VideoContainer setInCall={setInCall} channelName={channelName} />
-      ) : (
-        <ChannelForm setInCall={setInCall} setChannelName={setChannelName} />
-      )}
-    </MainContainer>
+    <MainWrapper>
+      <SideBar />
+      <MainContainer>
+        {inCall ? (
+          <VideoContainer setInCall={setInCall} channelName={channelName} />
+        ) : (
+          <>
+            <MainTitle className="heading">채널 목록</MainTitle>
+            <RoomListGrid>
+              {roomInfos &&
+                roomInfos.map((roomInfo) => (
+                  <RoomBox
+                    key={roomInfo.channelName}
+                    setInCall={setInCall}
+                    setChannelName={setChannelName}
+                    roomInfo={roomInfo}
+                  />
+                ))}
+            </RoomListGrid>
+          </>
+        )}
+      </MainContainer>
+    </MainWrapper>
   );
 };
 

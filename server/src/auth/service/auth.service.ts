@@ -27,9 +27,7 @@ export class AuthService {
 
   async login(loginRequestDto: LoginRequestDto) {
     const payload = { email: loginRequestDto.email };
-    return {
-      accessToken: this.jwtService.sign(payload),
-    };
+    return this.jwtService.sign(payload);
   }
 
   async join(joinRequestDto: JoinRequestDto) {

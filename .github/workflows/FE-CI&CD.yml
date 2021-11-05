@@ -27,6 +27,14 @@ jobs:
 
       - name: npm 으로 패키지 다운로드합니다.
         run: npm install
+        
+      - name: Github Repository Secrets로 환경변수를 전달합니다.
+        run: |
+          echo "REACT_APP_AGORA_APP_ID=$REACT_APP_AGORA_APP_ID" >> .env.production
+          echo "REACT_APP_AGORA_TOKEN=$REACT_APP_AGORA_TOKEN" >> .env.production
+        env:
+          REACT_APP_AGORA_APP_ID: ${{ secrets.REACT_APP_AGORA_APP_ID }}
+          REACT_APP_AGORA_TOKEN: ${{ secrets.REACT_APP_AGORA_TOKEN }}
 
       - name: Github Repository Secrets로 환경변수를 전달합니다.
         run: |
