@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-export const TypeOrmConfig: TypeOrmModuleOptions = {
+export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   host: process.env.DB_MYSQL_HOST,
   port: 3306,
