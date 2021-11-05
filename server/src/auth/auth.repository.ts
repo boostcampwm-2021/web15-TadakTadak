@@ -6,7 +6,7 @@ export class AuthRepository extends Repository<User> {
   async exists(user): Promise<boolean> {
     return (
       (await this.createQueryBuilder('user')
-        .where('user.nick_name = :nick_name OR user.email = :email', {
+        .where('user.nick_name = :nickname OR user.email = :email', {
           nickname: user.nickname,
           email: user.email,
         })
