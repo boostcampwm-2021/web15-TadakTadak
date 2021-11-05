@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { DevField } from './dev-field.entity';
+import { Follow } from './follow.entity';
+import { History } from './history.entity';
 
 @Entity()
 export class User {
@@ -19,10 +22,4 @@ export class User {
 
   @Column({ type: 'varchar', length: 511, unique: false, nullable: true })
   introduction: string;
-
-  @Column({ default: false })
-  isSocial: boolean;
-
-  @Column({ nullable: true })
-  devFieldId: number;
 }
