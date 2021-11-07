@@ -1,24 +1,37 @@
 import { Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { RoomService } from '../service/room.service';
+import { Room, RoomType } from '../room.entity';
+import { Pagination } from 'src/paginate';
 
 @Controller('room')
 export class RoomController {
-  constructor(private readonly roomService: RoomService) {
-  }
+  constructor(private readonly roomService: RoomService) {}
 
   @Get('tadak')
-  getTDTDListAll(@Query('page') page: number, @Query('search') search: string): void {
-    return;
+  getBasicListAll(
+    @Query('search') search: string,
+    @Query('take') take: number,
+    @Query('page') page: number,
+  ): Promise<Pagination<Room>> {
+    return this.roomService.getRoomListAll({ search, take, page }, RoomType.TadakTadak);
   }
 
   @Get('camp')
-  getCampListAll(@Query('page') page: number, @Query('search') search: string): void {
-    return;
+  getCampListAll(
+    @Query('search') search: string,
+    @Query('take') take: number,
+    @Query('page') page: number,
+  ): Promise<Pagination<Room>> {
+    return this.roomService.getRoomListAll({ search, take, page }, RoomType.CampFire);
   }
 
   @Get('live')
-  getLiveListAll(@Query('page') page: number, @Query('search') search: string): void {
-    return;
+  getLiveListAll(
+    @Query('search') search: string,
+    @Query('take') take: number,
+    @Query('page') page: number,
+  ): Promise<Pagination<Room>> {
+    return this.roomService.getRoomListAll({ search, take, page }, RoomType.CodingLive);
   }
 
   @Post()
