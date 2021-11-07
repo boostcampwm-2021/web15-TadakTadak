@@ -9,6 +9,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   password: process.env.DB_MYSQL_PASSWORD,
   database: process.env.DB_MYSQL_DATABASE,
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  synchronize: true,
+  synchronize: false,
   namingStrategy: new SnakeNamingStrategy(),
 };
