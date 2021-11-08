@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import useInput from '../hooks/useInput';
+import useInput from '@hooks/useInput';
 
 const Container = styled.div`
   display: flex;

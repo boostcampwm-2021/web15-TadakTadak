@@ -1,6 +1,6 @@
 import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack, ICameraVideoTrack } from 'agora-rtc-react';
 import styled from 'styled-components';
-import VideoBox from '../../components/VideoBox';
+import VideoBox from '@components/VideoBox';
 
 const VideosContainer = styled.div`
   ${({ theme }) => theme.flexCenter}

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { MainWrapper, MainContainer, MainTitle, RoomListGrid } from './style';
 import VideoContainer from './VideoContainer';
-import RoomBox from '../../components/RoomBox';
-import SideBar from '../../components/SideBar';
+import RoomBox from '@components/RoomBox';
+import SideBar from '@components/SideBar';
 
 const roomInfos = [
   {
