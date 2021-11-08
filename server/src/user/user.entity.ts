@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { DevField } from './dev-field.entity';
 import { Follow } from './follow.entity';
 import { History } from './history.entity';
@@ -26,7 +26,7 @@ export class User {
   @Column({ default: false })
   isSocial: boolean;
 
-  @OneToOne((type) => DevField)
+  @ManyToOne((type) => DevField, (devField) => devField.users)
   @JoinColumn()
   devField: DevField;
 
