@@ -2,8 +2,7 @@ name: front-end CI & CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [cicdtest]
 
 jobs:
   build:
@@ -37,11 +36,14 @@ jobs:
           REACT_APP_AGORA_APP_ID: ${{ secrets.REACT_APP_AGORA_APP_ID }}
           REACT_APP_AGORA_TOKEN: ${{ secrets.REACT_APP_AGORA_TOKEN }}
 
+      - name: Github Repository Secrets로 환경변수를 전달합니다.
+        run: |
+          echo "REACT_APP_TEST=$REACT_APP_TEST" >> .env.production
+        env:
+          REACT_APP_TEST: ${{ secrets.REACT_APP_TEST }}
+
       - name: 리액트 파일을 빌드합니다.
         run: npm run build
-
-      - name: CI 작업을 수행합니다.
-        run: npm run ci
 
       - name: 기존에 배포된 파일 삭제합니다.
         uses: appleboy/ssh-action@master
