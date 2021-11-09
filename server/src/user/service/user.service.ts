@@ -15,16 +15,17 @@ export class UserService {
     private readonly devFileldRepository: DevFieldRepository,
   ) {}
   async getUserInfo(id: string) {
-    return await this.authRepository.findOneOrFail({ where: { nickName: id }, relations: ['devField'] });
+    return await this.authRepository.findUserByNickname(id);
   }
 
   async updateUserInfo(id: string, userUpdateDto: UserUpdateDto) {
-    const user: User = await this.authRepository.findOneOrFail({ where: { nickName: id } });
-    user.nickName = userUpdateDto.nickname;
-    user.introduction = userUpdateDto.introduction;
-    user.devField = await this.devFileldRepository.findOneOrFail({ where: { id: userUpdateDto.devField } });
-    if (user.password !== userUpdateDto.password) user.password = Bcrypt.hash(userUpdateDto.password);
-    await this.authRepository.save(user);
+    const updateUser: User = await this.authRepository.findUserByNickname(id);
+    //추가 작업 필요
+    updateUser.nickName = userUpdateDto.nickname;
+    updateUser.introduction = userUpdateDto.introduction;
+    updateUser.devField = await this.devFileldRepository.findDevById(userUpdateDto.devField);
+    if (updateUser.password !== userUpdateDto.password) updateUser.password = Bcrypt.hash(userUpdateDto.password);
+    await this.authRepository.save(updateUser);
     return true;
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Bcrypt } from 'src/utils/bcrypt';
@@ -17,10 +17,7 @@ export class AuthService {
   ) {}
 
   async login(loginRequestDto: LoginRequestDto) {
-    const user: User = await this.authRepository.findOne({
-      where: { email: loginRequestDto.email },
-      relations: ['devField'],
-    });
+    const user: User = await this.authRepository.findUserByEmail(loginRequestDto.email);
     if (!user || !Bcrypt.compare(loginRequestDto.password, user.password)) throw new UnauthorizedException();
     const token = this.jwtService.sign({ email: loginRequestDto.email });
     const userInfo: LoginResponseDto = new LoginResponseDto(user);
@@ -28,7 +25,7 @@ export class AuthService {
   }
 
   async join(joinRequestDto: JoinRequestDto) {
-    if (await this.authRepository.exists(joinRequestDto)) return false;
+    if (await this.authRepository.exists(joinRequestDto)) throw new NotAcceptableException();
     const user: User = await this.authRepository.create();
     user.nickName = joinRequestDto.nickname;
     user.email = joinRequestDto.email;
