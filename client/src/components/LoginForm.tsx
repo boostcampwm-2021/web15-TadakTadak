@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postLogin } from '@utils/apis';
+import { useUserFns } from '@contexts/userContext';
 
 const Container = styled.div`
   display: flex;
@@ -52,6 +53,7 @@ interface LoginProps {
 const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const logUserIn = useUserFns();
 
   const onClickGithubLogin = () => {
     // Github Login request
@@ -64,7 +66,7 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
     }
     const { status, data } = await postLogin(email, password);
     if (status === 201) {
-      // user 정보 등록하기
+      logUserIn(data);
       setModal(false);
     }
   };
