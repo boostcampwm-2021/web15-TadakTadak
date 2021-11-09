@@ -6,11 +6,12 @@ export interface UserProps {
   email?: string;
   imageUrl?: string;
   introduction?: string;
-  is_social?: boolean;
+  isSocial?: boolean;
   dev_field?: {
     id: number;
     name: string;
   };
+  login?: boolean;
 }
 
 export interface UserFnProps {
@@ -32,9 +33,10 @@ const UserContext = React.createContext<UserContextProps>({
 });
 
 const UserContextProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const [user, setUser] = useState({});
+  const initialState = { login: false };
+  const [user, setUser] = useState(initialState);
   const logUserIn = (newUser: UserProps) => setUser({ ...newUser, login: true });
-  const logUserOut = () => setUser({});
+  const logUserOut = () => setUser(initialState);
 
   return <UserContext.Provider value={{ user, fn: { logUserIn, logUserOut } }}>{children}</UserContext.Provider>;
 };

@@ -18,7 +18,7 @@ const App = (): JSX.Element => {
   }, [logUserIn]);
 
   useEffect(() => {
-    if (!user?.nickname) {
+    if (!user.login) {
       getUser();
     }
   }, [getUser, user]);

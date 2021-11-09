@@ -60,7 +60,7 @@ const SideBar: React.FC = () => {
 
   return (
     <SideBarContainer>
-      {user?.nickname ? (
+      {user.login ? (
         <>
           <UserInfoBtn onClick={onClickUserInfoBtn}>사용자정보</UserInfoBtn>
           <Button icon={<IoLogOutOutline />} text={''} className={'Logout'} onClick={onClickLogoutBtn} />
