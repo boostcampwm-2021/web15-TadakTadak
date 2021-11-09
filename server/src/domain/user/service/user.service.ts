@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthRepository } from 'src/auth/auth.repository';
-import { DevFieldRepository } from '../dev-field.repository';
-import { UserUpdateDto } from '../dto/user-update.dto';
 import { Bcrypt } from 'src/utils/bcrypt';
 import { User } from '../user.entity';
+import { DevFieldRepository } from '../repository/dev-field.repository';
+import { AuthRepository } from '../../auth/auth.repository';
+import { UserUpdateDto } from '../dto/user-update.dto';
 
 @Injectable()
 export class UserService {
@@ -14,7 +14,8 @@ export class UserService {
     @InjectRepository(DevFieldRepository)
     private readonly devFileldRepository: DevFieldRepository,
   ) {}
-  async getUserInfo(id: string) {
+
+  async getUserInfo(id: string): Promise<User> {
     return await this.authRepository.findUserByNickname(id);
   }
 

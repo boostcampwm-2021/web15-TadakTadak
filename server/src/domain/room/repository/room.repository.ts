@@ -1,6 +1,5 @@
 import { EntityRepository, Like, Repository } from 'typeorm';
 import { Room, RoomType } from '../room.entity';
-import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
 import { PaginationOptions } from '../../../paginate';
 
 @EntityRepository(Room)

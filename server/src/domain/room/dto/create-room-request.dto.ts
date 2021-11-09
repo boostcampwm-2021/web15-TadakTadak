@@ -1,5 +1,5 @@
 import { IsEnum, IsInt, IsNotEmpty, Max, MaxLength, Min } from 'class-validator';
-import { Room, RoomType } from '../room.entity';
+import { RoomType } from '../room.entity';
 
 export class CreateRoomRequestDto {
   @IsNotEmpty()
