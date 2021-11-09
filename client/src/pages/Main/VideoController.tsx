@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
-import { useClient } from './videoConfig';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp } from 'react-icons/md';
-import Button from '../../components/Button';
 import styled, { css } from 'styled-components';
+import { useClient } from './videoConfig';
+import Button from '@components/Button';
 
 const ButtonContainer = styled.div``;
 const Controls = styled.div`

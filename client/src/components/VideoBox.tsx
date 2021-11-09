@@ -1,6 +1,6 @@
 import { IRemoteVideoTrack, ICameraVideoTrack, AgoraVideoPlayer } from 'agora-rtc-react';
 import styled from 'styled-components';
-import defaultImage from '../assets/default-avatar.jpeg';
+import defaultImage from '@assets/default-avatar.jpeg';
 
 const VIDEO_WIDTH = 30;
 const VIDEO_HEIGHT = 20;

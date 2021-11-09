@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import { theme } from './styles/theme';
-import Introduction from './pages/Introduction';
-import Main from './pages/Main';
+import Introduction from '@pages/Introduction';
+import Main from '@pages/Main';
 
 const App = (): JSX.Element => {
   return (
