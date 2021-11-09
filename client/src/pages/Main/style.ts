@@ -66,3 +66,17 @@ export const LoginBtn = styled.button`
     background-color: ${({ theme }) => theme.colors.primary};
   }
 `;
+
+export const UserInfoBtn = styled.button`
+  ${({ theme }) => css`
+    border: 1px solid ${theme.colors.primary};
+    padding: ${theme.paddings.sm};
+    border-radius: ${theme.borderRadius.sm};
+    font-size: ${theme.fontSizes.lg};
+  `};
+  width: 100%;
+  text-align: center;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.primary};
+  }
+`;

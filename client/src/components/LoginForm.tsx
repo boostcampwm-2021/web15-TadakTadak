@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
+import { postLogin } from '@utils/apis';
+import { useUserFns } from '@contexts/userContext';
 
 const Container = styled.div`
   display: flex;
@@ -45,22 +47,28 @@ const ModalToggleSpan = styled.span`
 
 interface LoginProps {
   onClickModalToggle: React.MouseEventHandler<HTMLButtonElement>;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle }) => {
+const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const { logUserIn } = useUserFns();
 
   const onClickGithubLogin = () => {
     // Github Login request
   };
 
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
       return;
     }
-    // Login request
+    const { status, data } = await postLogin(email, password);
+    if (status === 201) {
+      logUserIn(data);
+      setModal(false);
+    }
   };
 
   return (

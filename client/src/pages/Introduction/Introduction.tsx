@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUser } from '@contexts/userContext';
+import { useEffect } from 'react';
 
 const IntroContainer = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -29,7 +31,16 @@ const MainLink = styled(Link)`
   }
 `;
 
-const Introduction = (): JSX.Element => {
+const Introduction = (props: { history: { push(url: string): void } }): JSX.Element => {
+  const user = useUser();
+  const { push } = props.history;
+
+  useEffect(() => {
+    if (user.login) {
+      push('/main');
+    }
+  }, [user, push]);
+
   return (
     <IntroContainer>
       <IntroTitle>
