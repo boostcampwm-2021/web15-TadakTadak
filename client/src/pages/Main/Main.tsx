@@ -14,7 +14,7 @@ const roomInfos = [
   },
 ]; //테스트용
 
-interface RoomInfo {
+export interface RoomInfo {
   channelName: string;
   token: string;
   roomName: string;

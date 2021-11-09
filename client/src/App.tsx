@@ -5,6 +5,7 @@ import GlobalStyles from './styles/GlobalStyles';
 import { theme } from './styles/theme';
 import Introduction from '@pages/Introduction';
 import Main from '@pages/Main';
+import Room from '@pages/Room';
 
 const App = (): JSX.Element => {
   return (
@@ -13,6 +14,7 @@ const App = (): JSX.Element => {
         <Switch>
           <Route exact path="/" component={Introduction} />
           <Route path="/main" component={Main} />
+          <Route path="/room" component={Room} />
           <Redirect from="*" to="/" />
         </Switch>
       </BrowserRouter>
