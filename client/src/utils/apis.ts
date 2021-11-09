@@ -1,4 +1,6 @@
-export const postJoin = async (email: string, nickname: string, password: string) => {
+import { UserProps } from '@contexts/userContext';
+
+export const postJoin = async (email: string, nickname: string, password: string): Promise<boolean> => {
   const response = await fetch('/api/auth/join', {
     method: 'POST',
     headers: {
@@ -12,7 +14,7 @@ export const postJoin = async (email: string, nickname: string, password: string
   return false;
 };
 
-export const postLogin = async (email: string, password: string) => {
+export const postLogin = async (email: string, password: string): Promise<{ status: number; data: UserProps }> => {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: {
@@ -25,6 +27,15 @@ export const postLogin = async (email: string, password: string) => {
   if (response.ok) {
     data = await response.json();
   }
-  console.log(status, data);
+  return { status, data };
+};
+
+export const getUserByToken = async (): Promise<{ status: number; data: UserProps }> => {
+  const response = await fetch('/api/auth/token');
+  const { status } = response;
+  let data;
+  if (response.ok) {
+    data = await response.json();
+  }
   return { status, data };
 };
