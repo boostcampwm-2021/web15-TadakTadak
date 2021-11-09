@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
+import { postLogin } from '@utils/apis';
 
 const Container = styled.div`
   display: flex;
@@ -45,9 +46,10 @@ const ModalToggleSpan = styled.span`
 
 interface LoginProps {
   onClickModalToggle: React.MouseEventHandler<HTMLButtonElement>;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle }) => {
+const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
@@ -55,12 +57,16 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle }) => {
     // Github Login request
   };
 
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
       return;
     }
-    // Login request
+    const { status, data } = await postLogin(email, password);
+    if (status === 201) {
+      // user 정보 등록하기
+      setModal(false);
+    }
   };
 
   return (
