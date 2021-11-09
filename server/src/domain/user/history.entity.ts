@@ -8,6 +8,7 @@ export class History {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'timestamp', transformer: new LocalDateTransformer() })
   checkIn: LocalDate;
 
   @ManyToOne((type) => User, (user) => user.historys)
