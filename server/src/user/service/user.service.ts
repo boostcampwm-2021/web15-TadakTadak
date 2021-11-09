@@ -17,4 +17,13 @@ export class UserService {
   async getUserInfo(id: string) {
     return await this.authRepository.findOneOrFail({ where: { nickName: id }, relations: ['devField'] });
   }
+
+  async updateUserInfo(id: string, userUpdateDto: UserUpdateDto): Promise<User> {
+    const user: User = await this.authRepository.findOneOrFail({ where: { nickName: id } });
+    user.nickName = userUpdateDto.nickname;
+    user.introduction = userUpdateDto.introduction;
+    user.devField = await this.devFileldRepository.findOneOrFail({ where: { id: userUpdateDto.devfiled } });
+    if (user.password !== userUpdateDto.password) user.password = Bcrypt.hash(userUpdateDto.password);
+    return await this.authRepository.save(user);
+  }
 }

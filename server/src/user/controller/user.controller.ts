@@ -13,8 +13,8 @@ export class UserController {
   }
 
   @Patch('/:userId')
-  patchUserInfo(@Param('userId') id, @Body() userUpdateDto: UserUpdateDto): void {
-    return;
+  async patchUserInfo(@Param('userId') id, @Body() userUpdateDto: UserUpdateDto) {
+    return { result: await this.userService.updateUserInfo(id, userUpdateDto) };
   }
 
   @Get('/:userId/log')
