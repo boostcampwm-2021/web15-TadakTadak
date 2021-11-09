@@ -1,6 +1,6 @@
 import { MainWrapper, MainContainer, MainTitle, RoomListGrid } from './style';
 import RoomBox from '@components/RoomBox';
-import SideBar from '@components/SideBar';
+import SideBar from '@pages/Main/SideBar';
 import ListGenerator from '@components/ListGenerator';
 
 const roomInfos = [
