@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Bcrypt } from 'src/utils/bcrypt';
@@ -25,7 +25,8 @@ export class AuthService {
   }
 
   async join(joinRequestDto: JoinRequestDto) {
-    if (await this.authRepository.exists(joinRequestDto)) throw new NotAcceptableException();
+    const isExistUser = await this.authRepository.exists(joinRequestDto);
+    if (isExistUser) throw new BadRequestException();
     const user: User = await this.authRepository.create();
     user.nickName = joinRequestDto.nickname;
     user.email = joinRequestDto.email;
