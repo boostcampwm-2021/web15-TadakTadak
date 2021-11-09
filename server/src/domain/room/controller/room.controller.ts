@@ -37,4 +37,15 @@ export class RoomController {
   ): Promise<Pagination<Room>> {
     return await this.roomService.getRoomListAll({ search, take, page }, RoomType.CodingLive);
   }
+
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  async createRoom(@Body() createRoomRequestDto: CreateRoomRequestDto): Promise<CreateRoomResponseDto> {
+    return await this.roomService.createRoom(createRoomRequestDto);
+  }
+
+  @Delete('/:roomId')
+  deleteRoom(@Param('roomId') id): void {
+    return;
+  }
 }
