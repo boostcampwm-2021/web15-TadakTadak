@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
-import { IAgoraRTCRemoteUser, createMicrophoneAndCameraTracks } from 'agora-rtc-react';
-import { appId, token, useClient } from './videoConfig';
+import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
+import { appId, token, useClient, useMicrophoneAndCameraTracks } from './videoConfig';
+import { RoomInfo } from '@pages/Main/Main';
 import VideoController from './VideoController';
 import Videos from './Videos';
 
-const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+interface LocationProps {
+  pathname: string;
+  state: RoomInfo;
+}
 
-const VideoContainer = (props: {
-  setInCall: React.Dispatch<React.SetStateAction<boolean>>;
-  channelName: string;
-}): JSX.Element => {
-  const { setInCall, channelName } = props;
+const Room = ({ location }: { location: LocationProps }): JSX.Element => {
+  const { channelName } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
-  const [start, setStart] = useState<boolean>(false);
+  const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
   const client = useClient();
-  const { ready, tracks } = useMicrophoneAndCameraTracks();
+  const { ready, tracks } = useMicrophoneAndCameraTracks(); // ready: 클라이언트 트랙 준비 여부
 
   useEffect(() => {
     const init = async (name: string) => {
@@ -60,9 +61,8 @@ const VideoContainer = (props: {
   return (
     <div className="video-container">
       {start && tracks && <Videos users={users} tracks={tracks} />}
-      {ready && tracks && <VideoController tracks={tracks} setStart={setStart} setInCall={setInCall} />}
+      {ready && tracks && <VideoController tracks={tracks} setStart={setStart} />}
     </div>
   );
 };
-
-export default VideoContainer;
+export default Room;
