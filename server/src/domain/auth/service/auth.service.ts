@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException, HttpStatus } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Bcrypt } from 'src/utils/bcrypt';
 import { User } from '../../user/user.entity';
 import { AuthRepository } from '../auth.repository';
 import { LoginRequestDto } from '../dto/login-request.dto';
+import { LoginResponseDto } from '../dto/login-response.dto';
 import { JoinRequestDto } from '../dto/join-request.dto';
 
 @Injectable()
@@ -15,23 +16,17 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(loginRequestDto: LoginRequestDto): Promise<any> {
-    const user: User = await this.authRepository.findOne({ where: { email: loginRequestDto.email } });
-    if (user && Bcrypt.compare(loginRequestDto.password, user.password)) return user;
-    throw new UnauthorizedException({
-      statusCode: HttpStatus.UNAUTHORIZED,
-      message: ['USER_INFORMATION_DOES_NOT_MATCH'],
-      error: 'Unauthorized',
-    });
-  }
-
   async login(loginRequestDto: LoginRequestDto) {
-    const payload = { email: loginRequestDto.email };
-    return this.jwtService.sign(payload);
+    const user: User = await this.authRepository.findUserByEmail(loginRequestDto.email);
+    if (!user || !Bcrypt.compare(loginRequestDto.password, user.password)) throw new UnauthorizedException();
+    const token = this.jwtService.sign({ email: loginRequestDto.email });
+    const userInfo: LoginResponseDto = new LoginResponseDto(user);
+    return { token, userInfo };
   }
 
   async join(joinRequestDto: JoinRequestDto) {
-    if (await this.authRepository.exists(joinRequestDto)) return false;
+    const isExistUser = await this.authRepository.exists(joinRequestDto);
+    if (isExistUser) throw new BadRequestException();
     const user: User = await this.authRepository.create();
     user.nickName = joinRequestDto.nickname;
     user.email = joinRequestDto.email;

@@ -13,4 +13,12 @@ export class AuthRepository extends Repository<User> {
         .getCount()) > 0
     );
   }
+
+  async findUserByEmail(email: string): Promise<User> {
+    return await this.findOne({ where: { email: email }, relations: ['devField'] });
+  }
+
+  async findUserByNickname(nickname: string): Promise<User> {
+    return await this.findOneOrFail({ where: { nickName: nickname }, relations: ['devField'] });
+  }
 }
