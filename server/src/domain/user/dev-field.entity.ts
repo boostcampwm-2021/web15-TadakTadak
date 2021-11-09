@@ -9,6 +9,6 @@ export class DevField {
   @Column({ type: 'varchar', length: 45, unique: false })
   name: string;
 
-  @OneToMany((type) => User, user => user.devField)
+  @OneToMany((type) => User, (user) => user.devField)
   users: User[];
 }
