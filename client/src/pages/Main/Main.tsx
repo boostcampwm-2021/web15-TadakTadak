@@ -6,13 +6,12 @@ import ListGenerator from '@components/ListGenerator';
 const roomInfos = [
   {
     channelName: 'test',
-    token:
-      '006cbbbd145a11e47f4a2c3c184e7965500IAD8jW4RR3XhxEuIacGUgmABI3ZSNhp/JsI3cZm0LkwVYQx+f9gAAAAAEAD3dRUDESGLYQEAAQARIYth',
+    token: process.env.REACT_APP_AGORA_TOKEN || '',
     roomName: 'test room',
     roomUid: 'blabla',
-    roomHost: 'Narastr',
+    roomHost: 'Narastro',
   },
-]; //테스트용
+];
 
 export interface RoomInfo {
   channelName: string;
