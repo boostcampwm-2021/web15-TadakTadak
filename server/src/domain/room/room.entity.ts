@@ -42,4 +42,25 @@ export class Room extends BaseTimeEntity {
 
   @Column('varchar')
   roomType: RoomType;
+
+  static builder(createRoomRequestDto: CreateRoomRequestDto): Room {
+    const { title, maxHeadcount, roomType } = createRoomRequestDto;
+    return new Room(title, maxHeadcount, roomType);
+  }
+
+  setAgoraToken(token: string) {
+    this.agoraToken = token;
+  }
+
+  setUUID(uuid: string) {
+    this.uuid = uuid;
+  }
+
+  setOwner(user: User) {
+    this.owner = user;
+  }
+
+  setNowHeadcount(cnt: number) {
+    this.nowHeadcount = cnt;
+  }
 }
