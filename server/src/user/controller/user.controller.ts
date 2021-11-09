@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth-guard';
 import { UserUpdateDto } from '../dto/user-update.dto';
 import { UserService } from '../service/user.service';
 import { User } from '../user.entity';
@@ -6,7 +7,7 @@ import { User } from '../user.entity';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  @UseGuards(JwtAuthGuard)
   @Get('/:userId')
   async getUserInfo(@Param('userId') id) {
     return { result: await this.userService.getUserInfo(id) };

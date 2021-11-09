@@ -18,12 +18,13 @@ export class UserService {
     return await this.authRepository.findOneOrFail({ where: { nickName: id }, relations: ['devField'] });
   }
 
-  async updateUserInfo(id: string, userUpdateDto: UserUpdateDto): Promise<User> {
+  async updateUserInfo(id: string, userUpdateDto: UserUpdateDto) {
     const user: User = await this.authRepository.findOneOrFail({ where: { nickName: id } });
     user.nickName = userUpdateDto.nickname;
     user.introduction = userUpdateDto.introduction;
     user.devField = await this.devFileldRepository.findOneOrFail({ where: { id: userUpdateDto.devfiled } });
     if (user.password !== userUpdateDto.password) user.password = Bcrypt.hash(userUpdateDto.password);
-    return await this.authRepository.save(user);
+    await this.authRepository.save(user);
+    return true;
   }
 }
