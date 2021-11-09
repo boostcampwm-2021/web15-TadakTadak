@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import LoginModal from './LoginModal';
-import { useUser } from '@contexts/userContext';
+import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Button from './Button';
+import { setCookie } from '@utils/cookie';
 
 const SIDEBAR_MIN_WIDTH = '33rem';
 
@@ -48,10 +49,14 @@ const UserInfoBtn = styled.button`
 const SideBar: React.FC = () => {
   const [loginModal, setLoginModal] = useState(false);
   const user = useUser();
+  const { logUserOut } = useUserFns();
 
   const onClickLoginBtn = () => setLoginModal(!loginModal);
   const onClickUserInfoBtn = () => {};
-  const onClickLogoutBtn = () => {};
+  const onClickLogoutBtn = () => {
+    setCookie('access-token', '');
+    logUserOut();
+  };
 
   return (
     <SideBarContainer>
