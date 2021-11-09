@@ -22,7 +22,7 @@ export class UserService {
     const user: User = await this.authRepository.findOneOrFail({ where: { nickName: id } });
     user.nickName = userUpdateDto.nickname;
     user.introduction = userUpdateDto.introduction;
-    user.devField = await this.devFileldRepository.findOneOrFail({ where: { id: userUpdateDto.devfiled } });
+    user.devField = await this.devFileldRepository.findOneOrFail({ where: { id: userUpdateDto.devField } });
     if (user.password !== userUpdateDto.password) user.password = Bcrypt.hash(userUpdateDto.password);
     await this.authRepository.save(user);
     return true;

@@ -1,3 +1,4 @@
+import { DevField } from 'src/user/dev-field.entity';
 import { User } from 'src/user/user.entity';
 
 export class LoginResponseDto {
@@ -7,7 +8,7 @@ export class LoginResponseDto {
   readonly imageUrl: string;
   readonly introduction: string;
   readonly isSocial: boolean;
-  readonly devFiled: string;
+  readonly devField: DevField;
   constructor(user: User) {
     this.id = user.id;
     this.nickname = user.nickName;
@@ -15,6 +16,6 @@ export class LoginResponseDto {
     this.imageUrl = user.imageUrl;
     this.introduction = user.introduction;
     this.isSocial = user.isSocial;
-    this.devFiled = user.devField.name;
+    this.devField = user.devField;
   }
 }

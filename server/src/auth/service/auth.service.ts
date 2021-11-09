@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, HttpStatus } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Bcrypt } from 'src/utils/bcrypt';
@@ -15,12 +15,6 @@ export class AuthService {
     private readonly authRepository: AuthRepository,
     private jwtService: JwtService,
   ) {}
-
-  async validateUser(loginRequestDto: LoginRequestDto): Promise<any> {
-    const user: User = await this.authRepository.findOne({ where: { email: loginRequestDto.email } });
-    if (user && Bcrypt.compare(loginRequestDto.password, user.password)) return user;
-    throw new UnauthorizedException();
-  }
 
   async login(loginRequestDto: LoginRequestDto) {
     const user: User = await this.authRepository.findOne({

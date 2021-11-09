@@ -7,7 +7,7 @@ export class UserUpdateDto {
   readonly password: string;
 
   @IsNotEmpty()
-  readonly devfiled: number;
+  readonly devField: number;
 
   @IsNotEmpty()
   readonly introduction: string;
