@@ -1,7 +1,8 @@
-import { Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { RoomService } from '../service/room.service';
 import { Room, RoomType } from '../room.entity';
 import { Pagination } from 'src/paginate';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth-guard';
 
 @Controller('room')
 export class RoomController {
@@ -35,11 +36,13 @@ export class RoomController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   createRoom(): void {
     return;
   }
 
   @Delete('/:roomId')
+  @UseGuards(JwtAuthGuard)
   deleteRoom(@Param('roomId') id): void {
     return;
   }
