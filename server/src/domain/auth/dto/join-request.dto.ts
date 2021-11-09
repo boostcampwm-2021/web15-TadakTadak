@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
+
 export class JoinRequestDto {
   @IsNotEmpty()
   readonly nickname: string;
@@ -9,4 +10,7 @@ export class JoinRequestDto {
 
   @IsNotEmpty()
   readonly password: string;
+
+  readonly introduction: string;
+  readonly devFieldId: number;
 }
