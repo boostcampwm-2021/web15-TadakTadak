@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 export interface UserProps {
-  user_id?: number;
+  id?: number;
   nickname?: string;
   email?: string;
   imageUrl?: string;
