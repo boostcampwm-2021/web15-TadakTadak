@@ -53,7 +53,7 @@ interface LoginProps {
 const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const logUserIn = useUserFns();
+  const { logUserIn } = useUserFns();
 
   const onClickGithubLogin = () => {
     // Github Login request
