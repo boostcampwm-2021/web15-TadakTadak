@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { appId, token, useClient, useMicrophoneAndCameraTracks } from './videoConfig';
+import { RoomInfo } from '@pages/Main/Main';
 import VideoController from './VideoController';
 import Videos from './Videos';
 
-const Room = ({ location }: { location: any }): JSX.Element => {
+interface LocationProps {
+  pathname: string;
+  state: RoomInfo;
+}
+
+const Room = ({ location }: { location: LocationProps }): JSX.Element => {
   const { channelName } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
