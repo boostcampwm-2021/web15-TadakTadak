@@ -18,7 +18,7 @@ const Login: React.FC<LoginProps> = ({ modal, setModal }) => {
           {isLogin ? (
             <LoginForm onClickModalToggle={onClickModalToggle} />
           ) : (
-            <JoinForm onClickModalToggle={onClickModalToggle} />
+            <JoinForm onClickModalToggle={onClickModalToggle} setIsLogin={setIsLogin} />
           )}
         </Modal>
       )}
