@@ -15,4 +15,7 @@ export class RoomRepository extends Repository<Room> {
     });
   }
 
+  async createRoom(room: Room) {
+    return this.save(room);
+  }
 }
