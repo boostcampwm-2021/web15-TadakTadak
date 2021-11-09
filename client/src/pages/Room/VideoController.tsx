@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp } from 'react-icons/md';
@@ -28,10 +29,10 @@ const GetoutDiv = styled.div`
 const VideoController = (props: {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
   setStart: React.Dispatch<React.SetStateAction<boolean>>;
-  setInCall: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element => {
   const client = useClient();
-  const { tracks, setStart, setInCall } = props;
+  const history = useHistory();
+  const { tracks, setStart } = props;
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
   const mute = async (type: 'audio' | 'video') => {
@@ -54,7 +55,6 @@ const VideoController = (props: {
     tracks[0].close();
     tracks[1].close();
     setStart(false);
-    setInCall(false);
   };
 
   return (
@@ -74,7 +74,14 @@ const VideoController = (props: {
         />
       </Controls>
       <GetoutDiv>
-        <Button icon={<MdOutlineExitToApp />} text={''} onClick={() => leaveChannel()} />
+        <Button
+          icon={<MdOutlineExitToApp />}
+          text={''}
+          onClick={() => {
+            leaveChannel();
+            history.goBack();
+          }}
+        />
       </GetoutDiv>
     </ButtonContainer>
   );
