@@ -1,7 +1,10 @@
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import ReactSelect, { StylesConfig, SingleValue } from 'react-select';
-import { useState } from 'react';
+import { postRoom } from '@utils/apis';
+import { send } from 'process';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
@@ -45,12 +48,6 @@ const customStyles: StylesConfig = {
   control: () => ({
     width: 200,
   }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = 'opacity 1000ms';
-
-    return { ...provided, opacity, transition };
-  },
 };
 
 enum RoomType {
@@ -62,13 +59,12 @@ enum RoomType {
 type OptionType = {
   value: number;
   label: string;
-  color: string;
 };
 
 const selectOptions: OptionType[] = [
-  { value: RoomType.타닥타닥, label: '타닥타닥 💻', color: 'red' },
-  { value: RoomType.캠프파이어, label: '캠프파이어 🔥', color: 'red' },
-  { value: RoomType.코딩라이브, label: '코딩라이브 📡', color: 'red' },
+  { value: RoomType.타닥타닥, label: '타닥타닥' },
+  { value: RoomType.캠프파이어, label: '캠프파이어' },
+  { value: RoomType.코딩라이브, label: '코딩라이브' },
 ];
 
 const CreateForm = (): JSX.Element => {
@@ -76,15 +72,27 @@ const CreateForm = (): JSX.Element => {
   const [description, onChangeDescription] = useInput('');
   const [maxHeadcount, onChangeMaxHeadcount] = useInput('');
   const [roomType, setRoomType] = useState<string | undefined>('타닥타닥');
+  const history = useHistory();
 
   const handleSelectChange = (newValue: SingleValue<OptionType>): void => setRoomType(newValue?.label);
 
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log({ roomName, description, maxHeadcount, roomType });
     if (!roomName || !roomType || !maxHeadcount) {
       return;
     }
-    // Create request
+    const { status, data } = await postRoom({
+      userId: 1,
+      title: '테스트중 제발 되라',
+      maxHeadcount: 9,
+      roomType: '타닥타닥',
+    });
+    const { roomUid } = data;
+    console.log(status, data);
+    if (status === 201) {
+    }
+    history.push(`/room/${roomUid}`, data);
   };
 
   return (
