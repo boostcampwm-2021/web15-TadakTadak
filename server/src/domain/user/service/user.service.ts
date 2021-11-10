@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Bcrypt } from 'src/utils/bcrypt';
 import { User } from '../user.entity';
@@ -34,5 +34,10 @@ export class UserService {
 
   async updateImage(id: string, file) {
     const updateUser: User = await this.authRepository.findUserByNickname(id);
+    if (!updateUser) throw new UnauthorizedException();
+    const imageUrl = await this.imageService.uploadImage(file);
+    updateUser.imageUrl = imageUrl.Location;
+    await this.authRepository.save(updateUser);
+    return true;
   }
 }

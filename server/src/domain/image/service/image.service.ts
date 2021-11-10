@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 
+export interface ObjectStorageData {
+  ETag: string;
+  Location: string;
+  key: string;
+  Key: string;
+  Bucket: string;
+}
 @Injectable()
 export class ImageService {
   private s3: AWS.S3;
@@ -18,7 +25,7 @@ export class ImageService {
     });
   }
 
-  async uploadImage(image) {
+  async uploadImage(image): Promise<ObjectStorageData> {
     const param = {
       Bucket: process.env.NCP_BUCKET_NAME,
       Key: `images/${Date.now()}-${image.originalname}`,
