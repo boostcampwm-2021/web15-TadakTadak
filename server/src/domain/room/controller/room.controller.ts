@@ -1,36 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { RoomService } from '../service/room.service';
-import { Room, RoomType } from '../room.entity';
 import { Pagination } from 'src/paginate';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
 import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
+import { Request } from 'express';
+import { Type } from 'class-transformer';
 
 @Controller('room')
 export class RoomController {
-  constructor(private readonly roomService: RoomService) {
-  }
 
-  @Get('tadak')
-  async getBasicListAll(
-    @Query('search') search: string,
-    @Query('take') take: number,
-    @Query('page') page: number,
-  ): Promise<Pagination<Room>> {
-    return await this.roomService.getRoomListAll({ search, take, page }, RoomType.TadakTadak);
-  }
-
-  @Get('camp')
-  async getCampListAll(
-    @Query('search') search: string,
-    @Query('take') take: number,
-    @Query('page') page: number,
-  ): Promise<Pagination<Room>> {
-    return await this.roomService.getRoomListAll({ search, take, page }, RoomType.CampFire);
-  }
-
-  @Get('live')
-  async getLiveListAll(
+  async getRoomListByType(
+    @Query('type') type: RoomType,
     @Query('search') search: string,
     @Query('take') take: number,
     @Query('page') page: number,
