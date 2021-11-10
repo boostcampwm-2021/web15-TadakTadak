@@ -1,7 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from 'src/domain/user/user.entity';
 import { BaseTimeEntity } from '../BaseTimeEntity';
-import { CreateRoomRequestDto } from './dto/create-room-request.dto';
 
 export enum RoomType {
   TadakTadak = '타닥타닥',
@@ -9,16 +8,12 @@ export enum RoomType {
   CodingLive = '코딩라이브',
 }
 
+export function roomTypeToArray() {
+  return Object.keys(RoomType).map((key) => RoomType[key]);
+}
+
 @Entity()
 export class Room extends BaseTimeEntity {
-  constructor(title: string, description: string, maxHeadcount: number, roomType: RoomType) {
-    super();
-    this.title = title;
-    this.description = description;
-    this.maxHeadcount = maxHeadcount;
-    this.roomType = roomType;
-  }
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -49,29 +44,4 @@ export class Room extends BaseTimeEntity {
 
   @Column('varchar')
   roomType: RoomType;
-
-  static builder(createRoomRequestDto: CreateRoomRequestDto): Room {
-    const { title, description, maxHeadcount, roomType } = createRoomRequestDto;
-    return new Room(title, description, maxHeadcount, roomType);
-  }
-
-  setAgoraAppId(appId: string) {
-    this.agoraAppId = appId;
-  }
-
-  setAgoraToken(token: string) {
-    this.agoraToken = token;
-  }
-
-  setUUID(uuid: string) {
-    this.uuid = uuid;
-  }
-
-  setOwner(user: User) {
-    this.owner = user;
-  }
-
-  setNowHeadcount(cnt: number) {
-    this.nowHeadcount = cnt;
-  }
 }
