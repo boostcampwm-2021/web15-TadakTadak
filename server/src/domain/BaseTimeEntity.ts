@@ -1,11 +1,5 @@
-import {
-  CreateDateColumn,
-  Generated,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { CreateDateColumn, Generated, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { BigintValueTransformer } from '../transformer/BigintValueTransformer';
-
 
 export abstract class BaseTimeEntity {
   @Generated('increment')
