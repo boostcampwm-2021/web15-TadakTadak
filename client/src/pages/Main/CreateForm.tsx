@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
-import ReactSelect from 'react-select';
+import ReactSelect, { StylesConfig } from 'react-select';
 import { useState } from 'react';
 
 const Container = styled.div`
@@ -31,6 +31,28 @@ const Button = styled.button`
   border-radius: 1rem;
 `;
 
+const customStyles: StylesConfig = {
+  menu: (provided) => ({
+    ...provided,
+    padding: 10,
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: state.isSelected ? 'white' : '#00C9C8',
+    fontFamily: 'monospace',
+    fontWeight: 1000,
+  }),
+  control: () => ({
+    width: 200,
+  }),
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = 'opacity 1000ms';
+
+    return { ...provided, opacity, transition };
+  },
+};
+
 enum RoomType {
   타닥타닥 = 1,
   캠프파이어 = 2,
@@ -40,12 +62,13 @@ enum RoomType {
 type OptionType = {
   value: number;
   label: string;
+  color: string;
 };
 
 const selectOptions: OptionType[] = [
-  { value: RoomType.타닥타닥, label: '타닥타닥' },
-  { value: RoomType.캠프파이어, label: '캠프파이어' },
-  { value: RoomType.코딩라이브, label: '코딩라이브' },
+  { value: RoomType.타닥타닥, label: '타닥타닥 💻', color: 'red' },
+  { value: RoomType.캠프파이어, label: '캠프파이어 🔥', color: 'red' },
+  { value: RoomType.코딩라이브, label: '코딩라이브 📡', color: 'red' },
 ];
 
 const CreateForm = (): JSX.Element => {
@@ -81,7 +104,12 @@ const CreateForm = (): JSX.Element => {
           onChange={onChangeDescription}
           maxLength={50}
         />
-        <ReactSelect options={selectOptions} onChange={handleSelectChange} />
+        <ReactSelect
+          options={selectOptions}
+          defaultValue={selectOptions[0]}
+          onChange={handleSelectChange}
+          styles={customStyles}
+        />
         <Input
           type="number"
           placeholder="제한 인원을 지정해주세요."
