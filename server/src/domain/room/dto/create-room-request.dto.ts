@@ -6,7 +6,7 @@ export class CreateRoomRequestDto {
   readonly userId: number;
 
   @IsNotEmpty()
-  @MaxLength(10)
+  @MaxLength(20)
   readonly title: string;
 
   @IsInt()
