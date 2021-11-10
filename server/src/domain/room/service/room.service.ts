@@ -10,17 +10,19 @@ import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
 import { UserException } from '../../../exception/user.exception';
 import { RoomException } from '../../../exception/room.exception';
-import { DeleteResult } from 'typeorm';
+import { Connection, DeleteResult, getConnection } from 'typeorm';
 import { RoomBuilder } from '../../../builder';
 
 @Injectable()
 export class RoomService {
   constructor(
+    private connection: Connection,
     @InjectRepository(RoomRepository)
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {}
+  ) {
+  }
 
   async getRoomByUUID(uuid: string): Promise<Room> {
     return await this.roomRepository.findRoomByUUID(uuid);
@@ -35,6 +37,9 @@ export class RoomService {
   }
 
   async createRoom(createRoomRequestDto: CreateRoomRequestDto): Promise<CreateRoomResponseDto> {
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+
     const { userId, title, description, maxHeadcount, roomType } = createRoomRequestDto;
     const uuid = uuidv4();
     const agoraAppID = process.env.AGORA_APP_ID;
@@ -54,8 +59,17 @@ export class RoomService {
       .setAgoraToken(agoraToken)
       .setOwner(user)
       .build();
-    const result = await this.roomRepository.createRoom(newRoom);
-    if (!result) throw RoomException.roomCreateError();
+
+    try {
+      await queryRunner.startTransaction();
+      await this.roomRepository.createRoom(newRoom);
+      await queryRunner.commitTransaction();
+    } catch (e) {
+      await queryRunner.rollbackTransaction();
+      throw RoomException.roomCreateError();
+    } finally {
+      await queryRunner.release();
+    }
     return new CreateRoomResponseDto(newRoom);
   }
 
