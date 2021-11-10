@@ -36,4 +36,8 @@ export class RoomRepository extends Repository<Room> {
       .where('uuid = :uuid', { uuid: uuid })
       .getOne();
   }
+
+  async deleteRoomByRoomID(roomID: number): Promise<DeleteResult> {
+    return this.delete({ id: roomID });
+  }
 }

@@ -32,5 +32,11 @@ export class RoomController {
   async getRoomByUUID(@Param('uuid') uuid): Promise<{ result: Room }> {
     return { result: await this.roomService.getRoomByUUID(uuid) };
   }
+
+  @Delete(':uuid')
+  @UseGuards(JwtAuthGuard)
+  async deleteRoom(@Req() req: Request, @Param('uuid') uuid): Promise<{ result: boolean }> {
+    const userEmail = req.user['email'];
+    return { result: await this.roomService.deleteRoom(userEmail, uuid) };
   }
 }
