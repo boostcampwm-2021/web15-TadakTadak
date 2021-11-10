@@ -11,4 +11,5 @@ export const TypeOrmConfig: TypeOrmModuleOptions = {
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
   synchronize: false,
   namingStrategy: new SnakeNamingStrategy(),
+  logging: true,
 };
