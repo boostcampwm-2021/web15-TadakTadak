@@ -40,12 +40,12 @@ export class RoomController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createRoom(@Body() createRoomRequestDto: CreateRoomRequestDto): Promise<CreateRoomResponseDto> {
-    return await this.roomService.createRoom(createRoomRequestDto);
+  async createRoom(@Body() createRoomRequestDto: CreateRoomRequestDto) {
+    return { result: await this.roomService.createRoom(createRoomRequestDto) };
   }
 
-  @Delete('/:roomId')
-  deleteRoom(@Param('roomId') id): void {
-    return;
+  @Delete(':roomId')
+  deleteRoom(@Param('roomId') id): number {
+    return 0;
   }
 }
