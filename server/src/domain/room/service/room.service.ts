@@ -20,7 +20,7 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {
+  ) {}
   }
 
   async getRoomListAll(options: PaginationOptions, roomType: RoomType): Promise<Pagination<Room>> {
@@ -32,10 +32,10 @@ export class RoomService {
   }
 
   async createRoom(createRoomRequestDto: CreateRoomRequestDto): Promise<CreateRoomResponseDto> {
-    const { userId } = createRoomRequestDto;
+    const { userId, title, description, maxHeadcount, roomType } = createRoomRequestDto;
     const uuid = uuidv4();
-    const appID = process.env.AGORA_APP_ID;
-    const token = this.createTokenWithChannel(userId, appID, uuid);
+    const agoraAppID = process.env.AGORA_APP_ID;
+    const agoraToken = this.createTokenWithChannel(userId, agoraAppID, uuid);
     const user = await this.userRepository.findUserById(userId);
     if (!user) throw UserException.userNotFound();
     const existRoom = await this.roomRepository.findRoomByUserEmail(user.email);
