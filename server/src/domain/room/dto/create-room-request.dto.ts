@@ -9,6 +9,10 @@ export class CreateRoomRequestDto {
   @MaxLength(20)
   readonly title: string;
 
+  @IsNotEmpty()
+  @MaxLength(100)
+  readonly description: string;
+
   @IsInt()
   @Min(2)
   @Max(9)
