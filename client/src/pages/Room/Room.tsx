@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
-import { appId, token, useClient, useMicrophoneAndCameraTracks } from './videoConfig';
+import { appId, token, useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
 import { RoomInfo } from '@pages/Main/Main';
-import VideoController from './VideoController';
-import Videos from './Videos';
+import VideoController from '@components/room/tadaktadak/VideoController';
+import Videos from '@components/room/tadaktadak/Videos';
 
 interface LocationProps {
   pathname: string;
