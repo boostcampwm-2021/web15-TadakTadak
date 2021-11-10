@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Room, RoomType } from '../room.entity';
 import { Pagination, PaginationOptions } from '../../../paginate';
@@ -8,6 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
+import { UserException } from '../../../exception/user.exception';
+import { RoomException } from '../../../exception/room.exception';
+import { DeleteResult } from 'typeorm';
+import { RoomBuilder } from '../../../builder';
 
 @Injectable()
 export class RoomService {
@@ -33,12 +37,9 @@ export class RoomService {
     const appID = process.env.AGORA_APP_ID;
     const token = this.createTokenWithChannel(userId, appID, uuid);
     const user = await this.userRepository.findUserById(userId);
-    if (!user) {
-      throw new NotFoundException({
-        statusCode: HttpStatus.NOT_FOUND,
-        message: '사용자를 찾을 수 없습니다.',
-      });
-    }
+    if (!user) throw UserException.userNotFound();
+    const existRoom = await this.roomRepository.findRoomByUserEmail(user.email);
+    if (existRoom) throw RoomException.roomExistError();
     const newRoom = new RoomBuilder()
       .setTitle(title)
       .setDescription(description)
@@ -51,13 +52,18 @@ export class RoomService {
       .setOwner(user)
       .build();
     const result = await this.roomRepository.createRoom(newRoom);
-    if (!result) {
-      throw new InternalServerErrorException({
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: '방 생성중 오류가 발생했습니다.',
-      });
-    }
-    return new CreateRoomResponseDto(newRoom, appID, token, uuid);
+    if (!result) throw RoomException.roomCreateError();
+    return new CreateRoomResponseDto(newRoom);
+  }
+
+  async deleteRoom(email: string, uuid: string): Promise<boolean> {
+    const user = await this.userRepository.findUserByUserEmail(email);
+    if (!user) throw UserException.userNotFound();
+    const findRoom = await this.roomRepository.findRoomByUserEmailAndUUID(email, uuid);
+    if (!findRoom) throw RoomException.roomNotFound();
+    const deleteResult: DeleteResult = await this.roomRepository.deleteRoomByRoomID(findRoom.id);
+    if (!deleteResult) throw RoomException.roomDeleteError();
+    return true;
   }
 
   createTokenWithChannel(userId: number, appID: string, uuid: string): string {
