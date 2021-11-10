@@ -21,6 +21,9 @@ export class RoomService {
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
   ) {}
+
+  async getRoomByUUID(uuid: string): Promise<Room> {
+    return await this.roomRepository.findRoomByUUID(uuid);
   }
 
   async getRoomListAll(options: PaginationOptions, roomType: RoomType): Promise<Pagination<Room>> {
