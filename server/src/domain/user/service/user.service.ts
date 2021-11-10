@@ -5,7 +5,7 @@ import { User } from '../user.entity';
 import { DevFieldRepository } from '../repository/dev-field.repository';
 import { AuthRepository } from '../../auth/auth.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
-import { ImageService } from './image.service';
+import { ImageService } from '../../image/service/image.service';
 
 @Injectable()
 export class UserService {
@@ -30,5 +30,9 @@ export class UserService {
     if (updateUser.password !== userUpdateDto.password) updateUser.password = Bcrypt.hash(userUpdateDto.password);
     await this.authRepository.save(updateUser);
     return true;
+  }
+
+  async updateImage(id: string, file) {
+    const updateUser: User = await this.authRepository.findUserByNickname(id);
   }
 }
