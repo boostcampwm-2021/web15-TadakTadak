@@ -42,7 +42,7 @@ export const getUserByToken = async (): Promise<{ status: number; data: UserProp
 };
 
 interface PostRoom {
-  userId: number;
+  userId?: number;
   title: string;
   description: string | null;
   maxHeadcount: number;

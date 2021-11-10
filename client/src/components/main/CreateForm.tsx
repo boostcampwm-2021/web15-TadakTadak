@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import ReactSelect, { StylesConfig, SingleValue } from 'react-select';
 import { postRoom } from '@utils/apis';
+import { useUser } from '@contexts/userContext';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
@@ -67,26 +68,26 @@ const selectOptions: OptionType[] = [
 ];
 
 const CreateForm = (): JSX.Element => {
-  const [roomName, onChangeRoomName] = useInput('');
+  const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
   const [maxHeadcount, onChangeMaxHeadcount] = useInput('');
   const [roomType, setRoomType] = useState<string | undefined>('타닥타닥');
+  const user = useUser();
   const history = useHistory();
 
   const handleSelectChange = (newValue: SingleValue<OptionType>): void => setRoomType(newValue?.label);
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ roomName, description, maxHeadcount, roomType });
-    if (!roomName || !roomType || !maxHeadcount) {
+    if (!roomTitle || !roomType || !maxHeadcount) {
       return;
     }
     const { status, data } = await postRoom({
-      userId: 1,
-      title: '테스트중 제발 되라',
-      description: '안녕?',
-      maxHeadcount: 9,
-      roomType: '타닥타닥',
+      userId: user.id,
+      title: roomTitle,
+      description,
+      maxHeadcount: +maxHeadcount,
+      roomType,
     });
     const { uuid } = data;
     if (status === 201) {
@@ -100,8 +101,8 @@ const CreateForm = (): JSX.Element => {
         <Input
           type="text"
           placeholder="방 제목을 입력해주세요."
-          id="roomName"
-          onChange={onChangeRoomName}
+          id="roomTitle"
+          onChange={onChangeRoomTitle}
           maxLength={50}
           required={true}
         />
