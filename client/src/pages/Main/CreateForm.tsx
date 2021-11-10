@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
-import ReactSelect, { StylesConfig } from 'react-select';
+import ReactSelect, { StylesConfig, SingleValue } from 'react-select';
 import { useState } from 'react';
 
 const Container = styled.div`
@@ -75,9 +75,10 @@ const CreateForm = (): JSX.Element => {
   const [roomName, onChangeRoomName] = useInput('');
   const [description, onChangeDescription] = useInput('');
   const [maxHeadcount, onChangeMaxHeadcount] = useInput('');
-  const [roomType, setRoomType] = useState('타닥타닥');
+  const [roomType, setRoomType] = useState<string | undefined>('타닥타닥');
 
-  const handleSelectChange = (e: any) => setRoomType(RoomType[e.value]);
+  const handleSelectChange = (newValue: SingleValue<OptionType>): void => setRoomType(newValue?.label);
+
   const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!roomName || !roomType || !maxHeadcount) {
@@ -104,12 +105,7 @@ const CreateForm = (): JSX.Element => {
           onChange={onChangeDescription}
           maxLength={50}
         />
-        <ReactSelect
-          options={selectOptions}
-          defaultValue={selectOptions[0]}
-          onChange={handleSelectChange}
-          styles={customStyles}
-        />
+        <ReactSelect defaultValue={selectOptions[0]} options={selectOptions} onChange={handleSelectChange} />
         <Input
           type="number"
           placeholder="제한 인원을 지정해주세요."
