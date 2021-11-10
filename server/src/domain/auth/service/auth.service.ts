@@ -5,7 +5,7 @@ import { Bcrypt } from 'src/utils/bcrypt';
 import { User } from '../../user/user.entity';
 import { AuthRepository } from '../auth.repository';
 import { LoginRequestDto } from '../dto/login-request.dto';
-import { LoginResponseDto } from '../dto/login-response.dto';
+import { UserResponseDto } from '../dto/user-response.dto';
 import { JoinRequestDto } from '../dto/join-request.dto';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AuthService {
     const user: User = await this.authRepository.findUserByEmail(loginRequestDto.email);
     if (!user || !Bcrypt.compare(loginRequestDto.password, user.password)) throw new UnauthorizedException();
     const token = this.jwtService.sign({ email: loginRequestDto.email });
-    const userInfo: LoginResponseDto = new LoginResponseDto(user);
+    const userInfo: UserResponseDto = new UserResponseDto(user);
     return { token, userInfo };
   }
 
@@ -34,5 +34,12 @@ export class AuthService {
     user.imageUrl = '디폴트 이미지 주소 자리';
     await this.authRepository.save(user);
     return true;
+  }
+
+  async getUserInfo(email: string) {
+    const user: User = await this.authRepository.findUserByEmail(email);
+    if (!user) throw new UnauthorizedException();
+    const userInfo: UserResponseDto = new UserResponseDto(user);
+    return userInfo;
   }
 }
