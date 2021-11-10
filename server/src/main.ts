@@ -1,8 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { NestFactory } from '@nestjs/core';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { TransformInterceptor } from './filter/transform.interceptor';
