@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
@@ -49,13 +49,21 @@ const VideoController = (props: {
     }
   };
 
-  const leaveChannel = async () => {
+  const leaveChannel = useCallback(async () => {
     await client.leave();
     client.removeAllListeners();
     tracks[0].close();
     tracks[1].close();
     setStart(false);
-  };
+  }, [client, tracks, setStart]);
+
+  useEffect(() => {
+    return history.listen(() => {
+      if (history.action === 'POP') {
+        leaveChannel();
+      }
+    });
+  }, [history, leaveChannel]);
 
   return (
     <ButtonContainer>
@@ -79,7 +87,7 @@ const VideoController = (props: {
           text={''}
           onClick={() => {
             leaveChannel();
-            history.goBack();
+            history.replace('/main');
           }}
         />
       </GetoutDiv>
