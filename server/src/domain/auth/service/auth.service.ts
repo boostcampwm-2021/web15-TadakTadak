@@ -7,6 +7,7 @@ import { AuthRepository } from '../auth.repository';
 import { LoginRequestDto } from '../dto/login-request.dto';
 import { LoginResponseDto } from '../dto/login-response.dto';
 import { JoinRequestDto } from '../dto/join-request.dto';
+import { UserBuilder } from '../../../builder';
 
 @Injectable()
 export class AuthService {
@@ -25,13 +26,17 @@ export class AuthService {
   }
 
   async join(joinRequestDto: JoinRequestDto) {
+    const { nickname, email, password } = joinRequestDto;
+    const baseImageURL = '디폴트 이미지 주소 자리';
     const isExistUser = await this.authRepository.exists(joinRequestDto);
     if (isExistUser) throw new BadRequestException();
-    const user: User = await this.authRepository.create();
-    user.nickName = joinRequestDto.nickname;
-    user.email = joinRequestDto.email;
-    user.password = Bcrypt.hash(joinRequestDto.password);
-    user.imageUrl = '디폴트 이미지 주소 자리';
+    if (isExistUser) throw UserException.userIsExist();
+    const user: User = new UserBuilder()
+      .setNickName(nickname)
+      .setEmail(email)
+      .setPassword(Bcrypt.hash(password))
+      .setImageURL(baseImageURL)
+      .build();
     await this.authRepository.save(user);
     return true;
   }

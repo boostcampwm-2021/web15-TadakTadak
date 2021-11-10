@@ -39,12 +39,17 @@ export class RoomService {
         message: '사용자를 찾을 수 없습니다.',
       });
     }
-    const newRoom = Room.builder(createRoomRequestDto);
-    newRoom.setUUID(uuidv4().toString());
-    newRoom.setAgoraAppId(appID);
-    newRoom.setAgoraToken(token);
-    newRoom.setOwner(user);
-    newRoom.setNowHeadcount(1);
+    const newRoom = new RoomBuilder()
+      .setTitle(title)
+      .setDescription(description)
+      .setNowHeadcount(1)
+      .setMaxHeadcount(maxHeadcount)
+      .setRoomType(roomType)
+      .setUUID(uuid)
+      .setAgoraAppID(agoraAppID)
+      .setAgoraToken(agoraToken)
+      .setOwner(user)
+      .build();
     const result = await this.roomRepository.createRoom(newRoom);
     if (!result) {
       throw new InternalServerErrorException({
