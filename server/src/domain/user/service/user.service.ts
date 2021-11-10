@@ -5,6 +5,7 @@ import { User } from '../user.entity';
 import { DevFieldRepository } from '../repository/dev-field.repository';
 import { AuthRepository } from '../../auth/auth.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
+import { ImageService } from './image.service';
 
 @Injectable()
 export class UserService {
@@ -13,6 +14,7 @@ export class UserService {
     private readonly authRepository: AuthRepository,
     @InjectRepository(DevFieldRepository)
     private readonly devFileldRepository: DevFieldRepository,
+    private readonly imageService: ImageService,
   ) {}
 
   async getUserInfo(id: string): Promise<User> {

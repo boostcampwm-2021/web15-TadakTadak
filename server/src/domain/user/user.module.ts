@@ -4,10 +4,12 @@ import { UserController } from './controller/user.controller';
 import { UserService } from './service/user.service';
 import { AuthRepository } from '../auth/auth.repository';
 import { DevFieldRepository } from './repository/dev-field.repository';
+import { ImageService } from './service/image.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthRepository, DevFieldRepository])],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, ImageService],
+  exports: [ImageService],
 })
 export class UserModule {}
