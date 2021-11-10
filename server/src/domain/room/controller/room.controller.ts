@@ -9,6 +9,7 @@ import { Type } from 'class-transformer';
 
 @Controller('room')
 export class RoomController {
+  constructor(private readonly roomService: RoomService) {}
 
   async getRoomListByType(
     @Query('type') type: RoomType,
@@ -25,8 +26,11 @@ export class RoomController {
     return { result: await this.roomService.createRoom(createRoomRequestDto) };
   }
 
-  @Delete(':roomId')
-  deleteRoom(@Param('roomId') id): number {
-    return 0;
+  @Get(':uuid')
+  @ApiOperation({ summary: 'UUID로 방 조회', description: '방의 고유 UUID로 정보를 조회합니다.' })
+  @ApiParam(RoomAPIDocs.getRoomByUUIDParamUUID())
+  async getRoomByUUID(@Param('uuid') uuid): Promise<{ result: Room }> {
+    return { result: await this.roomService.getRoomByUUID(uuid) };
+  }
   }
 }
