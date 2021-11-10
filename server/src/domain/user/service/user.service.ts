@@ -42,6 +42,6 @@ export class UserService {
     const imageUrl = await this.imageService.uploadImage(file);
     updateUser.setImageUrl(imageUrl.Location);
     await this.authRepository.save(updateUser);
-    return true;
+    return imageUrl.Location;
   }
 }
