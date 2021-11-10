@@ -11,9 +11,10 @@ export enum RoomType {
 
 @Entity()
 export class Room extends BaseTimeEntity {
-  constructor(title: string, maxHeadcount: number, roomType: RoomType) {
+  constructor(title: string, description: string, maxHeadcount: number, roomType: RoomType) {
     super();
     this.title = title;
+    this.description = description;
     this.maxHeadcount = maxHeadcount;
     this.roomType = roomType;
   }
@@ -25,10 +26,16 @@ export class Room extends BaseTimeEntity {
   uuid: string;
 
   @Column()
+  agoraAppId: string;
+
+  @Column()
   agoraToken: string;
 
   @Column()
   title: string;
+
+  @Column()
+  description: string;
 
   @Column()
   maxHeadcount: number;
@@ -44,8 +51,12 @@ export class Room extends BaseTimeEntity {
   roomType: RoomType;
 
   static builder(createRoomRequestDto: CreateRoomRequestDto): Room {
-    const { title, maxHeadcount, roomType } = createRoomRequestDto;
-    return new Room(title, maxHeadcount, roomType);
+    const { title, description, maxHeadcount, roomType } = createRoomRequestDto;
+    return new Room(title, description, maxHeadcount, roomType);
+  }
+
+  setAgoraAppId(appId: string) {
+    this.agoraAppId = appId;
   }
 
   setAgoraToken(token: string) {

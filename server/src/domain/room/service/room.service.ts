@@ -29,8 +29,9 @@ export class RoomService {
 
   async createRoom(createRoomRequestDto: CreateRoomRequestDto): Promise<CreateRoomResponseDto> {
     const { userId } = createRoomRequestDto;
+    const uuid = uuidv4();
     const appID = process.env.AGORA_APP_ID;
-    const token = this.createTokenWithChannel(userId, appID);
+    const token = this.createTokenWithChannel(userId, appID, uuid);
     const user = await this.userRepository.findUserById(userId);
     if (!user) {
       throw new NotFoundException({
@@ -40,9 +41,10 @@ export class RoomService {
     }
     const newRoom = Room.builder(createRoomRequestDto);
     newRoom.setUUID(uuidv4().toString());
+    newRoom.setAgoraAppId(appID);
     newRoom.setAgoraToken(token);
     newRoom.setOwner(user);
-    newRoom.setNowHeadcount(0);
+    newRoom.setNowHeadcount(1);
     const result = await this.roomRepository.createRoom(newRoom);
     if (!result) {
       throw new InternalServerErrorException({
@@ -50,15 +52,15 @@ export class RoomService {
         message: '방 생성중 오류가 발생했습니다.',
       });
     }
-    return new CreateRoomResponseDto(newRoom, appID, token);
+    return new CreateRoomResponseDto(newRoom, appID, token, uuid);
   }
 
-  createTokenWithChannel(userId: number, appID: string): string {
+  createTokenWithChannel(userId: number, appID: string, uuid: string): string {
     const HOUR_TO_SECOND = 3600;
     const appCertificate = process.env.AGORA_APP_CERTIFICATE;
     const expirationTimeInSeconds = HOUR_TO_SECOND * 24;
     const role = RtcRole.PUBLISHER;
-    const channel = uuidv4();
+    const channel = uuid;
     const currentTimestamp = Math.floor(Date.now() / 1000);
     const expirationTimestamp = currentTimestamp + expirationTimeInSeconds;
     return RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channel, userId, role, expirationTimestamp);
