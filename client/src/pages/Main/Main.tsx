@@ -5,23 +5,31 @@ import ListGenerator from '@components/ListGenerator';
 
 const roomInfos = [
   {
-    channelName: 'test',
+    appId: process.env.REACT_APP_AGORA_APP_ID || '',
     token: process.env.REACT_APP_AGORA_TOKEN || '',
-    roomName: 'test room',
-    roomUid: 'blabla',
-    roomHost: 'Narastro',
+    uuid: 'blabla',
+    ownerId: 1,
+    title: 'test',
+    roomType: '타닥타닥',
+    description: 'test room description',
+    nowHeadcount: 1,
+    maxHeadcount: 9,
   },
 ];
 
 export interface RoomInfo {
-  channelName: string;
-  token: string;
-  roomName: string;
-  roomUid: string;
-  roomHost: string;
+  appId: string;
+  token?: string;
+  uuid: string;
+  ownerId: number;
+  title: string;
+  roomType: string;
+  description: string;
+  nowHeadcount: number;
+  maxHeadcount: number;
 }
 
-const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.channelName} roomInfo={roomInfo} />;
+const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
 
 const Main = (): JSX.Element => {
   return (

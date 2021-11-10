@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import ReactSelect, { StylesConfig, SingleValue } from 'react-select';
 import { postRoom } from '@utils/apis';
-import { send } from 'process';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
@@ -85,14 +84,14 @@ const CreateForm = (): JSX.Element => {
     const { status, data } = await postRoom({
       userId: 1,
       title: '테스트중 제발 되라',
+      description: '안녕?',
       maxHeadcount: 9,
       roomType: '타닥타닥',
     });
-    const { roomUid } = data;
-    console.log(status, data);
+    const { uuid } = data;
     if (status === 201) {
+      history.push(`/room/${uuid}`, data);
     }
-    history.push(`/room/${roomUid}`, data);
   };
 
   return (

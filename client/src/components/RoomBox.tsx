@@ -34,8 +34,9 @@ interface RoomBoxProps {
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   return (
-    <RoomLink to={{ pathname: `/room/${roomInfo.roomUid}`, state: roomInfo }}>
-      <RoomTitle>{roomInfo.roomName}</RoomTitle>
+    <RoomLink to={{ pathname: `/room/${roomInfo.uuid}`, state: roomInfo }}>
+      <RoomTitle>{roomInfo.title}</RoomTitle>
+      <p>{roomInfo.description}</p>
       <p>참가하기</p>
     </RoomLink>
   );

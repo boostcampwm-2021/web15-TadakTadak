@@ -1,5 +1,6 @@
 import { UserProps } from '@contexts/userContext';
 import { RoomInfo } from '@pages/Main/Main';
+
 export const postJoin = async (email: string, nickname: string, password: string): Promise<boolean> => {
   const response = await fetch('/api/auth/join', {
     method: 'POST',
@@ -43,7 +44,7 @@ export const getUserByToken = async (): Promise<{ status: number; data: UserProp
 interface PostRoom {
   userId: number;
   title: string;
-  // description: string | null;
+  description: string | null;
   maxHeadcount: number;
   roomType: string;
 }
