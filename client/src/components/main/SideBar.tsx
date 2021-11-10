@@ -95,7 +95,7 @@ const SideBar: React.FC = () => {
       </SideBarTopMenus>
       {loginModal && <LoginModal modal={loginModal} setModal={setLoginModal} />}
       <SideBarBottomMenus>
-        <CreateBtn onClick={onClickCreateBtn}>방 생성하기</CreateBtn>
+        {user.login && <CreateBtn onClick={onClickCreateBtn}>방 생성하기</CreateBtn>}
         {createModal && <Modal title="방 생성하기" children={<CreateForm />} setModal={setCreateModal} />}
       </SideBarBottomMenus>
     </SideBarContainer>
