@@ -1,3 +1,4 @@
+import { Bcrypt } from 'src/utils/bcrypt';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { DevField } from './dev-field.entity';
 import { Follow } from './follow.entity';
@@ -35,4 +36,26 @@ export class User {
 
   @OneToMany(() => History, (history) => history.user)
   historys: History[];
+
+  setNickname(nickname: string) {
+    this.nickName = nickname;
+  }
+
+  setPassword(password: string) {
+    if (this.password !== password) {
+      this.password = Bcrypt.hash(password);
+    }
+  }
+
+  setImageUrl(imageUrl: string) {
+    this.imageUrl = imageUrl;
+  }
+
+  setIntroduction(introduction: string) {
+    this.introduction = introduction;
+  }
+
+  setDevField(devField: DevField) {
+    this.devField = devField;
+  }
 }
