@@ -40,7 +40,7 @@ export class RoomController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createRoom(@Body() createRoomRequestDto: CreateRoomRequestDto) {
+  async createRoom(@Body() createRoomRequestDto: CreateRoomRequestDto): Promise<{ result: CreateRoomResponseDto }> {
     return { result: await this.roomService.createRoom(createRoomRequestDto) };
   }
 
