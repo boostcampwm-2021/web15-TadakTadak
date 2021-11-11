@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { RoomInfo } from '@pages/Main/Main';
 
 const ROOM_WIDTH = 20;
@@ -13,6 +13,9 @@ const RoomLink = styled(Link)`
   height: ${ROOM_HEIGHT}rem;
   border-radius: 2rem;
   cursor: pointer;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   &:hover {
     background: ${({ theme }) => theme.colors.bold};
   }
@@ -24,8 +27,21 @@ const RoomLink = styled(Link)`
 `;
 
 const RoomTitle = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.title};
-  margin-bottom: ${({ theme }) => theme.margins.base};
+  ${({ theme }) => css`
+    font-size: ${theme.fontSizes.lg};
+    font-weight: ${theme.fontWeights.bold};
+    margin-bottom: ${theme.margins.base};
+  `}
+`;
+const RoomDescription = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.base};
+  opacity: 0.9;
+`;
+
+const RoomEnter = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  position: absolute;
+  bottom: ${({ theme }) => theme.margins.lg}; ;
 `;
 
 interface RoomBoxProps {
@@ -36,8 +52,8 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   return (
     <RoomLink to={{ pathname: `/room/${roomInfo.uuid}`, state: roomInfo }}>
       <RoomTitle>{roomInfo.title}</RoomTitle>
-      <p>{roomInfo.description}</p>
-      <p>참가하기</p>
+      <RoomDescription>{roomInfo.description}</RoomDescription>
+      <RoomEnter>참가하기</RoomEnter>
     </RoomLink>
   );
 };
