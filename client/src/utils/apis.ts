@@ -5,7 +5,8 @@ export const postJoin = async (email: string, nickname: string, password: string
   const response = await fetch('/api/auth/join', {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json',
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
     body: JSON.stringify({ email, nickname, password }),
   });
@@ -19,7 +20,8 @@ export const postLogin = async (email: string, password: string): Promise<{ stat
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json',
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
     body: JSON.stringify({ email, password }),
   });
@@ -45,7 +47,8 @@ export const postRoom = async (inputData: PostRoom): Promise<{ statusCode: numbe
   const response = await fetch('/api/room', {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json',
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
     body: JSON.stringify(inputData),
   });
