@@ -2,7 +2,7 @@ name: front-end CI & CD
 
 on:
   push:
-    branches: [cicdtest]
+    branches: [main]
 
 jobs:
   build:
