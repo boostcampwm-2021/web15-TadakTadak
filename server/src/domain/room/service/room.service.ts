@@ -8,9 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
-import { UserException } from '../../../exception/user.exception';
-import { RoomException } from '../../../exception/room.exception';
-import { Connection, DeleteResult, getConnection } from 'typeorm';
+import { RoomException, UserException } from '../../../exception';
 import { RoomBuilder } from '../../../builder';
 
 @Injectable()
@@ -21,11 +19,12 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {
-  }
+  ) {}
 
   async getRoomByUUID(uuid: string): Promise<Room> {
-    return await this.roomRepository.findRoomByUUID(uuid);
+    const findRoom = await this.roomRepository.findRoomByUUID(uuid);
+    if (!findRoom) throw RoomException.roomNotFound();
+    return findRoom;
   }
 
   async getRoomListAll(options: PaginationOptions, roomType: RoomType): Promise<Pagination<Room>> {
@@ -36,16 +35,16 @@ export class RoomService {
     });
   }
 
-  async createRoom(createRoomRequestDto: CreateRoomRequestDto): Promise<CreateRoomResponseDto> {
+  async createRoom(createRoomRequestDto: CreateRoomRequestDto, email: string): Promise<CreateRoomResponseDto> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
 
-    const { userId, title, description, maxHeadcount, roomType } = createRoomRequestDto;
+    const { title, description, maxHeadcount, roomType } = createRoomRequestDto;
     const uuid = uuidv4();
-    const agoraAppID = process.env.AGORA_APP_ID;
-    const agoraToken = this.createTokenWithChannel(userId, agoraAppID, uuid);
-    const user = await this.userRepository.findUserById(userId);
+    const user = await this.userRepository.findUserByUserEmail(email);
     if (!user) throw UserException.userNotFound();
+    const agoraAppID = process.env.AGORA_APP_ID;
+    const agoraToken = this.createTokenWithChannel(agoraAppID, uuid);
     const existRoom = await this.roomRepository.findRoomByUserEmail(user.email);
     if (existRoom) throw RoomException.roomExistError();
     const newRoom = new RoomBuilder()
@@ -78,6 +77,7 @@ export class RoomService {
     if (!user) throw UserException.userNotFound();
     const findRoom = await this.roomRepository.findRoomByUserEmailAndUUID(email, uuid);
     if (!findRoom) throw RoomException.roomNotFound();
+    if (user.id != findRoom.owner.id) throw UserException.userUnauthorized();
     const deleteResult: DeleteResult = await this.roomRepository.deleteRoomByRoomID(findRoom.id);
     if (!deleteResult) throw RoomException.roomDeleteError();
     return true;
