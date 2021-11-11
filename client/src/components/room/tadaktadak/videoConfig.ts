@@ -1,5 +1,4 @@
 import { createClient, ClientConfig, createMicrophoneAndCameraTracks } from 'agora-rtc-react';
-import 'dotenv/config';
 
 const config: ClientConfig = {
   mode: 'rtc',

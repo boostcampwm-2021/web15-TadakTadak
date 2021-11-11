@@ -1,12 +1,16 @@
 import { UserProps } from '@contexts/userContext';
 import { RoomInfo } from '@pages/Main/Main';
+import 'dotenv/config';
+
+const baseUrl = process.env.REACT_APP_SERVER_URL;
 
 export const postJoin = async (email: string, nickname: string, password: string): Promise<boolean> => {
-  const response = await fetch('/api/auth/join', {
+  const response = await fetch(baseUrl + '/api/auth/join', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify({ email, nickname, password }),
   });
   if (response.ok) {
@@ -16,11 +20,12 @@ export const postJoin = async (email: string, nickname: string, password: string
 };
 
 export const postLogin = async (email: string, password: string): Promise<{ statusCode: number; data: UserProps }> => {
-  const response = await fetch('/api/auth/login', {
+  const response = await fetch(baseUrl + '/api/auth/login', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify({ email, password }),
   });
   const { statusCode, data } = await response.json();
@@ -28,7 +33,9 @@ export const postLogin = async (email: string, password: string): Promise<{ stat
 };
 
 export const getUserByToken = async (): Promise<{ statusCode: number; data: UserProps }> => {
-  const response = await fetch('/api/auth/token');
+  const response = await fetch(baseUrl + '/api/auth/token', {
+    credentials: 'include',
+  });
   const { statusCode, data } = await response.json();
   return { statusCode, data };
 };
@@ -42,11 +49,12 @@ interface PostRoom {
 }
 
 export const postRoom = async (inputData: PostRoom): Promise<{ statusCode: number; data: RoomInfo }> => {
-  const response = await fetch('/api/room', {
+  const response = await fetch(baseUrl + '/api/room', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(inputData),
   });
   const { statusCode, data } = await response.json();
@@ -76,7 +84,7 @@ export const getRoom = async (
   queryObj: GetRoomQueryObj,
 ): Promise<{ statusCode: number; data: ResponseGetRoomData }> => {
   const queryString = queryObjToString(queryObj);
-  const response = await fetch(`/api/room?${queryString}`);
+  const response = await fetch(baseUrl + `/api/room?${queryString}`);
   const { statusCode, data } = await response.json();
   return { statusCode, data };
 };
