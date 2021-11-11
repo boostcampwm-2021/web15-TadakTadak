@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
-import { appId, token, useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
+import { useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
 import { RoomInfo } from '@pages/Main/Main';
 import VideoController from '@components/room/tadaktadak/VideoController';
 import Videos from '@components/room/tadaktadak/Videos';
@@ -11,14 +11,14 @@ interface LocationProps {
 }
 
 const Room = ({ location }: { location: LocationProps }): JSX.Element => {
-  const { title } = location.state;
+  const { agoraAppId, agoraToken, uuid } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks(); // ready: 클라이언트 트랙 준비 여부
 
   useEffect(() => {
-    const init = async (name: string) => {
+    const init = async () => {
       client.on('user-published', async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         console.log('subscribe success');
@@ -47,16 +47,16 @@ const Room = ({ location }: { location: LocationProps }): JSX.Element => {
         });
       });
 
-      await client.join(appId, name, token, null);
+      await client.join(agoraAppId, uuid, agoraToken, null);
       if (tracks) await client.publish([tracks[0], tracks[1]]);
       setStart(true);
     };
 
     if (ready && tracks) {
       console.log('init ready');
-      init(title);
+      init();
     }
-  }, [title, client, ready, tracks]);
+  }, [uuid, agoraAppId, agoraToken, client, ready, tracks]);
 
   return (
     <div className="video-container">

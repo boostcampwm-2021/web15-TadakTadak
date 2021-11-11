@@ -6,8 +6,8 @@ import ListGenerator from '@components/ListGenerator';
 import { getRoom } from '@utils/apis';
 
 export interface RoomInfo {
-  appId: string;
-  token?: string;
+  agoraAppId: string;
+  agoraToken: string;
   uuid: string;
   ownerId: number;
   title: string;
