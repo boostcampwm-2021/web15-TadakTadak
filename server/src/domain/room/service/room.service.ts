@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Room, RoomType } from '../room.entity';
-import { Pagination, PaginationOptions } from '../../../paginate';
-import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
-import { RtcRole, RtcTokenBuilder } from 'agora-access-token';
 import { v4 as uuidv4 } from 'uuid';
+import { RtcRole, RtcTokenBuilder } from 'agora-access-token';
+import { RoomBuilder } from '../../../builder';
+import { UserException, RoomException } from '../../../exception';
+import { Pagination, PaginationOptions } from '../../../paginate';
+import { Connection, DeleteResult, getConnection } from 'typeorm';
+import { Room, RoomType } from '../room.entity';
 import { RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
+import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
 import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
-import { UserException, RoomException } from '../../../exception';
-import { Connection, DeleteResult, getConnection } from 'typeorm';
-import { RoomBuilder } from '../../../builder';
 
 @Injectable()
 export class RoomService {

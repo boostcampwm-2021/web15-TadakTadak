@@ -1,5 +1,5 @@
-import { Bcrypt } from 'src/utils/bcrypt';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Bcrypt } from 'src/utils/bcrypt';
 import { DevField } from './dev-field.entity';
 import { Follow } from './follow.entity';
 import { History } from './history.entity';

@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
-import { RoomService } from '../service/room.service';
-import { Room, RoomType, roomTypeToArray } from '../room.entity';
-import { Pagination } from 'src/paginate';
-import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
-import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
-import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
-import { Request } from 'express';
 import { ApiExtraModels, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import { Type } from 'class-transformer';
 import { RoomAPIDocs } from '../room.docs';
+import { Pagination } from 'src/paginate';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
+import { Room, RoomType, roomTypeToArray } from '../room.entity';
+import { RoomService } from '../service/room.service';
+import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
+import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
 
 @ApiTags('Room API / 방 API')
 @Controller('room')

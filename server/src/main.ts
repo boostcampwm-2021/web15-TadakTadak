@@ -1,11 +1,11 @@
 import { ValidationPipe } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
 import { NestFactory } from '@nestjs/core';
-import 'dotenv/config';
+import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { TransformInterceptor } from './filter/transform.interceptor';
 import { SwaggerConfig } from './config/swagger.config';
+import 'dotenv/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
