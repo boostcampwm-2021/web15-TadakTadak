@@ -27,7 +27,7 @@ interface UserContextProps {
 const UserContext = React.createContext<UserContextProps>({
   user: {},
   fn: {
-    logUserIn: (newUser: UserProps) => {},
+    logUserIn: () => {},
     logUserOut: () => {},
   },
 });

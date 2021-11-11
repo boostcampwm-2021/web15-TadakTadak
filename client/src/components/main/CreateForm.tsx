@@ -1,7 +1,10 @@
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
-import ReactSelect, { StylesConfig } from 'react-select';
-import { useState } from 'react';
+import ReactSelect, { StylesConfig, SingleValue } from 'react-select';
+import { postRoom } from '@utils/apis';
+import { useUser } from '@contexts/userContext';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
@@ -45,12 +48,6 @@ const customStyles: StylesConfig = {
   control: () => ({
     width: 200,
   }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = 'opacity 1000ms';
-
-    return { ...provided, opacity, transition };
-  },
 };
 
 enum RoomType {
@@ -62,28 +59,40 @@ enum RoomType {
 type OptionType = {
   value: number;
   label: string;
-  color: string;
 };
 
 const selectOptions: OptionType[] = [
-  { value: RoomType.타닥타닥, label: '타닥타닥 💻', color: 'red' },
-  { value: RoomType.캠프파이어, label: '캠프파이어 🔥', color: 'red' },
-  { value: RoomType.코딩라이브, label: '코딩라이브 📡', color: 'red' },
+  { value: RoomType.타닥타닥, label: '타닥타닥' },
+  { value: RoomType.캠프파이어, label: '캠프파이어' },
+  { value: RoomType.코딩라이브, label: '코딩라이브' },
 ];
 
 const CreateForm = (): JSX.Element => {
-  const [roomName, onChangeRoomName] = useInput('');
+  const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
   const [maxHeadcount, onChangeMaxHeadcount] = useInput('');
-  const [roomType, setRoomType] = useState('타닥타닥');
+  const [roomType, setRoomType] = useState<string | undefined>('타닥타닥');
+  const user = useUser();
+  const history = useHistory();
 
-  const handleSelectChange = (e: any) => setRoomType(RoomType[e.value]);
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSelectChange = (newValue: SingleValue<OptionType>): void => setRoomType(newValue?.label);
+
+  const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!roomName || !roomType || !maxHeadcount) {
+    if (!roomTitle || !roomType || !maxHeadcount) {
       return;
     }
-    // Create request
+    const { status, data } = await postRoom({
+      userId: user.id,
+      title: roomTitle,
+      description,
+      maxHeadcount: +maxHeadcount,
+      roomType,
+    });
+    const { uuid } = data;
+    if (status === 201) {
+      history.push(`/room/${uuid}`, data);
+    }
   };
 
   return (
@@ -92,8 +101,8 @@ const CreateForm = (): JSX.Element => {
         <Input
           type="text"
           placeholder="방 제목을 입력해주세요."
-          id="roomName"
-          onChange={onChangeRoomName}
+          id="roomTitle"
+          onChange={onChangeRoomTitle}
           maxLength={50}
           required={true}
         />
@@ -104,12 +113,7 @@ const CreateForm = (): JSX.Element => {
           onChange={onChangeDescription}
           maxLength={50}
         />
-        <ReactSelect
-          options={selectOptions}
-          defaultValue={selectOptions[0]}
-          onChange={handleSelectChange}
-          styles={customStyles}
-        />
+        <ReactSelect defaultValue={selectOptions[0]} options={selectOptions} onChange={handleSelectChange} />
         <Input
           type="number"
           placeholder="제한 인원을 지정해주세요."

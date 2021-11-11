@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
-import { appId, token, useClient, useMicrophoneAndCameraTracks } from './videoConfig';
+import { appId, token, useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
 import { RoomInfo } from '@pages/Main/Main';
-import VideoController from './VideoController';
-import Videos from './Videos';
+import VideoController from '@components/room/tadaktadak/VideoController';
+import Videos from '@components/room/tadaktadak/Videos';
 
 interface LocationProps {
   pathname: string;
@@ -11,7 +11,7 @@ interface LocationProps {
 }
 
 const Room = ({ location }: { location: LocationProps }): JSX.Element => {
-  const { channelName } = location.state;
+  const { title } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
   const client = useClient();
@@ -54,9 +54,9 @@ const Room = ({ location }: { location: LocationProps }): JSX.Element => {
 
     if (ready && tracks) {
       console.log('init ready');
-      init(channelName);
+      init(title);
     }
-  }, [channelName, client, ready, tracks]);
+  }, [title, client, ready, tracks]);
 
   return (
     <div className="video-container">
