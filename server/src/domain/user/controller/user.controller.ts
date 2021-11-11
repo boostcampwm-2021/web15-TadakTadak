@@ -1,8 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserUpdateDto } from '../dto/user-update.dto';
 import { UserService } from '../service/user.service';
 import { User } from '../user.entity';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
+import { ImageService } from '../../image/service/image.service';
 
 @Controller('user')
 export class UserController {
@@ -34,8 +47,9 @@ export class UserController {
 
   @Post('/:userId/image')
   @UseGuards(JwtAuthGuard)
-  uploadUserImage(@Param('userId') id): void {
-    return;
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadUserImage(@Param('userId') id, @UploadedFile() file: Express.Multer.File) {
+    return { result: await this.userService.updateImage(id, file) };
   }
 
   @Patch('/:userId/image')

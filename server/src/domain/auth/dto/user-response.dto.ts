@@ -1,7 +1,7 @@
 import { DevField } from '../../user/dev-field.entity';
 import { User } from '../../user/user.entity';
 
-export class LoginResponseDto {
+export class UserResponseDto {
   readonly id: number;
   readonly nickname: string;
   readonly email: string;
