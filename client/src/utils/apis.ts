@@ -64,3 +64,33 @@ export const postRoom = async (inputData: PostRoom): Promise<{ status: number; d
   }
   return { status, data };
 };
+
+interface GetRoomQueryObj {
+  type: string;
+  search?: string;
+  take: number;
+  page: number;
+}
+
+interface ResponseGetRoomData {
+  pageTotal: number;
+  results: RoomInfo[];
+  total: number;
+}
+
+function queryObjToString(queryObj: GetRoomQueryObj): string {
+  return Object.entries(queryObj)
+    .map((e) => e.join('='))
+    .join('&');
+}
+
+export const getRoom = async (queryObj: GetRoomQueryObj): Promise<{ status: number; data: ResponseGetRoomData }> => {
+  const queryString = queryObjToString(queryObj);
+  const response = await fetch(`/api/room?${queryString}`);
+  const { status } = response;
+  let data;
+  if (response.ok) {
+    data = await response.json();
+  }
+  return { status, data: data.data };
+};
