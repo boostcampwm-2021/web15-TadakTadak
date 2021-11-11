@@ -8,8 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
-import { UserException } from '../../../exception/user.exception';
-import { RoomException } from '../../../exception/room.exception';
+import { UserException, RoomException } from '../../../exception';
 import { Connection, DeleteResult, getConnection } from 'typeorm';
 import { RoomBuilder } from '../../../builder';
 
@@ -21,8 +20,7 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {
-  }
+  ) {}
 
   async getRoomByUUID(uuid: string): Promise<Room> {
     return await this.roomRepository.findRoomByUUID(uuid);
