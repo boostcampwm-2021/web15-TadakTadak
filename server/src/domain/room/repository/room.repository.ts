@@ -1,4 +1,4 @@
-import { EntityRepository, Like, Repository } from 'typeorm';
+import { DeleteResult, EntityRepository, Like, Repository } from 'typeorm';
 import { Room, RoomType } from '../room.entity';
 import { PaginationOptions } from '../../../paginate';
 
@@ -8,7 +8,7 @@ export class RoomRepository extends Repository<Room> {
     const { search, take, page } = options;
     return this.findAndCount({
       where: { title: Like('%' + search + '%'), roomType: roomType },
-      order: { title: 'DESC' },
+      order: { nowHeadcount: 'DESC' },
       take: take,
       skip: take * (page - 1),
     });
@@ -16,5 +16,28 @@ export class RoomRepository extends Repository<Room> {
 
   async createRoom(room: Room) {
     return this.save(room);
+  }
+
+  async findRoomByUUID(uuid: string): Promise<Room> {
+    return this.findOne({ where: { uuid } });
+  }
+
+  async findRoomByUserEmail(email: string): Promise<Room> {
+    return this.createQueryBuilder('room')
+      .leftJoinAndSelect('room.owner', 'user')
+      .where('user.email = :email', { email: email })
+      .getOne();
+  }
+
+  async findRoomByUserEmailAndUUID(email: string, uuid: string): Promise<Room> {
+    return this.createQueryBuilder('room')
+      .leftJoinAndSelect('room.owner', 'user')
+      .where('user.email = :email', { email: email })
+      .where('uuid = :uuid', { uuid: uuid })
+      .getOne();
+  }
+
+  async deleteRoomByRoomID(roomID: number): Promise<DeleteResult> {
+    return this.delete({ id: roomID });
   }
 }

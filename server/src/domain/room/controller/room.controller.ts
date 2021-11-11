@@ -1,41 +1,33 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { RoomService } from '../service/room.service';
-import { Room, RoomType } from '../room.entity';
+import { Room, RoomType, roomTypeToArray } from '../room.entity';
 import { Pagination } from 'src/paginate';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
 import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
+import { Request } from 'express';
+import { ApiExtraModels, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { RoomAPIDocs } from '../room.docs';
 
+@ApiTags('Room API / 방 API')
 @Controller('room')
 export class RoomController {
-  constructor(private readonly roomService: RoomService) {
-  }
+  constructor(private readonly roomService: RoomService) {}
 
-  @Get('tadak')
-  async getBasicListAll(
+  @Get()
+  @ApiOperation(RoomAPIDocs.getRoomListByTypeOperation())
+  @ApiQuery(RoomAPIDocs.getRoomListByTypeQueryType())
+  @ApiQuery(RoomAPIDocs.getRoomListByTypeQuerySearch())
+  @ApiQuery(RoomAPIDocs.getRoomListByTypeQueryTake())
+  @ApiQuery(RoomAPIDocs.getRoomListByTypeQueryPage())
+  async getRoomListByType(
+    @Query('type') type: RoomType,
     @Query('search') search: string,
     @Query('take') take: number,
     @Query('page') page: number,
-  ): Promise<Pagination<Room>> {
-    return await this.roomService.getRoomListAll({ search, take, page }, RoomType.TadakTadak);
-  }
-
-  @Get('camp')
-  async getCampListAll(
-    @Query('search') search: string,
-    @Query('take') take: number,
-    @Query('page') page: number,
-  ): Promise<Pagination<Room>> {
-    return await this.roomService.getRoomListAll({ search, take, page }, RoomType.CampFire);
-  }
-
-  @Get('live')
-  async getLiveListAll(
-    @Query('search') search: string,
-    @Query('take') take: number,
-    @Query('page') page: number,
-  ): Promise<Pagination<Room>> {
-    return await this.roomService.getRoomListAll({ search, take, page }, RoomType.CodingLive);
+  ): Promise<{ result: Pagination<Room> }> {
+    return { result: await this.roomService.getRoomListAll({ search, take, page }, type) };
   }
 
   @Post()
@@ -44,8 +36,17 @@ export class RoomController {
     return { result: await this.roomService.createRoom(createRoomRequestDto) };
   }
 
-  @Delete(':roomId')
-  deleteRoom(@Param('roomId') id): number {
-    return 0;
+  @Get(':uuid')
+  @ApiOperation({ summary: 'UUID로 방 조회', description: '방의 고유 UUID로 정보를 조회합니다.' })
+  @ApiParam(RoomAPIDocs.getRoomByUUIDParamUUID())
+  async getRoomByUUID(@Param('uuid') uuid): Promise<{ result: Room }> {
+    return { result: await this.roomService.getRoomByUUID(uuid) };
+  }
+
+  @Delete(':uuid')
+  @UseGuards(JwtAuthGuard)
+  async deleteRoom(@Req() req: Request, @Param('uuid') uuid): Promise<{ result: boolean }> {
+    const userEmail = req.user['email'];
+    return { result: await this.roomService.deleteRoom(userEmail, uuid) };
   }
 }
