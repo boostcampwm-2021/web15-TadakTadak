@@ -20,11 +20,13 @@ const Videos = (props: {
 }): JSX.Element => {
   const { users, tracks } = props;
   const myVideoTrack = tracks[1];
+  const myAudioTrack = tracks[0];
   return (
     <VideosContainer>
       <VideosGrid id="videos">
-        <VideoBox videoTrack={myVideoTrack} />
-        {users.length > 0 && users.map((user) => <VideoBox key={user.uid} videoTrack={user.videoTrack} />)}
+        <VideoBox videoTrack={myVideoTrack} audioTrack={myAudioTrack} />
+        {users.length > 0 &&
+          users.map((user) => <VideoBox key={user.uid} videoTrack={user.videoTrack} audioTrack={user.audioTrack} />)}
       </VideosGrid>
     </VideosContainer>
   );
