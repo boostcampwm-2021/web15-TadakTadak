@@ -72,13 +72,11 @@ function queryObjToString(queryObj: GetRoomQueryObj): string {
     .join('&');
 }
 
-export const getRoom = async (queryObj: GetRoomQueryObj): Promise<{ status: number; data: ResponseGetRoomData }> => {
+export const getRoom = async (
+  queryObj: GetRoomQueryObj,
+): Promise<{ statusCode: number; data: ResponseGetRoomData }> => {
   const queryString = queryObjToString(queryObj);
   const response = await fetch(`/api/room?${queryString}`);
-  const { status } = response;
-  let data;
-  if (response.ok) {
-    data = await response.json();
-  }
-  return { status, data: data.data };
+  const { statusCode, data } = await response.json();
+  return { statusCode, data };
 };
