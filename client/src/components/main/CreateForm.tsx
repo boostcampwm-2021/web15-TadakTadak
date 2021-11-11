@@ -89,8 +89,8 @@ const CreateForm = (): JSX.Element => {
       maxHeadcount: +maxHeadcount,
       roomType,
     });
-    const { uuid } = data;
     if (status === 201) {
+      const { uuid } = data;
       history.push(`/room/${uuid}`, data);
     }
   };
