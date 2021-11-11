@@ -1,6 +1,6 @@
 import { DeleteResult, EntityRepository, Like, Repository } from 'typeorm';
-import { Room, RoomType } from '../room.entity';
 import { PaginationOptions } from '../../../paginate';
+import { Room, RoomType } from '../room.entity';
 
 @EntityRepository(Room)
 export class RoomRepository extends Repository<Room> {

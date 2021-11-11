@@ -1,8 +1,8 @@
-import { Bcrypt } from 'src/utils/bcrypt';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Bcrypt } from 'src/utils/bcrypt';
 import { DevField } from './dev-field.entity';
 import { Follow } from './follow.entity';
-import { History } from './history.entity';
+import { History } from '../history/history.entity';
 
 @Entity()
 export class User {
@@ -20,6 +20,9 @@ export class User {
 
   @Column({ type: 'varchar', length: 255, unique: false, nullable: true })
   imageUrl: string;
+
+  @Column({ type: 'varchar', length: 255, unique: false, nullable: true })
+  imageName: string;
 
   @Column({ type: 'varchar', length: 511, unique: false, nullable: true })
   introduction: string;
@@ -49,6 +52,10 @@ export class User {
 
   setImageUrl(imageUrl: string) {
     this.imageUrl = imageUrl;
+  }
+
+  setImageName(imageName: string) {
+    this.imageName = imageName;
   }
 
   setIntroduction(introduction: string) {

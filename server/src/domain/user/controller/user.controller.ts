@@ -10,12 +10,10 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { UserUpdateDto } from '../dto/user-update.dto';
-import { UserService } from '../service/user.service';
-import { User } from '../user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
-import { ImageService } from '../../image/service/image.service';
+import { UserService } from '../service/user.service';
+import { UserUpdateDto } from '../dto/user-update.dto';
 
 @Controller('user')
 export class UserController {
@@ -54,14 +52,15 @@ export class UserController {
 
   @Patch('/:userId/image')
   @UseGuards(JwtAuthGuard)
-  patchUserImage(@Param('userId') id): void {
-    return;
+  @UseInterceptors(FileInterceptor('image'))
+  async patchUserImage(@Param('userId') id, @UploadedFile() file: Express.Multer.File) {
+    return { result: await this.userService.updateImage(id, file) };
   }
 
   @Delete('/:userId/image')
   @UseGuards(JwtAuthGuard)
-  deleteUserImage(@Param('userId') id): void {
-    return;
+  async deleteUserImage(@Param('userId') id) {
+    return { result: await this.userService.deleteImage(id) };
   }
 
   @Post('/:userId/time')

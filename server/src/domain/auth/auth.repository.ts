@@ -19,6 +19,6 @@ export class AuthRepository extends Repository<User> {
   }
 
   async findUserByNickname(nickname: string): Promise<User> {
-    return await this.findOneOrFail({ where: { nickName: nickname }, relations: ['devField'] });
+    return await this.findOne({ where: { nickName: nickname }, relations: ['devField'] });
   }
 }

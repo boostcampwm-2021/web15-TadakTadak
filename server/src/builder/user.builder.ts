@@ -2,7 +2,7 @@ import { BuilderCommon } from './builder';
 import { User } from '../domain/user/user.entity';
 import { DevField } from '../domain/user/dev-field.entity';
 import { Follow } from '../domain/user/follow.entity';
-import { History } from '../domain/user/history.entity';
+import { History } from '../domain/history/history.entity';
 
 export class UserBuilder extends BuilderCommon<User> {
   constructor() {
@@ -26,6 +26,11 @@ export class UserBuilder extends BuilderCommon<User> {
 
   setImageURL(imageUrl: string): UserBuilder {
     this.object.imageUrl = imageUrl;
+    return this;
+  }
+
+  setImageName(imageName: string): UserBuilder {
+    this.object.imageName = imageName;
     return this;
   }
 
