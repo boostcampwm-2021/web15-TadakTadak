@@ -48,7 +48,11 @@ const Room = ({ location }: { location: LocationProps }): JSX.Element => {
       });
 
       await client.join(appId, name, token, null);
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      if (tracks) {
+        await client.publish([tracks[0], tracks[1]]);
+        await tracks[1].setEnabled(false);
+        await tracks[0].setEnabled(false);
+      }
       setStart(true);
     };
 
