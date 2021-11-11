@@ -9,6 +9,7 @@ import { RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
 import { RoomException, UserException } from '../../../exception';
+import { Connection, DeleteResult } from 'typeorm';
 import { RoomBuilder } from '../../../builder';
 
 @Injectable()
@@ -83,7 +84,7 @@ export class RoomService {
     return true;
   }
 
-  createTokenWithChannel(userId: number, appID: string, uuid: string): string {
+  createTokenWithChannel(appID: string, uuid: string): string {
     const HOUR_TO_SECOND = 3600;
     const appCertificate = process.env.AGORA_APP_CERTIFICATE;
     const expirationTimeInSeconds = HOUR_TO_SECOND * 24;
@@ -91,6 +92,6 @@ export class RoomService {
     const channel = uuid;
     const currentTimestamp = Math.floor(Date.now() / 1000);
     const expirationTimestamp = currentTimestamp + expirationTimeInSeconds;
-    return RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channel, userId, role, expirationTimestamp);
+    return RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channel, 0, role, expirationTimestamp);
   }
 }
