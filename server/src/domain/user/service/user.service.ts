@@ -19,14 +19,14 @@ export class UserService {
     private readonly imageService: ImageService,
   ) {}
 
-  async getUserInfo(id: string): Promise<UserResponseDto> {
-    const user: User = await this.authRepository.findUserByNickname(id);
-    if (!User) throw UserException.userNotFound();
+  async getUserInfo(nickname: string): Promise<UserResponseDto> {
+    const user: User = await this.authRepository.findUserByNickname(nickname);
+    if (!user) throw UserException.userNotFound();
     return new UserResponseDto(user);
   }
 
-  async updateUserInfo(id: string, userUpdateDto: UserUpdateDto) {
-    const updateUser: User = await this.authRepository.findUserByNickname(id);
+  async updateUserInfo(nickname: string, userUpdateDto: UserUpdateDto) {
+    const updateUser: User = await this.authRepository.findUserByNickname(nickname);
     if (!updateUser) throw UserException.userNotFound();
     const newDevField: DevField = await this.devFileldRepository.findDevById(userUpdateDto.devField);
     if (!newDevField) throw DevFieldException.devFieldNotFound();
@@ -38,8 +38,8 @@ export class UserService {
     return true;
   }
 
-  async updateImage(id: string, file) {
-    const updateUser: User = await this.authRepository.findUserByNickname(id);
+  async updateImage(nickname: string, file) {
+    const updateUser: User = await this.authRepository.findUserByNickname(nickname);
     if (!updateUser) throw UserException.userNotFound();
     if (updateUser.imageName) await this.imageService.deleteImage(updateUser.imageName);
     const imageInfo = await this.imageService.uploadImage(file);
@@ -49,8 +49,8 @@ export class UserService {
     return updateUser.imageUrl;
   }
 
-  async deleteImage(id: string) {
-    const updateUser: User = await this.authRepository.findUserByNickname(id);
+  async deleteImage(nickname: string) {
+    const updateUser: User = await this.authRepository.findUserByNickname(nickname);
     if (!updateUser) throw UserException.userNotFound();
     if (!updateUser.imageName) return true;
     await this.imageService.deleteImage(updateUser.imageName);
