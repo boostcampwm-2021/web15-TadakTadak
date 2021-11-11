@@ -33,12 +33,11 @@ export const ModalWrapper = styled.div`
     margin-bottom: 10px;
     height: 40px;
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
     border-radius: 15px;
+    padding: 15px;
   }
   & input::placeholder {
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
     border-radius: 15px;
   }
   & button {
