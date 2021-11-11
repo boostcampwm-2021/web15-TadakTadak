@@ -27,4 +27,11 @@ export class UserException {
       message: '이미 존재하는 회원입니다.',
     });
   }
+
+  static userUnauthorized(): HttpException {
+    return new UnauthorizedException({
+      statusCode: HttpStatus.UNAUTHORIZED,
+      message: '해당 유저에 권한이 없습니다.',
+    });
+  }
 }

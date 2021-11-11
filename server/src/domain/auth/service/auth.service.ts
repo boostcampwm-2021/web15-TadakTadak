@@ -44,7 +44,7 @@ export class AuthService {
 
   async getUserInfo(email: string) {
     const user: User = await this.authRepository.findUserByEmail(email);
-    if (!user) throw new UnauthorizedException();
+    if (!user) throw UserException.userNotFound();
     return new UserResponseDto(user);
   }
 }

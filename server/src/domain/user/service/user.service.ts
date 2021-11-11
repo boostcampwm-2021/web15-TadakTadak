@@ -7,6 +7,7 @@ import { AuthRepository } from '../../auth/auth.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
 import { ImageService } from '../../image/service/image.service';
 import { DevField } from '../dev-field.entity';
+import { UserException } from '../../../exception/user.exception';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
     @InjectRepository(AuthRepository)
     private readonly authRepository: AuthRepository,
     @InjectRepository(DevFieldRepository)
-    private readonly devFileldRepository: DevFieldRepository,
+    private readonly devFieldRepository: DevFieldRepository,
     private readonly imageService: ImageService,
   ) {}
 
@@ -26,7 +27,7 @@ export class UserService {
     console.log(123);
     const updateUser: User = await this.authRepository.findUserByNickname(id);
     console.log(updateUser);
-    const newDevField: DevField = await this.devFileldRepository.findDevById(userUpdateDto.devField);
+    const newDevField: DevField = await this.devFieldRepository.findDevById(userUpdateDto.devField);
     // //추가 작업 필요
     // updateUser.setNickname(userUpdateDto.nickname);
     // updateUser.setPassword(userUpdateDto.password);
@@ -38,7 +39,7 @@ export class UserService {
 
   async updateImage(id: string, file) {
     const updateUser: User = await this.authRepository.findUserByNickname(id);
-    if (!updateUser) throw new UnauthorizedException();
+    if (!updateUser) throw UserException.userNotFound();
     const imageUrl = await this.imageService.uploadImage(file);
     updateUser.setImageUrl(imageUrl.Location);
     await this.authRepository.save(updateUser);
