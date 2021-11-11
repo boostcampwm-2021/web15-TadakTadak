@@ -82,15 +82,15 @@ const CreateForm = (): JSX.Element => {
     if (!roomTitle || !roomType || !maxHeadcount) {
       return;
     }
-    const { status, data } = await postRoom({
+    const { statusCode, data } = await postRoom({
       userId: user.id,
       title: roomTitle,
       description,
       maxHeadcount: +maxHeadcount,
       roomType,
     });
-    const { uuid } = data;
-    if (status === 201) {
+    if (statusCode === 201) {
+      const { uuid } = data;
       history.push(`/room/${uuid}`, data);
     }
   };

@@ -46,10 +46,12 @@ const VideoBox = (props: {
   const [isSpeak, setIsSpeak] = useState(false);
 
   useEffect(() => {
-    setInterval(() => {
-      if (audioTrack) setIsSpeak(audioTrack?.getVolumeLevel() > SPEAK_VOLUME);
-    }, VOLUME_VISUAL_TIME);
-  });
+    if (audioTrack)
+      setInterval(() => {
+        setIsSpeak(audioTrack?.getVolumeLevel() > SPEAK_VOLUME);
+      }, VOLUME_VISUAL_TIME);
+  }, [audioTrack]);
+
   return (
     <VideoWrap>
       {videoTrack && (
