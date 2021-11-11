@@ -5,7 +5,6 @@ export interface ObjectStorageData {
   ETag: string;
   Location: string;
   key: string;
-  Key: string;
   Bucket: string;
 }
 @Injectable()
@@ -28,12 +27,28 @@ export class ImageService {
   async uploadImage(image): Promise<ObjectStorageData> {
     const param = {
       Bucket: process.env.NCP_BUCKET_NAME,
-      Key: `images/${Date.now()}-${image.originalname}`,
+      Key: `${Date.now()}-${image.originalname}`,
       ACL: 'public-read',
       Body: image.buffer,
     };
     return new Promise((resolve, reject) => {
       this.s3.upload(param, (err, data) => {
+        if (err) {
+          reject(err.message);
+        }
+        resolve(data);
+      });
+    });
+  }
+
+  async deleteImage(imageName) {
+    const param = {
+      Bucket: process.env.NCP_BUCKET_NAME,
+      Key: imageName,
+    };
+
+    return new Promise((resolve, reject) => {
+      this.s3.deleteObject(param, (err, data) => {
         if (err) {
           reject(err.message);
         }

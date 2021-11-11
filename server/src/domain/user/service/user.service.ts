@@ -1,12 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Bcrypt } from 'src/utils/bcrypt';
 import { User } from '../user.entity';
 import { DevFieldRepository } from '../repository/dev-field.repository';
 import { AuthRepository } from '../../auth/auth.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
 import { ImageService } from '../../image/service/image.service';
 import { DevField } from '../dev-field.entity';
+import { UserException, DevFieldException } from '../../../exception';
+import { UserResponseDto } from 'src/domain/auth/dto/user-response.dto';
 
 @Injectable()
 export class UserService {
@@ -18,30 +19,44 @@ export class UserService {
     private readonly imageService: ImageService,
   ) {}
 
-  async getUserInfo(id: string): Promise<User> {
-    return await this.authRepository.findUserByNickname(id);
+  async getUserInfo(id: string): Promise<UserResponseDto> {
+    const user: User = await this.authRepository.findUserByNickname(id);
+    if (!User) throw UserException.userNotFound();
+    return new UserResponseDto(user);
   }
 
   async updateUserInfo(id: string, userUpdateDto: UserUpdateDto) {
-    console.log(123);
     const updateUser: User = await this.authRepository.findUserByNickname(id);
-    console.log(updateUser);
+    if (!updateUser) throw UserException.userNotFound();
     const newDevField: DevField = await this.devFileldRepository.findDevById(userUpdateDto.devField);
-    // //추가 작업 필요
-    // updateUser.setNickname(userUpdateDto.nickname);
-    // updateUser.setPassword(userUpdateDto.password);
-    // updateUser.setIntroduction(userUpdateDto.introduction);
-    // updateUser.setDevField(newDevField);
-    // await this.authRepository.save(updateUser);
+    if (!newDevField) throw DevFieldException.devFieldNotFound();
+    updateUser.setNickname(userUpdateDto.nickname);
+    updateUser.setPassword(userUpdateDto.password);
+    updateUser.setIntroduction(userUpdateDto.introduction);
+    updateUser.setDevField(newDevField);
+    await this.authRepository.save(updateUser);
     return true;
   }
 
   async updateImage(id: string, file) {
     const updateUser: User = await this.authRepository.findUserByNickname(id);
-    if (!updateUser) throw new UnauthorizedException();
-    const imageUrl = await this.imageService.uploadImage(file);
-    updateUser.setImageUrl(imageUrl.Location);
+    if (!updateUser) throw UserException.userNotFound();
+    if (updateUser.imageName) await this.imageService.deleteImage(updateUser.imageName);
+    const imageInfo = await this.imageService.uploadImage(file);
+    updateUser.setImageUrl(imageInfo.Location);
+    updateUser.setImageName(imageInfo.key);
     await this.authRepository.save(updateUser);
-    return imageUrl.Location;
+    return updateUser.imageUrl;
+  }
+
+  async deleteImage(id: string) {
+    const updateUser: User = await this.authRepository.findUserByNickname(id);
+    if (!updateUser) throw UserException.userNotFound();
+    if (!updateUser.imageName) return true;
+    await this.imageService.deleteImage(updateUser.imageName);
+    updateUser.setImageUrl(null);
+    updateUser.setImageName(null);
+    await this.authRepository.save(updateUser);
+    return true;
   }
 }
