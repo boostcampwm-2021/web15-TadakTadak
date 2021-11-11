@@ -30,6 +30,10 @@ const Room = ({ location }: { location: LocationProps }): JSX.Element => {
         }
       });
 
+      client.on('user-joined', (user) => {
+        setUsers((prevUsers) => [...new Set([...prevUsers, user])]);
+      });
+
       client.on('user-unpublished', (user, type) => {
         console.log('unpublished', user, type);
         if (type === 'audio') {
@@ -48,7 +52,11 @@ const Room = ({ location }: { location: LocationProps }): JSX.Element => {
       });
 
       await client.join(agoraAppId, uuid, agoraToken, null);
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      if (tracks) {
+        await client.publish([tracks[0], tracks[1]]);
+        await tracks[1].setEnabled(false);
+        await tracks[0].setEnabled(false);
+      }
       setStart(true);
     };
 
