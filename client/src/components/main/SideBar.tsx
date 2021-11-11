@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import LoginModal from '../LoginModal';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
-import Button from '../Button';
 import Modal from '@components/Modal';
 import CreateForm from './CreateForm';
 import { setCookie } from '@utils/cookie';
@@ -53,9 +52,26 @@ const LoginBtn = styled.button`
   }
 `;
 
-const UserInfoBtn = styled.button`
+const UserInfoDiv = styled.div`
   ${({ theme }) => css`
     border: 1px solid ${theme.colors.primary};
+    padding: ${theme.paddings.sm};
+    border-radius: ${theme.borderRadius.sm};
+    font-size: ${theme.fontSizes.lg};
+    ${theme.flexCenter};
+  `};
+  width: 100%;
+  text-align: center;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.primary};
+  }
+  cursor: pointer;
+`;
+
+const LogoutBtn = styled.button`
+  ${({ theme }) => css`
+    border: 1px solid ${theme.colors.primary};
+    margin-top: ${theme.margins.lg};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
     font-size: ${theme.fontSizes.lg};
@@ -65,6 +81,14 @@ const UserInfoBtn = styled.button`
   :hover {
     background-color: ${({ theme }) => theme.colors.primary};
   }
+`;
+
+const UserAvatar = styled.img`
+  margin-right: ${({ theme }) => theme.margins.base};
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  overflow: hidden;
 `;
 
 const SideBar: React.FC = () => {
@@ -86,8 +110,14 @@ const SideBar: React.FC = () => {
       <SideBarTopMenus>
         {user.login ? (
           <>
-            <UserInfoBtn onClick={onClickUserInfoBtn}>사용자정보</UserInfoBtn>
-            <Button icon={<IoLogOutOutline />} text={''} className={'Logout'} onClick={onClickLogoutBtn} />
+            <UserInfoDiv onClick={onClickUserInfoBtn}>
+              <UserAvatar src={user.imageUrl}></UserAvatar>
+              {user.nickname}
+            </UserInfoDiv>
+            <LogoutBtn onClick={onClickLogoutBtn}>
+              <IoLogOutOutline />
+              로그아웃
+            </LogoutBtn>
           </>
         ) : (
           <LoginBtn onClick={onClickLoginBtn}>로그인</LoginBtn>
