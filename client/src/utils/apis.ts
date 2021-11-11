@@ -31,14 +31,10 @@ export const postLogin = async (email: string, password: string): Promise<{ stat
   return { status, data };
 };
 
-export const getUserByToken = async (): Promise<{ status: number; data: UserProps }> => {
+export const getUserByToken = async (): Promise<{ statusCode: number; data: UserProps }> => {
   const response = await fetch('/api/auth/token');
-  const { status } = response;
-  let data;
-  if (response.ok) {
-    data = await response.json();
-  }
-  return { status, data };
+  const { statusCode, data } = await response.json();
+  return { statusCode, data };
 };
 
 interface PostRoom {
