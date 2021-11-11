@@ -6,7 +6,7 @@ export const postJoin = async (email: string, nickname: string, password: string
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Accept: 'application/json',
+      'Accept': 'application/json',
     },
     body: JSON.stringify({ email, nickname, password }),
   });
@@ -21,7 +21,7 @@ export const postLogin = async (email: string, password: string): Promise<{ stat
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Accept: 'application/json',
+      'Accept': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   });
@@ -48,7 +48,7 @@ export const postRoom = async (inputData: PostRoom): Promise<{ statusCode: numbe
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Accept: 'application/json',
+      'Accept': 'application/json',
     },
     body: JSON.stringify(inputData),
   });
