@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from './user.entity';
-import { LocalDateTransformer } from '../../transformer/LocalDateTransformer';
 import { LocalDate } from 'js-joda';
+import { LocalDateTransformer } from '../../transformer/LocalDateTransformer';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class History {

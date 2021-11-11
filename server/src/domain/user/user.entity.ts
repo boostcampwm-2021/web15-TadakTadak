@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { Bcrypt } from 'src/utils/bcrypt';
 import { DevField } from './dev-field.entity';
 import { Follow } from './follow.entity';
-import { History } from './history.entity';
+import { History } from '../history/history.entity';
 
 @Entity()
 export class User {
