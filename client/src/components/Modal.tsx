@@ -27,12 +27,29 @@ export const ModalWrapper = styled.div`
   left: 25vw;
   position: absolute;
   background-color: ${({ theme }) => theme.colors.black};
-  border-radius: 1rem;
+  border-radius: 5rem;
   z-index: 5;
+  & input {
+    margin-bottom: 10px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 15px;
+  }
+  & input::placeholder {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 15px;
+  }
+  & button {
+    width: 100%;
+  }
 `;
 
 export const Title = styled.h4`
   font-size: ${({ theme }) => theme.fontSizes.xl};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  margin-bottom: ${({ theme }) => theme.margins.xl};
 `;
 
 interface ModalProps {
