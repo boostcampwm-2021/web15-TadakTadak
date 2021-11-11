@@ -71,5 +71,5 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "prettier": "^2.4.1"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "https://api.tadaktadak.com"
 }
