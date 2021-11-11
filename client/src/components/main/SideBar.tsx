@@ -7,7 +7,7 @@ import Modal from '@components/Modal';
 import CreateForm from './CreateForm';
 import { setCookie } from '@utils/cookie';
 
-const SIDEBAR_MIN_WIDTH = '20rem';
+const SIDEBAR_MIN_WIDTH = '29rem';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
