@@ -2,10 +2,11 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
-import { MdOutlineExitToApp } from 'react-icons/md';
+import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 import { useClient } from './videoConfig';
 import Button from '@components/Button';
+import ScreenShareDiv from './ScreenShareDiv';
 
 const ButtonContainer = styled.div``;
 const Controls = styled.div`
@@ -33,7 +34,8 @@ const VideoController = (props: {
   const client = useClient();
   const history = useHistory();
   const { tracks, setStart } = props;
-  const [trackState, setTrackState] = useState({ video: true, audio: true });
+  const [trackState, setTrackState] = useState({ video: false, audio: false });
+  const [screenShare, setScreenShare] = useState(false);
 
   const mute = async (type: 'audio' | 'video') => {
     if (type === 'audio') {
@@ -46,8 +48,11 @@ const VideoController = (props: {
       setTrackState((ps) => {
         return { ...ps, video: !ps.video };
       });
+      if (trackState.video) await client.publish(tracks[1]);
     }
   };
+
+  const handleScreenShare = () => setScreenShare(true);
 
   const leaveChannel = useCallback(async () => {
     await client.leave();
@@ -80,6 +85,21 @@ const VideoController = (props: {
           className={trackState.video ? 'on' : ''}
           onClick={() => mute('video')}
         />
+        <Button
+          icon={screenShare ? <MdScreenShare /> : <MdStopScreenShare />}
+          text={''}
+          className={screenShare ? 'on' : ''}
+          onClick={handleScreenShare}
+        />
+        {screenShare && (
+          <ScreenShareDiv
+            preTracks={tracks}
+            trackState={trackState}
+            screenShare={screenShare}
+            setStart={setStart}
+            setScreenShare={setScreenShare}
+          />
+        )}
       </Controls>
       <GetoutDiv>
         <Button

@@ -13,7 +13,8 @@ import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
 @ApiTags('Room API / 방 API')
 @Controller('room')
 export class RoomController {
-  constructor(private readonly roomService: RoomService) {}
+  constructor(private readonly roomService: RoomService) {
+  }
 
   @Get()
   @ApiOperation(RoomAPIDocs.getRoomListByTypeOperation())
@@ -32,8 +33,12 @@ export class RoomController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createRoom(@Body() createRoomRequestDto: CreateRoomRequestDto): Promise<{ result: CreateRoomResponseDto }> {
-    return { result: await this.roomService.createRoom(createRoomRequestDto) };
+  async createRoom(
+    @Req() req: Request,
+    @Body() createRoomRequestDto: CreateRoomRequestDto,
+  ): Promise<{ result: CreateRoomResponseDto }> {
+    const userEmail = req.user['email'];
+    return { result: await this.roomService.createRoom(createRoomRequestDto, userEmail) };
   }
 
   @Get(':uuid')

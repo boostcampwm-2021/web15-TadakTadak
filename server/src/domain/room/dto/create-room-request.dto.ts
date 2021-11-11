@@ -3,9 +3,6 @@ import { RoomType } from '../room.entity';
 
 export class CreateRoomRequestDto {
   @IsNotEmpty()
-  readonly userId: number;
-
-  @IsNotEmpty()
   @MaxLength(20)
   readonly title: string;
 

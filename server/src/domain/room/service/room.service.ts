@@ -23,7 +23,9 @@ export class RoomService {
   ) {}
 
   async getRoomByUUID(uuid: string): Promise<Room> {
-    return await this.roomRepository.findRoomByUUID(uuid);
+    const findRoom = await this.roomRepository.findRoomByUUID(uuid);
+    if (!findRoom) throw RoomException.roomNotFound();
+    return findRoom;
   }
 
   async getRoomListAll(options: PaginationOptions, roomType: RoomType): Promise<Pagination<Room>> {
@@ -34,16 +36,16 @@ export class RoomService {
     });
   }
 
-  async createRoom(createRoomRequestDto: CreateRoomRequestDto): Promise<CreateRoomResponseDto> {
+  async createRoom(createRoomRequestDto: CreateRoomRequestDto, email: string): Promise<CreateRoomResponseDto> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
 
-    const { userId, title, description, maxHeadcount, roomType } = createRoomRequestDto;
+    const { title, description, maxHeadcount, roomType } = createRoomRequestDto;
     const uuid = uuidv4();
-    const agoraAppID = process.env.AGORA_APP_ID;
-    const agoraToken = this.createTokenWithChannel(userId, agoraAppID, uuid);
-    const user = await this.userRepository.findUserById(userId);
+    const user = await this.userRepository.findUserByUserEmail(email);
     if (!user) throw UserException.userNotFound();
+    const agoraAppID = process.env.AGORA_APP_ID;
+    const agoraToken = this.createTokenWithChannel(agoraAppID, uuid);
     const existRoom = await this.roomRepository.findRoomByUserEmail(user.email);
     if (existRoom) throw RoomException.roomExistError();
     const newRoom = new RoomBuilder()
@@ -76,12 +78,13 @@ export class RoomService {
     if (!user) throw UserException.userNotFound();
     const findRoom = await this.roomRepository.findRoomByUserEmailAndUUID(email, uuid);
     if (!findRoom) throw RoomException.roomNotFound();
+    if (user.id != findRoom.owner.id) throw UserException.userUnauthorized();
     const deleteResult: DeleteResult = await this.roomRepository.deleteRoomByRoomID(findRoom.id);
     if (!deleteResult) throw RoomException.roomDeleteError();
     return true;
   }
 
-  createTokenWithChannel(userId: number, appID: string, uuid: string): string {
+  createTokenWithChannel(appID: string, uuid: string): string {
     const HOUR_TO_SECOND = 3600;
     const appCertificate = process.env.AGORA_APP_CERTIFICATE;
     const expirationTimeInSeconds = HOUR_TO_SECOND * 24;
@@ -89,6 +92,6 @@ export class RoomService {
     const channel = uuid;
     const currentTimestamp = Math.floor(Date.now() / 1000);
     const expirationTimestamp = currentTimestamp + expirationTimeInSeconds;
-    return RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channel, userId, role, expirationTimestamp);
+    return RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channel, 0, role, expirationTimestamp);
   }
 }

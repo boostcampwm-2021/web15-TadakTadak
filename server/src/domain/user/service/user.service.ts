@@ -15,7 +15,7 @@ export class UserService {
     @InjectRepository(AuthRepository)
     private readonly authRepository: AuthRepository,
     @InjectRepository(DevFieldRepository)
-    private readonly devFileldRepository: DevFieldRepository,
+    private readonly devFieldRepository: DevFieldRepository,
     private readonly imageService: ImageService,
   ) {}
 
