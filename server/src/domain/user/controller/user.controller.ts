@@ -52,8 +52,9 @@ export class UserController {
 
   @Patch('/:userId/image')
   @UseGuards(JwtAuthGuard)
-  patchUserImage(@Param('userId') id): void {
-    return;
+  @UseInterceptors(FileInterceptor('image'))
+  async patchUserImage(@Param('userId') id, @UploadedFile() file: Express.Multer.File) {
+    return { result: await this.userService.updateImage(id, file) };
   }
 
   @Delete('/:userId/image')
