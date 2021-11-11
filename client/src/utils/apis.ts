@@ -15,7 +15,7 @@ export const postJoin = async (email: string, nickname: string, password: string
   return false;
 };
 
-export const postLogin = async (email: string, password: string): Promise<{ status: number; data: UserProps }> => {
+export const postLogin = async (email: string, password: string): Promise<{ statusCode: number; data: UserProps }> => {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: {
@@ -23,12 +23,8 @@ export const postLogin = async (email: string, password: string): Promise<{ stat
     },
     body: JSON.stringify({ email, password }),
   });
-  const { status } = response;
-  let data;
-  if (response.ok) {
-    data = await response.json();
-  }
-  return { status, data };
+  const { statusCode, data } = await response.json();
+  return { statusCode, data };
 };
 
 export const getUserByToken = async (): Promise<{ statusCode: number; data: UserProps }> => {
@@ -45,7 +41,7 @@ interface PostRoom {
   roomType: string;
 }
 
-export const postRoom = async (inputData: PostRoom): Promise<{ status: number; data: RoomInfo }> => {
+export const postRoom = async (inputData: PostRoom): Promise<{ statusCode: number; data: RoomInfo }> => {
   const response = await fetch('/api/room', {
     method: 'POST',
     headers: {
@@ -53,12 +49,8 @@ export const postRoom = async (inputData: PostRoom): Promise<{ status: number; d
     },
     body: JSON.stringify(inputData),
   });
-  const { status } = response;
-  let data;
-  if (response.ok) {
-    data = await response.json();
-  }
-  return { status, data };
+  const { statusCode, data } = await response.json();
+  return { statusCode, data: data?.room };
 };
 
 interface GetRoomQueryObj {
