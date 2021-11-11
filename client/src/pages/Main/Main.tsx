@@ -1,41 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MainWrapper, MainContainer, MainTitle, RoomListGrid } from './style';
-import VideoContainer from './VideoContainer';
-import RoomBox from '../../components/RoomBox';
-import SideBar from '../../components/SideBar';
+import RoomBox from '@components/RoomBox';
+import SideBar from '@components/main/SideBar';
+import ListGenerator from '@components/ListGenerator';
+import { getRoom } from '@utils/apis';
 
-const roomInfos = [
-  {
-    channelName: 'test',
-    roomName: 'test room',
-  },
-];
+export interface RoomInfo {
+  agoraAppId: string;
+  agoraToken: string;
+  uuid: string;
+  ownerId: number;
+  title: string;
+  roomType: string;
+  description: string;
+  nowHeadcount: number;
+  maxHeadcount: number;
+}
+
+const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
 
 const Main = (): JSX.Element => {
-  const [inCall, setInCall] = useState(false);
-  const [channelName, setChannelName] = useState('');
+  const [rooms, setRooms] = useState<RoomInfo[]>([]);
+
+  useEffect(() => {
+    async function getRoomList() {
+      const testQueryObj = {
+        type: '타닥타닥',
+        search: '',
+        take: 15,
+        page: 1,
+      };
+      const { statusCode, data } = await getRoom(testQueryObj);
+      if (statusCode === 200) {
+        setRooms((prevState) => {
+          return [...prevState, ...data.results];
+        });
+      }
+    }
+    getRoomList();
+  }, []);
+
   return (
     <MainWrapper>
       <SideBar />
       <MainContainer>
-        {inCall ? (
-          <VideoContainer setInCall={setInCall} channelName={channelName} />
-        ) : (
-          <>
-            <MainTitle className="heading">채널 목록</MainTitle>
-            <RoomListGrid>
-              {roomInfos &&
-                roomInfos.map((roomInfo) => (
-                  <RoomBox
-                    key={roomInfo.channelName}
-                    setInCall={setInCall}
-                    setChannelName={setChannelName}
-                    roomInfo={roomInfo}
-                  />
-                ))}
-            </RoomListGrid>
-          </>
-        )}
+        <MainTitle className="heading">채널 목록</MainTitle>
+        <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
       </MainContainer>
     </MainWrapper>
   );

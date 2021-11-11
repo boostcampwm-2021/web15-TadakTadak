@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import useInput from '../hooks/useInput';
+import useInput from '@hooks/useInput';
+import { postJoin } from '@utils/apis';
 
 const Container = styled.div`
   display: flex;
@@ -45,9 +46,10 @@ const ModalToggleSpan = styled.span`
 
 interface JoinProps {
   onClickModalToggle: React.MouseEventHandler<HTMLButtonElement>;
+  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle }) => {
+const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -56,12 +58,15 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle }) => {
     // Github Join request
   };
 
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !nickname || !password) {
       return;
     }
-    // Join request
+    const isOk = await postJoin(email, nickname, password);
+    if (isOk) {
+      setIsLogin(true);
+    }
   };
 
   return (

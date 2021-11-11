@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUser } from '@contexts/userContext';
+import { useEffect } from 'react';
 
 const IntroContainer = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -15,9 +18,10 @@ const TitleText = styled.span`
   color: ${(props) => props.color};
 `;
 
-const MainBtn = styled.button`
+const MainLink = styled(Link)`
   width: 30rem;
   height: 20rem;
+  ${({ theme }) => theme.flexCenter};
   border: 1px solid ${({ theme }) => theme.colors.secondary};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   font-size: ${({ theme }) => theme.fontSizes.lg};
@@ -27,13 +31,16 @@ const MainBtn = styled.button`
   }
 `;
 
-const Introduction = (props: {
-  history: {
-    push(url: string): void;
-  };
-}): JSX.Element => {
-  console.log(props);
-  const onClick = () => props.history.push('/main');
+const Introduction = (props: { history: { push(url: string): void } }): JSX.Element => {
+  const user = useUser();
+  const { push } = props.history;
+
+  useEffect(() => {
+    if (user.login) {
+      push('/main');
+    }
+  }, [user, push]);
+
   return (
     <IntroContainer>
       <IntroTitle>
@@ -42,7 +49,7 @@ const Introduction = (props: {
         <TitleText color={'red'}>타</TitleText>
         <TitleText color={'yellow'}>닥</TitleText> 🔥
       </IntroTitle>
-      <MainBtn onClick={onClick}>메인으로 가기</MainBtn>
+      <MainLink to="/main">메인으로 가기</MainLink>
     </IntroContainer>
   );
 };

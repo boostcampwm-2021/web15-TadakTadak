@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { RoomInfo } from '@pages/Main/Main';
 
 const ROOM_WIDTH = 20;
 const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
 
-const RoomContainer = styled.div`
+const RoomLink = styled(Link)`
   ${({ theme }) => theme.flexCenter};
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.primary};
@@ -26,29 +28,17 @@ const RoomTitle = styled.p`
   margin-bottom: ${({ theme }) => theme.margins.base};
 `;
 
-const RoomBox = (props: {
-  setInCall: React.Dispatch<React.SetStateAction<boolean>>;
-  setChannelName: React.Dispatch<React.SetStateAction<string>>;
-  roomInfo: {
-    channelName: string;
-    roomName: string;
-  };
-}): JSX.Element => {
-  const {
-    setInCall,
-    setChannelName,
-    roomInfo: { channelName, roomName },
-  } = props;
-  const onClick = () => {
-    setChannelName(channelName);
-    setInCall(true);
-  };
+interface RoomBoxProps {
+  roomInfo: RoomInfo;
+}
 
+const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   return (
-    <RoomContainer onClick={onClick}>
-      <RoomTitle>{roomName}</RoomTitle>
+    <RoomLink to={{ pathname: `/room/${roomInfo.uuid}`, state: roomInfo }}>
+      <RoomTitle>{roomInfo.title}</RoomTitle>
+      <p>{roomInfo.description}</p>
       <p>참가하기</p>
-    </RoomContainer>
+    </RoomLink>
   );
 };
 
