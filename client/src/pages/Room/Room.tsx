@@ -22,12 +22,13 @@ const Room = ({ location }: { location: LocationProps }): JSX.Element => {
       client.on('user-published', async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         console.log('subscribe success');
-        if (mediaType === 'video') {
-          setUsers((prevUsers) => [...new Set([...prevUsers, user])]);
-        }
         if (mediaType === 'audio') {
           user.audioTrack?.play();
         }
+      });
+
+      client.on('user-joined', (user) => {
+        setUsers((prevUsers) => [...new Set([...prevUsers, user])]);
       });
 
       client.on('user-unpublished', (user, type) => {
