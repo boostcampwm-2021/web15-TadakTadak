@@ -32,6 +32,7 @@ const Button = styled.button`
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 1rem;
+  font-size: ${({ theme }) => theme.fontSizes.base}; ;
 `;
 
 const customStyles: StylesConfig = {
@@ -45,8 +46,9 @@ const customStyles: StylesConfig = {
     fontFamily: 'monospace',
     fontWeight: 1000,
   }),
-  control: () => ({
-    width: 200,
+  control: (provided) => ({
+    ...provided,
+    width: 300,
   }),
 };
 
@@ -113,7 +115,13 @@ const CreateForm = (): JSX.Element => {
           onChange={onChangeDescription}
           maxLength={50}
         />
-        <ReactSelect defaultValue={selectOptions[0]} options={selectOptions} onChange={handleSelectChange} />
+        <ReactSelect
+          defaultValue={selectOptions[0]}
+          styles={customStyles}
+          value={selectOptions.find((op) => op.label === roomType)}
+          options={selectOptions}
+          // onChange={(value) => handleSelectChange(value.value)}
+        />
         <Input
           type="number"
           placeholder="제한 인원을 지정해주세요."

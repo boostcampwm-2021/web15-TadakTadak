@@ -7,7 +7,7 @@ import Modal from '@components/Modal';
 import CreateForm from './CreateForm';
 import { setCookie } from '@utils/cookie';
 
-const SIDEBAR_MIN_WIDTH = '33rem';
+const SIDEBAR_MIN_WIDTH = '29rem';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
@@ -28,7 +28,7 @@ const SideBarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 23vw;
+  width: ${SIDEBAR_MIN_WIDTH};
   min-width: ${SIDEBAR_MIN_WIDTH};
   height: 100%;
   background-color: #21272e;
@@ -78,8 +78,14 @@ const LogoutBtn = styled.button`
   `};
   width: 100%;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   :hover {
     background-color: ${({ theme }) => theme.colors.primary};
+  }
+  & span {
+    margin-right: 20px;
   }
 `;
 
@@ -115,8 +121,8 @@ const SideBar: React.FC = () => {
               {user.nickname}
             </UserInfoDiv>
             <LogoutBtn onClick={onClickLogoutBtn}>
+              <span>로그아웃</span>
               <IoLogOutOutline />
-              로그아웃
             </LogoutBtn>
           </>
         ) : (
