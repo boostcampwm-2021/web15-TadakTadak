@@ -29,6 +29,11 @@ export class UserBuilder extends BuilderCommon<User> {
     return this;
   }
 
+  setImageName(imageName: string): UserBuilder {
+    this.object.imageName = imageName;
+    return this;
+  }
+
   setIntroduction(text: string): UserBuilder {
     this.object.introduction = text;
     return this;
