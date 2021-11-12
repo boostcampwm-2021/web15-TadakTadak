@@ -50,5 +50,4 @@
 | [zaehuun](https://github.com/zaehuun) | [jiho-bae](https://github.com/jiho-bae) | [Dev-Beom](https://github.com/Dev-Beom) | [hanbyeol](https://github.com/Narastro) |
 
 ## 인프라 구조
-![tdtd infra 11-12](https://user-images.githubusercontent.com/66074802/141458896-08ce38fa-e964-4dfd-aac1-ef25092b7909.png)
-
+![infra](https://user-images.githubusercontent.com/66074802/141459748-2d7b50ed-04d6-45e7-a42e-43e24c993fae.png)
