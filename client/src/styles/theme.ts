@@ -20,6 +20,7 @@ const theme: DefaultTheme = {
     tertiary: '#BFFCF9',
     black: '#121212',
     white: `rgba(255,255,255,1)`,
+    red: 'tomato',
   },
   margins: {
     sm: '0.5rem',

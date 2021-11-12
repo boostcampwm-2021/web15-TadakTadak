@@ -30,6 +30,7 @@ interface Colors {
   tertiary: string;
   black: string;
   white: string;
+  red: string;
 }
 
 declare module 'styled-components' {
