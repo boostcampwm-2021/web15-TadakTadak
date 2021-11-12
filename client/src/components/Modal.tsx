@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const MODAL_WIDTH = 60;
+const MODAL_HEIGHT = 40;
+
 export const ModalContainer = styled.div`
   width: 100%;
   top: -15vh;
@@ -21,10 +24,10 @@ export const ModalWrapper = styled.div`
   ${({ theme }) => theme.flexCenter}
   flex-direction: column;
   padding: 2rem 2rem 1.5rem 2rem;
-  width: 50vw;
-  height: 40vh;
+  width: ${MODAL_WIDTH}rem;
+  height: ${MODAL_HEIGHT}rem;
   top: 30vh;
-  left: 25vw;
+  left: calc((100vw - ${MODAL_HEIGHT}rem) / 2 - ${MODAL_HEIGHT}rem / 4);
   position: absolute;
   background-color: ${({ theme }) => theme.colors.black};
   border-radius: 5rem;

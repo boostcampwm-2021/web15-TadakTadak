@@ -5,6 +5,7 @@ interface ButtonProps {
   icon?: React.ReactNode;
   text?: string;
   className?: string;
+  color?: string;
   onClick?: () => void;
 }
 
@@ -31,6 +32,16 @@ const StyledButton = styled.button`
     transform: scale(0.9);
     transition: background 0.1s;
   }
+  ${({ color }) =>
+    color &&
+    css`
+      background-color: ${color};
+      &:hover,
+      &:active {
+        background-color: ${color};
+        opacity: 0.7;
+      }
+    `}
   &:focus {
   }
   &:disabled {
@@ -38,9 +49,9 @@ const StyledButton = styled.button`
 `;
 
 const Button: React.FC<ButtonProps> = (props) => {
-  const { text, icon, className, onClick } = props;
+  const { text, icon, className, color, onClick } = props;
   return (
-    <StyledButton className={className} onClick={onClick}>
+    <StyledButton color={color} className={className} onClick={onClick}>
       {icon}
       {text}
     </StyledButton>
