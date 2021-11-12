@@ -12,3 +12,5 @@ export const isPassword = (password: string): boolean => {
   const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
   return regExp.test(password);
 };
+
+export const adminOptions = new Array(9).fill(0).map((_, i) => ({ value: i + 1, label: i + 1 }));
