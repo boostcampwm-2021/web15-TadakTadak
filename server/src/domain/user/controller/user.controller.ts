@@ -13,11 +13,12 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
 import { UserService } from '../service/user.service';
+import { HistoryService } from 'src/domain/history/service/history.service';
 import { UserUpdateDto } from '../dto/user-update.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly historyService: HistoryService) {}
 
   @Get('/:userId')
   @UseGuards(JwtAuthGuard)
@@ -33,14 +34,8 @@ export class UserController {
 
   @Get('/:userId/log')
   @UseGuards(JwtAuthGuard)
-  getUserLog(@Param('userId') id): void {
-    return;
-  }
-
-  @Post('/:userId/log')
-  @UseGuards(JwtAuthGuard)
-  addUserLog(@Param('userId') id): void {
-    return;
+  async getUserLog(@Param('userId') nickname) {
+    return { result: await this.historyService.getHistory(nickname) };
   }
 
   @Post('/:userId/image')

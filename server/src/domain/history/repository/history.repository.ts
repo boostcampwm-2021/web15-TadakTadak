@@ -11,4 +11,8 @@ export class HistoryRepository extends Repository<History> {
     await this.save(history);
     return true;
   }
+
+  async getHistoryByNickname(user: User) {
+    return await this.find({ where: { user: user } });
+  }
 }
