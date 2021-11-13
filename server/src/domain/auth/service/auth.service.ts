@@ -27,7 +27,8 @@ export class AuthService {
       throw UserException.userLoginInfoNotCorrect();
     if (!user.isToday) {
       user.setIsToday(true);
-      historyService.checkin(user);
+      this.historyService.checkIn(user);
+      await this.authRepository.save(user);
     }
     const token = this.jwtService.sign({ email: loginRequestDto.email });
     const userInfo: UserResponseDto = new UserResponseDto(user);
