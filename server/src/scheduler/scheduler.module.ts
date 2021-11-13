@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from 'src/domain/auth/auth.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { SchedulerService } from './scheduler.service';
+import { AuthRepository } from 'src/domain/auth/auth.repository';
 
 @Module({
-  imports: [AuthModule],
+  imports: [TypeOrmModule.forFeature([AuthRepository])],
   providers: [SchedulerService],
 })
 export class SchedulerModule {}

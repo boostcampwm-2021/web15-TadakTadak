@@ -19,7 +19,6 @@ import { HistoryModule } from '../history/history.module';
     HistoryModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository, JwtStrategy],
-  exports: [AuthRepository],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}
