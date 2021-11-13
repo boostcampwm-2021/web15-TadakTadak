@@ -10,4 +10,8 @@ export class HistoryService {
     @InjectRepository(HistoryRepository)
     private readonly historyRepository: HistoryRepository,
   ) {}
+
+  checkin(user: User): void {
+    return;
+  }
 }
