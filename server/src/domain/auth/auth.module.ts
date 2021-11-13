@@ -6,6 +6,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './controller/auth.controller';
 import { AuthService } from './service/auth.service';
 import { AuthRepository } from './auth.repository';
+import { HistoryModule } from '../history/history.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthRepository } from './auth.repository';
       secret: 'secretkey',
       signOptions: { expiresIn: '1h' },
     }),
+    HistoryModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
