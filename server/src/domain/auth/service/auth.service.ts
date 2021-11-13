@@ -5,11 +5,11 @@ import { Bcrypt } from 'src/utils/bcrypt';
 import { UserBuilder } from '../../../builder';
 import { UserException } from '../../../exception';
 import { User } from '../../user/user.entity';
+import { HistoryService } from 'src/domain/history/service/history.service';
 import { AuthRepository } from '../auth.repository';
 import { LoginRequestDto } from '../dto/login-request.dto';
 import { UserResponseDto } from '../dto/user-response.dto';
 import { JoinRequestDto } from '../dto/join-request.dto';
-import { HistoryService } from 'src/domain/history/service/history.service';
 
 @Injectable()
 export class AuthService {
