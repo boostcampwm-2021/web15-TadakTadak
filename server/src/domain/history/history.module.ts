@@ -6,5 +6,6 @@ import { HistoryService } from './service/history.service';
 @Module({
   imports: [TypeOrmModule.forFeature([HistoryRepository])],
   providers: [HistoryService],
+  exports: [HistoryService],
 })
 export class HistoryModule {}
