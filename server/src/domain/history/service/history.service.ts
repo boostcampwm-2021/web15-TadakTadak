@@ -5,7 +5,7 @@ import { HistoryRepository } from '../repository/history.repository';
 import { User } from 'src/domain/user/user.entity';
 
 @Injectable()
-export class UserService {
+export class HistoryService {
   constructor(
     @InjectRepository(HistoryRepository)
     private readonly historyRepository: HistoryRepository,
