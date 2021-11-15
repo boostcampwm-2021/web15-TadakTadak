@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import { SwaggerConfig } from './config/swagger.config';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { TransformInterceptor } from './filter/transform.interceptor';
+import * as helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.use(helmet());
   SwaggerConfig(app);
   await app.listen(3000);
 }
