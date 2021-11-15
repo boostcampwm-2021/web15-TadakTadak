@@ -27,10 +27,14 @@ interface Colors {
   bold: string;
   primary: string;
   secondary: string;
-  tertiary: string;
   black: string;
   white: string;
-  red: string;
+  bgWhite: string;
+  blue: string;
+  blue2: string;
+  borderGrey: string;
+  grey: string;
+  green: string;
 }
 
 declare module 'styled-components' {
