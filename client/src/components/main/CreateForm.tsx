@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postRoom } from '@utils/apis';
 import { useUser } from '@contexts/userContext';
@@ -14,24 +14,28 @@ const Container = styled.div`
 `;
 
 const Form = styled.form`
-  ${({ theme }) => theme.flexCenter}
-  margin-top: ${({ theme }) => theme.margins.lg};
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
   width: 100%;
+  height: 30rem;
+  ${({ theme }) => css`
+    background-color: ${theme.colors.grey};
+    padding: ${theme.paddings.lg};
+    border: 1px solid ${theme.colors.borderGrey};
+    border-radius: ${theme.borderRadius.base};
+  `};
 `;
 
 const Input = styled.input`
   width: 100%;
-  margin: ${({ theme }) => theme.margins.sm};
   font-size: ${({ theme }) => theme.fontSizes.base};
-  ::placeholder {
-    padding-left: ${({ theme }) => theme.margins.lg};
-  }
 `;
 
 const Button = styled.button`
   ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.green};
   padding: ${({ theme }) => theme.paddings.sm};
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.8);

@@ -14,16 +14,17 @@ interface SelectProps {
 }
 
 const StyledSelect = styled.select`
-  border: none;
   font-family: 'monospace', 'Noto Sans KR', sans-serif;
   font-weight: 1000;
-  width: 30rem;
-  height: 5rem;
-  background: transparent;
+  width: 100%;
+  height: 3rem;
   ${({ theme }) => css`
-    padding: ${theme.fontSizes.sm};
-    color: ${theme.colors.white};
+    color: ${theme.colors.black};
     font-size: ${theme.fontSizes.base};
+    padding: ${theme.paddings.sm};
+    border: 1px solid ${theme.colors.borderGrey};
+    border-radius: ${theme.borderRadius.base};
+    background-color: ${theme.colors.white};
     ${theme.flexCenter}
   `}
   &:hover {

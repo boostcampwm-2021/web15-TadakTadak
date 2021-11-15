@@ -1,17 +1,34 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postLogin } from '@utils/apis';
 import { useUserFns } from '@contexts/userContext';
 
+const FORM_WIDTH = 30;
+const FORM_HEIGHT = 20;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: ${FORM_WIDTH}rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
+  width: ${FORM_WIDTH}rem;
+  height: ${FORM_HEIGHT}rem;
+  ${({ theme }) => css`
+    background-color: ${theme.colors.grey};
+    padding: ${theme.paddings.lg};
+    border: 1px solid ${theme.colors.borderGrey};
+    border-radius: ${theme.borderRadius.base};
+  `};
 `;
 
 const Input = styled.input`
@@ -20,25 +37,26 @@ const Input = styled.input`
 
 const Button = styled.button`
   ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.green};
   padding: ${({ theme }) => theme.paddings.sm};
-  width: 16rem;
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  color: ${({ theme }) => theme.colors.white};
   border-radius: 1rem;
 `;
 
 const GithubLoginButton = styled.button`
   ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.tertiary};
-  color: ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.sm};
-  width: 16rem;
-  border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 1rem;
 `;
 
 const ModalToggleSpan = styled.span`
+  width: 100%;
+  padding: ${({ theme }) => theme.paddings.lg};
   margin-top: ${({ theme }) => theme.margins.lg};
+  color: ${({ theme }) => theme.colors.blue};
+  text-align: center;
   cursor: pointer;
   :hover {
     color: ${({ theme }) => theme.colors.primary};
@@ -84,8 +102,8 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
           onChange={onChangePassword}
         />
         <Button>로그인</Button>
+        <GithubLoginButton onClick={onClickGithubLogin}>Github 로그인</GithubLoginButton>
       </Form>
-      <GithubLoginButton onClick={onClickGithubLogin}>Github 로그인</GithubLoginButton>
       <ModalToggleSpan onClick={onClickModalToggle}>회원가입 하러 가기</ModalToggleSpan>
     </Container>
   );
