@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, getConnection, Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 
 @EntityRepository(User)
@@ -12,6 +12,15 @@ export class AuthRepository extends Repository<User> {
         })
         .getCount()) > 0
     );
+  }
+
+  updateCheckIn() {
+    getConnection()
+      .createQueryBuilder()
+      .update(User)
+      .set({ isToday: false })
+      .where('isToday = :checkIn', { checkIn: true })
+      .execute();
   }
 
   async findUserByEmail(email: string): Promise<User> {

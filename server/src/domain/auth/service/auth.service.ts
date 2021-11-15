@@ -5,6 +5,7 @@ import { Bcrypt } from 'src/utils/bcrypt';
 import { UserBuilder } from '../../../builder';
 import { UserException } from '../../../exception';
 import { User } from '../../user/user.entity';
+import { HistoryService } from 'src/domain/history/service/history.service';
 import { AuthRepository } from '../auth.repository';
 import { LoginRequestDto } from '../dto/login-request.dto';
 import { UserResponseDto } from '../dto/user-response.dto';
@@ -15,6 +16,8 @@ export class AuthService {
   constructor(
     @InjectRepository(AuthRepository)
     private readonly authRepository: AuthRepository,
+
+    private readonly historyService: HistoryService,
     private jwtService: JwtService,
   ) {}
 
@@ -22,6 +25,11 @@ export class AuthService {
     const user: User = await this.authRepository.findUserByEmail(loginRequestDto.email);
     if (!user || !Bcrypt.compare(loginRequestDto.password, user.password))
       throw UserException.userLoginInfoNotCorrect();
+    if (!user.isToday) {
+      user.setIsToday(true);
+      this.historyService.checkIn(user);
+      await this.authRepository.save(user);
+    }
     const token = this.jwtService.sign({ email: loginRequestDto.email });
     const userInfo: UserResponseDto = new UserResponseDto(user);
     return { token, userInfo };

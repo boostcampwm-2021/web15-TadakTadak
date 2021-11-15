@@ -40,6 +40,9 @@ export class User {
   @OneToMany(() => History, (history) => history.user)
   historys: History[];
 
+  @Column({ default: false })
+  isToday: boolean;
+
   setNickname(nickname: string) {
     this.nickName = nickname;
   }
@@ -64,5 +67,9 @@ export class User {
 
   setDevField(devField: DevField) {
     this.devField = devField;
+  }
+
+  setIsToday(isToday: boolean) {
+    this.isToday = isToday;
   }
 }

@@ -16,6 +16,12 @@ export class AuthController {
     return { result: userInfo };
   }
 
+  @Post('/logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access-token');
+    return { result: true };
+  }
+
   @Post('/join')
   async join(@Body() joinRequestDto: JoinRequestDto) {
     return { result: await this.authService.join(joinRequestDto) };

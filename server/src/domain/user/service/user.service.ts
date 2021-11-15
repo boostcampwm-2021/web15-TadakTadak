@@ -28,7 +28,7 @@ export class UserService {
   async updateUserInfo(nickname: string, userUpdateDto: UserUpdateDto) {
     const updateUser: User = await this.authRepository.findUserByNickname(nickname);
     if (!updateUser) throw UserException.userNotFound();
-    const newDevField: DevField = await this.devFileldRepository.findDevById(userUpdateDto.devField);
+    const newDevField: DevField = await this.devFieldRepository.findDevById(userUpdateDto.devField);
     if (!newDevField) throw DevFieldException.devFieldNotFound();
     updateUser.setNickname(userUpdateDto.nickname);
     updateUser.setPassword(userUpdateDto.password);
