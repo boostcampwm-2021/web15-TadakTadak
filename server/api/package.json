@@ -41,6 +41,7 @@
     "helmet": "^4.6.0",
     "js-joda": "^1.11.0",
     "mysql2": "^2.3.2",
+    "nestjs-rate-limiter": "^3.0.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
