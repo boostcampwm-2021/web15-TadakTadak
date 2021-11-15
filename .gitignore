@@ -37,3 +37,4 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 server/api/.env
+server/socket/.env
