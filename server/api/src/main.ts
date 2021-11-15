@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import { AppModule } from './app.module';
+import { CorsConfig } from './config/cors.config';
 import { SwaggerConfig } from './config/swagger.config';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { TransformInterceptor } from './filter/transform.interceptor';
@@ -19,6 +20,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.enableCors(CorsConfig);
   app.use(helmet());
   SwaggerConfig(app);
   await app.listen(3000);
