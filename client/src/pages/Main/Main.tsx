@@ -30,8 +30,8 @@ const Main = (): JSX.Element => {
         take: 15,
         page: 1,
       };
-      const { statusCode, data } = await getRoom(testQueryObj);
-      if (statusCode === 200) {
+      const { isOk, data } = await getRoom(testQueryObj);
+      if (isOk && data) {
         setRooms((prevState) => {
           return [...prevState, ...data.results];
         });

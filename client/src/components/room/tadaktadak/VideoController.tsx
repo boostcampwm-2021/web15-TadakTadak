@@ -105,6 +105,7 @@ const VideoController = (props: {
         <Button
           icon={<MdOutlineExitToApp />}
           text={''}
+          color={'tomato'}
           onClick={() => {
             leaveChannel();
             history.replace('/main');

@@ -29,7 +29,8 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
   }
   button,
-  input {
+  input,
+  select {
     outline: none;
     background-color:transparent;
     border:none;

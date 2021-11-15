@@ -71,5 +71,6 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^1.7.0",
     "prettier": "^2.4.1"
-  }
+  },
+  "proxy": "https://api.tadaktadak.com"
 }
