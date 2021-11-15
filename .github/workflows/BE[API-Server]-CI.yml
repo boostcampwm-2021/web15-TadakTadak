@@ -1,4 +1,4 @@
-name: back-end CI
+name: back-end [API-Server] CI
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
         node-version: [16.13]
     defaults:
       run:
-        working-directory: ./server
+        working-directory: ./server/api
 
     steps:
       - uses: actions/checkout@v2
