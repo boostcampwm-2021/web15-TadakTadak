@@ -46,6 +46,7 @@ export class AuthService {
       .setNickName(nickname)
       .setEmail(email)
       .setPassword(Bcrypt.hash(password))
+      .setImageURL(process.env.DEFAULT_IMG)
       .build();
     await this.authRepository.save(user);
     return true;

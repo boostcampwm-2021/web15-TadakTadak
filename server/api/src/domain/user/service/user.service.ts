@@ -54,7 +54,7 @@ export class UserService {
     if (!updateUser) throw UserException.userNotFound();
     if (!updateUser.imageName) return true;
     await this.imageService.deleteImage(updateUser.imageName);
-    updateUser.setImageUrl('');
+    updateUser.setImageUrl(process.env.NCP_BUCKET_NAME);
     updateUser.setImageName('');
     await this.authRepository.save(updateUser);
     return true;
