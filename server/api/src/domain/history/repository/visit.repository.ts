@@ -9,7 +9,7 @@ export class VisitRepository extends Repository<Visit> {
     return await this.find({ where: { date: yesterDay } });
   }
 
-  async addVisitCount(count) {
+  async addVisitCount(count: number) {
     const visit: Visit = new Visit();
     visit.date = LocalDate.now().minusDays(1);
     visit.totalVisit = count;

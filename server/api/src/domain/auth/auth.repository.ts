@@ -26,8 +26,9 @@ export class AuthRepository extends Repository<User> {
   async getLastVisitCount() {
     const yesterDay = LocalDate.now().minusDays(1);
     return await this.createQueryBuilder('user')
-      .where('user.last_check_in = :date', {
-        date: yesterDay,
+      .where('user.last_check_in >= :dateS AND user.last_check_in <= :dateE', {
+        dateS: `${yesterDay['_year']}${yesterDay['_month']}${yesterDay['_day']} 00:00:00`,
+        dateE: `${yesterDay['_year']}${yesterDay['_month']}${yesterDay['_day']} 23:59:59`,
       })
       .getCount();
   }
