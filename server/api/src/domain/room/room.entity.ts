@@ -9,7 +9,11 @@ export enum RoomType {
 }
 
 export function roomTypeToArray() {
-  return Object.keys(RoomType).map((key) => RoomType[key]);
+  return Object.keys(RoomType).map((key) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return RoomType[key];
+  });
 }
 
 @Entity()

@@ -44,13 +44,13 @@ export class RoomController {
   @Get(':uuid')
   @ApiOperation({ summary: 'UUID로 방 조회', description: '방의 고유 UUID로 정보를 조회합니다.' })
   @ApiParam(RoomAPIDocs.getRoomByUUIDParamUUID())
-  async getRoomByUUID(@Param('uuid') uuid): Promise<{ result: Room }> {
+  async getRoomByUUID(@Param('uuid') uuid: string): Promise<{ result: Room }> {
     return { result: await this.roomService.getRoomByUUID(uuid) };
   }
 
   @Delete(':uuid')
   @UseGuards(JwtAuthGuard)
-  async deleteRoom(@Req() req: Request, @Param('uuid') uuid): Promise<{ result: boolean }> {
+  async deleteRoom(@Req() req: Request, @Param('uuid') uuid: string): Promise<{ result: boolean }> {
     const userEmail = req.user['email'];
     return { result: await this.roomService.deleteRoom(userEmail, uuid) };
   }

@@ -20,7 +20,8 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {}
+  ) {
+  }
 
   async getRoomByUUID(uuid: string): Promise<Room> {
     const findRoom = await this.roomRepository.findRoomByUUID(uuid);
@@ -44,7 +45,7 @@ export class RoomService {
     const uuid = uuidv4();
     const user = await this.userRepository.findUserByUserEmail(email);
     if (!user) throw UserException.userNotFound();
-    const agoraAppID = process.env.AGORA_APP_ID;
+    const agoraAppID: string = process.env.AGORA_APP_ID ?? '';
     const agoraToken = this.createTokenWithChannel(agoraAppID, uuid);
     const existRoom = await this.roomRepository.findRoomByUserEmail(user.email);
     if (existRoom) throw RoomException.roomExistError();
@@ -86,7 +87,7 @@ export class RoomService {
 
   createTokenWithChannel(appID: string, uuid: string): string {
     const HOUR_TO_SECOND = 3600;
-    const appCertificate = process.env.AGORA_APP_CERTIFICATE;
+    const appCertificate: string = process.env.AGORA_APP_CERTIFICATE ?? '';
     const expirationTimeInSeconds = HOUR_TO_SECOND * 24;
     const role = RtcRole.PUBLISHER;
     const channel = uuid;

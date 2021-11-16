@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
+import { Multer } from 'multer';
+import { ObjectKey } from 'aws-sdk/clients/s3';
 
 export interface ObjectStorageData {
   ETag: string;
@@ -7,12 +9,13 @@ export interface ObjectStorageData {
   key: string;
   Bucket: string;
 }
+
 @Injectable()
 export class ImageService {
   private s3: AWS.S3;
 
   constructor() {
-    const endpoint = new AWS.Endpoint(process.env.NCP_OBJ_STORAGE_END_POINT);
+    const endpoint = new AWS.Endpoint(process.env.NCP_OBJ_STORAGE_END_POINT ?? '');
     const region = process.env.NCP_REGION;
     this.s3 = new AWS.S3({
       endpoint,
@@ -24,9 +27,9 @@ export class ImageService {
     });
   }
 
-  async uploadImage(image): Promise<ObjectStorageData> {
+  async uploadImage(image: Express.Multer.File): Promise<ObjectStorageData> {
     const param = {
-      Bucket: process.env.NCP_BUCKET_NAME,
+      Bucket: process.env.NCP_BUCKET_NAME ?? '',
       Key: `${Date.now()}-${image.originalname}`,
       ACL: 'public-read',
       Body: image.buffer,
@@ -41,9 +44,9 @@ export class ImageService {
     });
   }
 
-  async deleteImage(imageName) {
+  async deleteImage(imageName: ObjectKey) {
     const param = {
-      Bucket: process.env.NCP_BUCKET_NAME,
+      Bucket: process.env.NCP_BUCKET_NAME ?? '',
       Key: imageName,
     };
 

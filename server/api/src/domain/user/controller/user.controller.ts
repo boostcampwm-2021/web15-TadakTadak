@@ -22,63 +22,63 @@ export class UserController {
 
   @Get('/:userId')
   @UseGuards(JwtAuthGuard)
-  async getUserInfo(@Param('userId') id) {
-    return { result: await this.userService.getUserInfo(id) };
+  async getUserInfo(@Param('userId') nickname: string) {
+    return { result: await this.userService.getUserInfo(nickname) };
   }
 
   @Patch('/:userId')
   @UseGuards(JwtAuthGuard)
-  async patchUserInfo(@Param('userId') id, @Body() userUpdateDto: UserUpdateDto) {
-    return { result: await this.userService.updateUserInfo(id, userUpdateDto) };
+  async patchUserInfo(@Param('userId') nickname: string, @Body() userUpdateDto: UserUpdateDto) {
+    return { result: await this.userService.updateUserInfo(nickname, userUpdateDto) };
   }
 
   @Get('/:userId/log')
   @UseGuards(JwtAuthGuard)
-  async getUserLog(@Param('userId') nickname) {
+  async getUserLog(@Param('userId') nickname: string) {
     return { result: await this.historyService.getHistory(nickname) };
   }
 
   @Post('/:userId/image')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
-  async uploadUserImage(@Param('userId') id, @UploadedFile() file: Express.Multer.File) {
-    return { result: await this.userService.updateImage(id, file) };
+  async uploadUserImage(@Param('userId') nickname: string, @UploadedFile() file: Express.Multer.File) {
+    return { result: await this.userService.updateImage(nickname, file) };
   }
 
   @Patch('/:userId/image')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
-  async patchUserImage(@Param('userId') id, @UploadedFile() file: Express.Multer.File) {
-    return { result: await this.userService.updateImage(id, file) };
+  async patchUserImage(@Param('userId') nickname: string, @UploadedFile() file: Express.Multer.File) {
+    return { result: await this.userService.updateImage(nickname, file) };
   }
 
   @Delete('/:userId/image')
   @UseGuards(JwtAuthGuard)
-  async deleteUserImage(@Param('userId') id) {
-    return { result: await this.userService.deleteImage(id) };
+  async deleteUserImage(@Param('userId') nickname: string) {
+    return { result: await this.userService.deleteImage(nickname) };
   }
 
   @Post('/:userId/time')
   @UseGuards(JwtAuthGuard)
-  addUserPlayTime(@Param('userId') id): void {
+  addUserPlayTime(@Param('userId') id: string): void {
     return;
   }
 
   @Get('/:userId/follows')
   @UseGuards(JwtAuthGuard)
-  getUserFollowList(@Param('userId') id): void {
+  getUserFollowList(@Param('userId') id: string): void {
     return;
   }
 
   @Post('/:userId/follows')
   @UseGuards(JwtAuthGuard)
-  addUserFollow(@Param('userId') id): void {
+  addUserFollow(@Param('userId') id: string): void {
     return;
   }
 
   @Delete('/:userId/follows')
   @UseGuards(JwtAuthGuard)
-  deleteUserFollow(@Param('userId') id): void {
+  deleteUserFollow(@Param('userId') id: string): void {
     return;
   }
 }
