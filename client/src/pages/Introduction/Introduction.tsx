@@ -16,9 +16,9 @@ const IntroContainer = styled.div<IntroContainerProps>`
   ${(props) =>
     props.fireOn &&
     css`
-      background-color: inherit;
+      background-color: ${({ theme }) => theme.colors.bgWhite};
     `}
-  transition: background-color 1800ms linear;
+  transition: background-color 1500ms linear;
   padding: ${({ theme }) => theme.paddings.base};
   font-family: 'Dongle', sans-serif;
 `;
