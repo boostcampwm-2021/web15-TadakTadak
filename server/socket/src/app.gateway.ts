@@ -12,6 +12,7 @@ import { Logger } from '@nestjs/common';
 
 @WebSocketGateway()
 export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  userList = {};
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
 
