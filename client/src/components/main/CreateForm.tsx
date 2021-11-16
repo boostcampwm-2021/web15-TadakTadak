@@ -45,7 +45,6 @@ const Button = styled.button`
 enum RoomType {
   타닥타닥 = 1,
   캠프파이어 = 2,
-  코딩라이브 = 3,
 }
 
 type OptionType = {
@@ -56,7 +55,6 @@ type OptionType = {
 const roomOptions: OptionType[] = [
   { value: RoomType.타닥타닥, label: '타닥타닥' },
   { value: RoomType.캠프파이어, label: '캠프파이어' },
-  { value: RoomType.코딩라이브, label: '코딩라이브' },
 ];
 
 const CreateForm = (): JSX.Element => {
