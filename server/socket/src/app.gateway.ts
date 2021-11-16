@@ -27,12 +27,11 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     client.join(payload.roomId);
     this.logger.log(`${payload.nickname}님이 ${payload.roomId}에 입장!! 🎉✨🎊`);
     if (!this.userList[payload.roomId]) this.userList[payload.roomId] = {};
-    const user = {
-      nickname: payload.nickname,
+    const userInfo = {
       field: payload.field,
       img: payload.img,
     };
-    this.userList[payload.roomId].push(user);
+    this.userList[payload.roomId][payload.nickname] = userInfo;
     this.server.to(payload.roomId).emit('user-list', this.userList[payload.roomId]);
   }
   @SubscribeMessage('leave-room')
