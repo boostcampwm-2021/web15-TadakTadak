@@ -115,7 +115,15 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
   return (
     <Container>
       <Form onSubmit={onSubmitForm}>
-        <Input type="text" placeholder="Email" id="email" value={email} onChange={onChangeEmail} maxLength={50} />
+        <Input
+          type="text"
+          placeholder="Email"
+          id="email"
+          value={email}
+          onChange={onChangeEmail}
+          maxLength={50}
+          autoComplete="new-password"
+        />
         <Input
           type="text"
           placeholder="Nickname"
@@ -123,6 +131,7 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
           value={nickname}
           onChange={onChangeNickname}
           maxLength={50}
+          autoComplete="new-password"
         />
         <Input
           type="password"
