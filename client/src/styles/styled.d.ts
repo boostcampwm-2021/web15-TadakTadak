@@ -30,6 +30,7 @@ interface Colors {
   black: string;
   white: string;
   bgWhite: string;
+  bgGreen: string;
   blue: string;
   blue2: string;
   borderGrey: string;
