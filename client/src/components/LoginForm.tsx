@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postLogin } from '@utils/apis';
 import { useUserFns } from '@contexts/userContext';
+import { FaGithub } from 'react-icons/fa';
 
 const FORM_WIDTH = 30;
 const FORM_HEIGHT = 20;
@@ -49,6 +50,9 @@ const GithubLoginButton = styled.button`
   color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.sm};
   border-radius: 1rem;
+  & :first-child {
+    margin-right: ${({ theme }) => theme.margins.base};
+  }
 `;
 
 const ModalToggleSpan = styled.span`
@@ -102,7 +106,10 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
           onChange={onChangePassword}
         />
         <Button>로그인</Button>
-        <GithubLoginButton onClick={onClickGithubLogin}>Github 로그인</GithubLoginButton>
+        <GithubLoginButton onClick={onClickGithubLogin}>
+          <FaGithub fill="#fff" />
+          Github 로그인
+        </GithubLoginButton>
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>회원가입 하러 가기</ModalToggleSpan>
     </Container>

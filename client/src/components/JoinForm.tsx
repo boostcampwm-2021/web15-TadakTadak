@@ -2,9 +2,10 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postJoin } from '@utils/apis';
+import { FaGithub } from 'react-icons/fa';
 
 const FORM_WIDTH = 30;
-const FORM_HEIGHT = 23;
+const FORM_HEIGHT = 25;
 
 const Container = styled.div`
   display: flex;
@@ -40,7 +41,6 @@ const Button = styled.button`
   padding: ${({ theme }) => theme.paddings.sm};
   color: ${({ theme }) => theme.colors.white};
   width: 16rem;
-  border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 1rem;
 `;
 
@@ -50,8 +50,10 @@ const GithubLoginButton = styled.button`
   color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.sm};
   width: 16rem;
-  border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 1rem;
+  & :first-child {
+    margin-right: ${({ theme }) => theme.margins.base};
+  }
 `;
 
 const ModalToggleSpan = styled.span`
@@ -113,7 +115,10 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
           onChange={onChangePassword}
         />
         <Button>회원가입</Button>
-        <GithubLoginButton onClick={onClickGithubJoin}>Github 회원가입</GithubLoginButton>
+        <GithubLoginButton onClick={onClickGithubJoin}>
+          <FaGithub fill="#fff" />
+          Github 회원가입
+        </GithubLoginButton>
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>로그인 하러 가기</ModalToggleSpan>
     </Container>
