@@ -56,6 +56,11 @@ const theme: DefaultTheme = {
     justify-content:center;
     align-items:center;
   `,
+  active: `&:active {
+    opacity: 0.8;
+    transform: scale(0.9);
+    transition: transform 0.1s;
+  }`,
 };
 
 export { theme };
