@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tab from '@components/Tab';
+import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
@@ -14,6 +15,7 @@ const SideBarContainer = styled.div`
   min-width: ${SIDEBAR_MIN_WIDTH};
   height: ${SIDEBAR_HEIGHT};
   background-color: ${({ theme }) => theme.colors.white};
+  z-index: 9999;
 `;
 
 const SideBarTopMenus = styled.div``;
@@ -33,6 +35,7 @@ const initialTabState = {
 
 const RoomSideBar: React.FC = () => {
   const [tabs, setTabs] = useState({ ...initialTabState });
+  const [chats, setChats] = useState([{ message: 'hello' }, { message: 'hi' }]);
   const [participants, setParticipants] = useState([
     { nickname: 'Tom' },
     { nickname: 'James' },
@@ -52,7 +55,10 @@ const RoomSideBar: React.FC = () => {
           <Tab text="참가자" isActive={isParticipant} onClick={onClickParticipantTap} />
         </SideBarTabs>
       </SideBarTopMenus>
-      <SideBarBottomMenus>{isParticipant && <ParticipantList participants={participants} />}</SideBarBottomMenus>
+      <SideBarBottomMenus>
+        {isChat && <ChatList chats={chats} setChats={setChats} />}
+        {isParticipant && <ParticipantList participants={participants} />}
+      </SideBarBottomMenus>
     </SideBarContainer>
   );
 };
