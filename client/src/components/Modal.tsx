@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const MODAL_WIDTH = 60;
-const MODAL_HEIGHT = 40;
+const MODAL_WIDTH = 65;
+const MODAL_HEIGHT = 45;
 
 export const ModalContainer = styled.div`
   width: 100%;
@@ -21,27 +21,27 @@ export const ModalBackground = styled.div`
 `;
 
 export const ModalWrapper = styled.div`
-  ${({ theme }) => theme.flexCenter}
+  display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 2rem 2rem 1.5rem 2rem;
   width: ${MODAL_WIDTH}rem;
   height: ${MODAL_HEIGHT}rem;
-  top: 30vh;
+  top: 20vh;
   left: calc((100vw - ${MODAL_HEIGHT}rem) / 2 - ${MODAL_HEIGHT}rem / 4);
   position: absolute;
-  background-color: ${({ theme }) => theme.colors.black};
-  border-radius: 5rem;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   z-index: 5;
   & input {
-    margin-bottom: 10px;
-    height: 40px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
-    padding: 15px;
-  }
-  & input::placeholder {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
+    ${({ theme }) => css`
+      width: 100%;
+      padding: ${theme.paddings.sm};
+      border: 1px solid ${theme.colors.borderGrey};
+      background-color: ${theme.colors.white};
+      border-radius: ${theme.borderRadius.base};
+      font-size: ${theme.fontSizes.base};
+    `}
   }
   & button {
     width: 100%;

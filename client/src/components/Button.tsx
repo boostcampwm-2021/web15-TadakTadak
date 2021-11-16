@@ -20,15 +20,15 @@ const StyledButton = styled.button`
     height: ${theme.buttonSizes.base};
     font-size: ${theme.fontSizes.xl};
     padding: ${theme.fontSizes.sm};
-    background: ${theme.colors.primary};
+    background: ${theme.colors.blue};
     color: ${theme.colors.white};
     ${theme.flexCenter}
   `}
   &:hover {
-    background: ${({ theme }) => theme.colors.bold};
+    background: ${({ theme }) => theme.colors.blue2};
   }
   &:active {
-    background: ${({ theme }) => theme.colors.secondary};
+    background: ${({ theme }) => theme.colors.blue2};
     transform: scale(0.9);
     transition: background 0.1s;
   }

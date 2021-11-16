@@ -8,20 +8,19 @@ const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
 const RoomLink = styled(Link)`
   ${({ theme }) => theme.flexCenter};
   flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.base};
   width: ${ROOM_WIDTH}rem;
   height: ${ROOM_HEIGHT}rem;
   border-radius: ${({ theme }) => theme.borderRadius.base};
   cursor: pointer;
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   &:hover {
-    background: ${({ theme }) => theme.colors.bold};
+    box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   }
   &:active {
-    background: ${({ theme }) => theme.colors.secondary};
+    background: ${({ theme }) => theme.colors.green};
     transform: scale(0.9);
     transition: background 0.1s;
   }
@@ -60,7 +59,8 @@ const RoomBoxBottom = styled.div`
 const RoomType = styled.div`
   ${({ theme }) => css`
     font-size: ${theme.fontSizes.sm};
-    background-color: ${theme.colors.red};
+    background-color: ${theme.colors.blue};
+    color: ${theme.colors.white};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
   `}

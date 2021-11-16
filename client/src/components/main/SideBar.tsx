@@ -11,16 +11,13 @@ const SIDEBAR_MIN_WIDTH = '29rem';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary};
+    border: 1px solid ${theme.colors.borderGrey};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
     font-size: ${theme.fontSizes.lg};
   `};
   width: 100%;
   text-align: center;
-  :hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-  }
 `;
 
 const SideBarContainer = styled.div`
@@ -31,7 +28,7 @@ const SideBarContainer = styled.div`
   width: ${SIDEBAR_MIN_WIDTH};
   min-width: ${SIDEBAR_MIN_WIDTH};
   height: 100%;
-  background-color: #21272e;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const SideBarTopMenus = styled.div``;
@@ -40,7 +37,7 @@ const SideBarBottomMenus = styled.div``;
 
 const LoginBtn = styled.button`
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary};
+    border: 1px solid ${theme.colors.borderGrey};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
     font-size: ${theme.fontSizes.lg};
@@ -48,13 +45,13 @@ const LoginBtn = styled.button`
   width: 100%;
   text-align: center;
   :hover {
-    background-color: ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.green};
   }
 `;
 
 const UserInfoDiv = styled.div`
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary};
+    border: 1px solid ${theme.colors.borderGrey};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
     font-size: ${theme.fontSizes.lg};
@@ -62,15 +59,12 @@ const UserInfoDiv = styled.div`
   `};
   width: 100%;
   text-align: center;
-  :hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-  }
   cursor: pointer;
 `;
 
 const LogoutBtn = styled.button`
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary};
+    border: 1px solid ${theme.colors.borderGrey};
     margin-top: ${theme.margins.lg};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};

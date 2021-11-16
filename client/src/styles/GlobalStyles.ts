@@ -5,10 +5,10 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
   ${({ theme }) => css`
     * {
-      color: ${theme.colors.white};
+      color: ${theme.colors.black};
     }
     body {
-      background-color: ${theme.colors.black};
+      background-color: ${theme.colors.bgWhite};
       font-size: ${theme.fontSizes.base};
       font-weight: ${theme.fontWeights.normal};
       height: 100vh;
@@ -37,6 +37,7 @@ const GlobalStyles = createGlobalStyle`
   }
   button {
     cursor: pointer;
+    border:1px solid rgba(0,0,0,0.2);
   }
   ul {
     -ms-overflow-style: none;
