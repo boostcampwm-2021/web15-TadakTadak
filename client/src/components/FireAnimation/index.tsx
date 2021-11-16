@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const FireContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  position: relative;
 `;
 
 function FireAnimation({ setFireOn }: { setFireOn: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
