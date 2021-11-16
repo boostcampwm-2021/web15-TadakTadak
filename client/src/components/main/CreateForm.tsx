@@ -101,6 +101,7 @@ const CreateForm = (): JSX.Element => {
           onChange={onChangeRoomTitle}
           maxLength={50}
           required={true}
+          autoComplete="new-password"
         />
         <Input
           type="text"
@@ -108,6 +109,7 @@ const CreateForm = (): JSX.Element => {
           id="description"
           onChange={onChangeDescription}
           maxLength={50}
+          autoComplete="new-password"
         />
         <Select name={'방 유형'} options={roomOptions} onChange={handleRoomSelectChange} />
         <Select name={'인원'} options={adminOptions} onChange={handleAdminSelectChange} />
