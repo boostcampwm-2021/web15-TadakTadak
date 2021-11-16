@@ -15,12 +15,13 @@ interface SelectProps {
 
 const StyledSelect = styled.select`
   font-family: 'monospace', 'Noto Sans KR', sans-serif;
-  font-weight: 1000;
   width: 100%;
   height: 3rem;
+  font-family: 'Dongle', sans-serif;
   ${({ theme }) => css`
     color: ${theme.colors.black};
     font-size: ${theme.fontSizes.base};
+    font-weight: ${theme.fontWeights.bold};
     padding: ${theme.paddings.sm};
     border: 1px solid ${theme.colors.borderGrey};
     border-radius: ${theme.borderRadius.base};
