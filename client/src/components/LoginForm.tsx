@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postLogin } from '@utils/apis';
 import { useUserFns } from '@contexts/userContext';
 import { FaGithub } from 'react-icons/fa';
+import InfoMessage from './InfoMessage';
 
 const FORM_WIDTH = 30;
 const FORM_HEIGHT = 20;
+const DELAY = 3;
 
 const Container = styled.div`
   display: flex;
@@ -20,6 +22,7 @@ const Container = styled.div`
 
 const Form = styled.form`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: space-evenly;
   width: ${FORM_WIDTH}rem;
@@ -76,7 +79,9 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const { logUserIn } = useUserFns();
+  const [message, setMessage] = useState('');
 
+  const showMessage = (msg: string) => setMessage(msg);
   const onClickGithubLogin = () => {
     // Github Login request
   };
@@ -84,14 +89,26 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
+      showMessage('모두 입력해주세요');
       return;
     }
     const { isOk, data } = await postLogin(email, password);
     if (isOk && data) {
       logUserIn(data);
       setModal(false);
+      return;
     }
+    showMessage('이메일 및 비밀번호를 확인해주세요');
   };
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(''), DELAY * 1000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [message]);
 
   return (
     <Container>
@@ -110,6 +127,7 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
           <FaGithub fill="#fff" />
           Github 로그인
         </GithubLoginButton>
+        {message && <InfoMessage message={message} />}
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>회원가입 하러 가기</ModalToggleSpan>
     </Container>

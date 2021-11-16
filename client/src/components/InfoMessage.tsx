@@ -9,7 +9,7 @@ const MessageWrap = styled.div`
   text-align: center;
   left: 0;
   right: 0px;
-  top: 60px;
+  bottom: -40px;
 `;
 
 const MessageBox = styled.div`

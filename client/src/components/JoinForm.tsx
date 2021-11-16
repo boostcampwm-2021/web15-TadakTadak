@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postJoin } from '@utils/apis';
 import { FaGithub } from 'react-icons/fa';
+import InfoMessage from './InfoMessage';
 
 const FORM_WIDTH = 30;
 const FORM_HEIGHT = 25;
+const DELAY = 3;
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +21,7 @@ const Container = styled.div`
 
 const Form = styled.form`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: space-evenly;
   width: ${FORM_WIDTH}rem;
@@ -78,6 +81,9 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const [message, setMessage] = useState('');
+
+  const showMessage = (msg: string) => setMessage(msg);
 
   const onClickGithubJoin = () => {
     // Github Join request
@@ -86,13 +92,25 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !nickname || !password) {
+      showMessage('모두 입력해주세요');
       return;
     }
     const isOk = await postJoin(email, nickname, password);
-    if (isOk) {
-      setIsLogin(true);
+    if (!isOk) {
+      showMessage('이미 등록되어 있는 이메일입니다.');
+      return;
     }
+    setIsLogin(true);
   };
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(''), DELAY * 1000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [message]);
 
   return (
     <Container>
@@ -119,6 +137,7 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
           <FaGithub fill="#fff" />
           Github 회원가입
         </GithubLoginButton>
+        {message && <InfoMessage message={message} />}
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>로그인 하러 가기</ModalToggleSpan>
     </Container>
