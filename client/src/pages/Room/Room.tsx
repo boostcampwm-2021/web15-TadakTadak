@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
 import { RoomInfo } from '@pages/Main/Main';
+import { RoomContainer, RoomWrapper } from '@pages/Room/style';
+import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import VideoController from '@components/room/tadaktadak/VideoController';
 import Videos from '@components/room/tadaktadak/Videos';
 
@@ -67,10 +69,13 @@ const Room = ({ location }: { location: LocationProps }): JSX.Element => {
   }, [uuid, agoraAppId, agoraToken, client, ready, tracks]);
 
   return (
-    <div className="video-container">
-      {start && tracks && <Videos users={users} tracks={tracks} />}
-      {ready && tracks && <VideoController tracks={tracks} setStart={setStart} />}
-    </div>
+    <RoomWrapper>
+      <RoomSideBar />
+      <RoomContainer>
+        {start && tracks && <Videos users={users} tracks={tracks} />}
+        {ready && tracks && <VideoController tracks={tracks} setStart={setStart} />}
+      </RoomContainer>
+    </RoomWrapper>
   );
 };
 export default Room;
