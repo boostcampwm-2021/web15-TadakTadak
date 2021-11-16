@@ -38,7 +38,7 @@ export class UserService {
     return true;
   }
 
-  async updateImage(nickname: string, file: ObjectStorageData) {
+  async updateImage(nickname: string, file) {
     const updateUser: User = await this.authRepository.findUserByNickname(nickname);
     if (!updateUser) throw UserException.userNotFound();
     if (updateUser.imageName) await this.imageService.deleteImage(updateUser.imageName);
