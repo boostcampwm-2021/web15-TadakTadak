@@ -55,6 +55,10 @@ const theme: DefaultTheme = {
     justify-content:center;
     align-items:center;
   `,
+  flexColumn: `
+    display:flex;
+    flex-direction:column;
+  `,
 };
 
 export { theme };
