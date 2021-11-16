@@ -1,20 +1,15 @@
 /* 출처 : https://freefrontend.com/css-fire-animation */
 
-body {
-  width: 100vw;
-  height: 100vh;
-}
 .fire-on {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(#1d4456, #112630);
   opacity: 1;
   z-index: 1;
-  -webkit-transition: all 1200ms linear;
-  transition: all 1200ms linear;
+  -webkit-transition: all 1800ms linear;
+  transition: all 1800ms linear;
 }
 .name {
   position: absolute;
@@ -48,8 +43,8 @@ body {
 #circle {
   height: 31px;
   cursor: pointer;
-  -webkit-transition: all 0.4s cubic-bezier(0.54, 1.6, 0.5, 1);
-  transition: all 0.4s cubic-bezier(0.54, 1.6, 0.5, 1);
+  -webkit-transition: all 1s cubic-bezier(0.54, 1.6, 0.5, 1);
+  transition: all 1s cubic-bezier(0.54, 1.6, 0.5, 1);
 }
 #switch {
   width: 60px;
@@ -504,21 +499,22 @@ body {
 /* #Switched
 ================================================== */
 
-body.fire-off .fire-on {
-  opacity: 0;
+.fire-container.fire-off .fire-on {
+  background: #1d4456;
+  transition: all 1200ms linear;
 }
 .section-center {
   -webkit-transition: all 500ms linear;
   transition: all 500ms linear;
 }
-body.fire-off .section-center {
+.fire-container.fire-off .section-center {
   box-shadow: 0 0 50px 5px rgba(200, 200, 200, 0.2);
 }
-body.fire-off .smoke {
+.fire-container.fire-off .smoke {
   opacity: 1;
   transition-delay: 0.8s;
 }
-body.fire-off .fire span {
+.fire-container.fire-off .fire span {
   bottom: -35px;
   left: -9px;
   transform: scale(0.15, 0.15) rotate(45deg);

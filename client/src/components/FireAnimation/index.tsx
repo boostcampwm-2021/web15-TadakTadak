@@ -1,11 +1,23 @@
 import './style.css';
+import styled from 'styled-components';
+import { useState } from 'react';
 
-function FireAnimation(): JSX.Element {
+const FireContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+`;
+
+function FireAnimation({ setFireOn }: { setFireOn: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
+  const [toggle, setToggle] = useState(false);
+  const handleToggle = () => {
+    setToggle(true);
+    setFireOn(true);
+  };
   return (
-    <>
+    <FireContainer className={toggle ? 'fire-container' : 'fire-container fire-off'}>
       <div className="fire-on"></div>
       <div className="switch-wrap">
-        <div id="switch" className="switched">
+        <div id="switch" className={toggle ? '' : 'switched'} onClick={handleToggle}>
           <div id="circle"></div>
         </div>
       </div>
@@ -45,7 +57,7 @@ function FireAnimation(): JSX.Element {
           <span className="s-9"></span>
         </div>
       </div>
-    </>
+    </FireContainer>
   );
 }
 

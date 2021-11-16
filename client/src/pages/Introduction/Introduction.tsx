@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUser } from '@contexts/userContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import FireAnimation from '@components/FireAnimation';
 
 const IntroContainer = styled.div`
@@ -12,21 +11,9 @@ const IntroContainer = styled.div`
   padding: ${({ theme }) => theme.paddings.base};
 `;
 
-const MainLink = styled(Link)`
-  width: 30rem;
-  height: 20rem;
-  ${({ theme }) => theme.flexCenter};
-  border: 1px solid ${({ theme }) => theme.colors.secondary};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  :hover {
-    background-color: ${({ theme }) => theme.colors.secondary};
-    color: ${({ theme }) => theme.colors.black};
-  }
-`;
-
 const Introduction = (props: { history: { push(url: string): void } }): JSX.Element => {
   const user = useUser();
+  const [fireOn, setFireOn] = useState(false);
   const { push } = props.history;
 
   useEffect(() => {
@@ -35,10 +22,15 @@ const Introduction = (props: { history: { push(url: string): void } }): JSX.Elem
     }
   }, [user, push]);
 
+  useEffect(() => {
+    if (fireOn) {
+      setTimeout(() => push('/main'), 1500);
+    }
+  }, [fireOn, push]);
+
   return (
     <IntroContainer>
-      <FireAnimation />
-      <MainLink to="/main">메인으로 가기</MainLink>
+      <FireAnimation setFireOn={setFireOn} />
     </IntroContainer>
   );
 };
