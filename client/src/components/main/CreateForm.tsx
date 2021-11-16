@@ -46,7 +46,6 @@ const Button = styled.button`
 enum RoomType {
   타닥타닥 = 1,
   캠프파이어 = 2,
-  코딩라이브 = 3,
 }
 
 type OptionType = {
@@ -57,13 +56,12 @@ type OptionType = {
 const roomOptions: OptionType[] = [
   { value: RoomType.타닥타닥, label: '타닥타닥' },
   { value: RoomType.캠프파이어, label: '캠프파이어' },
-  { value: RoomType.코딩라이브, label: '코딩라이브' },
 ];
 
 const CreateForm = (): JSX.Element => {
   const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [roomType, setRoomType] = useState('');
+  const [roomType, setRoomType] = useState(RoomType[1]);
   const [maxHeadcount, setMaxHeadcount] = useState('');
   const user = useUser();
   const history = useHistory();
