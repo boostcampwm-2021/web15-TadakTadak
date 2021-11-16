@@ -26,7 +26,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   handleJoinRoom(client: Socket, payload): void {
     client.join(payload.roomId);
     this.logger.log(`${payload.nickname}님이 ${payload.roomId}에 입장!! 🎉✨🎊`);
-    if (!this.userList[payload.roomId]) this.userList[payload.roomId] = [];
+    if (!this.userList[payload.roomId]) this.userList[payload.roomId] = {};
     const user = {
       nickname: payload.nickname,
       field: payload.field,
@@ -34,6 +34,11 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     };
     this.userList[payload.roomId].push(user);
     this.server.to(payload.roomId).emit('user-list', this.userList[payload.roomId]);
+  }
+  @SubscribeMessage('leave-room')
+  handleLeaveRoom(client: Socket, payload): void {
+    client.leave(payload.roomId);
+    this.logger.log(`${payload.nickname}님이 ${payload.roomId}에서 퇴장!! 😭😥😫`);
   }
 
   afterInit(server: Server) {
