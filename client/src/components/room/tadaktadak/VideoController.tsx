@@ -5,7 +5,7 @@ import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-ic
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
 import styled, { css, ThemeContext } from 'styled-components';
 import { useClient } from './videoConfig';
-import Button from '@components/Button';
+import Button from '@components/common/Button';
 import ScreenShareDiv from './ScreenShareDiv';
 
 const ButtonContainer = styled.div``;

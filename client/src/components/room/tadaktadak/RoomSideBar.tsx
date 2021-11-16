@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Tab from '@components/Tab';
+import Tab from '@components/common/Tab';
 import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
 
