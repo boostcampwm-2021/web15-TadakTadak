@@ -38,6 +38,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   handleLeaveRoom(client: Socket, payload): void {
     client.leave(payload.roomId);
     this.logger.log(`${payload.nickname}님이 ${payload.roomId}에서 퇴장!! 😭😥😫`);
+    delete this.userList[payload.roomId][payload.nickname];
+    this.server.to(payload.roomId).emit('user-list', this.userList[payload.roomId]);
   }
 
   afterInit(server: Server) {
