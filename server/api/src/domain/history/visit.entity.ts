@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDate } from 'js-joda';
 import { LocalDateTransformer } from '../../transformer/LocalDateTransformer';
 
