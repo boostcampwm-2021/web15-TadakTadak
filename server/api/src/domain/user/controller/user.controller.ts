@@ -41,14 +41,14 @@ export class UserController {
   @Post('/:userId/image')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
-  async uploadUserImage(@Param('userId') nickname: string, @UploadedFile() file) {
+  async uploadUserImage(@Param('userId') nickname: string, @UploadedFile() file: Express.Multer.File) {
     return { result: await this.userService.updateImage(nickname, file) };
   }
 
   @Patch('/:userId/image')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
-  async patchUserImage(@Param('userId') nickname: string, @UploadedFile() file) {
+  async patchUserImage(@Param('userId') nickname: string, @UploadedFile() file: Express.Multer.File) {
     return { result: await this.userService.updateImage(nickname, file) };
   }
 
