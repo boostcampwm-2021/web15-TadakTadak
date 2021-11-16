@@ -24,7 +24,7 @@ export const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 2rem 1.5rem 2rem;
+  padding: 5rem 5rem 4rem 5rem;
   width: ${MODAL_WIDTH}rem;
   height: ${MODAL_HEIGHT}rem;
   top: 20vh;
@@ -41,11 +41,16 @@ export const ModalWrapper = styled.div`
       background-color: ${theme.colors.white};
       border-radius: ${theme.borderRadius.base};
       font-size: ${theme.fontSizes.lg};
+      margin-top: ${theme.margins.sm};
     `}
   }
   & button {
     width: 100%;
-    font-size: ${({ theme }) => theme.fontSizes.base};
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    margin-top: ${({ theme }) => theme.margins.sm};
+  }
+  & button:hover {
+    opacity: 0.8;
   }
 `;
 
