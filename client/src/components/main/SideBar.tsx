@@ -29,6 +29,7 @@ const SideBarContainer = styled.div`
   min-width: ${SIDEBAR_MIN_WIDTH};
   height: 100%;
   background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.borderGrey};
 `;
 
 const SideBarTopMenus = styled.div``;
@@ -40,7 +41,7 @@ const LoginBtn = styled.button`
     border: 1px solid ${theme.colors.borderGrey};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
-    font-size: ${theme.fontSizes.lg};
+    font-size: ${theme.fontSizes.xl};
   `};
   width: 100%;
   text-align: center;

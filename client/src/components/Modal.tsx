@@ -40,11 +40,12 @@ export const ModalWrapper = styled.div`
       border: 1px solid ${theme.colors.borderGrey};
       background-color: ${theme.colors.white};
       border-radius: ${theme.borderRadius.base};
-      font-size: ${theme.fontSizes.base};
+      font-size: ${theme.fontSizes.lg};
     `}
   }
   & button {
     width: 100%;
+    font-size: ${({ theme }) => theme.fontSizes.base};
   }
 `;
 
