@@ -44,6 +44,17 @@ export const ModalWrapper = styled.div`
       margin-top: ${theme.margins.sm};
     `}
   }
+  & select {
+    ${({ theme }) => css`
+      width: 100%;
+      padding: ${theme.paddings.sm};
+      border: 1px solid ${theme.colors.borderGrey};
+      background-color: ${theme.colors.white};
+      border-radius: ${theme.borderRadius.base};
+      font-size: ${theme.fontSizes.lg};
+      margin-top: ${theme.margins.sm};
+    `}
+  }
   & button {
     width: 100%;
     font-size: ${({ theme }) => theme.fontSizes.lg};
