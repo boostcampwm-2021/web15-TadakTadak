@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
-import styled, { css } from 'styled-components';
+import styled, { css, ThemeContext } from 'styled-components';
 import { useClient } from './videoConfig';
 import Button from '@components/Button';
 import ScreenShareDiv from './ScreenShareDiv';
@@ -34,6 +34,7 @@ const VideoController = (props: {
   const client = useClient();
   const history = useHistory();
   const { tracks, setStart } = props;
+  const themeContext = useContext(ThemeContext);
   const [trackState, setTrackState] = useState({ video: false, audio: false });
   const [screenShare, setScreenShare] = useState(false);
 
@@ -105,7 +106,7 @@ const VideoController = (props: {
         <Button
           icon={<MdOutlineExitToApp />}
           text={''}
-          color={'tomato'}
+          color={themeContext.colors.secondary}
           onClick={() => {
             leaveChannel();
             history.replace('/main');
