@@ -82,7 +82,8 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
     if (!email || !password) {
       return;
     }
-    const { isOk, data } = await postLogin(email, password);
+    const requestBody = { email, password };
+    const { isOk, data } = await postLogin(requestBody);
     if (isOk && data) {
       logUserIn(data);
       setModal(false);

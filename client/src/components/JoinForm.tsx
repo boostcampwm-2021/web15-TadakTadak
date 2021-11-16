@@ -86,7 +86,8 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
     if (!email || !nickname || !password) {
       return;
     }
-    const isOk = await postJoin(email, nickname, password);
+    const requestBody = { email, nickname, password };
+    const isOk = await postJoin(requestBody);
     if (isOk) {
       setIsLogin(true);
     }
