@@ -1,3 +1,4 @@
+import { LocalDate } from 'js-joda';
 import { EntityRepository, getConnection, Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 
@@ -14,20 +15,20 @@ export class AuthRepository extends Repository<User> {
     );
   }
 
-  updateCheckIn() {
-    getConnection()
-      .createQueryBuilder()
-      .update(User)
-      // .set({ isToday: false }) 이 부분은 변경 예정이라 일단 주석처리 했습니다. 오늘처리 해서 올릴게영
-      .where('isToday = :checkIn', { checkIn: true })
-      .execute();
-  }
-
   async findUserByEmail(email: string): Promise<User | undefined> {
     return await this.findOne({ where: { email: email }, relations: ['devField'] });
   }
 
   async findUserByNickname(nickname: string): Promise<User | undefined> {
     return await this.findOne({ where: { nickName: nickname }, relations: ['devField'] });
+  }
+
+  async getLastVisitCount() {
+    const yesterDay = LocalDate.now().minusDays(1);
+    return await this.createQueryBuilder('user')
+      .where('user.last_check_in = :date', {
+        date: yesterDay,
+      })
+      .getCount();
   }
 }
