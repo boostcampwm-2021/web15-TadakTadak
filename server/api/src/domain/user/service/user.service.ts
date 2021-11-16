@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserException, DevFieldException } from '../../../exception';
 import { User } from '../user.entity';
 import { DevField } from '../dev-field.entity';
-import { ImageService, ObjectStorageData } from '../../image/service/image.service';
+import { ImageService } from '../../image/service/image.service';
 import { DevFieldRepository } from '../repository/dev-field.repository';
 import { AuthRepository } from '../../auth/auth.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';

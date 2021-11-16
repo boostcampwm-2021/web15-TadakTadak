@@ -18,7 +18,7 @@ export class AuthRepository extends Repository<User> {
     getConnection()
       .createQueryBuilder()
       .update(User)
-      .set({ isToday: false })
+      // .set({ isToday: false }) 이 부분은 변경 예정이라 일단 주석처리 했습니다. 오늘처리 해서 올릴게영
       .where('isToday = :checkIn', { checkIn: true })
       .execute();
   }
