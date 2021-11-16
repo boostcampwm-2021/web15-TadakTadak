@@ -36,3 +36,4 @@ lerna-debug.log*
 
 server/api/.env
 server/socket/.env
+**/.env
