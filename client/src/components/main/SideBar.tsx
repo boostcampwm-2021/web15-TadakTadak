@@ -46,7 +46,8 @@ const LoginBtn = styled.button`
   width: 100%;
   text-align: center;
   :hover {
-    background-color: ${({ theme }) => theme.colors.green};
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
   }
 `;
 

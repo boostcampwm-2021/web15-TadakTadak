@@ -19,7 +19,7 @@ const theme: DefaultTheme = {
     secondary: 'tomato',
     black: '#121212',
     white: `rgba(255,255,255,1)`,
-    bgWhite: '#F1F1E6',
+    bgWhite: '#F5F8FA',
     bgGreen: '#1d4456',
     blue: '#51A9FE',
     blue2: '#1F90FF',
