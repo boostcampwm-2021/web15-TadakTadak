@@ -18,6 +18,11 @@ const CreateBtn = styled.button`
   `};
   width: 100%;
   text-align: center;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
+  }
+  ${({ theme }) => theme.active};
 `;
 
 const SideBarContainer = styled.div`
@@ -49,6 +54,7 @@ const LoginBtn = styled.button`
     background-color: ${({ theme }) => theme.colors.bgGreen};
     color: ${({ theme }) => theme.colors.white};
   }
+  ${({ theme }) => theme.active};
 `;
 
 const UserInfoDiv = styled.div`
@@ -62,6 +68,11 @@ const UserInfoDiv = styled.div`
   width: 100%;
   text-align: center;
   cursor: pointer;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
+  }
+  ${({ theme }) => theme.active};
 `;
 
 const LogoutBtn = styled.button`
@@ -80,6 +91,7 @@ const LogoutBtn = styled.button`
   :hover {
     background-color: ${({ theme }) => theme.colors.primary};
   }
+  ${({ theme }) => theme.active};
   & span {
     margin-right: 20px;
   }

@@ -20,7 +20,7 @@ const RoomLink = styled(Link)`
     box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   }
   &:active {
-    background: ${({ theme }) => theme.colors.green};
+    background: ${({ theme }) => theme.colors.blue};
     transform: scale(0.9);
     transition: background 0.1s;
   }

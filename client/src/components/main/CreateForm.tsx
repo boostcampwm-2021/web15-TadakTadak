@@ -40,7 +40,7 @@ const Button = styled.button`
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 1rem;
-  font-size: ${({ theme }) => theme.fontSizes.base}; ;
+  font-size: ${({ theme }) => theme.fontSizes.base};
 `;
 
 enum RoomType {
