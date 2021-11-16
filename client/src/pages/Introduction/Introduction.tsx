@@ -2,20 +2,14 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUser } from '@contexts/userContext';
 import { useEffect } from 'react';
+import FireAnimation from '@components/FireAnimation';
 
 const IntroContainer = styled.div`
   ${({ theme }) => theme.flexCenter};
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
   padding: ${({ theme }) => theme.paddings.base};
-`;
-
-const IntroTitle = styled.h1`
-  font-size: ${({ theme }) => theme.fontSizes.title};
-  margin-bottom: ${({ theme }) => theme.margins.lg};
-`;
-
-const TitleText = styled.span`
-  color: ${(props) => props.color};
 `;
 
 const MainLink = styled(Link)`
@@ -43,12 +37,7 @@ const Introduction = (props: { history: { push(url: string): void } }): JSX.Elem
 
   return (
     <IntroContainer>
-      <IntroTitle>
-        <TitleText color={'red'}>타</TitleText>
-        <TitleText color={'orange'}>닥</TitleText>
-        <TitleText color={'red'}>타</TitleText>
-        <TitleText color={'yellow'}>닥</TitleText> 🔥
-      </IntroTitle>
+      <FireAnimation />
       <MainLink to="/main">메인으로 가기</MainLink>
     </IntroContainer>
   );
