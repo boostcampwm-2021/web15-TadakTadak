@@ -22,6 +22,20 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     this.server.emit('msgToClient', payload);
   }
 
+  @SubscribeMessage('join-room')
+  handleJoinRoom(client: Socket, payload): void {
+    client.join(payload.roomId);
+    this.logger.log(`${payload.nickname}님이 ${payload.roomId}에 입장!! 🎉✨🎊`);
+    if (!this.userList[payload.roomId]) this.userList[payload.roomId] = [];
+    const user = {
+      nickname: payload.nickname,
+      field: payload.field,
+      img: payload.img,
+    };
+    this.userList[payload.roomId].push(user);
+    this.server.to(payload.roomId).emit('user-list', this.userList[payload.roomId]);
+  }
+
   afterInit(server: Server) {
     this.logger.log('Init');
   }
