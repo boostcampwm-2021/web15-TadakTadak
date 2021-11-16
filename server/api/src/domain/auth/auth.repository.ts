@@ -23,11 +23,11 @@ export class AuthRepository extends Repository<User> {
       .execute();
   }
 
-  async findUserByEmail(email: string): Promise<User> {
+  async findUserByEmail(email: string): Promise<User | undefined> {
     return await this.findOne({ where: { email: email }, relations: ['devField'] });
   }
 
-  async findUserByNickname(nickname: string): Promise<User> {
+  async findUserByNickname(nickname: string): Promise<User | undefined> {
     return await this.findOne({ where: { nickName: nickname }, relations: ['devField'] });
   }
 }
