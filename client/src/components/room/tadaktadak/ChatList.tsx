@@ -94,8 +94,8 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
     <Container>
       <List>
         {chats.length > 0 &&
-          Object.values(chats).map((chat) => (
-            <Chat>
+          Object.values(chats).map((chat, idx) => (
+            <Chat key={idx}>
               <ChatNickname>{chat.nickname}</ChatNickname>
               <ChatMesssage>{chat.message}</ChatMesssage>
             </Chat>
