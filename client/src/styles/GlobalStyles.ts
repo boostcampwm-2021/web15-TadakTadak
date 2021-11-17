@@ -21,8 +21,7 @@ const GlobalStyles = createGlobalStyle`
     font-size : 62.5%; // 1rem === 10px
   }
   body {
-    font-family: --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
-      sans-serif;
+    font-family: 'Dongle', sans-serif;
   }
   a {
     text-decoration: none;
@@ -34,6 +33,7 @@ const GlobalStyles = createGlobalStyle`
     outline: none;
     background-color:transparent;
     border:none;
+    font-family: 'Dongle', sans-serif;
   }
   button {
     cursor: pointer;

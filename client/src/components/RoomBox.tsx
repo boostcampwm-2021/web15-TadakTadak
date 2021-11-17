@@ -20,7 +20,7 @@ const RoomLink = styled(Link)`
     box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   }
   &:active {
-    background: ${({ theme }) => theme.colors.green};
+    background: ${({ theme }) => theme.colors.blue};
     transform: scale(0.9);
     transition: background 0.1s;
   }
@@ -38,13 +38,13 @@ const RoomTitle = styled.h6`
   display: block;
   width: 100%;
   ${({ theme }) => css`
-    font-size: ${theme.fontSizes.base};
-    font-weight: ${theme.fontWeights.bold};
+    font-size: ${theme.fontSizes.xl};
+    font-weight: ${theme.fontWeights.normal};
     margin-bottom: ${theme.margins.base};
   `}
 `;
 const RoomDescription = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-size: ${({ theme }) => theme.fontSizes.base};
   opacity: 0.9;
 `;
 

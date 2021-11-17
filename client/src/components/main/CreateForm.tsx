@@ -29,7 +29,6 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  width: 100%;
   font-size: ${({ theme }) => theme.fontSizes.base};
 `;
 
@@ -38,9 +37,8 @@ const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.green};
   padding: ${({ theme }) => theme.paddings.sm};
   width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  color: white;
   border-radius: 1rem;
-  font-size: ${({ theme }) => theme.fontSizes.base}; ;
 `;
 
 enum RoomType {
@@ -100,6 +98,7 @@ const CreateForm = (): JSX.Element => {
           onChange={onChangeRoomTitle}
           maxLength={50}
           required={true}
+          autoComplete="new-password"
         />
         <Input
           type="text"
@@ -107,6 +106,7 @@ const CreateForm = (): JSX.Element => {
           id="description"
           onChange={onChangeDescription}
           maxLength={50}
+          autoComplete="new-password"
         />
         <Select name={'방 유형'} options={roomOptions} onChange={handleRoomSelectChange} />
         <Select name={'인원'} options={adminOptions} onChange={handleAdminSelectChange} />

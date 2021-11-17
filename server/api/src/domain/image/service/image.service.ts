@@ -30,7 +30,7 @@ export class ImageService {
   async uploadImage(image: Express.Multer.File): Promise<ObjectStorageData> {
     const param = {
       Bucket: process.env.NCP_BUCKET_NAME ?? '',
-      Key: `${Date.now()}-${image.originalname}`,
+      Key: encodeURI(`${Date.now()}-${image.originalname}`),
       ACL: 'public-read',
       Body: image.buffer,
     };

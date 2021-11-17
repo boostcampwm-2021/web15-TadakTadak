@@ -6,3 +6,4 @@
 # 64bit 운영체제이여야 합니다.
 
 sudo sh ./install_docker.sh
+sudo sh ./install_nodejs.sh
