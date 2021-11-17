@@ -45,16 +45,21 @@ const Input = styled.input`
 `;
 
 const Chat = styled.li`
+  display: flex;
   :not(:first-of-type) {
     margin-top: ${({ theme }) => theme.margins.base};
   }
 `;
 
-const ChatInfo = styled.p``;
+const ChatNickname = styled.span`
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+`;
 
 const ChatMesssage = styled.p`
-  margin-top: 0.4rem;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  width: 100%;
+  margin-left: ${({ theme }) => theme.margins.base};
+  font-size: ${({ theme }) => theme.fontSizes.base};
 `;
 
 const Line = styled.div`
@@ -80,13 +85,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
     [sendMessage],
   );
 
-  const handleMessageReceive = useCallback(
-    (data) => {
-      console.log('qqqqq', data);
-      setChats([...chats, data]);
-    },
-    [chats, setChats],
-  );
+  const handleMessageReceive = useCallback((data) => setChats([...chats, data]), [chats, setChats]);
 
   useEffect(() => {
     socket.on('msgToClient', handleMessageReceive);
@@ -95,10 +94,10 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   return (
     <Container>
       <List>
-        {chats.length &&
+        {chats.length > 0 &&
           Object.values(chats).map((chat) => (
             <Chat>
-              <ChatInfo></ChatInfo>
+              <ChatNickname>{chat.nickname}</ChatNickname>
               <ChatMesssage>{chat.message}</ChatMesssage>
             </Chat>
           ))}
