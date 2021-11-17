@@ -17,8 +17,26 @@ const List = styled.ul`
 `;
 
 const Participant = styled.li`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
   margin-bottom: ${({ theme }) => theme.margins.sm};
 `;
+
+const Avatar = styled.img`
+  margin-right: ${({ theme }) => theme.margins.base};
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
+const Nickname = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+`;
+
+const DevField = styled.div``;
 
 const ParticipantList = ({ participants }: ParticipantListProps<any>): JSX.Element => {
   return (
@@ -26,9 +44,9 @@ const ParticipantList = ({ participants }: ParticipantListProps<any>): JSX.Eleme
       <List>
         {Object.entries(participants).map(([nickname, { field, img }]) => (
           <Participant key={nickname}>
-            {nickname}
-            {field}
-            {img}
+            <Avatar src={img} />
+            <Nickname>{nickname}</Nickname>
+            {field && <DevField>{field}</DevField>}
           </Participant>
         ))}
       </List>
