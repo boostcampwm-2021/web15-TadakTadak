@@ -8,7 +8,7 @@ import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
 import { Room, RoomType, roomTypeToArray } from '../room.entity';
 import { RoomService } from '../service/room.service';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
-import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
+import { RoomResponseDto } from '../dto/room-response.dto';
 
 @ApiTags('Room API / 방 API')
 @Controller('room')
@@ -35,7 +35,7 @@ export class RoomController {
   async createRoom(
     @Req() req: Request,
     @Body() createRoomRequestDto: CreateRoomRequestDto,
-  ): Promise<{ result: CreateRoomResponseDto }> {
+  ): Promise<{ result: RoomResponseDto }> {
     const userEmail = req.user['email'];
     return { result: await this.roomService.createRoom(createRoomRequestDto, userEmail) };
   }
@@ -43,7 +43,7 @@ export class RoomController {
   @Get(':uuid')
   @ApiOperation({ summary: 'UUID로 방 조회', description: '방의 고유 UUID로 정보를 조회합니다.' })
   @ApiParam(RoomAPIDocs.getRoomByUUIDParamUUID())
-  async getRoomByUUID(@Param('uuid') uuid: string): Promise<{ result: Room }> {
+  async getRoomByUUID(@Param('uuid') uuid: string): Promise<{ result: RoomResponseDto }> {
     return { result: await this.roomService.getRoomByUUID(uuid) };
   }
 

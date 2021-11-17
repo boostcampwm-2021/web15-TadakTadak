@@ -3,7 +3,7 @@ import { UserResponseDto } from '../../user/dto/user-response.dto';
 import { UserResponseDtoBuilder } from '../../../builder/user/user-response.dto.builder';
 import { User } from '../../user/user.entity';
 
-export class CreateRoomResponseDto {
+export class RoomResponseDto {
   id: number;
   createdAt: Date;
   updatedAt: Date;
