@@ -4,7 +4,7 @@ import Tab from '@components/common/Tab';
 import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
-import socket from '../../../socket';
+import socket from '@src/socket';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 const SIDEBAR_HEIGHT = '100vh';

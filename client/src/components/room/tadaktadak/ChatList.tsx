@@ -1,8 +1,8 @@
-import { useUser } from '@contexts/userContext';
-import useInput from '@hooks/useInput';
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import socket from '../../../socket';
+import { useUser } from '@contexts/userContext';
+import useInput from '@hooks/useInput';
+import socket from '@src/socket';
 
 const INPUT_WIDTH = '90%';
 const CHAT_LIST_HEIGHT = '90%';
