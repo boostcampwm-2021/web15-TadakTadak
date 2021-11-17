@@ -96,9 +96,9 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
       return;
     }
     const requestBody = { email, nickname, password };
-    const isOk = await postJoin(requestBody);
+    const { isOk, errorData } = await postJoin(requestBody);
     if (!isOk) {
-      showMessage('이미 등록되어 있는 이메일입니다.');
+      showMessage(errorData?.message ?? '알수 없는 오류가 발생했습니다.');
       return;
     }
     setIsLogin(true);

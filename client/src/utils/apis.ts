@@ -16,9 +16,18 @@ interface PostJoin extends PostLogin {
   nickname: string;
 }
 
-export const postJoin = async (body: PostJoin): Promise<boolean> => {
-  const { isOk } = await fetchPost('/api/auth/join', { ...body });
-  return isOk;
+interface ResponseJoin {
+  isOk: boolean;
+  errorData?: {
+    message: string;
+    statusCode: number;
+  };
+  data?: boolean;
+}
+
+export const postJoin = async (body: PostJoin): Promise<HTTPResponse<ResponseJoin>> => {
+  const response = await fetchPost<ResponseJoin>('/api/auth/join', { ...body });
+  return response;
 };
 
 export const getUserByToken = async (): Promise<HTTPResponse<UserProps>> => {
