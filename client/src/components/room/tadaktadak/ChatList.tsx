@@ -75,10 +75,9 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
 
   const sendMessage = useCallback(() => {
     const myMessage = { type: 'string', nickname, message, roomId: uuid };
-    setChats([...chats, myMessage]);
-    onResetMessage();
     socket.emit('msgToServer', myMessage);
-  }, [setChats, onResetMessage, nickname, chats, message, uuid]);
+    onResetMessage();
+  }, [onResetMessage, nickname, message, uuid]);
 
   const onKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && sendMessage(),
