@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { LocalDate } from 'js-joda';
 import { Bcrypt } from 'src/utils/bcrypt';
+import { LocalDateTransformer } from 'src/transformer/LocalDateTransformer';
 import { DevField } from './dev-field.entity';
 import { Follow } from './follow.entity';
 import { History } from '../history/history.entity';
-import { LocalDateTransformer } from 'src/transformer/LocalDateTransformer';
-import { LocalDate } from 'js-joda';
 
 @Entity()
 export class User {

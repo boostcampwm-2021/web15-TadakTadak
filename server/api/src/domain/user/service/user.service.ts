@@ -5,22 +5,22 @@ import { User } from '../user.entity';
 import { DevField } from '../dev-field.entity';
 import { ImageService } from '../../image/service/image.service';
 import { DevFieldRepository } from '../repository/dev-field.repository';
-import { AuthRepository } from '../../auth/auth.repository';
+import { UserRepository } from '../repository/user.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
 import { UserResponseDto } from 'src/domain/auth/dto/user-response.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(AuthRepository)
-    private readonly authRepository: AuthRepository,
+    @InjectRepository(UserRepository)
+    private readonly authRepository: UserRepository,
     @InjectRepository(DevFieldRepository)
     private readonly devFieldRepository: DevFieldRepository,
     private readonly imageService: ImageService,
   ) {}
 
   async getUserInfo(nickname: string): Promise<UserResponseDto> {
-    const user: User = await this.authRepository.findUserByNickname(nickname);
+    const user: User = await this.authRepository.findUserByNicknameWithDev(nickname);
     if (!user) throw UserException.userNotFound();
     return new UserResponseDto(user);
   }
