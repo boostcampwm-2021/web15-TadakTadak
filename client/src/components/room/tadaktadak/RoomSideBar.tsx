@@ -43,12 +43,7 @@ const RoomSideBar = ({ uuid }: RoomSideBarProps): JSX.Element => {
   const { nickname, devField, imageUrl } = useUser();
   const [tabs, setTabs] = useState({ ...initialTabState });
   const [chats, setChats] = useState([{ message: 'hello' }, { message: 'hi' }]);
-  const [participants, setParticipants] = useState([
-    { nickname: 'Tom' },
-    { nickname: 'James' },
-    { nickname: 'Work' },
-    { nickname: 'Bob' },
-  ]);
+  const [participants, setParticipants] = useState({});
   const { isChat, isParticipant } = tabs;
 
   const onClickChatTap = () => setTabs({ ...initialTabState, isChat: !isChat });

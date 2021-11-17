@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface ParticipantListProps<T> {
-  participants: Array<T>;
+  participants: Record<string, T>;
 }
 
 const Container = styled.div`
@@ -38,7 +38,7 @@ const Nickname = styled.span`
 
 const DevField = styled.div``;
 
-const ParticipantList = ({ participants }: ParticipantListProps<any>): JSX.Element => {
+const ParticipantList = ({ participants }: ParticipantListProps<{ field: string; img: string }>): JSX.Element => {
   return (
     <Container>
       <List>
