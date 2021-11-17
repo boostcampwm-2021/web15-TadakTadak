@@ -42,6 +42,13 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.server.to(roomId).emit('user-list', this.userList[roomId]);
   }
 
+  @SubscribeMessage('kink-room')
+  handleKickRoom(client: Socket, { roomId, kickNickname }: IRoomRequest): void {
+    if (!kickNickname) return;
+    delete this.userList[roomId][kickNickname];
+    this.userList[roomId][kickNickname].socket.emit('kicked');
+    this.server.to(roomId).emit('user-list', this.userList[roomId]);
+  }
 
   afterInit(server: Server) {
     this.logger.log('Init');
