@@ -10,7 +10,7 @@ import { getRoom } from '@utils/apis';
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 20rem);
+  grid-template-columns: repeat(3, calc(100% / 3 - 1.5rem));
   gap: 2rem;
 `;
 
@@ -43,6 +43,10 @@ enum RoomType {
 }
 
 const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
+
+function SearchBar(): JSX.Element {
+  return <></>;
+}
 
 function RoomList(): JSX.Element {
   const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });

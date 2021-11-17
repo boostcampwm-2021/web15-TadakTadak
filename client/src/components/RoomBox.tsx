@@ -10,7 +10,7 @@ const RoomLink = styled(Link)`
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.base};
-  width: ${ROOM_WIDTH}rem;
+  width: 100%;
   height: ${ROOM_HEIGHT}rem;
   border-radius: ${({ theme }) => theme.borderRadius.base};
   cursor: pointer;
