@@ -1,5 +1,5 @@
 import { User } from '../../user/user.entity';
-import { DevField } from '../../user/dev-field.entity';
+import { DevField } from '../../field/dev-field.entity';
 
 export class UserResponseDto {
   readonly id: number;

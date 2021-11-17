@@ -6,7 +6,7 @@ import { UserController } from './controller/user.controller';
 import { UserService } from './service/user.service';
 import { ImageService } from '../image/service/image.service';
 import { UserRepository } from './repository/user.repository';
-import { DevFieldRepository } from './repository/dev-field.repository';
+import { DevFieldRepository } from '../field/repository/dev-field.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserRepository, DevFieldRepository]), ImageModule, HistoryModule],

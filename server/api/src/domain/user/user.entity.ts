@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { LocalDate } from 'js-joda';
 import { Bcrypt } from 'src/utils/bcrypt';
 import { LocalDateTransformer } from 'src/transformer/LocalDateTransformer';
-import { DevField } from './dev-field.entity';
+import { DevField } from '../field/dev-field.entity';
 import { Follow } from './follow.entity';
 import { History } from '../history/history.entity';
 
