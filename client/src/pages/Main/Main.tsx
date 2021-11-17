@@ -1,51 +1,23 @@
-import { useEffect, useState } from 'react';
-import { MainWrapper, MainContainer, MainTitle, RoomListGrid } from './style';
-import RoomBox from '@components/RoomBox';
+import { MainWrapper, MainContainer } from './style';
+
 import SideBar from '@components/main/SideBar';
-import ListGenerator from '@components/ListGenerator';
-import { getRoom } from '@utils/apis';
-
-export interface RoomInfo {
-  agoraAppId: string;
-  agoraToken: string;
-  uuid: string;
-  ownerId: number;
-  title: string;
-  roomType: string;
-  description: string;
-  nowHeadcount: number;
-  maxHeadcount: number;
-}
-
-const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
+import RoomList from '@components/main/RoomList';
+import ServiceInfo from '@components/main/ServiceInfo';
 
 const Main = (): JSX.Element => {
-  const [rooms, setRooms] = useState<RoomInfo[]>([]);
-
-  useEffect(() => {
-    async function getRoomList() {
-      const testQueryObj = {
-        type: '타닥타닥',
-        search: '',
-        take: 15,
-        page: 1,
-      };
-      const { isOk, data } = await getRoom(testQueryObj);
-      if (isOk && data) {
-        setRooms((prevState) => {
-          return [...prevState, ...data.results];
-        });
-      }
+  const getServiceInfo = async () => {
+    const query = '';
+    const { isOk, data } = await { isOk: true, data: 8 };
+    if (isOk && data) {
     }
-    getRoomList();
-  }, []);
+  };
 
   return (
     <MainWrapper>
       <SideBar />
       <MainContainer>
-        <MainTitle className="heading">채널 목록</MainTitle>
-        <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
+        <ServiceInfo />
+        <RoomList />
       </MainContainer>
     </MainWrapper>
   );

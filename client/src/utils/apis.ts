@@ -1,5 +1,5 @@
 import { UserProps } from '@contexts/userContext';
-import { RoomInfo } from '@pages/Main/Main';
+import { RoomInfo } from '@components/main/RoomList';
 import { HTTPResponse, queryObjToString, fetchGet, fetchPost } from './apiUtils';
 
 interface PostLogin {

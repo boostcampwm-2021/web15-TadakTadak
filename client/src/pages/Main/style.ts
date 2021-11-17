@@ -7,17 +7,6 @@ export const MainWrapper = styled.div`
 `;
 
 export const MainContainer = styled.div`
-  padding: ${({ theme }) => theme.paddings.lg};
+  padding: ${({ theme }) => theme.paddings.xl};
   height: 100%;
-`;
-
-export const MainTitle = styled.h1`
-  font-size: ${({ theme }) => theme.fontSizes.xl};
-`;
-
-export const RoomListGrid = styled.div`
-  padding: ${({ theme }) => theme.paddings.lg};
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  gap: 2rem;
 `;
