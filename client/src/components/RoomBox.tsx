@@ -23,7 +23,7 @@ const RoomLink = styled(Link)`
   }
   &:active {
     background: ${({ theme }) => theme.colors.blue};
-    transform: scale(0.9);
+    transform: scale(0.98);
   }
   &::after {
     content: '';
