@@ -28,6 +28,7 @@ export class HistoryService {
   }
 
   async getLastVisitCount() {
-    return await this.visitRepository.getVisitCount();
+    const visitCount = await this.visitRepository.getVisitCount();
+    return visitCount ? visitCount.totalVisit : 0;
   }
 }
