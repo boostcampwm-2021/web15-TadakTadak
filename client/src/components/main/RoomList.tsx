@@ -18,6 +18,14 @@ const TabWrapper = styled.div`
   ${({ theme }) => theme.flexCenter}
   margin-top: ${({ theme }) => theme.margins.xl};
   width: 100%;
+
+  & div {
+    transition: background-color 0.4s ease-in-out;
+  }
+  & div:hover {
+    background-color: ${({ theme }) => theme.colors.borderGrey};
+    border-radius: ${({ theme }) => theme.borderRadius.sm};
+  }
 `;
 
 export interface RoomInfo {
@@ -43,10 +51,6 @@ enum RoomType {
 }
 
 const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
-
-function SearchBar(): JSX.Element {
-  return <></>;
-}
 
 function RoomList(): JSX.Element {
   const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });

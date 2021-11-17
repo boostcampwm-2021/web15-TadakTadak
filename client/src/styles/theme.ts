@@ -65,6 +65,7 @@ const theme: DefaultTheme = {
     transform: scale(0.9);
     transition: transform 0.1s;
   }`,
+  transition: `transition: all 0.5s ease-in-out;`,
 };
 
 export { theme };
