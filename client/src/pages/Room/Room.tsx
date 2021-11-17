@@ -17,7 +17,7 @@ interface RoomProps {
 }
 
 const Room = ({ location }: RoomProps): JSX.Element => {
-  const { agoraAppId, agoraToken, uuid } = location.state;
+  const { agoraAppId, agoraToken, uuid, owner } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
   const client = useClient();
@@ -77,7 +77,7 @@ const Room = ({ location }: RoomProps): JSX.Element => {
       <RoomSideBar uuid={uuid} />
       <RoomContainer>
         {start && tracks && <Videos users={users} tracks={tracks} />}
-        {ready && tracks && <VideoController tracks={tracks} setStart={setStart} />}
+        {ready && tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
       </RoomContainer>
     </RoomWrapper>
   );
