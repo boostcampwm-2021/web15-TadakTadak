@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import { UserModule } from './domain/user/user.module';
 import { AuthModule } from './domain/auth/auth.module';
 import { RoomModule } from './domain/room/room.module';
-import { ScheduleModule } from '@nestjs/schedule';
+import { HistoryModule } from './domain/history/history.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
 import { RateLimiterGuard, RateLimiterModule } from 'nestjs-rate-limiter';
-import { APP_GUARD } from '@nestjs/core';
 import { RateLimiterConfig, TypeOrmConfig } from './config';
 
 @Module({
@@ -18,6 +19,7 @@ import { RateLimiterConfig, TypeOrmConfig } from './config';
     UserModule,
     AuthModule,
     RoomModule,
+    HistoryModule,
   ],
   providers: [
     {
