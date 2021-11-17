@@ -13,8 +13,7 @@ import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
 @ApiTags('Room API / 방 API')
 @Controller('room')
 export class RoomController {
-  constructor(private readonly roomService: RoomService) {
-  }
+  constructor(private readonly roomService: RoomService) {}
 
   @Get()
   @ApiOperation(RoomAPIDocs.getRoomListByTypeOperation())

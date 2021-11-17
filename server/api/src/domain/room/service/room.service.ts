@@ -20,8 +20,7 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {
-  }
+  ) {}
 
   async getRoomByUUID(uuid: string): Promise<Room> {
     const findRoom = await this.roomRepository.findRoomByUUID(uuid);
