@@ -34,8 +34,8 @@ interface PostRoom {
   roomType: string;
 }
 
-export const postRoom = async (body: PostRoom): Promise<HTTPResponse<{ room: RoomInfo }>> => {
-  const response = await fetchPost<{ room: RoomInfo }>('/api/room', { ...body });
+export const postRoom = async (body: PostRoom): Promise<HTTPResponse<RoomInfo>> => {
+  const response = await fetchPost<RoomInfo>('/api/room', { ...body });
   return response;
 };
 
