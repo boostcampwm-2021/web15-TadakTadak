@@ -5,12 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './controller/auth.controller';
 import { AuthService } from './service/auth.service';
-import { AuthRepository } from './auth.repository';
+import { UserRepository } from '../user/repository/user.repository';
 import { HistoryModule } from '../history/history.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([AuthRepository]),
+    TypeOrmModule.forFeature([UserRepository]),
     PassportModule,
     JwtModule.register({
       secret: 'secretkey',

@@ -7,7 +7,7 @@ import { UserBuilder } from '../../../builder';
 import { UserException } from '../../../exception';
 import { User } from '../../user/user.entity';
 import { HistoryService } from 'src/domain/history/service/history.service';
-import { AuthRepository } from '../auth.repository';
+import { UserRepository } from '../../user/repository/user.repository';
 import { LoginRequestDto } from '../dto/login-request.dto';
 import { UserResponseDto } from '../dto/user-response.dto';
 import { JoinRequestDto } from '../dto/join-request.dto';
@@ -15,15 +15,15 @@ import { JoinRequestDto } from '../dto/join-request.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(AuthRepository)
-    private readonly authRepository: AuthRepository,
+    @InjectRepository(UserRepository)
+    private readonly userRepository: UserRepository,
 
     private readonly historyService: HistoryService,
     private jwtService: JwtService,
   ) {}
 
   async login(loginRequestDto: LoginRequestDto) {
-    const user: User = await this.authRepository.findUserByEmail(loginRequestDto.email);
+    const user: User = await this.userRepository.findUserByEmailWithDev(loginRequestDto.email);
     if (!user || !Bcrypt.compare(loginRequestDto.password, user.password))
       throw UserException.userLoginInfoNotCorrect();
     const today = LocalDate.now();
@@ -31,7 +31,7 @@ export class AuthService {
     if (!isToday) {
       user.setLastCheckIn(today);
       this.historyService.checkIn(user);
-      await this.authRepository.save(user);
+      await this.userRepository.save(user);
     }
     const token = this.jwtService.sign({ email: loginRequestDto.email });
     const userInfo: UserResponseDto = new UserResponseDto(user);
@@ -40,7 +40,7 @@ export class AuthService {
 
   async join(joinRequestDto: JoinRequestDto) {
     const { nickname, email, password } = joinRequestDto;
-    const isExistUser = await this.authRepository.exists(joinRequestDto);
+    const isExistUser = await this.userRepository.exists(joinRequestDto);
     if (isExistUser) throw UserException.userIsExist();
     const user: User = new UserBuilder()
       .setNickName(nickname)
@@ -48,12 +48,12 @@ export class AuthService {
       .setPassword(Bcrypt.hash(password))
       .setImageURL(process.env.DEFAULT_IMG)
       .build();
-    await this.authRepository.save(user);
+    await this.userRepository.save(user);
     return true;
   }
 
   async getUserInfo(email: string) {
-    const user: User = await this.authRepository.findUserByEmail(email);
+    const user: User = await this.userRepository.findUserByEmailWithDev(email);
     if (!user) throw UserException.userNotFound();
     return new UserResponseDto(user);
   }
