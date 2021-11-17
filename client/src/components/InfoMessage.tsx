@@ -7,14 +7,14 @@ const MessageWrap = styled.div`
   text-align: center;
   left: 0;
   right: 0px;
-  bottom: -40px;
+  bottom: -4rem;
 `;
 
 const MessageBox = styled.div`
-  width: 300px;
+  width: 100%;
   background-color: tomato;
-  padding: 10px 20px;
-  border-radius: 15px;
+  padding: 1rem 2rem;
+  border-radius: 1.5rem;
 `;
 
 interface InfoMessageProps {
