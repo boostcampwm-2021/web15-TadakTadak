@@ -3,14 +3,21 @@ import styled from 'styled-components';
 
 import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
+import Tab from '@components/common/Tab';
 
 import { getRoom } from '@utils/apis';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
   display: grid;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(auto-fill, 20rem);
   gap: 2rem;
+`;
+
+const TabWrapper = styled.div`
+  ${({ theme }) => theme.flexCenter}
+  margin-top: ${({ theme }) => theme.margins.xl};
+  width: 100%;
 `;
 
 export interface RoomInfo {
@@ -25,29 +32,47 @@ export interface RoomInfo {
   maxHeadcount: number;
 }
 
+interface TabState {
+  tadak: boolean;
+  campfire: boolean;
+}
+
+enum RoomType {
+  tadak = '타닥타닥',
+  campfire = '캠프파이어',
+}
+
 const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
 
 function RoomList(): JSX.Element {
+  const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
-  const getRoomList = async () => {
+
+  const onClickTadakTap = () => setTabState({ tadak: true, campfire: false });
+  const onClickCampFireTap = () => setTabState({ tadak: false, campfire: true });
+
+  const getRoomList = async (roomType: keyof typeof RoomType) => {
+    console.log(roomType);
     const testQueryObj = {
-      type: '타닥타닥',
+      type: RoomType[roomType],
       search: '',
       take: 15,
       page: 1,
     };
     const { isOk, data } = await getRoom(testQueryObj);
     if (isOk && data) {
-      setRooms((prevState) => {
-        return [...prevState, ...data.results];
-      });
+      setRooms([...data.results]);
     }
   };
   useEffect(() => {
-    getRoomList();
-  }, []);
+    getRoomList(tabState.tadak ? 'tadak' : 'campfire');
+  }, [tabState]);
   return (
     <>
+      <TabWrapper>
+        <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
+        <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
+      </TabWrapper>
       <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
     </>
   );

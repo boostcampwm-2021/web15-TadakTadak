@@ -8,5 +8,6 @@ export const MainWrapper = styled.div`
 
 export const MainContainer = styled.div`
   padding: ${({ theme }) => theme.paddings.xl};
+  width: 100%;
   height: 100%;
 `;
