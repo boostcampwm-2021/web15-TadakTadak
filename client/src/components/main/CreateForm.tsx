@@ -83,8 +83,8 @@ const CreateForm = (): JSX.Element => {
     };
     const { isOk, data } = await postRoom(requestBody);
     if (isOk && data) {
-      const { uuid } = data;
-      history.push(`/room/${uuid}`, data);
+      const { room } = data;
+      history.push(`/room/${room?.uuid}`, room);
     }
   };
 
