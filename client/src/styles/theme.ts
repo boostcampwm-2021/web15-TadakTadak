@@ -20,6 +20,7 @@ const theme: DefaultTheme = {
     black: '#121212',
     white: `rgba(255,255,255,1)`,
     bgWhite: '#F5F8FA',
+    bgGreen: '#1d4456',
     blue: '#51A9FE',
     blue2: '#1F90FF',
     grey: '#F5F8FA',
@@ -55,6 +56,11 @@ const theme: DefaultTheme = {
     justify-content:center;
     align-items:center;
   `,
+  active: `&:active {
+    opacity: 0.8;
+    transform: scale(0.9);
+    transition: transform 0.1s;
+  }`,
 };
 
 export { theme };

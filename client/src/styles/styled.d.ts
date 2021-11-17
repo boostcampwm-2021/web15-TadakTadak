@@ -30,6 +30,7 @@ interface Colors {
   black: string;
   white: string;
   bgWhite: string;
+  bgGreen: string;
   blue: string;
   blue2: string;
   borderGrey: string;
@@ -51,5 +52,6 @@ declare module 'styled-components' {
       bold: number;
     };
     flexCenter: string;
+    active: string;
   }
 }

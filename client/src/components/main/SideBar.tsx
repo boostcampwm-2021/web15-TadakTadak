@@ -18,6 +18,11 @@ const CreateBtn = styled.button`
   `};
   width: 100%;
   text-align: center;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
+  }
+  ${({ theme }) => theme.active};
 `;
 
 const SideBarContainer = styled.div`
@@ -29,6 +34,7 @@ const SideBarContainer = styled.div`
   min-width: ${SIDEBAR_MIN_WIDTH};
   height: 100%;
   background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.borderGrey};
 `;
 
 const SideBarTopMenus = styled.div``;
@@ -40,13 +46,15 @@ const LoginBtn = styled.button`
     border: 1px solid ${theme.colors.borderGrey};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
-    font-size: ${theme.fontSizes.lg};
+    font-size: ${theme.fontSizes.xl};
   `};
   width: 100%;
   text-align: center;
   :hover {
-    background-color: ${({ theme }) => theme.colors.green};
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
   }
+  ${({ theme }) => theme.active};
 `;
 
 const UserInfoDiv = styled.div`
@@ -60,6 +68,11 @@ const UserInfoDiv = styled.div`
   width: 100%;
   text-align: center;
   cursor: pointer;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
+  }
+  ${({ theme }) => theme.active};
 `;
 
 const LogoutBtn = styled.button`
@@ -78,6 +91,7 @@ const LogoutBtn = styled.button`
   :hover {
     background-color: ${({ theme }) => theme.colors.primary};
   }
+  ${({ theme }) => theme.active};
   & span {
     margin-right: 20px;
   }
