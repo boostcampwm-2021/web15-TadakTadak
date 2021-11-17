@@ -74,7 +74,7 @@ const RoomSideBar = ({ uuid }: RoomSideBarProps): JSX.Element => {
         </SideBarTabs>
       </SideBarTopMenus>
       <SideBarBottomMenus>
-        {isChat && <ChatList chats={chats} setChats={setChats} />}
+        {isChat && <ChatList chats={chats} uuid={uuid} setChats={setChats} />}
         {isParticipant && <ParticipantList participants={participants} />}
       </SideBarBottomMenus>
     </SideBarContainer>

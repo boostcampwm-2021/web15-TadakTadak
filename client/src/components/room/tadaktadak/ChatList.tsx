@@ -10,6 +10,7 @@ const CHAT_INPUT_HEIGHT = '10%';
 
 interface ChatListProps<T> {
   chats: Array<Record<string, T | undefined>>;
+  uuid: string;
   setChats: React.Dispatch<React.SetStateAction<Array<Record<string, T | undefined>>>>;
 }
 
@@ -63,16 +64,16 @@ const Line = styled.div`
   margin: 0 auto;
 `;
 
-const ChatList = ({ chats, setChats }: ChatListProps<string>): JSX.Element => {
+const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element => {
   const { nickname } = useUser();
   const [message, onChangeMessage, onResetMessage] = useInput('');
 
   const sendMessage = useCallback(() => {
-    const myMessage = { type: 'string', nickname, message };
+    const myMessage = { type: 'string', nickname, message, roomId: uuid };
     setChats([...chats, myMessage]);
     onResetMessage();
     socket.emit('msgToServer', myMessage);
-  }, [setChats, onResetMessage, nickname, chats, message]);
+  }, [setChats, onResetMessage, nickname, chats, message, uuid]);
 
   const onKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && sendMessage(),
@@ -81,6 +82,7 @@ const ChatList = ({ chats, setChats }: ChatListProps<string>): JSX.Element => {
 
   const handleMessageReceive = useCallback(
     (data) => {
+      console.log('qqqqq', data);
       setChats([...chats, data]);
     },
     [chats, setChats],
