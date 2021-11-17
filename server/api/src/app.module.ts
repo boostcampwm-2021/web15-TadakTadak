@@ -7,6 +7,7 @@ import { AuthModule } from './domain/auth/auth.module';
 import { RoomModule } from './domain/room/room.module';
 import { HistoryModule } from './domain/history/history.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
+import { DevFieldModule } from './domain/field/dev-field.module';
 import { RateLimiterGuard, RateLimiterModule } from 'nestjs-rate-limiter';
 import { RateLimiterConfig, TypeOrmConfig } from './config';
 
@@ -20,6 +21,7 @@ import { RateLimiterConfig, TypeOrmConfig } from './config';
     AuthModule,
     RoomModule,
     HistoryModule,
+    DevFieldModule,
   ],
   providers: [
     {
