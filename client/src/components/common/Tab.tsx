@@ -32,14 +32,7 @@ const StyledTab = styled.div<TabProps>`
   }
   :disabled {
   }
-  :after {
-    border-bottom: solid 3px #019fb6;
-    transform: scaleX(0);
-    transition: transform 250ms ease-in-out;
-  }
-  & div:hover:after {
-    transform: scaleX(1);
-  }
+  transition: background-color 0.4s ease-in-out, border-color 0.3s ease-in-out;
 `;
 
 const Tab = ({ text, isActive, onClick }: TabProps): JSX.Element => {
