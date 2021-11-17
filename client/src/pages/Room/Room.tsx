@@ -74,7 +74,7 @@ const Room = ({ location }: RoomProps): JSX.Element => {
 
   return (
     <RoomWrapper>
-      <RoomSideBar />
+      <RoomSideBar uuid={uuid} />
       <RoomContainer>
         {start && tracks && <Videos users={users} tracks={tracks} />}
         {ready && tracks && <VideoController tracks={tracks} setStart={setStart} />}

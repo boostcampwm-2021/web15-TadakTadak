@@ -24,8 +24,12 @@ const ParticipantList = ({ participants }: ParticipantListProps<any>): JSX.Eleme
   return (
     <Container>
       <List>
-        {participants.map(({ nickname }, idx) => (
-          <Participant key={idx}>{nickname}</Participant>
+        {Object.entries(participants).map(([nickname, { field, img }]) => (
+          <Participant key={nickname}>
+            {nickname}
+            {field}
+            {img}
+          </Participant>
         ))}
       </List>
     </Container>
