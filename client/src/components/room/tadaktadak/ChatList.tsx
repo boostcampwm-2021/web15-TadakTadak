@@ -61,7 +61,7 @@ const Line = styled.div`
   margin: 0 auto;
 `;
 
-const ChatList: React.FC<ChatListProps<any>> = ({ chats, setChats }) => {
+const ChatList = ({ chats, setChats }: ChatListProps<any>): JSX.Element => {
   const [message, onChangeMessage, onResetMessage] = useInput('');
 
   const sendMessage = useCallback(() => {

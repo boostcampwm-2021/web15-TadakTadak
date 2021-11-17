@@ -77,7 +77,7 @@ interface JoinProps {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
+const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element => {
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, onChangePassword] = useInput('');

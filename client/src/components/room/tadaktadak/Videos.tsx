@@ -14,13 +14,15 @@ const VideosGrid = styled.div`
   gap: 2rem;
 `;
 
-const Videos = (props: {
+interface VideosProps {
   users: IAgoraRTCRemoteUser[];
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
-}): JSX.Element => {
-  const { users, tracks } = props;
+}
+
+const Videos = ({ users, tracks }: VideosProps): JSX.Element => {
   const myVideoTrack = tracks[1];
   const myAudioTrack = tracks[0];
+
   return (
     <VideosContainer>
       <VideosGrid id="videos">

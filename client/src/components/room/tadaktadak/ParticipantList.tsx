@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 interface ParticipantListProps<T> {
@@ -21,7 +20,7 @@ const Participant = styled.li`
   margin-bottom: ${({ theme }) => theme.margins.sm};
 `;
 
-const ParticipantList: React.FC<ParticipantListProps<any>> = ({ participants }) => {
+const ParticipantList = ({ participants }: ParticipantListProps<any>): JSX.Element => {
   return (
     <Container>
       <List>

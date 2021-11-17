@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 
 interface TabProps {
@@ -33,8 +32,7 @@ const StyledTab = styled.div<TabProps>`
   }
 `;
 
-const Tab: React.FC<TabProps> = (props) => {
-  const { text, isActive, onClick } = props;
+const Tab = ({ text, isActive, onClick }: TabProps): JSX.Element => {
   return (
     <StyledTab isActive={isActive} onClick={onClick}>
       {text}

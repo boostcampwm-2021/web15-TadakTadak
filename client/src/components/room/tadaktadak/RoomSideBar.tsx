@@ -33,7 +33,7 @@ const initialTabState = {
   isParticipant: false,
 };
 
-const RoomSideBar: React.FC = () => {
+const RoomSideBar = (): JSX.Element => {
   const [tabs, setTabs] = useState({ ...initialTabState });
   const [chats, setChats] = useState([{ message: 'hello' }, { message: 'hi' }]);
   const [participants, setParticipants] = useState([

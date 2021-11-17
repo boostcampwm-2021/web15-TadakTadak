@@ -12,7 +12,11 @@ interface LocationProps {
   state: RoomInfo;
 }
 
-const Room = ({ location }: { location: LocationProps }): JSX.Element => {
+interface RoomProps {
+  location: LocationProps;
+}
+
+const Room = ({ location }: RoomProps): JSX.Element => {
   const { agoraAppId, agoraToken, uuid } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료

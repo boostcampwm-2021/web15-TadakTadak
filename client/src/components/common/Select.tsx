@@ -38,9 +38,7 @@ const StyledSelect = styled.select`
   }
 `;
 
-const Select: React.FC<SelectProps> = (props) => {
-  const { name, className, options, onChange } = props;
-
+const Select = ({ name, className, options, onChange }: SelectProps): JSX.Element => {
   return (
     <StyledSelect className={className} onChange={onChange}>
       <option value="default" disabled>

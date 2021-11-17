@@ -8,7 +8,7 @@ interface LoginProps {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Login: React.FC<LoginProps> = ({ modal, setModal }) => {
+const Login = ({ modal, setModal }: LoginProps): JSX.Element => {
   const [isLogin, setIsLogin] = useState(true);
   const onClickModalToggle = () => setIsLogin(!isLogin);
   return (

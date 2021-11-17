@@ -75,7 +75,7 @@ interface LoginProps {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
+const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const { logUserIn } = useUserFns();

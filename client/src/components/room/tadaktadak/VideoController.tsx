@@ -27,13 +27,14 @@ const GetoutDiv = styled.div`
   `}
 `;
 
-const VideoController = (props: {
+interface VideoControllerProps {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
   setStart: React.Dispatch<React.SetStateAction<boolean>>;
-}): JSX.Element => {
+}
+
+const VideoController = ({ tracks, setStart }: VideoControllerProps): JSX.Element => {
   const client = useClient();
   const history = useHistory();
-  const { tracks, setStart } = props;
   const themeContext = useContext(ThemeContext);
   const [trackState, setTrackState] = useState({ video: false, audio: false });
   const [screenShare, setScreenShare] = useState(false);

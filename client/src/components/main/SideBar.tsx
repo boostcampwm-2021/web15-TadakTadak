@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import LoginModal from '../LoginModal';
 import { useUser, useUserFns } from '@contexts/userContext';
@@ -105,7 +105,7 @@ const UserAvatar = styled.img`
   overflow: hidden;
 `;
 
-const SideBar: React.FC = () => {
+const SideBar = (): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();
