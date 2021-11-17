@@ -3,6 +3,8 @@ import { Bcrypt } from 'src/utils/bcrypt';
 import { DevField } from './dev-field.entity';
 import { Follow } from './follow.entity';
 import { History } from '../history/history.entity';
+import { LocalDateTransformer } from 'src/transformer/LocalDateTransformer';
+import { LocalDate } from 'js-joda';
 
 @Entity()
 export class User {
@@ -40,8 +42,8 @@ export class User {
   @OneToMany(() => History, (history) => history.user)
   historys: History[];
 
-  @Column({ default: false })
-  isToday: boolean;
+  @Column({ type: 'timestamp', transformer: new LocalDateTransformer() })
+  lastCheckIn: LocalDate;
 
   setNickname(nickname: string) {
     this.nickName = nickname;
@@ -69,7 +71,7 @@ export class User {
     this.devField = devField;
   }
 
-  setIsToday(isToday: boolean) {
-    this.isToday = isToday;
+  setLastCheckIn(lastCheckIn: LocalDate) {
+    this.lastCheckIn = lastCheckIn;
   }
 }

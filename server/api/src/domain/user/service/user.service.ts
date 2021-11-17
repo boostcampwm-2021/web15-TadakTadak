@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserException, DevFieldException } from '../../../exception';
 import { User } from '../user.entity';
 import { DevField } from '../dev-field.entity';
-import { ImageService, ObjectStorageData } from '../../image/service/image.service';
+import { ImageService } from '../../image/service/image.service';
 import { DevFieldRepository } from '../repository/dev-field.repository';
 import { AuthRepository } from '../../auth/auth.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
@@ -38,7 +38,7 @@ export class UserService {
     return true;
   }
 
-  async updateImage(nickname: string, file: ObjectStorageData) {
+  async updateImage(nickname: string, file) {
     const updateUser: User = await this.authRepository.findUserByNickname(nickname);
     if (!updateUser) throw UserException.userNotFound();
     if (updateUser.imageName) await this.imageService.deleteImage(updateUser.imageName);
@@ -54,7 +54,7 @@ export class UserService {
     if (!updateUser) throw UserException.userNotFound();
     if (!updateUser.imageName) return true;
     await this.imageService.deleteImage(updateUser.imageName);
-    updateUser.setImageUrl('');
+    updateUser.setImageUrl(process.env.NCP_BUCKET_NAME);
     updateUser.setImageName('');
     await this.authRepository.save(updateUser);
     return true;

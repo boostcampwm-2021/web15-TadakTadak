@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { LocalDate } from 'js-joda';
 import { Bcrypt } from 'src/utils/bcrypt';
 import { UserBuilder } from '../../../builder';
 import { UserException } from '../../../exception';
@@ -25,8 +26,10 @@ export class AuthService {
     const user: User = await this.authRepository.findUserByEmail(loginRequestDto.email);
     if (!user || !Bcrypt.compare(loginRequestDto.password, user.password))
       throw UserException.userLoginInfoNotCorrect();
-    if (!user.isToday) {
-      user.setIsToday(true);
+    const today = LocalDate.now();
+    const isToday = user.lastCheckIn.isEqual(today);
+    if (!isToday) {
+      user.setLastCheckIn(today);
       this.historyService.checkIn(user);
       await this.authRepository.save(user);
     }
@@ -43,6 +46,7 @@ export class AuthService {
       .setNickName(nickname)
       .setEmail(email)
       .setPassword(Bcrypt.hash(password))
+      .setImageURL(process.env.DEFAULT_IMG)
       .build();
     await this.authRepository.save(user);
     return true;
