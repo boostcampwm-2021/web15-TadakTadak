@@ -75,7 +75,7 @@ interface LoginProps {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
+const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const { logUserIn } = useUserFns();
@@ -92,7 +92,8 @@ const LoginForm: React.FC<LoginProps> = ({ onClickModalToggle, setModal }) => {
       showMessage('모두 입력해주세요');
       return;
     }
-    const { isOk, data } = await postLogin(email, password);
+    const requestBody = { email, password };
+    const { isOk, data } = await postLogin(requestBody);
     if (isOk && data) {
       logUserIn(data);
       setModal(false);

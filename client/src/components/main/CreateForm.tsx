@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postRoom } from '@utils/apis';
 import { useUser } from '@contexts/userContext';
-import Select from '@components/Select';
+import Select from '@components/common/Select';
 import { adminOptions } from '@utils/utils';
 
 const Container = styled.div`
@@ -59,7 +59,7 @@ const roomOptions: OptionType[] = [
 const CreateForm = (): JSX.Element => {
   const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [roomType, setRoomType] = useState('');
+  const [roomType, setRoomType] = useState(RoomType[1]);
   const [maxHeadcount, setMaxHeadcount] = useState('');
   const user = useUser();
   const history = useHistory();
@@ -74,13 +74,14 @@ const CreateForm = (): JSX.Element => {
     if (!roomTitle || !roomType || !maxHeadcount) {
       return;
     }
-    const { isOk, data } = await postRoom({
+    const requestBody = {
       userId: user.id,
       title: roomTitle,
       description,
       maxHeadcount: +maxHeadcount,
       roomType,
-    });
+    };
+    const { isOk, data } = await postRoom(requestBody);
     if (isOk && data) {
       const { uuid } = data;
       history.push(`/room/${uuid}`, data);

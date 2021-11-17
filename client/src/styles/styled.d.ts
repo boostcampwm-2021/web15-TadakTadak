@@ -52,6 +52,7 @@ declare module 'styled-components' {
       bold: number;
     };
     flexCenter: string;
+    flexColumn: string;
     active: string;
   }
 }

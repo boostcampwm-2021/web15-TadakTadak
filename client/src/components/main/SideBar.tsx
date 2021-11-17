@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import LoginModal from '../LoginModal';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
-import Modal from '@components/Modal';
+import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
 import { setCookie } from '@utils/cookie';
 
@@ -105,7 +105,7 @@ const UserAvatar = styled.img`
   overflow: hidden;
 `;
 
-const SideBar: React.FC = () => {
+const SideBar = (): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();

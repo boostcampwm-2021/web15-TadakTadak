@@ -77,7 +77,7 @@ interface JoinProps {
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
+const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element => {
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -95,7 +95,8 @@ const JoinForm: React.FC<JoinProps> = ({ onClickModalToggle, setIsLogin }) => {
       showMessage('모두 입력해주세요');
       return;
     }
-    const isOk = await postJoin(email, nickname, password);
+    const requestBody = { email, nickname, password };
+    const isOk = await postJoin(requestBody);
     if (!isOk) {
       showMessage('이미 등록되어 있는 이메일입니다.');
       return;

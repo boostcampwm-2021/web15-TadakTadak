@@ -48,8 +48,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button: React.FC<ButtonProps> = (props) => {
-  const { text, icon, className, color, onClick } = props;
+const Button = ({ text, icon, className, color, onClick }: ButtonProps): JSX.Element => {
   return (
     <StyledButton color={color} className={className} onClick={onClick}>
       {icon}

@@ -1,13 +1,17 @@
 import './style.css';
 import styled from 'styled-components';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const FireContainer = styled.div`
   width: 100vw;
   position: relative;
 `;
 
-function FireAnimation({ setFireOn }: { setFireOn: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
+interface FireAnimationProps {
+  setFireOn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
   const [toggle, setToggle] = useState(false);
   const handleToggle = () => {
     setToggle(true);

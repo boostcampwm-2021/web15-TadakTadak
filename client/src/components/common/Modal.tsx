@@ -73,10 +73,11 @@ export const Title = styled.h4`
 
 interface ModalProps {
   title?: string;
+  children: React.ReactNode;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal: React.FC<ModalProps> = ({ setModal, children, title }) => {
+const Modal = ({ setModal, children, title }: ModalProps): JSX.Element => {
   const onClickModalBackground = () => setModal(false);
   return (
     <ModalContainer>

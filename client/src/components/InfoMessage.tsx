@@ -19,7 +19,11 @@ const MessageBox = styled.div`
   border-radius: 15px;
 `;
 
-function InfoMessage({ message }: { message: string }): JSX.Element {
+interface InfoMessageProps {
+  message: string;
+}
+
+function InfoMessage({ message }: InfoMessageProps): JSX.Element {
   return <MessageWrap>{message && <MessageBox>{message}</MessageBox>}</MessageWrap>;
 }
 
