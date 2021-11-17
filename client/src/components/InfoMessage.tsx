@@ -3,9 +3,7 @@ import styled from 'styled-components';
 const MessageWrap = styled.div`
   color: white;
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${({ theme }) => theme.flexCenter}
   text-align: center;
   left: 0;
   right: 0px;
