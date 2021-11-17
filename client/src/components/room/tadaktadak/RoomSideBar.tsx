@@ -42,7 +42,7 @@ interface RoomSideBarProps {
 const RoomSideBar = ({ uuid }: RoomSideBarProps): JSX.Element => {
   const { nickname, devField, imageUrl } = useUser();
   const [tabs, setTabs] = useState({ ...initialTabState });
-  const [chats, setChats] = useState([{ message: 'hello' }, { message: 'hi' }]);
+  const [chats, setChats] = useState<Array<Record<string, string | undefined>>>([]);
   const [participants, setParticipants] = useState({});
   const { isChat, isParticipant } = tabs;
 

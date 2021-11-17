@@ -1,14 +1,16 @@
+import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
+import socket from '../../../socket';
 
 const INPUT_WIDTH = '90%';
 const CHAT_LIST_HEIGHT = '90%';
 const CHAT_INPUT_HEIGHT = '10%';
 
 interface ChatListProps<T> {
-  chats: Array<T>;
-  setChats: React.Dispatch<React.SetStateAction<Array<T>>>;
+  chats: Array<Record<string, T | undefined>>;
+  setChats: React.Dispatch<React.SetStateAction<Array<Record<string, T | undefined>>>>;
 }
 
 const Container = styled.div`
@@ -61,24 +63,38 @@ const Line = styled.div`
   margin: 0 auto;
 `;
 
-const ChatList = ({ chats, setChats }: ChatListProps<any>): JSX.Element => {
+const ChatList = ({ chats, setChats }: ChatListProps<string>): JSX.Element => {
+  const { nickname } = useUser();
   const [message, onChangeMessage, onResetMessage] = useInput('');
 
   const sendMessage = useCallback(() => {
-    setChats([...chats, { message }]);
+    const myMessage = { type: 'string', nickname, message };
+    setChats([...chats, myMessage]);
     onResetMessage();
-  }, [setChats, onResetMessage, chats, message]);
+    socket.emit('msgToServer', myMessage);
+  }, [setChats, onResetMessage, nickname, chats, message]);
 
   const onKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && sendMessage(),
     [sendMessage],
   );
 
+  const handleMessageReceive = useCallback(
+    (data) => {
+      setChats([...chats, data]);
+    },
+    [chats, setChats],
+  );
+
+  useEffect(() => {
+    socket.on('msgToClient', handleMessageReceive);
+  }, [handleMessageReceive]);
+
   return (
     <Container>
       <List>
         {chats.length &&
-          chats.map((chat) => (
+          Object.values(chats).map((chat) => (
             <Chat>
               <ChatInfo></ChatInfo>
               <ChatMesssage>{chat.message}</ChatMesssage>
