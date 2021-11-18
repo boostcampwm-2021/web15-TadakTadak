@@ -25,7 +25,7 @@ const ScreenShareDiv = ({
     },
     'disable',
   );
-  const { ready, tracks } = useScreenVideoTrack();
+  const { ready, tracks, error } = useScreenVideoTrack();
 
   useEffect(() => {
     const pulishScreenShare = async () => {
@@ -44,7 +44,8 @@ const ScreenShareDiv = ({
       }
     };
     if (ready) pulishScreenShare();
-  }, [setStart, setScreenShare, screenShare, client, preTracks, trackState, tracks, ready]);
+    if (error) setScreenShare(false);
+  }, [setStart, setScreenShare, screenShare, client, preTracks, trackState, tracks, ready, error]);
 
   return <div></div>;
 };

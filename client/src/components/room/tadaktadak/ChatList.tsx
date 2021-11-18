@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';
@@ -6,8 +6,8 @@ import socket from '@src/socket';
 import Chat from './Chat';
 
 const INPUT_WIDTH = '90%';
-const CHAT_LIST_HEIGHT = '90%';
-const CHAT_INPUT_HEIGHT = '10%';
+const CHAT_LIST_HEIGHT = '80vh';
+const CHAT_INPUT_HEIGHT = '10vh';
 
 interface ChatListProps<T> {
   chats: Array<Record<string, T | undefined>>;
@@ -55,6 +55,7 @@ const Line = styled.div`
 const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element => {
   const { nickname } = useUser();
   const [message, onChangeMessage, onResetMessage] = useInput('');
+  const scrollRef = useRef<HTMLUListElement>(null);
 
   const sendMessage = useCallback(() => {
     if (!message) return;
@@ -71,12 +72,22 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   const handleMessageReceive = useCallback((chat) => setChats((prevState) => [...prevState, chat]), [setChats]);
 
   useEffect(() => {
+    socket.removeListener('msgToClient');
     socket.on('msgToClient', handleMessageReceive);
   }, [handleMessageReceive]);
 
+  useEffect(() => {
+    const { current } = scrollRef;
+    if (current !== null) {
+      current.scrollTop = current.scrollHeight;
+    }
+  }, [chats]);
+
   return (
     <Container>
-      <List>{chats.length > 0 && Object.values(chats).map((chat, idx) => <Chat key={idx} chat={chat} />)}</List>
+      <List ref={scrollRef}>
+        {chats.length > 0 && Object.values(chats).map((chat, idx) => <Chat key={idx} chat={chat} />)}
+      </List>
       <Line />
       <InputDiv>
         <Input
