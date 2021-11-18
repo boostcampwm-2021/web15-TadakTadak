@@ -25,7 +25,7 @@ export enum CodeLanguage {
 export interface IMessage {
   type?: MessageType;
   language?: string;
-  time: LocalDateTime;
+  time?: LocalDateTime;
   roomId: string;
   nickname: string;
   message: string;

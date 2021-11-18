@@ -37,7 +37,6 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.userList[roomId][nickname] = {
       field: field,
       img: img,
-      socket: client,
     };
     this.server.to(roomId).emit('user-list', this.userList[roomId]);
   }
@@ -53,7 +52,6 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleKickRoom(client: Socket, { roomId, kickNickname }: IRoomRequest): void {
     if (!kickNickname) return;
     delete this.userList[roomId][kickNickname];
-    this.userList[roomId][kickNickname].socket.emit('kicked');
     this.server.to(roomId).emit('user-list', this.userList[roomId]);
   }
 
