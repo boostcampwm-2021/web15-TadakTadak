@@ -5,7 +5,7 @@ import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
-import { setCookie } from '@utils/cookie';
+import { postLogout } from '@src/utils/apis';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 
@@ -117,9 +117,11 @@ const SideBar = (): JSX.Element => {
   const onClickLoginBtn = () => setLoginModal(!loginModal);
   const onClickCreateBtn = () => setCreateModal(true);
   const onClickUserInfoBtn = () => {};
-  const onClickLogoutBtn = () => {
-    setCookie('access-token', '');
-    logUserOut();
+  const onClickLogoutBtn = async () => {
+    const { isOk } = await postLogout();
+    if (isOk) {
+      logUserOut();
+    }
   };
 
   return (

@@ -35,15 +35,23 @@ function getOptions(): RequestInit {
 }
 
 function postOptions(body: BodyType): RequestInit {
-  return {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(body),
-  };
+  return Object.keys(body).length
+    ? {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(body),
+      }
+    : {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        credentials: 'include',
+      };
 }
 
 function deleteOptions(): RequestInit {
@@ -89,9 +97,10 @@ export async function fetchGet<T>(url: string, query?: string): Promise<HTTPResp
   return response;
 }
 
-export async function fetchPost<T>(url: string, body: BodyType): Promise<HTTPResponse<T>> {
+export async function fetchPost<T>(url: string, body: BodyType = {}): Promise<HTTPResponse<T>> {
   const requestUrl = getUrl(url);
   const response = await fetcher<T>(requestUrl, postOptions(body));
+  console.log(postOptions(body));
   return response;
 }
 
