@@ -62,7 +62,6 @@ function RoomList(): JSX.Element {
   const onClickCampFireTap = () => setTabState({ tadak: false, campfire: true });
 
   const getRoomList = async (roomType: keyof typeof RoomType) => {
-    console.log(roomType);
     const testQueryObj = {
       type: RoomType[roomType],
       search: '',

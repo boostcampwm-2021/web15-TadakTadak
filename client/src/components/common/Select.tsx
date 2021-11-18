@@ -39,10 +39,8 @@ const StyledSelect = styled.select`
 
 const Select = ({ name, className, options, onChange }: SelectProps): JSX.Element => {
   return (
-    <StyledSelect className={className} onChange={onChange}>
-      <option value="default" disabled>
-        {name} 선택
-      </option>
+    <StyledSelect className={className} onChange={onChange} defaultValue="">
+      <option value="">{name} 선택</option>
       {options.map(({ value, label }, idx) => (
         <option key={idx} value={value}>
           {label}
