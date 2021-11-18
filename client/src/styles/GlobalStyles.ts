@@ -21,7 +21,7 @@ const GlobalStyles = createGlobalStyle`
     font-size : 62.5%; // 1rem === 10px
   }
   body {
-    font-family: 'Dongle', sans-serif;
+    font-family: 'Dongle';
   }
   a {
     text-decoration: none;
