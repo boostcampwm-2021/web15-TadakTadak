@@ -25,13 +25,18 @@ export function queryObjToString<T>(queryObj: T): string {
     .join('&');
 }
 
-function getOptions(): RequestInit {
+function simpleOptions(method: string): RequestInit {
   return {
+    method,
     headers: {
       Accept: 'application/json',
     },
     credentials: 'include',
   };
+}
+
+function getOptions(): RequestInit {
+  return simpleOptions('GET');
 }
 
 function postOptions(body: BodyType): RequestInit {
@@ -45,23 +50,11 @@ function postOptions(body: BodyType): RequestInit {
         credentials: 'include',
         body: JSON.stringify(body),
       }
-    : {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-      };
+    : simpleOptions('POST');
 }
 
 function deleteOptions(): RequestInit {
-  return {
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/json',
-    },
-    credentials: 'include',
-  };
+  return simpleOptions('DELETE');
 }
 
 export async function fetcher<T>(url: string, options: RequestInit): Promise<HTTPResponse<T>> {
