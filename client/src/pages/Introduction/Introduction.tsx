@@ -20,13 +20,13 @@ const IntroContainer = styled.div<IntroContainerProps>`
     `}
   transition: background-color 1500ms linear;
   padding: ${({ theme }) => theme.paddings.base};
-  font-family: 'Dongle', sans-serif;
+  font-family: 'Dongle';
 `;
 
 const IntroTitle = styled.div`
   z-index: 2;
   color: white;
-  font-size: 200px;
+  font-size: 250px;
 `;
 const IntroDescription = styled.div`
   z-index: 2;

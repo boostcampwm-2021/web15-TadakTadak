@@ -19,6 +19,7 @@ export class UserRepository extends Repository<User> {
   async findUserByNickname(nickname: string): Promise<User | undefined> {
     return await this.findOne({ where: { nickName: nickname } });
   }
+
   async findUserByNicknameWithDev(nickname: string): Promise<User | undefined> {
     return await this.findOne({ where: { nickName: nickname }, relations: ['devField'] });
   }

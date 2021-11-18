@@ -6,8 +6,7 @@ import RoomBox from '@components/RoomBox';
 import Tab from '@components/common/Tab';
 
 import { UserProps } from '@src/contexts/userContext';
-
-import { getRoom } from '@utils/apis';
+import { getRoom } from '@src/apis';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;

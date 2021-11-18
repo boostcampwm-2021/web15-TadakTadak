@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
-import { postLogin } from '@utils/apis';
+import { postLogin } from '@src/apis';
 import { useUserFns } from '@contexts/userContext';
 import { FaGithub } from 'react-icons/fa';
 import InfoMessage from './InfoMessage';
