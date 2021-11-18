@@ -7,7 +7,7 @@ import {
 } from 'agora-rtc-react';
 import styled from 'styled-components';
 import defaultImage from '@assets/default-avatar.jpeg';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 const VIDEO_WIDTH = 30;
 const VIDEO_HEIGHT = 20;
@@ -31,11 +31,11 @@ const VolumeVisualizer = styled.div`
   height: ${VIDEO_HEIGHT}rem;
   position: absolute;
   right: 0;
-  border: 3px solid ${({ theme }) => theme.colors.primary};
+  border: 3px solid ${({ theme }) => theme.colors.blue};
   border-radius: ${BORDER_RADIUS};
 `;
 
-const SPEAK_VOLUME = 0.1;
+const SPEAK_VOLUME = 0.2;
 const VOLUME_VISUAL_TIME = 1000;
 
 interface VideoBoxProps {
@@ -45,13 +45,27 @@ interface VideoBoxProps {
 
 const VideoBox = ({ videoTrack, audioTrack }: VideoBoxProps): JSX.Element => {
   const [isSpeak, setIsSpeak] = useState(false);
+  const isInterval = useRef(false);
+
+  const initInterval = useCallback(
+    function () {
+      if (!isInterval.current) {
+        setInterval(() => {
+          if (audioTrack) {
+            setIsSpeak(audioTrack?.getVolumeLevel() > SPEAK_VOLUME);
+          }
+        }, VOLUME_VISUAL_TIME);
+      }
+      isInterval.current = true;
+    },
+    [isInterval, audioTrack],
+  );
 
   useEffect(() => {
-    if (audioTrack)
-      setInterval(() => {
-        setIsSpeak(audioTrack?.getVolumeLevel() > SPEAK_VOLUME);
-      }, VOLUME_VISUAL_TIME);
-  }, [audioTrack]);
+    if (audioTrack) {
+      initInterval();
+    }
+  }, [audioTrack, initInterval]);
 
   return (
     <VideoWrap>

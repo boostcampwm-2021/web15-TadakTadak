@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
-import GlobalFonts from './styles/GlobalFonts';
 import Introduction from '@pages/Introduction';
 import Main from '@pages/Main';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { getUserByToken } from '@utils/apis';
 import Room from '@pages/Room';
+import './styles/fonts.css';
 
 const App = (): JSX.Element => {
   const user = useUser();
@@ -36,7 +36,6 @@ const App = (): JSX.Element => {
         </Switch>
       </BrowserRouter>
       <GlobalStyles />
-      <GlobalFonts />
     </>
   );
 };
