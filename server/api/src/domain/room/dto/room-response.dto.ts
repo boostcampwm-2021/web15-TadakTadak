@@ -14,6 +14,8 @@ export class RoomResponseDto {
   agoraAppId: string;
   agoraToken: string;
   owner: UserResponseDto;
+  nowHeadcount: number;
+  maxHeadcount: number;
 
   constructor(room: Room) {
     const owner: User = room.owner;
@@ -26,6 +28,8 @@ export class RoomResponseDto {
     this.uuid = room.uuid;
     this.agoraAppId = room.agoraAppId;
     this.agoraToken = room.agoraToken;
+    this.nowHeadcount = room.nowHeadcount;
+    this.maxHeadcount = room.maxHeadcount;
     this.owner = new UserResponseDtoBuilder()
       .setId(room.owner.id)
       .setNickName(owner.nickName)
