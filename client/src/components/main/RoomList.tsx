@@ -5,6 +5,8 @@ import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
 import Tab from '@components/common/Tab';
 
+import { UserProps } from '@src/contexts/userContext';
+
 import { getRoom } from '@utils/apis';
 
 const RoomListGrid = styled.div`
@@ -32,7 +34,7 @@ export interface RoomInfo {
   agoraAppId: string;
   agoraToken: string;
   uuid: string;
-  ownerId: number;
+  owner?: UserProps;
   title: string;
   roomType: string;
   description: string;
