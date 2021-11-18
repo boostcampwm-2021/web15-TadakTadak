@@ -1,3 +1,4 @@
+import './styles/fonts.css';
 import { useCallback, useEffect } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';

@@ -8,5 +8,6 @@ export const RoomWrapper = styled.div`
 
 export const RoomContainer = styled.div`
   height: 100%;
+  width: 100%;
   padding: ${({ theme }) => theme.paddings.lg};
 `;
