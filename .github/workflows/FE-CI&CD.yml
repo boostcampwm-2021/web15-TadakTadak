@@ -34,6 +34,12 @@ jobs:
         env:
           REACT_APP_SERVER_URL: ${{ secrets.REACT_APP_SERVER_URL }}
 
+      - name: Github Repository Secrets로 환경변수를 전달합니다.
+        run: |
+          echo "REACT_APP_SOCKET_SERVER_URL=$REACT_APP_SOCKET_SERVER_URL" >> .env.production
+        env:
+          REACT_APP_SOCKET_SERVER_URL: ${{ secrets.REACT_APP_SOCKET_SERVER_URL }}
+
       - name: 리액트 파일을 빌드합니다.
         run: npm run build
 

@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 const MODAL_WIDTH = 65;
-const MODAL_HEIGHT = 45;
+const MODAL_HEIGHT = 50;
 
 export const ModalContainer = styled.div`
   width: 100%;

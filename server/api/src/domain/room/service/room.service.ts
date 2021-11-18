@@ -10,7 +10,8 @@ import { Room, RoomType } from '../room.entity';
 import { RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
-import { CreateRoomResponseDto } from '../dto/create-room-response.dto';
+import { RoomResponseDto } from '../dto/room-response.dto';
+import { find } from 'rxjs';
 
 @Injectable()
 export class RoomService {
@@ -20,13 +21,12 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {
-  }
+  ) {}
 
-  async getRoomByUUID(uuid: string): Promise<Room> {
+  async getRoomByUUID(uuid: string): Promise<RoomResponseDto> {
     const findRoom = await this.roomRepository.findRoomByUUID(uuid);
     if (!findRoom) throw RoomException.roomNotFound();
-    return findRoom;
+    return new RoomResponseDto(findRoom);
   }
 
   async getRoomListAll(options: PaginationOptions, roomType: RoomType): Promise<Pagination<Room>> {
@@ -37,7 +37,7 @@ export class RoomService {
     });
   }
 
-  async createRoom(createRoomRequestDto: CreateRoomRequestDto, email: string): Promise<CreateRoomResponseDto> {
+  async createRoom(createRoomRequestDto: CreateRoomRequestDto, email: string): Promise<RoomResponseDto> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
 
@@ -71,7 +71,7 @@ export class RoomService {
     } finally {
       await queryRunner.release();
     }
-    return new CreateRoomResponseDto(newRoom);
+    return new RoomResponseDto(newRoom);
   }
 
   async deleteRoom(email: string, uuid: string): Promise<boolean> {

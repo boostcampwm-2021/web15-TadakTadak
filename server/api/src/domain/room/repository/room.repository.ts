@@ -19,7 +19,10 @@ export class RoomRepository extends Repository<Room> {
   }
 
   async findRoomByUUID(uuid: string): Promise<Room | undefined> {
-    return await this.findOne({ where: { uuid } });
+    return this.createQueryBuilder('room')
+      .leftJoinAndSelect('room.owner', 'user')
+      .where('room.uuid = :uuid', { uuid })
+      .getOne();
   }
 
   async findRoomByUserEmail(email: string): Promise<Room | undefined> {

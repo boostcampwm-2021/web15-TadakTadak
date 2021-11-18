@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { useUser } from '@contexts/userContext';
 import { useEffect, useState } from 'react';
-import FireAnimation from '@components/FireAnimation';
+import FireAnimation from '@components/fireAnimation';
 
 interface IntroContainerProps {
   fireOn: boolean;

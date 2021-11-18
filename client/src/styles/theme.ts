@@ -62,9 +62,10 @@ const theme: DefaultTheme = {
   `,
   active: `&:active {
     opacity: 0.8;
-    transform: scale(0.9);
+    transform: scale(0.98);
     transition: transform 0.1s;
   }`,
+  transition: `transition: all 0.5s ease-in-out;`,
 };
 
 export { theme };

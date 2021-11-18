@@ -54,5 +54,6 @@ declare module 'styled-components' {
     flexCenter: string;
     flexColumn: string;
     active: string;
+    transition: string;
   }
 }

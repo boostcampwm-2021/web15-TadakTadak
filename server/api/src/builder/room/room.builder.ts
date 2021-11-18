@@ -1,6 +1,6 @@
-import { BuilderCommon } from './builder';
-import { User } from '../domain/user/user.entity';
-import { Room, RoomType } from '../domain/room/room.entity';
+import { BuilderCommon } from '../builder';
+import { User } from '../../domain/user/user.entity';
+import { Room, RoomType } from '../../domain/room/room.entity';
 
 export class RoomBuilder extends BuilderCommon<Room> {
   constructor() {

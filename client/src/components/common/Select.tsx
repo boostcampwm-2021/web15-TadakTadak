@@ -14,7 +14,6 @@ interface SelectProps {
 }
 
 const StyledSelect = styled.select`
-  font-family: 'monospace', 'Noto Sans KR', sans-serif;
   width: 100%;
   height: 4rem;
   font-family: 'Dongle', sans-serif;
@@ -40,10 +39,8 @@ const StyledSelect = styled.select`
 
 const Select = ({ name, className, options, onChange }: SelectProps): JSX.Element => {
   return (
-    <StyledSelect className={className} onChange={onChange}>
-      <option value="default" disabled>
-        {name} 선택
-      </option>
+    <StyledSelect className={className} onChange={onChange} defaultValue="">
+      <option value="">{name} 선택</option>
       {options.map(({ value, label }, idx) => (
         <option key={idx} value={value}>
           {label}

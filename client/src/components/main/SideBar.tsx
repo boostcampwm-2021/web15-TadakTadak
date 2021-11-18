@@ -55,6 +55,7 @@ const LoginBtn = styled.button`
     color: ${({ theme }) => theme.colors.white};
   }
   ${({ theme }) => theme.active};
+  ${({ theme }) => theme.transition};
 `;
 
 const UserInfoDiv = styled.div`
@@ -73,6 +74,7 @@ const UserInfoDiv = styled.div`
     color: ${({ theme }) => theme.colors.white};
   }
   ${({ theme }) => theme.active};
+  ${({ theme }) => theme.transition};
 `;
 
 const LogoutBtn = styled.button`
@@ -95,6 +97,7 @@ const LogoutBtn = styled.button`
   & span {
     margin-right: 20px;
   }
+  ${({ theme }) => theme.transition};
 `;
 
 const UserAvatar = styled.img`
