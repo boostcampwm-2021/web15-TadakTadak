@@ -4,12 +4,13 @@ import RoomBox from '@components/RoomBox';
 import SideBar from '@components/main/SideBar';
 import ListGenerator from '@components/ListGenerator';
 import { getRoom } from '@utils/apis';
+import { UserProps } from '@contexts/userContext';
 
 export interface RoomInfo {
   agoraAppId: string;
   agoraToken: string;
   uuid: string;
-  ownerId: number;
+  owner?: UserProps;
   title: string;
   roomType: string;
   description: string;

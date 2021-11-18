@@ -46,6 +46,16 @@ function postOptions(body: BodyType): RequestInit {
   };
 }
 
+function deleteOptions(): RequestInit {
+  return {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+    },
+    credentials: 'include',
+  };
+}
+
 export async function fetcher<T>(url: string, options: RequestInit): Promise<HTTPResponse<T>> {
   try {
     const response = await fetch(url, options);
@@ -80,7 +90,12 @@ export async function fetchGet<T>(url: string, query?: string): Promise<HTTPResp
 }
 
 export async function fetchPost<T>(url: string, body: BodyType): Promise<HTTPResponse<T>> {
-  const requestUrl = getUrl(`${url}`);
+  const requestUrl = getUrl(url);
   const response = await fetcher<T>(requestUrl, postOptions(body));
   return response;
+}
+
+export function fetchDelete(url: string): void {
+  const requestUrl = getUrl(url);
+  fetcher(requestUrl, deleteOptions());
 }
