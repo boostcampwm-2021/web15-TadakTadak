@@ -1,3 +1,5 @@
+import { LocalDateTime } from '@js-joda/core';
+
 export interface IRoomRequest {
   roomId: string;
   nickname: string;
@@ -23,6 +25,7 @@ export enum CodeLanguage {
 export interface IMessage {
   type?: MessageType;
   language?: string;
+  time: LocalDateTime;
   roomId: string;
   nickname: string;
   message: string;

@@ -10,6 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { IMessage, IRoomRequest } from './room.interface';
+import { LocalDateTime } from '@js-joda/core';
 
 @WebSocketGateway({ cors: true })
 export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -19,8 +20,14 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   private logger: Logger = new Logger('AppGateway');
 
   @SubscribeMessage('msgToServer')
-  handleMessage(client: Socket, { roomId, message }: IMessage): void {
-    this.server.to(roomId).emit('msgToClient', message);
+  handleMessage(client: Socket, { roomId, message, nickname }: IMessage): void {
+    const emitMessage: IMessage = {
+      message: message,
+      time: LocalDateTime.now(),
+      nickname: nickname,
+      roomId: roomId,
+    };
+    this.server.to(roomId).emit('msgToClient', emitMessage);
   }
 
   @SubscribeMessage('join-room')
@@ -42,7 +49,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.server.to(roomId).emit('user-list', this.userList[roomId]);
   }
 
-  @SubscribeMessage('kink-room')
+  @SubscribeMessage('kick-room')
   handleKickRoom(client: Socket, { roomId, kickNickname }: IRoomRequest): void {
     if (!kickNickname) return;
     delete this.userList[roomId][kickNickname];
