@@ -89,7 +89,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   const [nickname, onChangeNickname] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [message, setMessage] = useState('');
-  const [devField, setDevField] = useState('1');
+  const [devField, setDevField] = useState('');
 
   const showMessage = (msg: string) => setMessage(msg);
 
@@ -98,17 +98,14 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   };
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(devField);
     e.preventDefault();
     if (!email || !nickname || !password || !devField) {
-      showMessage('모두 입력해주세요');
-      return;
+      return showMessage('모두 입력해주세요');
     }
     const requestBody = { email, nickname, password, devField: +devField };
     const isOk = await postJoin(requestBody);
     if (!isOk) {
-      showMessage('이미 등록되어 있는 이메일입니다.');
-      return;
+      return showMessage('이미 등록되어 있는 이메일입니다.');
     }
     setIsLogin(true);
   };
