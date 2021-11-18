@@ -102,11 +102,13 @@ const LogoutBtn = styled.button`
 
 const UserAvatar = styled.img`
   margin-right: ${({ theme }) => theme.margins.base};
-  width: 5rem;
-  height: 5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   overflow: hidden;
 `;
+
+const UserNickname = styled.span``;
 
 const SideBar = (): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
@@ -131,7 +133,7 @@ const SideBar = (): JSX.Element => {
           <>
             <UserInfoDiv onClick={onClickUserInfoBtn}>
               <UserAvatar src={user.imageUrl}></UserAvatar>
-              {user.nickname}
+              <UserNickname>{user.nickname}</UserNickname>
             </UserInfoDiv>
             <LogoutBtn onClick={onClickLogoutBtn}>
               <span>로그아웃</span>
