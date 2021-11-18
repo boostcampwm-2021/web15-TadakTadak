@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
+import styled, { css, ThemeContext } from 'styled-components';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
-import styled, { css, ThemeContext } from 'styled-components';
 import { useClient } from './videoConfig';
 import Button from '@components/common/Button';
 import ScreenShareDiv from './ScreenShareDiv';
-import { deleteRoom } from '@utils/apis';
+import { deleteRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
 
 const ButtonContainer = styled.div`

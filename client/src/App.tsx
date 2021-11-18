@@ -4,7 +4,7 @@ import GlobalStyles from './styles/GlobalStyles';
 import Introduction from '@pages/Introduction';
 import Main from '@pages/Main';
 import { useUser, useUserFns } from '@contexts/userContext';
-import { getUserByToken } from '@utils/apis';
+import { getUserByToken } from '@src/apis';
 import Room from '@pages/Room';
 
 const App = (): JSX.Element => {

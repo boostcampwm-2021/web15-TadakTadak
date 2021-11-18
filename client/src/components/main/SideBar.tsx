@@ -5,7 +5,7 @@ import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
-import { postLogout } from '@src/utils/apis';
+import { postLogout } from '@src/apis';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 
