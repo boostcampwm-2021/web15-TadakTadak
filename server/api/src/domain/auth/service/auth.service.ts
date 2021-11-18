@@ -47,7 +47,7 @@ export class AuthService {
     const { nickname, email, password } = joinRequestDto;
     const isExistUser = await this.userRepository.exists(joinRequestDto);
     if (isExistUser) throw UserException.userIsExist();
-    const devField: DevField = await this.devFieldRepository.findDevById(joinRequestDto.devFieldId);
+    const devField: DevField = await this.devFieldRepository.findDevById(joinRequestDto.devField);
     if (!devField) throw DevFieldException.devFieldNotFound();
     const user: User = new UserBuilder()
       .setNickName(nickname)

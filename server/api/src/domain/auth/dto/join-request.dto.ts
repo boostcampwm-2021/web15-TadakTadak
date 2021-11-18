@@ -12,5 +12,5 @@ export class JoinRequestDto {
   readonly password: string;
 
   readonly introduction: string;
-  readonly devFieldId: number;
+  readonly devField: number;
 }
