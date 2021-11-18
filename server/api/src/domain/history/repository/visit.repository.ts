@@ -7,7 +7,7 @@ import { VisitBuilder } from 'src/builder/visit.builder';
 export class VisitRepository extends Repository<Visit> {
   async getVisitCount() {
     const yesterDay: LocalDate = LocalDate.now().minusDays(1);
-    return await this.find({ where: { date: yesterDay } });
+    return await this.findOne({ where: { date: yesterDay } });
   }
 
   async addVisitCount(count: number) {
