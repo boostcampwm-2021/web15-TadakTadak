@@ -1,43 +1,29 @@
 import { UserProps } from '@contexts/userContext';
-import { RoomInfo } from '@pages/Main/Main';
-import 'dotenv/config';
+import { RoomInfo } from '@components/main/RoomList';
+import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchDelete } from './apiUtils';
 
-const baseUrl = process.env.REACT_APP_SERVER_URL;
+interface PostLogin {
+  email: string;
+  password: string;
+}
 
-export const postJoin = async (email: string, nickname: string, password: string): Promise<boolean> => {
-  const response = await fetch(baseUrl + '/api/auth/join', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify({ email, nickname, password }),
-  });
-  if (response.ok) {
-    return true;
-  }
-  return false;
+export const postLogin = async (body: PostLogin): Promise<HTTPResponse<UserProps>> => {
+  const response = await fetchPost<UserProps>('/api/auth/login', { ...body });
+  return response;
 };
 
-export const postLogin = async (email: string, password: string): Promise<{ statusCode: number; data: UserProps }> => {
-  const response = await fetch(baseUrl + '/api/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify({ email, password }),
-  });
-  const { statusCode, data } = await response.json();
-  return { statusCode, data };
+interface PostJoin extends PostLogin {
+  nickname: string;
+}
+
+export const postJoin = async (body: PostJoin): Promise<HTTPResponse<boolean>> => {
+  const response = await fetchPost<boolean>('/api/auth/join', { ...body });
+  return response;
 };
 
-export const getUserByToken = async (): Promise<{ statusCode: number; data: UserProps }> => {
-  const response = await fetch(baseUrl + '/api/auth/token', {
-    credentials: 'include',
-  });
-  const { statusCode, data } = await response.json();
-  return { statusCode, data };
+export const getUserByToken = async (): Promise<HTTPResponse<UserProps>> => {
+  const response = await fetchGet<UserProps>('/api/auth/token');
+  return response;
 };
 
 interface PostRoom {
@@ -48,17 +34,9 @@ interface PostRoom {
   roomType: string;
 }
 
-export const postRoom = async (inputData: PostRoom): Promise<{ statusCode: number; data: RoomInfo }> => {
-  const response = await fetch(baseUrl + '/api/room', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(inputData),
-  });
-  const { statusCode, data } = await response.json();
-  return { statusCode, data: data?.room };
+export const postRoom = async (body: PostRoom): Promise<HTTPResponse<RoomInfo>> => {
+  const response = await fetchPost<RoomInfo>('/api/room', { ...body });
+  return response;
 };
 
 interface GetRoomQueryObj {
@@ -74,17 +52,14 @@ interface ResponseGetRoomData {
   total: number;
 }
 
-function queryObjToString(queryObj: GetRoomQueryObj): string {
-  return Object.entries(queryObj)
-    .map((e) => e.join('='))
-    .join('&');
+export const getRoom = async (queryObj: GetRoomQueryObj): Promise<HTTPResponse<ResponseGetRoomData>> => {
+  const queryString = queryObjToString(queryObj);
+  const response = await fetchGet<ResponseGetRoomData>('/api/room', queryString);
+  return response;
+};
+
+interface DeleteRoom {
+  uuid: string;
 }
 
-export const getRoom = async (
-  queryObj: GetRoomQueryObj,
-): Promise<{ statusCode: number; data: ResponseGetRoomData }> => {
-  const queryString = queryObjToString(queryObj);
-  const response = await fetch(baseUrl + `/api/room?${queryString}`);
-  const { statusCode, data } = await response.json();
-  return { statusCode, data };
-};
+export const deleteRoom = ({ uuid }: DeleteRoom): void => fetchDelete(`/api/room/${uuid}`);

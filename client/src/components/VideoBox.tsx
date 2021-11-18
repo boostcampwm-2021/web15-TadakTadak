@@ -38,11 +38,12 @@ const VolumeVisualizer = styled.div`
 const SPEAK_VOLUME = 0.1;
 const VOLUME_VISUAL_TIME = 1000;
 
-const VideoBox = (props: {
+interface VideoBoxProps {
   videoTrack: ICameraVideoTrack | IRemoteVideoTrack | undefined;
   audioTrack: IMicrophoneAudioTrack | IRemoteAudioTrack | undefined;
-}): JSX.Element => {
-  const { videoTrack, audioTrack } = props;
+}
+
+const VideoBox = ({ videoTrack, audioTrack }: VideoBoxProps): JSX.Element => {
   const [isSpeak, setIsSpeak] = useState(false);
 
   useEffect(() => {

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import LoginModal from '../LoginModal';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
-import Modal from '@components/Modal';
+import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
 import { setCookie } from '@utils/cookie';
 
@@ -11,16 +11,18 @@ const SIDEBAR_MIN_WIDTH = '29rem';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary};
+    border: 1px solid ${theme.colors.borderGrey};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
     font-size: ${theme.fontSizes.lg};
   `};
   width: 100%;
   text-align: center;
-  :hover {
-    background-color: ${({ theme }) => theme.colors.primary};
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
   }
+  ${({ theme }) => theme.active};
 `;
 
 const SideBarContainer = styled.div`
@@ -31,7 +33,8 @@ const SideBarContainer = styled.div`
   width: ${SIDEBAR_MIN_WIDTH};
   min-width: ${SIDEBAR_MIN_WIDTH};
   height: 100%;
-  background-color: #21272e;
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.borderGrey};
 `;
 
 const SideBarTopMenus = styled.div``;
@@ -40,21 +43,24 @@ const SideBarBottomMenus = styled.div``;
 
 const LoginBtn = styled.button`
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary};
+    border: 1px solid ${theme.colors.borderGrey};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
-    font-size: ${theme.fontSizes.lg};
+    font-size: ${theme.fontSizes.xl};
   `};
   width: 100%;
   text-align: center;
   :hover {
-    background-color: ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
   }
+  ${({ theme }) => theme.active};
+  ${({ theme }) => theme.transition};
 `;
 
 const UserInfoDiv = styled.div`
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary};
+    border: 1px solid ${theme.colors.borderGrey};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
     font-size: ${theme.fontSizes.lg};
@@ -62,15 +68,18 @@ const UserInfoDiv = styled.div`
   `};
   width: 100%;
   text-align: center;
-  :hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-  }
   cursor: pointer;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.bgGreen};
+    color: ${({ theme }) => theme.colors.white};
+  }
+  ${({ theme }) => theme.active};
+  ${({ theme }) => theme.transition};
 `;
 
 const LogoutBtn = styled.button`
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary};
+    border: 1px solid ${theme.colors.borderGrey};
     margin-top: ${theme.margins.lg};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
@@ -84,9 +93,11 @@ const LogoutBtn = styled.button`
   :hover {
     background-color: ${({ theme }) => theme.colors.primary};
   }
+  ${({ theme }) => theme.active};
   & span {
     margin-right: 20px;
   }
+  ${({ theme }) => theme.transition};
 `;
 
 const UserAvatar = styled.img`
@@ -97,7 +108,7 @@ const UserAvatar = styled.img`
   overflow: hidden;
 `;
 
-const SideBar: React.FC = () => {
+const SideBar = (): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();

@@ -27,9 +27,15 @@ interface Colors {
   bold: string;
   primary: string;
   secondary: string;
-  tertiary: string;
   black: string;
   white: string;
+  bgWhite: string;
+  bgGreen: string;
+  blue: string;
+  blue2: string;
+  borderGrey: string;
+  grey: string;
+  green: string;
 }
 
 declare module 'styled-components' {
@@ -46,5 +52,8 @@ declare module 'styled-components' {
       bold: number;
     };
     flexCenter: string;
+    flexColumn: string;
+    active: string;
+    transition: string;
   }
 }

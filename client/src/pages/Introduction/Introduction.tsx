@@ -1,38 +1,49 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useUser } from '@contexts/userContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import FireAnimation from '@components/fireAnimation';
 
-const IntroContainer = styled.div`
+interface IntroContainerProps {
+  fireOn: boolean;
+}
+
+const IntroContainer = styled.div<IntroContainerProps>`
   ${({ theme }) => theme.flexCenter};
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: ${({ theme }) => theme.colors.bgGreen};
+  ${(props) =>
+    props.fireOn &&
+    css`
+      background-color: ${({ theme }) => theme.colors.bgWhite};
+    `}
+  transition: background-color 1500ms linear;
   padding: ${({ theme }) => theme.paddings.base};
+  font-family: 'Dongle', sans-serif;
 `;
 
-const IntroTitle = styled.h1`
-  font-size: ${({ theme }) => theme.fontSizes.title};
-  margin-bottom: ${({ theme }) => theme.margins.lg};
+const IntroTitle = styled.div`
+  z-index: 2;
+  color: white;
+  font-size: 200px;
 `;
-
-const TitleText = styled.span`
-  color: ${(props) => props.color};
+const IntroDescription = styled.div`
+  z-index: 2;
+  color: white;
+  font-size: 40px;
+  margin-bottom: ${({ theme }) => theme.margins.xl};
 `;
-
-const MainLink = styled(Link)`
-  width: 30rem;
-  height: 20rem;
-  ${({ theme }) => theme.flexCenter};
-  border: 1px solid ${({ theme }) => theme.colors.secondary};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  :hover {
-    background-color: ${({ theme }) => theme.colors.secondary};
-    color: ${({ theme }) => theme.colors.black};
-  }
+const IntroButtonDescription = styled.div`
+  z-index: 2;
+  color: white;
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+  margin-top: 70px;
 `;
 
 const Introduction = (props: { history: { push(url: string): void } }): JSX.Element => {
   const user = useUser();
+  const [fireOn, setFireOn] = useState(false);
   const { push } = props.history;
 
   useEffect(() => {
@@ -41,15 +52,18 @@ const Introduction = (props: { history: { push(url: string): void } }): JSX.Elem
     }
   }, [user, push]);
 
+  useEffect(() => {
+    if (fireOn) {
+      setTimeout(() => push('/main'), 1500);
+    }
+  }, [fireOn, push]);
+
   return (
-    <IntroContainer>
-      <IntroTitle>
-        <TitleText color={'red'}>타</TitleText>
-        <TitleText color={'orange'}>닥</TitleText>
-        <TitleText color={'red'}>타</TitleText>
-        <TitleText color={'yellow'}>닥</TitleText> 🔥
-      </IntroTitle>
-      <MainLink to="/main">메인으로 가기</MainLink>
+    <IntroContainer fireOn={fireOn}>
+      <IntroTitle>타닥타닥</IntroTitle>
+      <IntroDescription>개발자들을 위한 아늑한 공간</IntroDescription>
+      <FireAnimation setFireOn={setFireOn} />
+      <IntroButtonDescription>모닥불을 피워 주세요</IntroButtonDescription>
     </IntroContainer>
   );
 };

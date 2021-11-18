@@ -1,20 +1,24 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
-import styled, { css } from 'styled-components';
+import styled, { css, ThemeContext } from 'styled-components';
 import { useClient } from './videoConfig';
-import Button from '@components/Button';
+import Button from '@components/common/Button';
 import ScreenShareDiv from './ScreenShareDiv';
+import { deleteRoom } from '@utils/apis';
+import { useUser } from '@contexts/userContext';
 
-const ButtonContainer = styled.div``;
+const ButtonContainer = styled.div`
+  position: relative;
+`;
 const Controls = styled.div`
   position: fixed;
   ${({ theme }) => css`
     ${theme.flexCenter}
     bottom: ${theme.margins.xl};
-    left: 0;
+    left: 29rem;
     right: 0;
   `}
 `;
@@ -27,13 +31,18 @@ const GetoutDiv = styled.div`
   `}
 `;
 
-const VideoController = (props: {
+interface VideoControllerProps {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
   setStart: React.Dispatch<React.SetStateAction<boolean>>;
-}): JSX.Element => {
+  uuid: string;
+  ownerId: number | undefined;
+}
+
+const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerProps): JSX.Element => {
   const client = useClient();
   const history = useHistory();
-  const { tracks, setStart } = props;
+  const themeContext = useContext(ThemeContext);
+  const user = useUser();
   const [trackState, setTrackState] = useState({ video: false, audio: false });
   const [screenShare, setScreenShare] = useState(false);
 
@@ -52,15 +61,16 @@ const VideoController = (props: {
     }
   };
 
-  const handleScreenShare = () => setScreenShare(true);
+  const handleScreenShare = () => setScreenShare(!screenShare);
 
   const leaveChannel = useCallback(async () => {
+    if (ownerId === user.id) deleteRoom({ uuid });
     await client.leave();
     client.removeAllListeners();
     tracks[0].close();
     tracks[1].close();
     setStart(false);
-  }, [client, tracks, setStart]);
+  }, [client, tracks, uuid, ownerId, user, setStart]);
 
   useEffect(() => {
     return history.listen(() => {
@@ -74,19 +84,19 @@ const VideoController = (props: {
     <ButtonContainer>
       <Controls>
         <Button
-          icon={trackState.audio ? <FaMicrophone /> : <FaMicrophoneSlash />}
+          icon={trackState.audio ? <FaMicrophone fill="white" /> : <FaMicrophoneSlash />}
           text={''}
           className={trackState.audio ? 'on' : ''}
           onClick={() => mute('audio')}
         />
         <Button
-          icon={trackState.video ? <FaVideo /> : <FaVideoSlash />}
+          icon={trackState.video ? <FaVideo fill="white" /> : <FaVideoSlash />}
           text={''}
           className={trackState.video ? 'on' : ''}
           onClick={() => mute('video')}
         />
         <Button
-          icon={screenShare ? <MdScreenShare /> : <MdStopScreenShare />}
+          icon={screenShare ? <MdScreenShare fill="white" /> : <MdStopScreenShare />}
           text={''}
           className={screenShare ? 'on' : ''}
           onClick={handleScreenShare}
@@ -103,8 +113,9 @@ const VideoController = (props: {
       </Controls>
       <GetoutDiv>
         <Button
-          icon={<MdOutlineExitToApp />}
+          icon={<MdOutlineExitToApp fill="white" />}
           text={''}
+          color={themeContext.colors.secondary}
           onClick={() => {
             leaveChannel();
             history.replace('/main');

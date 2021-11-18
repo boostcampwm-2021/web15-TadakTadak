@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from './Modal';
+import Modal from '@components/common/Modal';
 import JoinForm from './JoinForm';
 import LoginForm from './LoginForm';
 
@@ -8,7 +8,7 @@ interface LoginProps {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Login: React.FC<LoginProps> = ({ modal, setModal }) => {
+const Login = ({ modal, setModal }: LoginProps): JSX.Element => {
   const [isLogin, setIsLogin] = useState(true);
   const onClickModalToggle = () => setIsLogin(!isLogin);
   return (

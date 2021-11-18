@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
-import ReactSelect, { StylesConfig, SingleValue } from 'react-select';
 import { postRoom } from '@utils/apis';
 import { useUser } from '@contexts/userContext';
+import Select from '@components/common/Select';
+import { adminOptions } from '@utils/utils';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
@@ -13,49 +14,36 @@ const Container = styled.div`
 `;
 
 const Form = styled.form`
-  ${({ theme }) => theme.flexCenter}
-  margin-top: ${({ theme }) => theme.margins.lg};
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
   width: 100%;
+  height: 30rem;
+  ${({ theme }) => css`
+    background-color: ${theme.colors.grey};
+    padding: ${theme.paddings.lg};
+    border: 1px solid ${theme.colors.borderGrey};
+    border-radius: ${theme.borderRadius.base};
+  `};
 `;
 
 const Input = styled.input`
-  width: 100%;
-  margin: ${({ theme }) => theme.margins.sm};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
+  font-size: ${({ theme }) => theme.fontSizes.base};
 `;
 
 const Button = styled.button`
   ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.green};
   padding: ${({ theme }) => theme.paddings.sm};
   width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  color: white;
   border-radius: 1rem;
-  font-size: ${({ theme }) => theme.fontSizes.base}; ;
 `;
-
-const customStyles: StylesConfig = {
-  menu: (provided) => ({
-    ...provided,
-    padding: 10,
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    color: state.isSelected ? 'white' : '#00C9C8',
-    fontFamily: 'monospace',
-    fontWeight: 1000,
-  }),
-  control: (provided) => ({
-    ...provided,
-    width: 300,
-  }),
-};
 
 enum RoomType {
   타닥타닥 = 1,
   캠프파이어 = 2,
-  코딩라이브 = 3,
 }
 
 type OptionType = {
@@ -63,35 +51,38 @@ type OptionType = {
   label: string;
 };
 
-const selectOptions: OptionType[] = [
+const roomOptions: OptionType[] = [
   { value: RoomType.타닥타닥, label: '타닥타닥' },
   { value: RoomType.캠프파이어, label: '캠프파이어' },
-  { value: RoomType.코딩라이브, label: '코딩라이브' },
 ];
 
 const CreateForm = (): JSX.Element => {
   const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [maxHeadcount, onChangeMaxHeadcount] = useInput('');
-  const [roomType, setRoomType] = useState<string | undefined>('타닥타닥');
+  const [roomType, setRoomType] = useState(RoomType[1]);
+  const [maxHeadcount, setMaxHeadcount] = useState('');
   const user = useUser();
   const history = useHistory();
 
-  const handleSelectChange = (newValue: SingleValue<OptionType>): void => setRoomType(newValue?.label);
+  const handleRoomSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>
+    setRoomType((e.target[e.target.selectedIndex] as HTMLOptionElement).text);
+  const handleAdminSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setMaxHeadcount((e.target[e.target.selectedIndex] as HTMLOptionElement).value);
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!roomTitle || !roomType || !maxHeadcount) {
       return;
     }
-    const { statusCode, data } = await postRoom({
+    const requestBody = {
       userId: user.id,
       title: roomTitle,
       description,
       maxHeadcount: +maxHeadcount,
       roomType,
-    });
-    if (statusCode === 201) {
+    };
+    const { isOk, data } = await postRoom(requestBody);
+    if (isOk && data) {
       const { uuid } = data;
       history.push(`/room/${uuid}`, data);
     }
@@ -107,6 +98,7 @@ const CreateForm = (): JSX.Element => {
           onChange={onChangeRoomTitle}
           maxLength={50}
           required={true}
+          autoComplete="new-password"
         />
         <Input
           type="text"
@@ -114,21 +106,10 @@ const CreateForm = (): JSX.Element => {
           id="description"
           onChange={onChangeDescription}
           maxLength={50}
+          autoComplete="new-password"
         />
-        <ReactSelect
-          defaultValue={selectOptions[0]}
-          styles={customStyles}
-          value={selectOptions.find((op) => op.label === roomType)}
-          options={selectOptions}
-          // onChange={(value) => handleSelectChange(value.value)}
-        />
-        <Input
-          type="number"
-          placeholder="제한 인원을 지정해주세요."
-          id="maxHeadcount"
-          onChange={onChangeMaxHeadcount}
-          required={true}
-        />
+        <Select name={'방 유형'} options={roomOptions} onChange={handleRoomSelectChange} />
+        <Select name={'인원'} options={adminOptions} onChange={handleAdminSelectChange} />
         <Button>생성 하기</Button>
       </Form>
     </Container>

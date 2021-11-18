@@ -15,11 +15,17 @@ const theme: DefaultTheme = {
   },
   colors: {
     bold: '#009292',
-    primary: '#00C9C8',
-    secondary: '#A3CFCD',
-    tertiary: '#BFFCF9',
+    primary: '#ee7f6e',
+    secondary: 'tomato',
     black: '#121212',
     white: `rgba(255,255,255,1)`,
+    bgWhite: '#F5F8FA',
+    bgGreen: '#1d4456',
+    blue: '#51A9FE',
+    blue2: '#1F90FF',
+    grey: '#F5F8FA',
+    borderGrey: '#D8DEE3',
+    green: '#339933',
   },
   margins: {
     sm: '0.5rem',
@@ -50,6 +56,16 @@ const theme: DefaultTheme = {
     justify-content:center;
     align-items:center;
   `,
+  flexColumn: `
+    display:flex;
+    flex-direction:column;
+  `,
+  active: `&:active {
+    opacity: 0.8;
+    transform: scale(0.98);
+    transition: transform 0.1s;
+  }`,
+  transition: `transition: all 0.5s ease-in-out;`,
 };
 
 export { theme };
