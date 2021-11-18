@@ -4,7 +4,7 @@ export const RateLimiterConfig: RateLimiterOptions = {
   for: 'Express',
   type: 'Memory',
   keyPrefix: 'global',
-  points: 4,
+  points: 50,
   pointsConsumed: 1,
   inmemoryBlockOnConsumed: 0,
   duration: 10,
