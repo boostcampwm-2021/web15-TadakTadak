@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
-import { postRoom } from '@utils/apis';
+import { postRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
 import Select from '@components/common/Select';
 import { adminOptions } from '@utils/utils';

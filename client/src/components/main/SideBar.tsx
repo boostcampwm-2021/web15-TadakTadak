@@ -5,7 +5,7 @@ import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
-import { setCookie } from '@utils/cookie';
+import { postLogout } from '@src/apis';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 
@@ -102,11 +102,13 @@ const LogoutBtn = styled.button`
 
 const UserAvatar = styled.img`
   margin-right: ${({ theme }) => theme.margins.base};
-  width: 5rem;
-  height: 5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   overflow: hidden;
 `;
+
+const UserNickname = styled.span``;
 
 const SideBar = (): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
@@ -117,9 +119,11 @@ const SideBar = (): JSX.Element => {
   const onClickLoginBtn = () => setLoginModal(!loginModal);
   const onClickCreateBtn = () => setCreateModal(true);
   const onClickUserInfoBtn = () => {};
-  const onClickLogoutBtn = () => {
-    setCookie('access-token', '');
-    logUserOut();
+  const onClickLogoutBtn = async () => {
+    const { isOk } = await postLogout();
+    if (isOk) {
+      logUserOut();
+    }
   };
 
   return (
@@ -129,7 +133,7 @@ const SideBar = (): JSX.Element => {
           <>
             <UserInfoDiv onClick={onClickUserInfoBtn}>
               <UserAvatar src={user.imageUrl}></UserAvatar>
-              {user.nickname}
+              <UserNickname>{user.nickname}</UserNickname>
             </UserInfoDiv>
             <LogoutBtn onClick={onClickLogoutBtn}>
               <span>로그아웃</span>
