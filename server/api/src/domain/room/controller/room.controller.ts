@@ -47,6 +47,18 @@ export class RoomController {
     return { result: await this.roomService.getRoomByUUID(uuid) };
   }
 
+  @Post(':uuid/join')
+  @UseGuards(JwtAuthGuard)
+  async joinRoom(@Param('uuid') uuid: string): Promise<{ result: boolean }> {
+    return { result: await this.roomService.joinRoom(uuid) };
+  }
+
+  @Post(':uuid/leave')
+  @UseGuards(JwtAuthGuard)
+  async leaveRoom(@Param('uuid') uuid: string): Promise<{ result: boolean }> {
+    return { result: await this.roomService.leaveRoom(uuid) };
+  }
+
   @Delete(':uuid')
   @UseGuards(JwtAuthGuard)
   async deleteRoom(@Req() req: Request, @Param('uuid') uuid: string): Promise<{ result: boolean }> {

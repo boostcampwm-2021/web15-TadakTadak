@@ -1,6 +1,11 @@
-import { DeleteResult, EntityRepository, Like, Repository } from 'typeorm';
+import { DeleteResult, EntityRepository, Like, Repository, UpdateResult } from 'typeorm';
 import { PaginationOptions } from '../../../paginate';
 import { Room, RoomType } from '../room.entity';
+
+export enum RoomProcessOption {
+  Join = '+ 1',
+  Leave = '- 1',
+}
 
 @EntityRepository(Room)
 export class RoomRepository extends Repository<Room> {
@@ -23,6 +28,16 @@ export class RoomRepository extends Repository<Room> {
       .leftJoinAndSelect('room.owner', 'user')
       .where('room.uuid = :uuid', { uuid })
       .getOne();
+  }
+
+  async roomProcess(uuid: string, option: RoomProcessOption): Promise<UpdateResult> {
+    return await this.createQueryBuilder()
+      .update(Room)
+      .set({
+        nowHeadcount: () => `now_headcount ${option}`,
+      })
+      .where('uuid = :uuid', { uuid })
+      .execute();
   }
 
   async findRoomByUserEmail(email: string): Promise<Room | undefined> {

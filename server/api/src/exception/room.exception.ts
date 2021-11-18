@@ -34,4 +34,25 @@ export class RoomException {
       message: '방 삭제중 오류가 발생했습니다.',
     });
   }
+
+  static roomJoinError(): HttpException {
+    return new InternalServerErrorException({
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: '방 참여중 오류가 발생했습니다.',
+    });
+  }
+
+  static roomLeaveError(): HttpException {
+    return new InternalServerErrorException({
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: '방 퇴장중 오류가 발생했습니다.',
+    });
+  }
+
+  static roomFullError(): HttpException {
+    return new BadRequestException({
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: '방의 참여자가 가득찼습니다.',
+    });
+  }
 }

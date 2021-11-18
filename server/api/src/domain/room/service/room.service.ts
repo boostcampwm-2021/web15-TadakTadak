@@ -3,15 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { RtcRole, RtcTokenBuilder } from 'agora-access-token';
 import { RoomBuilder } from '../../../builder';
-import { UserException, RoomException } from '../../../exception';
+import { RoomException, UserException } from '../../../exception';
 import { Pagination, PaginationOptions } from '../../../paginate';
-import { Connection, DeleteResult, getConnection } from 'typeorm';
+import { Connection, DeleteResult } from 'typeorm';
 import { Room, RoomType } from '../room.entity';
-import { RoomRepository } from '../repository/room.repository';
+import { RoomProcessOption, RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
 import { RoomResponseDto } from '../dto/room-response.dto';
-import { find } from 'rxjs';
 
 @Injectable()
 export class RoomService {
@@ -27,6 +26,24 @@ export class RoomService {
     const findRoom = await this.roomRepository.findRoomByUUID(uuid);
     if (!findRoom) throw RoomException.roomNotFound();
     return new RoomResponseDto(findRoom);
+  }
+
+  async joinRoom(uuid: string): Promise<boolean> {
+    const findRoom = await this.roomRepository.findRoomByUUID(uuid);
+    if (!findRoom) throw RoomException.roomNotFound();
+    if (findRoom.nowHeadcount === findRoom.maxHeadcount) throw RoomException.roomFullError();
+    const updateResult = await this.roomRepository.roomProcess(uuid, RoomProcessOption.Join);
+    if (!updateResult) throw RoomException.roomJoinError();
+    return true;
+  }
+
+  async leaveRoom(uuid: string): Promise<boolean> {
+    const findRoom = await this.roomRepository.findRoomByUUID(uuid);
+    if (!findRoom) throw RoomException.roomNotFound();
+    if (findRoom.nowHeadcount < 1) throw RoomException.roomLeaveError();
+    const updateResult = await this.roomRepository.roomProcess(uuid, RoomProcessOption.Leave);
+    if (!updateResult) throw RoomException.roomLeaveError();
+    return true;
   }
 
   async getRoomListAll(options: PaginationOptions, roomType: RoomType): Promise<Pagination<Room>> {
