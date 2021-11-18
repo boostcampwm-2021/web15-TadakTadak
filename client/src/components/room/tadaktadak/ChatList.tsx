@@ -84,7 +84,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
     [sendMessage],
   );
 
-  const handleMessageReceive = useCallback((data) => setChats([...chats, data]), [chats, setChats]);
+  const handleMessageReceive = useCallback((chat) => setChats((prevState) => [...prevState, chat]), [setChats]);
 
   useEffect(() => {
     socket.on('msgToClient', handleMessageReceive);
