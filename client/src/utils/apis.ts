@@ -1,6 +1,6 @@
 import { UserProps } from '@contexts/userContext';
 import { RoomInfo } from '@components/main/RoomList';
-import { HTTPResponse, queryObjToString, fetchGet, fetchPost } from './apiUtils';
+import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchDelete } from './apiUtils';
 
 interface PostLogin {
   email: string;
@@ -57,3 +57,9 @@ export const getRoom = async (queryObj: GetRoomQueryObj): Promise<HTTPResponse<R
   const response = await fetchGet<ResponseGetRoomData>('/api/room', queryString);
   return response;
 };
+
+interface DeleteRoom {
+  uuid: string;
+}
+
+export const deleteRoom = ({ uuid }: DeleteRoom): void => fetchDelete(`/api/room/${uuid}`);

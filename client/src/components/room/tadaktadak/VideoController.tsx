@@ -7,6 +7,8 @@ import styled, { css, ThemeContext } from 'styled-components';
 import { useClient } from './videoConfig';
 import Button from '@components/common/Button';
 import ScreenShareDiv from './ScreenShareDiv';
+import { deleteRoom } from '@utils/apis';
+import { useUser } from '@contexts/userContext';
 
 const ButtonContainer = styled.div``;
 const Controls = styled.div`
@@ -30,12 +32,15 @@ const GetoutDiv = styled.div`
 interface VideoControllerProps {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
   setStart: React.Dispatch<React.SetStateAction<boolean>>;
+  uuid: string;
+  ownerId: number | undefined;
 }
 
-const VideoController = ({ tracks, setStart }: VideoControllerProps): JSX.Element => {
+const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerProps): JSX.Element => {
   const client = useClient();
   const history = useHistory();
   const themeContext = useContext(ThemeContext);
+  const user = useUser();
   const [trackState, setTrackState] = useState({ video: false, audio: false });
   const [screenShare, setScreenShare] = useState(false);
 
@@ -57,12 +62,13 @@ const VideoController = ({ tracks, setStart }: VideoControllerProps): JSX.Elemen
   const handleScreenShare = () => setScreenShare(true);
 
   const leaveChannel = useCallback(async () => {
+    if (ownerId === user.id) deleteRoom({ uuid });
     await client.leave();
     client.removeAllListeners();
     tracks[0].close();
     tracks[1].close();
     setStart(false);
-  }, [client, tracks, setStart]);
+  }, [client, tracks, uuid, ownerId, user, setStart]);
 
   useEffect(() => {
     return history.listen(() => {

@@ -7,7 +7,7 @@ export interface UserProps {
   imageUrl?: string;
   introduction?: string;
   isSocial?: boolean;
-  dev_field?: {
+  devField?: {
     id: number;
     name: string;
   };
