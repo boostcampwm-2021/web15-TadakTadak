@@ -59,7 +59,7 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
     }
   };
 
-  const handleScreenShare = () => setScreenShare(true);
+  const handleScreenShare = () => setScreenShare(!screenShare);
 
   const leaveChannel = useCallback(async () => {
     if (ownerId === user.id) deleteRoom({ uuid });
@@ -82,19 +82,19 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
     <ButtonContainer>
       <Controls>
         <Button
-          icon={trackState.audio ? <FaMicrophone /> : <FaMicrophoneSlash />}
+          icon={trackState.audio ? <FaMicrophone fill="white" /> : <FaMicrophoneSlash />}
           text={''}
           className={trackState.audio ? 'on' : ''}
           onClick={() => mute('audio')}
         />
         <Button
-          icon={trackState.video ? <FaVideo /> : <FaVideoSlash />}
+          icon={trackState.video ? <FaVideo fill="white" /> : <FaVideoSlash />}
           text={''}
           className={trackState.video ? 'on' : ''}
           onClick={() => mute('video')}
         />
         <Button
-          icon={screenShare ? <MdScreenShare /> : <MdStopScreenShare />}
+          icon={screenShare ? <MdScreenShare fill="white" /> : <MdStopScreenShare />}
           text={''}
           className={screenShare ? 'on' : ''}
           onClick={handleScreenShare}
@@ -111,7 +111,7 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
       </Controls>
       <GetoutDiv>
         <Button
-          icon={<MdOutlineExitToApp />}
+          icon={<MdOutlineExitToApp fill="white" />}
           text={''}
           color={themeContext.colors.secondary}
           onClick={() => {
