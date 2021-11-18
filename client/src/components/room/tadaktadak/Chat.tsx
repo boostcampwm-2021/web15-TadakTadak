@@ -26,7 +26,7 @@ interface ChatProps {
 const Chat = React.memo(({ chat }: ChatProps): JSX.Element => {
   return (
     <ChatContainer>
-      <ChatNickname>{chat.nickname}</ChatNickname>
+      <ChatNickname>{chat.nickname ?? 'Anonymous'}</ChatNickname>
       <ChatMesssage>{chat.message}</ChatMesssage>
     </ChatContainer>
   );
