@@ -7,7 +7,7 @@ import { FaGithub } from 'react-icons/fa';
 import InfoMessage from './InfoMessage';
 
 const FORM_WIDTH = 30;
-const FORM_HEIGHT = 20;
+const FORM_HEIGHT = 30;
 const DELAY = 3;
 
 const Container = styled.div`
@@ -18,6 +18,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: absolute;
+  top: 20%;
 `;
 
 const Form = styled.form`
@@ -60,7 +62,6 @@ const GithubLoginButton = styled.button`
 
 const ModalToggleSpan = styled.span`
   width: 100%;
-  padding: ${({ theme }) => theme.paddings.lg};
   margin-top: ${({ theme }) => theme.margins.lg};
   color: ${({ theme }) => theme.colors.blue};
   text-align: center;
