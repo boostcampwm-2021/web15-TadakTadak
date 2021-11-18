@@ -10,13 +10,15 @@ import ScreenShareDiv from './ScreenShareDiv';
 import { deleteRoom } from '@utils/apis';
 import { useUser } from '@contexts/userContext';
 
-const ButtonContainer = styled.div``;
+const ButtonContainer = styled.div`
+  position: relative;
+`;
 const Controls = styled.div`
   position: fixed;
   ${({ theme }) => css`
     ${theme.flexCenter}
     bottom: ${theme.margins.xl};
-    left: 0;
+    left: 29rem;
     right: 0;
   `}
 `;
