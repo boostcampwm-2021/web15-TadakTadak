@@ -93,7 +93,6 @@ export async function fetchGet<T>(url: string, query?: string): Promise<HTTPResp
 export async function fetchPost<T>(url: string, body: BodyType = {}): Promise<HTTPResponse<T>> {
   const requestUrl = getUrl(url);
   const response = await fetcher<T>(requestUrl, postOptions(body));
-  console.log(postOptions(body));
   return response;
 }
 

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';
 import socket from '@src/socket';
+import Chat from './Chat';
 
 const INPUT_WIDTH = '90%';
 const CHAT_LIST_HEIGHT = '90%';
@@ -44,24 +45,6 @@ const Input = styled.input`
   background-color: ${({ theme }) => theme.colors.bgWhite};
 `;
 
-const Chat = styled.li`
-  display: flex;
-  :not(:first-of-type) {
-    margin-top: ${({ theme }) => theme.margins.base};
-  }
-`;
-
-const ChatNickname = styled.span`
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-`;
-
-const ChatMesssage = styled.p`
-  width: 100%;
-  margin-left: ${({ theme }) => theme.margins.base};
-  font-size: ${({ theme }) => theme.fontSizes.base};
-`;
-
 const Line = styled.div`
   width: ${INPUT_WIDTH};
   border-top: 1px solid ${({ theme }) => theme.colors.black};
@@ -74,6 +57,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   const [message, onChangeMessage, onResetMessage] = useInput('');
 
   const sendMessage = useCallback(() => {
+    if (!message) return;
     const myMessage = { type: 'string', nickname, message, roomId: uuid };
     socket.emit('msgToServer', myMessage);
     onResetMessage();
@@ -84,7 +68,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
     [sendMessage],
   );
 
-  const handleMessageReceive = useCallback((data) => setChats([...chats, data]), [chats, setChats]);
+  const handleMessageReceive = useCallback((chat) => setChats((prevState) => [...prevState, chat]), [setChats]);
 
   useEffect(() => {
     socket.on('msgToClient', handleMessageReceive);
@@ -92,15 +76,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
 
   return (
     <Container>
-      <List>
-        {chats.length > 0 &&
-          Object.values(chats).map((chat, idx) => (
-            <Chat key={idx}>
-              <ChatNickname>{chat.nickname}</ChatNickname>
-              <ChatMesssage>{chat.message}</ChatMesssage>
-            </Chat>
-          ))}
-      </List>
+      <List>{chats.length > 0 && Object.values(chats).map((chat, idx) => <Chat key={idx} chat={chat} />)}</List>
       <Line />
       <InputDiv>
         <Input
