@@ -14,9 +14,11 @@ const StyledTab = styled.div<TabProps>`
   width: 100%;
   text-align: center;
   cursor: pointer;
+  border-bottom: 3px solid transparent;
   ${(props) =>
     props.isActive &&
     css`
+      border-bottom: 3px solid transparent;
       border-bottom: 3px solid ${props.theme.colors.blue};
       background-color: ${props.theme.colors.grey};
     `}
@@ -30,6 +32,7 @@ const StyledTab = styled.div<TabProps>`
   }
   :disabled {
   }
+  transition: background-color 0.4s ease-in-out, border-color 0.3s ease-in-out;
 `;
 
 const Tab = ({ text, isActive, onClick }: TabProps): JSX.Element => {

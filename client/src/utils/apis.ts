@@ -1,5 +1,5 @@
 import { UserProps } from '@contexts/userContext';
-import { RoomInfo } from '@pages/Main/Main';
+import { RoomInfo } from '@components/main/RoomList';
 import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchDelete } from './apiUtils';
 
 interface PostLogin {
@@ -16,9 +16,9 @@ interface PostJoin extends PostLogin {
   nickname: string;
 }
 
-export const postJoin = async (body: PostJoin): Promise<boolean> => {
-  const { isOk } = await fetchPost('/api/auth/join', { ...body });
-  return isOk;
+export const postJoin = async (body: PostJoin): Promise<HTTPResponse<boolean>> => {
+  const response = await fetchPost<boolean>('/api/auth/join', { ...body });
+  return response;
 };
 
 export const getUserByToken = async (): Promise<HTTPResponse<UserProps>> => {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
-import { RoomInfo } from '@pages/Main/Main';
+import { RoomInfo } from '@components/main/RoomList';
 import { RoomContainer, RoomWrapper } from '@pages/Room/style';
 import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import VideoController from '@components/room/tadaktadak/VideoController';

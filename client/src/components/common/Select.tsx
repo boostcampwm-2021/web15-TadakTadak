@@ -14,7 +14,6 @@ interface SelectProps {
 }
 
 const StyledSelect = styled.select`
-  font-family: 'monospace', 'Noto Sans KR', sans-serif;
   width: 100%;
   height: 4rem;
   font-family: 'Dongle', sans-serif;
