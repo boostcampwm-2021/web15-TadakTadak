@@ -6,11 +6,12 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './controller/auth.controller';
 import { AuthService } from './service/auth.service';
 import { UserRepository } from '../user/repository/user.repository';
+import { DevFieldRepository } from '../field/repository/dev-field.repository';
 import { HistoryModule } from '../history/history.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([UserRepository, DevFieldRepository]),
     PassportModule,
     JwtModule.register({
       secret: 'secretkey',
