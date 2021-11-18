@@ -2,6 +2,6 @@
   font-family: 'Dongle';
   font-style: normal;
   font-weight: 700;
-  src: url('../assets/fonts/dongle-v4-korean-700.woff2') format('woff2'),
-    url('../assets/fonts/dongle-v4-korean-700.woff') format('woff');
+  src: url('./fonts/dongle-v4-korean-700.woff2') format('woff2'),
+    url('./fonts/dongle-v4-korean-700.woff') format('woff');
 } ;
