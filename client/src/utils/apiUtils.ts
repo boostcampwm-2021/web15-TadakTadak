@@ -25,35 +25,36 @@ export function queryObjToString<T>(queryObj: T): string {
     .join('&');
 }
 
-function getOptions(): RequestInit {
+function simpleOptions(method: string): RequestInit {
   return {
+    method,
     headers: {
       Accept: 'application/json',
     },
     credentials: 'include',
   };
+}
+
+function getOptions(): RequestInit {
+  return simpleOptions('GET');
 }
 
 function postOptions(body: BodyType): RequestInit {
-  return {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(body),
-  };
+  return Object.keys(body).length
+    ? {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(body),
+      }
+    : simpleOptions('POST');
 }
 
 function deleteOptions(): RequestInit {
-  return {
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/json',
-    },
-    credentials: 'include',
-  };
+  return simpleOptions('DELETE');
 }
 
 export async function fetcher<T>(url: string, options: RequestInit): Promise<HTTPResponse<T>> {
@@ -89,9 +90,10 @@ export async function fetchGet<T>(url: string, query?: string): Promise<HTTPResp
   return response;
 }
 
-export async function fetchPost<T>(url: string, body: BodyType): Promise<HTTPResponse<T>> {
+export async function fetchPost<T>(url: string, body: BodyType = {}): Promise<HTTPResponse<T>> {
   const requestUrl = getUrl(url);
   const response = await fetcher<T>(requestUrl, postOptions(body));
+  console.log(postOptions(body));
   return response;
 }
 

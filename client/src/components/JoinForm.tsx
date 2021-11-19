@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import useInput from '@hooks/useInput';
-import { postJoin } from '@utils/apis';
+import { postJoin } from '@src/apis';
 import { FaGithub } from 'react-icons/fa';
 import InfoMessage from './InfoMessage';
 import Select from './common/Select';

@@ -6,6 +6,7 @@ export interface IRoomRequest {
   kickNickname?: string;
   field?: string;
   img?: string;
+  maxHead: number;
 }
 
 export enum MessageType {

@@ -1,6 +1,6 @@
 import { UserProps } from '@contexts/userContext';
 import { RoomInfo } from '@components/main/RoomList';
-import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchDelete } from './apiUtils';
+import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchDelete } from './utils/apiUtils';
 
 interface PostLogin {
   email: string;
@@ -9,6 +9,11 @@ interface PostLogin {
 
 export const postLogin = async (body: PostLogin): Promise<HTTPResponse<UserProps>> => {
   const response = await fetchPost<UserProps>('/api/auth/login', { ...body });
+  return response;
+};
+
+export const postLogout = async (): Promise<HTTPResponse<boolean>> => {
+  const response = await fetchPost<boolean>('/api/auth/logout');
   return response;
 };
 
