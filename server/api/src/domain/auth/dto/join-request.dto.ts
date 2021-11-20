@@ -12,5 +12,7 @@ export class JoinRequestDto {
   readonly password: string;
 
   readonly introduction: string;
+
+  @IsNotEmpty()
   readonly devField: number;
 }
