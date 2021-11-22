@@ -1,8 +1,9 @@
 import styled, { css } from 'styled-components';
 import { useState } from 'react';
 import InfoForm from './InfoForm';
-import { useUser } from '@contexts/userContext';
+import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
+import axios from 'axios';
 
 const Wrapper = styled.div`
   display: flex;
@@ -72,6 +73,25 @@ function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
   const onClickModifyToggle = () => setIsModify(!isModify);
   const user = useUser();
+  const { logUserIn } = useUserFns();
+
+  const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // eslint-disable-next-line
+    const fileList = e.target.files;
+
+    if (!fileList) return;
+    const formData = new FormData();
+    // eslint-disable-next-line
+
+    formData.append('image', fileList[0]);
+    const { data } = await axios.post(`/api/user/image`, formData, {
+      withCredentials: true,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    if (data) {
+      logUserIn(data);
+    }
+  };
 
   return (
     <div>
@@ -86,7 +106,7 @@ function UserInfo(): JSX.Element {
           <UserAvatar src={user.imageUrl}></UserAvatar>
           <ButtonWrapper>
             <UploadSpan htmlFor="upload">업로드</UploadSpan>
-            <input type="file" id="upload" style={{ display: 'none' }}></input>
+            <input type="file" onChange={handleFileInput} id="upload" style={{ display: 'none' }}></input>
             <DeleteSpan>삭제</DeleteSpan>
           </ButtonWrapper>
         </ImageWrapper>

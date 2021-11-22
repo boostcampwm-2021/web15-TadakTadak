@@ -49,7 +49,6 @@ const ModalToggleSpan = styled.span`
 
 const InfoForm = ({ onClickModifyToggle }: InfoProps): JSX.Element => {
   const user = useUser();
-  console.log(user);
   return (
     <Wrapper>
       <InfoWrapper>
