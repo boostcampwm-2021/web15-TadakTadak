@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { RoomInfo } from './main/RoomList';
+import { getRoomByUuid } from '@src/apis';
+import { useHistory } from 'react-router';
+import { useCallback } from 'react';
 
 const ROOM_WIDTH = 20;
 const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
 
-const RoomLink = styled(Link)`
+const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.white};
@@ -92,8 +94,19 @@ interface RoomBoxProps {
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const { uuid, title, description, nowHeadcount, maxHeadcount } = roomInfo;
+  const history = useHistory();
+
+  const onClickRoomBox = useCallback(async () => {
+    const { isOk, data } = await getRoomByUuid(uuid);
+    if (isOk && data) {
+      if (data.nowHeadcount < data.maxHeadcount) {
+        history.push({ pathname: `/room/${uuid}`, state: data });
+      }
+    }
+  }, [history, uuid]);
+
   return (
-    <RoomLink to={{ pathname: `/room/${uuid}`, state: roomInfo }}>
+    <RoomBoxWrapper onClick={onClickRoomBox}>
       <RoomBoxTop>
         <RoomTitle>{title}</RoomTitle>
         <RoomDescription>{description}</RoomDescription>
@@ -104,7 +117,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
           {nowHeadcount} / {maxHeadcount}
         </RoomAdmitNumber>
       </RoomBoxBottom>
-    </RoomLink>
+    </RoomBoxWrapper>
   );
 };
 

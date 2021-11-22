@@ -63,6 +63,11 @@ export const getRoom = async (queryObj: GetRoomQueryObj): Promise<HTTPResponse<R
   return response;
 };
 
+export const getRoomByUuid = async (uuid: string): Promise<HTTPResponse<RoomInfo>> => {
+  const response = await fetchGet<RoomInfo>(`/api/room/${uuid}`);
+  return response;
+};
+
 interface DeleteRoom {
   uuid: string;
 }
