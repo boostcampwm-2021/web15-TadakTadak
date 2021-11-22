@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useState } from 'react';
 
 export interface DevFieldProps {
-  id: string;
-  name: string;
+  label: string;
+  value: string;
 }
 
 export interface DevFieldFnProps {

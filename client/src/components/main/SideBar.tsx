@@ -142,7 +142,14 @@ const SideBar = (): JSX.Element => {
     async function initDevField() {
       const { isOk, data } = await getDevField();
       if (isOk && data) {
-        registerDevField(data);
+        const changeToSelectData = data.map((obj) => {
+          const newObj = {
+            value: obj.id,
+            label: obj.name,
+          };
+          return newObj;
+        });
+        registerDevField(changeToSelectData);
       }
     }
     initDevField();

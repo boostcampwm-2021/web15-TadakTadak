@@ -1,7 +1,6 @@
 import { UserProps } from '@contexts/userContext';
 import { RoomInfo } from '@components/main/RoomList';
 import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchDelete } from './utils/apiUtils';
-import { DevFieldProps } from './contexts/devFieldContext';
 
 interface PostLogin {
   email: string;
@@ -85,7 +84,12 @@ export const postLeaveRoom = async (uuid: string): Promise<HTTPResponse<boolean>
   return response;
 };
 
-export const getDevField = async (): Promise<HTTPResponse<DevFieldProps[]>> => {
-  const response = await fetchGet<DevFieldProps[]>(`/api/field`);
+interface GetDevField {
+  id: string;
+  name: string;
+}
+
+export const getDevField = async (): Promise<HTTPResponse<GetDevField[]>> => {
+  const response = await fetchGet<GetDevField[]>(`/api/field`);
   return response;
 };
