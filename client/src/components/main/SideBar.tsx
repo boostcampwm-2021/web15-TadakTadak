@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import LoginModal from '../LoginModal';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
-import { postLogout } from '@src/apis';
+import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@src/contexts/userContext';
+import { useDevFieldFns } from '@src/contexts/devFieldContext';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 
@@ -125,6 +126,7 @@ const SideBar = (): JSX.Element => {
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();
   const { logUserOut } = useUserFns();
+  const { registerDevField } = useDevFieldFns();
 
   const onClickLoginBtn = () => setLoginModal(!loginModal);
   const onClickCreateBtn = () => setCreateModal(true);
@@ -135,6 +137,16 @@ const SideBar = (): JSX.Element => {
       logUserOut();
     }
   };
+
+  useEffect(() => {
+    async function initDevField() {
+      const { isOk, data } = await getDevField();
+      if (isOk && data) {
+        registerDevField(data);
+      }
+    }
+    initDevField();
+  }, [registerDevField]);
 
   return (
     <SideBarContainer>
