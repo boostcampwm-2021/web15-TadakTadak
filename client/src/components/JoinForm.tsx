@@ -5,6 +5,7 @@ import { postJoin } from '@src/apis';
 import { FaGithub } from 'react-icons/fa';
 import InfoMessage from './InfoMessage';
 import Select from './common/Select';
+import { useDevField } from '@src/contexts/devFieldContext';
 
 const FORM_WIDTH = 30;
 const FORM_HEIGHT = 30;
@@ -74,11 +75,6 @@ const ModalToggleSpan = styled.span`
   }
 `;
 
-const devFieldOptions = [
-  { value: 1, label: '프론트엔드' },
-  { value: 2, label: '백엔드' },
-];
-
 interface JoinProps {
   onClickModalToggle: React.MouseEventHandler<HTMLButtonElement>;
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -90,6 +86,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   const [password, onChangePassword] = useInput('');
   const [message, setMessage] = useState('');
   const [devField, setDevField] = useState('');
+  const devFieldOptions = useDevField();
 
   const showMessage = (msg: string) => setMessage(msg);
 
