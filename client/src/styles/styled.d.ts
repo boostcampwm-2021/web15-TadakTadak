@@ -38,6 +38,13 @@ interface Colors {
   green: string;
 }
 
+interface TagColors {
+  'Front-end': string;
+  'Back-end': string;
+  IOS: string;
+  Android: string;
+}
+
 declare module 'styled-components' {
   export interface DefaultTheme {
     borderRadius: BorderRadius;
@@ -55,5 +62,6 @@ declare module 'styled-components' {
     flexColumn: string;
     active: string;
     transition: string;
+    tagColors: TagColors;
   }
 }

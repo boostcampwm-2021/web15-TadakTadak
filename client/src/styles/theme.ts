@@ -27,6 +27,12 @@ const theme: DefaultTheme = {
     borderGrey: '#D8DEE3',
     green: '#339933',
   },
+  tagColors: {
+    'Front-end': '#9EEDEF',
+    'Back-end': '#F5F5D5',
+    IOS: '#FFE4E5',
+    Android: '#8685EF',
+  },
   margins: {
     sm: '0.5rem',
     base: '1.0rem',
