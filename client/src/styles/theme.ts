@@ -32,14 +32,17 @@ const theme: DefaultTheme = {
     'Back-end': '#F5F5D5',
     IOS: '#FFE4E5',
     Android: '#8685EF',
+    None: '#908989',
   },
   margins: {
+    xs: '0.3rem',
     sm: '0.5rem',
     base: '1.0rem',
     lg: '2.0rem',
     xl: '3.0rem',
   },
   paddings: {
+    xs: '0.3rem',
     sm: '.5rem',
     base: '1.0rem',
     lg: '2.0rem',

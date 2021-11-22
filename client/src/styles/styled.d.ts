@@ -16,6 +16,7 @@ interface BtnSizes {
 }
 
 interface Sizes {
+  xs?: string;
   sm: string;
   base: string;
   lg: string;
@@ -43,6 +44,7 @@ interface TagColors {
   'Back-end': string;
   IOS: string;
   Android: string;
+  None: string;
 }
 
 declare module 'styled-components' {
