@@ -38,7 +38,9 @@ const Nickname = styled.span`
 
 const DevField = styled.div``;
 
-const ParticipantList = ({ participants }: ParticipantListProps<{ field: string; img: string }>): JSX.Element => {
+const ParticipantList = ({
+  participants,
+}: ParticipantListProps<{ field: { id: number; name: string }; img: string }>): JSX.Element => {
   return (
     <Container>
       <List>
@@ -46,7 +48,7 @@ const ParticipantList = ({ participants }: ParticipantListProps<{ field: string;
           <Participant key={nickname}>
             <Avatar src={img} />
             <Nickname>{nickname}</Nickname>
-            {field && <DevField>{field}</DevField>}
+            {field && <DevField>{field.name}</DevField>}
           </Participant>
         ))}
       </List>
