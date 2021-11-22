@@ -2,7 +2,8 @@ import styled, { css } from 'styled-components';
 import { RoomInfo } from './main/RoomList';
 import { getRoomByUuid } from '@src/apis';
 import { useHistory } from 'react-router';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import socket from '@src/socket';
 
 const ROOM_WIDTH = 20;
 const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
@@ -94,16 +95,30 @@ interface RoomBoxProps {
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const { uuid, title, description, nowHeadcount, maxHeadcount } = roomInfo;
+  const roomDataRef = useRef<RoomInfo>();
   const history = useHistory();
+
+  const verifyBySocket = useCallback(async () => {
+    socket.emit('verify-room', { roomId: uuid });
+  }, [uuid]);
 
   const onClickRoomBox = useCallback(async () => {
     const { isOk, data } = await getRoomByUuid(uuid);
     if (isOk && data) {
-      if (data.nowHeadcount < data.maxHeadcount) {
-        history.push({ pathname: `/room/${uuid}`, state: data });
-      }
+      if (data.nowHeadcount >= data.maxHeadcount) return;
+      roomDataRef.current = data;
+      verifyBySocket();
     }
-  }, [history, uuid]);
+  }, [uuid, verifyBySocket]);
+
+  const enterRoom = useCallback(() => {
+    history.push({ pathname: `/room/${uuid}`, state: roomDataRef.current });
+  }, [history, uuid, roomDataRef]);
+
+  useEffect(() => {
+    socket.removeListener('is-verify');
+    socket.on('is-verify', enterRoom);
+  }, [enterRoom]);
 
   return (
     <RoomBoxWrapper onClick={onClickRoomBox}>
