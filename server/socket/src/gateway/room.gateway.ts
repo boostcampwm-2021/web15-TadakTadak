@@ -11,23 +11,31 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { IMessage, IRoomRequest } from './room.interface';
 import { LocalDateTime } from '@js-joda/core';
+import { pubClient, subClient } from '../redis.adapter';
 
 @WebSocketGateway({ cors: true })
 export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   userList: { [key: string]: any } = {}; // = 공용 Redis
-
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, { roomId, message, nickname }: IMessage): void {
+    Logger.log('set hi');
+    pubClient.set('hi', 'hello');
+    Logger.log('get hi');
+    pubClient.get('hi', (err, data) => {
+      const redisDataValue = err ? err : data;
+      Logger.log(redisDataValue);
+      this.server.to(roomId).emit('msgToClient', redisDataValue);
+    });
     const emitMessage: IMessage = {
       message: message,
       time: LocalDateTime.now(),
       nickname: nickname,
       roomId: roomId,
     };
-    this.server.to(roomId).emit('msgToClient', emitMessage);
+    // this.server.to(roomId).emit('msgToClient', emitMessage);
   }
 
   @SubscribeMessage('join-room')
