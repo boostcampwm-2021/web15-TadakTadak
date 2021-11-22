@@ -5,6 +5,7 @@ import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
 import socket from '@src/socket';
+import { postLeaveRoom } from '@src/apis';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 const SIDEBAR_HEIGHT = '100vh';
@@ -58,6 +59,7 @@ const RoomSideBar = ({ uuid }: RoomSideBarProps): JSX.Element => {
   const leaveSocket = useCallback(() => {
     const leavePayload = { nickname, roomId: uuid };
     socket.emit('leave-room', leavePayload);
+    postLeaveRoom(uuid);
   }, [nickname, uuid]);
 
   useEffect(() => {

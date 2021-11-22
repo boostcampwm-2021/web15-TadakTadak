@@ -78,3 +78,8 @@ export const postEnterRoom = async (uuid: string): Promise<HTTPResponse<boolean>
   const response = await fetchPost<boolean>(`/api/room/${uuid}/join`);
   return response;
 };
+
+export const postLeaveRoom = async (uuid: string): Promise<HTTPResponse<boolean>> => {
+  const response = await fetchPost<boolean>(`/api/room/${uuid}/leave`);
+  return response;
+};
