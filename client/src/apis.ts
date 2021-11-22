@@ -1,6 +1,6 @@
 import { UserProps } from '@contexts/userContext';
 import { RoomInfo } from '@components/main/RoomList';
-import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchDelete } from './utils/apiUtils';
+import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchPatch, fetchDelete } from './utils/apiUtils';
 
 interface PostLogin {
   email: string;
@@ -23,6 +23,17 @@ interface PostJoin extends PostLogin {
 
 export const postJoin = async (body: PostJoin): Promise<HTTPResponse<boolean>> => {
   const response = await fetchPost<boolean>('/api/auth/join', { ...body });
+  return response;
+};
+
+interface PatchUpdate {
+  originalName: string;
+  nickname: string;
+  devField?: number;
+}
+
+export const patchUpdate = async (body: PatchUpdate): Promise<HTTPResponse<UserProps>> => {
+  const response = await fetchPatch<UserProps>(`/api/user/${body.originalName}`, { ...body });
   return response;
 };
 
