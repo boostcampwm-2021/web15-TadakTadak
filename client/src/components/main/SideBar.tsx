@@ -6,6 +6,7 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
 import { postLogout } from '@src/apis';
+import { FieldName } from '@src/contexts/userContext';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 
@@ -110,6 +111,15 @@ const UserAvatar = styled.img`
 
 const UserNickname = styled.span``;
 
+const UserDevField = styled.div<{ bgColor: FieldName }>`
+  ${({ theme, bgColor }) => css`
+    margin-left: ${theme.margins.base};
+    background-color: ${theme.tagColors[bgColor]};
+    padding: ${theme.paddings.xs};
+    border-radius: ${theme.borderRadius.sm};
+  `}
+`;
+
 const SideBar = (): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
@@ -134,6 +144,7 @@ const SideBar = (): JSX.Element => {
             <UserInfoDiv onClick={onClickUserInfoBtn}>
               <UserAvatar src={user.imageUrl}></UserAvatar>
               <UserNickname>{user.nickname}</UserNickname>
+              <UserDevField bgColor={user?.devField?.name ?? 'None'}>{user?.devField?.name}</UserDevField>
             </UserInfoDiv>
             <LogoutBtn onClick={onClickLogoutBtn}>
               <span>로그아웃</span>

@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react';
 
+export type FieldName = 'Front-end' | 'Back-end' | 'IOS' | 'Android' | 'None';
+
 export interface UserProps {
   id?: number;
   nickname?: string;
@@ -9,7 +11,7 @@ export interface UserProps {
   isSocial?: boolean;
   devField?: {
     id: number;
-    name: string;
+    name: FieldName;
   };
   login?: boolean;
 }

@@ -1,11 +1,10 @@
 import { useContext } from 'react';
 import styled, { css, ThemeContext } from 'styled-components';
+import { FieldName } from '@src/contexts/userContext';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
 }
-
-type FieldName = 'Front-end' | 'Back-end' | 'IOS' | 'Android';
 
 const Container = styled.div`
   width: 100%;
