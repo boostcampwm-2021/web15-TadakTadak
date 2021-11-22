@@ -28,14 +28,17 @@ export class UserService {
   async updateUserInfo(nickname: string, userUpdateDto: UserUpdateDto) {
     const updateUser: User = await this.authRepository.findUserByNickname(nickname);
     if (!updateUser) throw UserException.userNotFound();
+    const sameNickname: boolean = nickname === userUpdateDto.nickname;
+    if (!sameNickname) {
+      const existUser: User = await this.authRepository.findUserByNickname(userUpdateDto.nickname);
+      if (existUser) throw UserException.userIsExist();
+    }
     const newDevField: DevField = await this.devFieldRepository.findDevById(userUpdateDto.devField);
     if (!newDevField) throw DevFieldException.devFieldNotFound();
     updateUser.setNickname(userUpdateDto.nickname);
-    updateUser.setPassword(userUpdateDto.password);
-    updateUser.setIntroduction(userUpdateDto.introduction);
     updateUser.setDevField(newDevField);
     await this.authRepository.save(updateUser);
-    return true;
+    return new UserResponseDto(updateUser);
   }
 
   async updateImage(nickname: string, file) {
