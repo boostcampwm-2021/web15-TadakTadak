@@ -73,3 +73,8 @@ interface DeleteRoom {
 }
 
 export const deleteRoom = ({ uuid }: DeleteRoom): void => fetchDelete(`/api/room/${uuid}`);
+
+export const postEnterRoom = async (uuid: string): Promise<HTTPResponse<boolean>> => {
+  const response = await fetchPost<boolean>(`/api/room/${uuid}/join`);
+  return response;
+};

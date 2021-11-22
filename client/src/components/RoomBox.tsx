@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { RoomInfo } from './main/RoomList';
-import { getRoomByUuid } from '@src/apis';
+import { getRoomByUuid, postEnterRoom } from '@src/apis';
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useRef } from 'react';
 import socket from '@src/socket';
@@ -112,6 +112,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   }, [uuid, verifyBySocket]);
 
   const enterRoom = useCallback(() => {
+    postEnterRoom(uuid);
     history.push({ pathname: `/room/${uuid}`, state: roomDataRef.current });
   }, [history, uuid, roomDataRef]);
 
