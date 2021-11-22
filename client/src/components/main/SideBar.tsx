@@ -6,6 +6,7 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
 import { postLogout } from '@src/apis';
+import { useHistory } from 'react-router-dom';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 
@@ -115,14 +116,18 @@ const SideBar = (): JSX.Element => {
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();
   const { logUserOut } = useUserFns();
+  const history = useHistory();
 
   const onClickLoginBtn = () => setLoginModal(!loginModal);
   const onClickCreateBtn = () => setCreateModal(true);
-  const onClickUserInfoBtn = () => {};
+  const onClickUserInfoBtn = () => {
+    history.push(`/profile`);
+  };
   const onClickLogoutBtn = async () => {
     const { isOk } = await postLogout();
     if (isOk) {
       logUserOut();
+      if (history.location.pathname !== '/') location.href = '/main';
     }
   };
 
