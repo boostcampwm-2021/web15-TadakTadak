@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as Process from 'process';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './controller/auth.controller';
 import { AuthService } from './service/auth.service';
@@ -14,7 +15,7 @@ import { HistoryModule } from '../history/history.module';
     TypeOrmModule.forFeature([UserRepository, DevFieldRepository]),
     PassportModule,
     JwtModule.register({
-      secret: 'secretkey',
+      secret: Process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
     HistoryModule,
