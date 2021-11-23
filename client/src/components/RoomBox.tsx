@@ -102,7 +102,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const history = useHistory();
 
   const verifyBySocket = useCallback(async () => {
-    socket.emit('verify-room', { roomId: uuid });
+    socket.emit('verify-room', { uuid });
   }, [uuid]);
 
   const onClickRoomBox = useCallback(async () => {

@@ -78,7 +78,7 @@ const ParticipantList = ({
     (e: React.MouseEvent<HTMLDivElement>) => {
       const kickNickname = e.currentTarget.getAttribute('data-nickname');
       if (!kickNickname) return;
-      socket.emit('kick-room', { roomId: uuid, kickNickname });
+      socket.emit('kick-room', { uuid, kickNickname });
     },
     [uuid],
   );

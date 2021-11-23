@@ -54,7 +54,7 @@ const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
   const onClickParticipantTap = () => setTabs({ ...initialTabState, isParticipant: !isParticipant });
 
   const leaveSocket = useCallback(() => {
-    const leavePayload = { nickname, roomId: uuid };
+    const leavePayload = { nickname, uuid };
     socket.emit('leave-room', leavePayload);
     postLeaveRoom(uuid);
   }, [nickname, uuid]);
@@ -75,7 +75,7 @@ const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
   );
 
   const initSocket = useCallback(() => {
-    const joinPayload = { nickname, roomId: uuid, field: devField, img: imageUrl };
+    const joinPayload = { nickname, uuid, field: devField, img: imageUrl };
     socket.emit('join-room', joinPayload);
     socket.on('user-list', registerParticipants);
   }, [nickname, devField, imageUrl, uuid, registerParticipants]);
