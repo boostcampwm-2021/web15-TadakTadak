@@ -12,7 +12,7 @@ export class UserResponseDto {
 
   constructor(user: User) {
     this.id = user.id;
-    this.nickname = user.nickName;
+    this.nickname = user.nickname;
     this.email = user.email;
     this.imageUrl = user.imageUrl;
     this.introduction = user.introduction;

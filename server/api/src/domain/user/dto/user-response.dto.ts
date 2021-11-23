@@ -2,7 +2,7 @@ import { LocalDate } from 'js-joda';
 
 export class UserResponseDto {
   id: number;
-  nickName: string;
+  nickname: string;
   email: string;
   imageUrl: string;
   imageName: string;

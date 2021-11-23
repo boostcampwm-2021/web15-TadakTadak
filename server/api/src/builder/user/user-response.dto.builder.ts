@@ -12,8 +12,8 @@ export class UserResponseDtoBuilder extends BuilderCommon<UserResponseDto> {
     return this;
   }
 
-  setNickName(nickName: string): UserResponseDtoBuilder {
-    this.object.nickName = nickName;
+  setNickname(nickname: string): UserResponseDtoBuilder {
+    this.object.nickname = nickname;
     return this;
   }
 
