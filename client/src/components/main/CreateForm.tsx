@@ -6,6 +6,7 @@ import { postRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
 import Select from '@components/common/Select';
 import { adminOptions } from '@utils/utils';
+import { RoomType } from './RoomList';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
@@ -41,7 +42,7 @@ const Button = styled.button`
   border-radius: 1rem;
 `;
 
-enum RoomType {
+enum RoomIndexType {
   타닥타닥 = 1,
   캠프파이어 = 2,
 }
@@ -52,14 +53,14 @@ type OptionType = {
 };
 
 const roomOptions: OptionType[] = [
-  { value: RoomType.타닥타닥, label: '타닥타닥' },
-  { value: RoomType.캠프파이어, label: '캠프파이어' },
+  { value: RoomIndexType.타닥타닥, label: '타닥타닥' },
+  { value: RoomIndexType.캠프파이어, label: '캠프파이어' },
 ];
 
 const CreateForm = (): JSX.Element => {
   const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [roomType, setRoomType] = useState(RoomType[1]);
+  const [roomType, setRoomType] = useState(RoomIndexType[1]);
   const [maxHeadcount, setMaxHeadcount] = useState('');
   const user = useUser();
   const history = useHistory();
@@ -84,7 +85,8 @@ const CreateForm = (): JSX.Element => {
     const { isOk, data } = await postRoom(requestBody);
     if (isOk && data) {
       const { uuid } = data;
-      history.push(`/room/${uuid}`, data);
+      const pathname = data.roomType === RoomType.tadak ? `/room/tadak/${uuid}` : `/room/campfire/${uuid}`;
+      history.push(pathname, data);
     }
   };
 
