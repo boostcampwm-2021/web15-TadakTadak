@@ -54,10 +54,10 @@ export class UserController {
     return { result: await this.userService.updateImage(nickname, file) };
   }
 
-  @Delete('/:userId/image')
+  @Delete('/image')
   @UseGuards(JwtAuthGuard)
-  async deleteUserImage(@Param('userId') nickname: string) {
-    return { result: await this.userService.deleteImage(nickname) };
+  async deleteUserImage(@Req() req: Request) {
+    return { result: await this.userService.deleteImage(req.user['email']) };
   }
 
   @Post('/:userId/time')
