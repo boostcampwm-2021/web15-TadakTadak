@@ -4,11 +4,11 @@ import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
 import axios from 'axios';
+import { deleteImage } from '@src/apis';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
@@ -30,6 +30,7 @@ const UserAvatar = styled.img`
 const ImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: ${({ theme }) => theme.margins.xl};
 `;
 
 const ButtonWrapper = styled.div`
@@ -56,7 +57,7 @@ const UploadSpan = styled.label`
   }
 `;
 
-const DeleteSpan = styled.span`
+const DeleteSpan = styled.button`
   ${({ theme }) => theme.flexCenter}
   width:100%;
   background-color: ${({ theme }) => theme.colors.secondary};
@@ -78,8 +79,7 @@ function UserInfo(): JSX.Element {
   const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     // eslint-disable-next-line
     const fileList = e.target.files;
-
-    if (!fileList) return;
+    if (!fileList || !fileList[0]) return;
     const formData = new FormData();
     // eslint-disable-next-line
 
@@ -88,6 +88,13 @@ function UserInfo(): JSX.Element {
       withCredentials: true,
       headers: { 'Content-Type': 'multipart/form-data' },
     });
+    if (data.data) {
+      logUserIn(data.data);
+    }
+  };
+
+  const handleFileDelete = async () => {
+    const { data } = await deleteImage();
     if (data) {
       logUserIn(data);
     }
@@ -107,7 +114,7 @@ function UserInfo(): JSX.Element {
           <ButtonWrapper>
             <UploadSpan htmlFor="upload">업로드</UploadSpan>
             <input type="file" onChange={handleFileInput} id="upload" style={{ display: 'none' }}></input>
-            <DeleteSpan>삭제</DeleteSpan>
+            <DeleteSpan onClick={handleFileDelete}>삭제</DeleteSpan>
           </ButtonWrapper>
         </ImageWrapper>
       </Wrapper>
