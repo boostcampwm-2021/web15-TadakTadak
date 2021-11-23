@@ -10,4 +10,5 @@ export const RoomContainer = styled.div`
   height: 100%;
   width: 100%;
   padding: ${({ theme }) => theme.paddings.lg};
+  ${({ theme }) => theme.flexCenter};
 `;
