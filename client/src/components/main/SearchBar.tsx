@@ -1,10 +1,14 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { TabState } from './RoomList';
 import { searchRoom } from '@src/apis';
 
 interface SearchBarProps {
   tabState: TabState;
+}
+
+interface ButtonProps {
+  input: string;
 }
 
 const Form = styled.form`
@@ -14,13 +18,28 @@ const Form = styled.form`
   justify-content: space-evenly;
 `;
 
-const Button = styled.button`
+const Button = styled.button<ButtonProps>`
   ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.green};
-  width: ${({ theme }) => theme.buttonSizes.lg};
-  padding: ${({ theme }) => theme.paddings.sm};
-  color: ${({ theme }) => theme.colors.white};
-  border-radius: 1rem;
+  ${({ theme }) => css`
+    font-size: ${theme.fontSizes.base};
+    background-color: ${theme.colors.green};
+    width: ${theme.buttonSizes.lg};
+    padding: ${theme.paddings.sm};
+    color: ${theme.colors.white};
+    border-radius: ${theme.borderRadius.base};
+  `}
+  opacity: 0.5;
+  cursor: not-allowed;
+  ${(props) =>
+    props.input &&
+    css`
+      cursor: pointer;
+      opacity: 1;
+      :hover {
+        opacity: 0.9;
+      }
+      ${({ theme }) => theme.active};
+    `}
 `;
 
 const Input = styled.input`
@@ -39,7 +58,7 @@ function SearchBar({ tabState }: SearchBarProps): JSX.Element {
   return (
     <Form onSubmit={onSubmitForm}>
       <Input type="text" onChange={onChangeInput} value={input} placeholder="방을 검색하세요." />
-      <Button>검색하기</Button>
+      <Button input={input}>검색하기</Button>
     </Form>
   );
 }
