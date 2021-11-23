@@ -50,7 +50,7 @@ export class AuthService {
     const devField: DevField = await this.devFieldRepository.findDevById(joinRequestDto.devField);
     if (!devField) throw DevFieldException.devFieldNotFound();
     const user: User = new UserBuilder()
-      .setNickName(nickname)
+      .setNickname(nickname)
       .setEmail(email)
       .setPassword(Bcrypt.hash(password))
       .setImageURL(process.env.DEFAULT_IMG)
