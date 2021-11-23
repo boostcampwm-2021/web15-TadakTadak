@@ -7,6 +7,7 @@ import Main from '@pages/Main';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { getUserByToken } from '@src/apis';
 import Room from '@pages/Room';
+import Profile from '@pages/Profile';
 
 const App = (): JSX.Element => {
   const user = useUser();
@@ -32,6 +33,7 @@ const App = (): JSX.Element => {
           <Route exact path="/" component={Introduction} />
           <Route path="/main" component={Main} />
           <Route path="/room" component={Room} />
+          <Route path="/profile" component={Profile} />
           <Redirect from="*" to="/" />
         </Switch>
       </BrowserRouter>

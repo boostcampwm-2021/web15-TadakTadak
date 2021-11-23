@@ -4,11 +4,5 @@ export class UserUpdateDto {
   readonly nickname: string;
 
   @IsNotEmpty()
-  readonly password: string;
-
-  @IsNotEmpty()
   readonly devField: number;
-
-  @IsNotEmpty()
-  readonly introduction: string;
 }

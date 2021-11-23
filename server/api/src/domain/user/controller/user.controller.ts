@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Req,
   Delete,
   Get,
   Param,
@@ -10,6 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
 import { UserService } from '../service/user.service';
@@ -38,11 +40,11 @@ export class UserController {
     return { result: await this.historyService.getHistory(nickname) };
   }
 
-  @Post('/:userId/image')
+  @Post('/image')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
-  async uploadUserImage(@Param('userId') nickname: string, @UploadedFile() file: Express.Multer.File) {
-    return { result: await this.userService.updateImage(nickname, file) };
+  async uploadUserImage(@Req() req: Request, @UploadedFile() file: Express.Multer.File) {
+    return { result: await this.userService.updateImage(req.user['email'], file) };
   }
 
   @Patch('/:userId/image')

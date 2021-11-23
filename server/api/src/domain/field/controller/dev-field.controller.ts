@@ -1,6 +1,5 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
 import { DevFieldRepository } from '../repository/dev-field.repository';
 
 @Controller('field')
@@ -11,8 +10,7 @@ export class DevFieldController {
   ) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  async getUserInfo() {
+  async getDevInfo() {
     return { result: await this.devFieldRepository.find() };
   }
 }

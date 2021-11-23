@@ -53,6 +53,20 @@ function postOptions(body: BodyType): RequestInit {
     : simpleOptions('POST');
 }
 
+function patchOptions(body: BodyType): RequestInit {
+  return Object.keys(body).length
+    ? {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(body),
+      }
+    : simpleOptions('PATCH');
+}
+
 function deleteOptions(): RequestInit {
   return simpleOptions('DELETE');
 }
@@ -93,6 +107,12 @@ export async function fetchGet<T>(url: string, query?: string): Promise<HTTPResp
 export async function fetchPost<T>(url: string, body: BodyType = {}): Promise<HTTPResponse<T>> {
   const requestUrl = getUrl(url);
   const response = await fetcher<T>(requestUrl, postOptions(body));
+  return response;
+}
+
+export async function fetchPatch<T>(url: string, body: BodyType = {}): Promise<HTTPResponse<T>> {
+  const requestUrl = getUrl(url);
+  const response = await fetcher<T>(requestUrl, patchOptions(body));
   return response;
 }
 

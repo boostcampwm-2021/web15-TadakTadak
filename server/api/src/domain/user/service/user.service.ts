@@ -28,25 +28,30 @@ export class UserService {
   async updateUserInfo(nickname: string, userUpdateDto: UserUpdateDto) {
     const updateUser: User = await this.authRepository.findUserByNickname(nickname);
     if (!updateUser) throw UserException.userNotFound();
+    const sameNickname: boolean = nickname === userUpdateDto.nickname;
+    if (!sameNickname) {
+      const existUser: User = await this.authRepository.findUserByNickname(userUpdateDto.nickname);
+      if (existUser) throw UserException.userIsExist();
+    }
     const newDevField: DevField = await this.devFieldRepository.findDevById(userUpdateDto.devField);
     if (!newDevField) throw DevFieldException.devFieldNotFound();
     updateUser.setNickname(userUpdateDto.nickname);
-    updateUser.setPassword(userUpdateDto.password);
-    updateUser.setIntroduction(userUpdateDto.introduction);
     updateUser.setDevField(newDevField);
     await this.authRepository.save(updateUser);
-    return true;
+    //빌더 적용하기
+    return new UserResponseDto(updateUser);
   }
 
-  async updateImage(nickname: string, file) {
-    const updateUser: User = await this.authRepository.findUserByNickname(nickname);
+  async updateImage(email: string, file) {
+    const updateUser: User = await this.authRepository.findUserByUserEmail(email);
     if (!updateUser) throw UserException.userNotFound();
     if (updateUser.imageName) await this.imageService.deleteImage(updateUser.imageName);
     const imageInfo = await this.imageService.uploadImage(file);
     updateUser.setImageUrl(imageInfo.Location);
     updateUser.setImageName(imageInfo.key);
     await this.authRepository.save(updateUser);
-    return updateUser.imageUrl;
+    //빌더 적용 하기
+    return new UserResponseDto(updateUser);
   }
 
   async deleteImage(nickname: string) {
