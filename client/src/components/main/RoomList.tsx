@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
 import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
 import Tab from '@components/common/Tab';
-
+import SearchBar from './SearchBar';
+import { getRoomQueryObj } from '@src/utils/apiUtils';
 import { UserProps } from '@src/contexts/userContext';
 import { getRoom } from '@src/apis';
 
@@ -41,12 +41,12 @@ export interface RoomInfo {
   maxHeadcount: number;
 }
 
-interface TabState {
+export interface TabState {
   tadak: boolean;
   campfire: boolean;
 }
 
-enum RoomType {
+export enum RoomType {
   tadak = '타닥타닥',
   campfire = '캠프파이어',
 }
@@ -61,13 +61,8 @@ function RoomList(): JSX.Element {
   const onClickCampFireTap = () => setTabState({ tadak: false, campfire: true });
 
   const getRoomList = async (roomType: keyof typeof RoomType) => {
-    const testQueryObj = {
-      type: RoomType[roomType],
-      search: '',
-      take: 15,
-      page: 1,
-    };
-    const { isOk, data } = await getRoom(testQueryObj);
+    const queryObj = getRoomQueryObj(RoomType[roomType], '', 1);
+    const { isOk, data } = await getRoom(queryObj);
     if (isOk && data) {
       setRooms([...data.results]);
     }
@@ -80,6 +75,7 @@ function RoomList(): JSX.Element {
       <TabWrapper>
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
+        <SearchBar tabState={tabState} setRooms={setRooms} />
       </TabWrapper>
       <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
     </>
