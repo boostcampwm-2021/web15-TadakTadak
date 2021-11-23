@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { RoomInfo } from './main/RoomList';
+import { getRoomByUuid, postEnterRoom } from '@src/apis';
+import { useHistory } from 'react-router';
+import { useCallback, useEffect, useRef } from 'react';
+import socket from '@src/socket';
 
 const ROOM_WIDTH = 20;
 const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
 
-const RoomLink = styled(Link)`
+const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.white};
@@ -92,8 +95,34 @@ interface RoomBoxProps {
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const { uuid, title, description, nowHeadcount, maxHeadcount } = roomInfo;
+  const roomDataRef = useRef<RoomInfo>();
+  const history = useHistory();
+
+  const verifyBySocket = useCallback(async () => {
+    socket.emit('verify-room', { roomId: uuid });
+  }, [uuid]);
+
+  const onClickRoomBox = useCallback(async () => {
+    const { isOk, data } = await getRoomByUuid(uuid);
+    if (isOk && data) {
+      if (data.nowHeadcount >= data.maxHeadcount) return;
+      roomDataRef.current = data;
+      verifyBySocket();
+    }
+  }, [uuid, verifyBySocket]);
+
+  const enterRoom = useCallback(() => {
+    postEnterRoom(uuid);
+    history.push({ pathname: `/room/${uuid}`, state: roomDataRef.current });
+  }, [history, uuid, roomDataRef]);
+
+  useEffect(() => {
+    socket.removeListener('is-verify');
+    socket.on('is-verify', enterRoom);
+  }, [enterRoom]);
+
   return (
-    <RoomLink to={{ pathname: `/room/${uuid}`, state: roomInfo }}>
+    <RoomBoxWrapper onClick={onClickRoomBox}>
       <RoomBoxTop>
         <RoomTitle>{title}</RoomTitle>
         <RoomDescription>{description}</RoomDescription>
@@ -104,7 +133,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
           {nowHeadcount} / {maxHeadcount}
         </RoomAdmitNumber>
       </RoomBoxBottom>
-    </RoomLink>
+    </RoomBoxWrapper>
   );
 };
 

@@ -43,10 +43,16 @@ interface VideoBoxProps {
   audioTrack: IMicrophoneAudioTrack | IRemoteAudioTrack | undefined;
 }
 
+interface DivWithFullscreen extends HTMLDivElement {
+  msRequestFullscreen?: () => void;
+  mozRequestFullScreen?: () => void;
+  webkitRequestFullscreen?: () => void;
+}
+
 const VideoBox = ({ videoTrack, audioTrack }: VideoBoxProps): JSX.Element => {
   const [isSpeak, setIsSpeak] = useState(false);
   const isInterval = useRef(false);
-
+  const videoRef = useRef<DivWithFullscreen>(null);
   const initInterval = useCallback(
     function () {
       if (!isInterval.current) {
@@ -61,6 +67,23 @@ const VideoBox = ({ videoTrack, audioTrack }: VideoBoxProps): JSX.Element => {
     [isInterval, audioTrack],
   );
 
+  function openFullscreen() {
+    if (videoRef.current) {
+      if (videoRef.current.requestFullscreen) {
+        videoRef.current.requestFullscreen();
+      } else if (videoRef.current.mozRequestFullScreen) {
+        /* Firefox */
+        videoRef.current.mozRequestFullScreen();
+      } else if (videoRef.current.webkitRequestFullscreen) {
+        /* Chrome, Safari & Opera */
+        videoRef.current.webkitRequestFullscreen();
+      } else if (videoRef.current.msRequestFullscreen) {
+        /* IE/Edge */
+        videoRef.current.msRequestFullscreen();
+      }
+    }
+  }
+
   useEffect(() => {
     if (audioTrack) {
       initInterval();
@@ -68,7 +91,12 @@ const VideoBox = ({ videoTrack, audioTrack }: VideoBoxProps): JSX.Element => {
   }, [audioTrack, initInterval]);
 
   return (
-    <VideoWrap>
+    <VideoWrap
+      onDoubleClick={() => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        videoTrack?.getMediaStreamTrack().readyState === 'live' && openFullscreen();
+      }}
+      ref={videoRef}>
       {videoTrack && (
         <AgoraVideoPlayer style={{ height: '100%', width: '100%' }} className="video" videoTrack={videoTrack} />
       )}

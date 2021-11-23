@@ -1,4 +1,6 @@
-import styled from 'styled-components';
+import { useContext } from 'react';
+import styled, { css, ThemeContext } from 'styled-components';
+import { FieldName } from '@src/contexts/userContext';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
@@ -36,9 +38,20 @@ const Nickname = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
-const DevField = styled.div``;
+const DevField = styled.div<{ bgColor: string }>`
+  background-color: ${({ bgColor }) => bgColor};
+  ${({ theme }) => css`
+    margin-left: ${theme.margins.base};
+    padding: ${theme.paddings.sm};
+    border-radius: ${theme.borderRadius.sm};
+  `}
+`;
 
-const ParticipantList = ({ participants }: ParticipantListProps<{ field: string; img: string }>): JSX.Element => {
+const ParticipantList = ({
+  participants,
+}: ParticipantListProps<{ field: { id: number; name: FieldName }; img: string }>): JSX.Element => {
+  const themeContext = useContext(ThemeContext);
+
   return (
     <Container>
       <List>
@@ -46,7 +59,7 @@ const ParticipantList = ({ participants }: ParticipantListProps<{ field: string;
           <Participant key={nickname}>
             <Avatar src={img} />
             <Nickname>{nickname}</Nickname>
-            {field && <DevField>{field}</DevField>}
+            {field && <DevField bgColor={themeContext.tagColors[field.name]}>{field.name}</DevField>}
           </Participant>
         ))}
       </List>
