@@ -60,6 +60,7 @@ const CampfireController = ({ track, setStart, uuid, ownerId }: CampfireControll
   }, [client, track, uuid, ownerId, user, setStart]);
 
   useEffect(() => {
+    window.onbeforeunload = leaveChannel;
     return history.listen(() => {
       if (history.action === 'POP') {
         leaveChannel();

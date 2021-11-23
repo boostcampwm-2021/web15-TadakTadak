@@ -73,6 +73,7 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
   }, [client, tracks, uuid, ownerId, user, setStart]);
 
   useEffect(() => {
+    window.onbeforeunload = leaveChannel;
     return history.listen(() => {
       if (history.action === 'POP') {
         leaveChannel();
