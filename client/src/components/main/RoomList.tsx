@@ -7,6 +7,7 @@ import SearchBar from './SearchBar';
 import { getRoomQueryObj } from '@src/utils/apiUtils';
 import { UserProps } from '@src/contexts/userContext';
 import { getRoom } from '@src/apis';
+import InfoMessage from '@components/InfoMessage';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
@@ -19,6 +20,7 @@ const TabWrapper = styled.div`
   ${({ theme }) => theme.flexCenter}
   margin-top: ${({ theme }) => theme.margins.xl};
   width: 100%;
+  position: relative;
 
   & div {
     transition: background-color 0.4s ease-in-out, border-color 0.3s ease-in-out;
@@ -76,6 +78,7 @@ function RoomList(): JSX.Element {
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
         <SearchBar tabState={tabState} setRooms={setRooms} />
+        {rooms.length === 0 && <InfoMessage message="검색된 방이 없습니다." />}
       </TabWrapper>
       <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
     </>
