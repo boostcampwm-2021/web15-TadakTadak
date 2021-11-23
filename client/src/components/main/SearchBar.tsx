@@ -8,7 +8,7 @@ interface SearchBarProps {
 }
 
 interface ButtonProps {
-  input: string;
+  search: string;
 }
 
 const Form = styled.form`
@@ -31,7 +31,7 @@ const Button = styled.button<ButtonProps>`
   opacity: 0.5;
   cursor: not-allowed;
   ${(props) =>
-    props.input &&
+    props.search &&
     css`
       cursor: pointer;
       opacity: 1;
@@ -48,17 +48,18 @@ const Input = styled.input`
 `;
 
 function SearchBar({ tabState }: SearchBarProps): JSX.Element {
-  const [input, setInput] = useState('');
+  const [search, setInput] = useState('');
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!input) return;
-    const response = await searchRoom();
+    if (!search) return;
+    const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
+    const response = await searchRoom(search, type);
   };
   return (
     <Form onSubmit={onSubmitForm}>
-      <Input type="text" onChange={onChangeInput} value={input} placeholder="방을 검색하세요." />
-      <Button input={input}>검색하기</Button>
+      <Input type="text" onChange={onChangeInput} value={search} placeholder="방을 검색하세요." />
+      <Button search={search}>검색하기</Button>
     </Form>
   );
 }

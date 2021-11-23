@@ -104,3 +104,15 @@ export const getDevField = async (): Promise<HTTPResponse<GetDevField[]>> => {
   const response = await fetchGet<GetDevField[]>(`/api/field`);
   return response;
 };
+
+export const searchRoom = async (search: string, type: string): Promise<HTTPResponse<GetDevField[]>> => {
+  const query = {
+    type,
+    search,
+    take: '15',
+    page: '1',
+  };
+  const queryString = new URLSearchParams(query).toString();
+  const response = await fetchGet<GetDevField[]>(`/api/room?${queryString}`);
+  return response;
+};
