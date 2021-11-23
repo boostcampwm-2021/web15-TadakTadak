@@ -120,3 +120,9 @@ export function fetchDelete(url: string): void {
   const requestUrl = getUrl(url);
   fetcher(requestUrl, deleteOptions());
 }
+
+export async function fetchDeleteImage<T>(url: string): Promise<HTTPResponse<T>> {
+  const requestUrl = getUrl(url);
+  const response = await fetcher<T>(requestUrl, deleteOptions());
+  return response;
+}
