@@ -4,6 +4,7 @@ import { getRoomByUuid, postEnterRoom } from '@src/apis';
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useRef } from 'react';
 import socket from '@src/socket';
+import { useUser } from '@src/contexts/userContext';
 
 const ROOM_WIDTH = 20;
 const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
@@ -95,6 +96,7 @@ interface RoomBoxProps {
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const { uuid, title, description, nowHeadcount, maxHeadcount } = roomInfo;
+  const { login } = useUser();
   const roomDataRef = useRef<RoomInfo>();
   const history = useHistory();
 
@@ -103,13 +105,17 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   }, [uuid]);
 
   const onClickRoomBox = useCallback(async () => {
+    if (!login) {
+      // 로그인을 해야 입장 가능하다는 알람을 띄워줘야 한다.
+      return;
+    }
     const { isOk, data } = await getRoomByUuid(uuid);
     if (isOk && data) {
       if (data.nowHeadcount >= data.maxHeadcount) return;
       roomDataRef.current = data;
       verifyBySocket();
     }
-  }, [uuid, verifyBySocket]);
+  }, [uuid, login, verifyBySocket]);
 
   const enterRoom = useCallback(() => {
     postEnterRoom(uuid);
