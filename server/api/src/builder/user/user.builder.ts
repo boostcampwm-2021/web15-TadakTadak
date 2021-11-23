@@ -1,7 +1,6 @@
 import { BuilderCommon } from '../builder';
 import { User } from '../../domain/user/user.entity';
 import { DevField } from '../../domain/field/dev-field.entity';
-import { Follow } from '../../domain/user/follow.entity';
 import { History } from '../../domain/history/history.entity';
 
 export class UserBuilder extends BuilderCommon<User> {
@@ -46,11 +45,6 @@ export class UserBuilder extends BuilderCommon<User> {
 
   setDevField(devField: DevField): UserBuilder {
     this.object.devField = devField;
-    return this;
-  }
-
-  setFollows(follows: Follow[]): UserBuilder {
-    this.object.follows = follows;
     return this;
   }
 
