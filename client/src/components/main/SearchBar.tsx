@@ -33,6 +33,7 @@ function SearchBar({ tabState }: SearchBarProps): JSX.Element {
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!input) return;
     const response = await searchRoom();
   };
   return (
