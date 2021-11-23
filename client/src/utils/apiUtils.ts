@@ -120,3 +120,22 @@ export function fetchDelete(url: string): void {
   const requestUrl = getUrl(url);
   fetcher(requestUrl, deleteOptions());
 }
+
+type TypeRoom = '타닥타닥' | '캠프파이어';
+interface QueryObj {
+  type: TypeRoom;
+  search: string;
+  take: number;
+  page: number;
+}
+const TAKE_ROOM_UNIT = 15;
+
+export function getRoomQueryObj(type: TypeRoom, search: string, page: number): QueryObj {
+  const queryObj = {
+    type,
+    search,
+    take: TAKE_ROOM_UNIT,
+    page,
+  };
+  return queryObj;
+}
