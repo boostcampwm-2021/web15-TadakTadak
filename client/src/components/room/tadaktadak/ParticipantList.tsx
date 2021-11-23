@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import styled, { css, ThemeContext } from 'styled-components';
 import { FieldName, useUser } from '@src/contexts/userContext';
 import socket from '@src/socket';
@@ -74,11 +74,14 @@ const ParticipantList = ({
   const themeContext = useContext(ThemeContext);
   const user = useUser();
 
-  const onClickGetOutBtn = (e: React.MouseEvent<HTMLDivElement>) => {
-    const kickNickname = e.currentTarget.getAttribute('data-nickname');
-    if (!kickNickname) return;
-    socket.emit('kick-room', { roomId: uuid, kickNickname });
-  };
+  const onClickGetOutBtn = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const kickNickname = e.currentTarget.getAttribute('data-nickname');
+      if (!kickNickname) return;
+      socket.emit('kick-room', { roomId: uuid, kickNickname });
+    },
+    [uuid],
+  );
 
   return (
     <Container>
