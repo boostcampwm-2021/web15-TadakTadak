@@ -96,6 +96,7 @@ function UserInfo(): JSX.Element {
   const handleFileDelete = async () => {
     const { data } = await deleteImage();
     if (data) {
+      if (data === true) return;
       logUserIn(data);
     }
   };
