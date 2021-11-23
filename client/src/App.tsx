@@ -7,6 +7,7 @@ import Main from '@pages/Main';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { getUserByToken } from '@src/apis';
 import Room from '@pages/Room';
+import CampFire from '@pages/Campfire';
 import Profile from '@pages/Profile';
 
 const App = (): JSX.Element => {
@@ -32,7 +33,8 @@ const App = (): JSX.Element => {
         <Switch>
           <Route exact path="/" component={Introduction} />
           <Route path="/main" component={Main} />
-          <Route path="/room" component={Room} />
+          <Route path="/room/tadak" component={Room} />
+          <Route path="/room/campfire" component={CampFire} />
           <Route path="/profile" component={Profile} />
           <Redirect from="*" to="/" />
         </Switch>
