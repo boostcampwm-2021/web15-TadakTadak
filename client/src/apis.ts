@@ -63,8 +63,33 @@ export const getRoom = async (queryObj: GetRoomQueryObj): Promise<HTTPResponse<R
   return response;
 };
 
+export const getRoomByUuid = async (uuid: string): Promise<HTTPResponse<RoomInfo>> => {
+  const response = await fetchGet<RoomInfo>(`/api/room/${uuid}`);
+  return response;
+};
+
 interface DeleteRoom {
   uuid: string;
 }
 
 export const deleteRoom = ({ uuid }: DeleteRoom): void => fetchDelete(`/api/room/${uuid}`);
+
+export const postEnterRoom = async (uuid: string): Promise<HTTPResponse<boolean>> => {
+  const response = await fetchPost<boolean>(`/api/room/${uuid}/join`);
+  return response;
+};
+
+export const postLeaveRoom = async (uuid: string): Promise<HTTPResponse<boolean>> => {
+  const response = await fetchPost<boolean>(`/api/room/${uuid}/leave`);
+  return response;
+};
+
+interface GetDevField {
+  id: string;
+  name: string;
+}
+
+export const getDevField = async (): Promise<HTTPResponse<GetDevField[]>> => {
+  const response = await fetchGet<GetDevField[]>(`/api/field`);
+  return response;
+};

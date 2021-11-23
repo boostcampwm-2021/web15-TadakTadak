@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import LoginModal from '../LoginModal';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
-import { postLogout } from '@src/apis';
+import { getDevField, postLogout } from '@src/apis';
+import { FieldName } from '@src/contexts/userContext';
+import { useDevFieldFns } from '@src/contexts/devFieldContext';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 
@@ -110,11 +112,21 @@ const UserAvatar = styled.img`
 
 const UserNickname = styled.span``;
 
+const UserDevField = styled.div<{ bgColor: FieldName }>`
+  ${({ theme, bgColor }) => css`
+    margin-left: ${theme.margins.base};
+    background-color: ${theme.tagColors[bgColor]};
+    padding: ${theme.paddings.xs};
+    border-radius: ${theme.borderRadius.sm};
+  `}
+`;
+
 const SideBar = (): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();
   const { logUserOut } = useUserFns();
+  const { registerDevField } = useDevFieldFns();
 
   const onClickLoginBtn = () => setLoginModal(!loginModal);
   const onClickCreateBtn = () => setCreateModal(true);
@@ -126,6 +138,23 @@ const SideBar = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    async function initDevField() {
+      const { isOk, data } = await getDevField();
+      if (isOk && data) {
+        const changeToSelectData = data.map((obj) => {
+          const newObj = {
+            value: obj.id,
+            label: obj.name,
+          };
+          return newObj;
+        });
+        registerDevField(changeToSelectData);
+      }
+    }
+    initDevField();
+  }, [registerDevField]);
+
   return (
     <SideBarContainer>
       <SideBarTopMenus>
@@ -134,6 +163,7 @@ const SideBar = (): JSX.Element => {
             <UserInfoDiv onClick={onClickUserInfoBtn}>
               <UserAvatar src={user.imageUrl}></UserAvatar>
               <UserNickname>{user.nickname}</UserNickname>
+              <UserDevField bgColor={user?.devField?.name ?? 'None'}>{user?.devField?.name}</UserDevField>
             </UserInfoDiv>
             <LogoutBtn onClick={onClickLogoutBtn}>
               <span>로그아웃</span>
