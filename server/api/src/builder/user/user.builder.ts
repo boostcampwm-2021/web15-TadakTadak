@@ -9,8 +9,8 @@ export class UserBuilder extends BuilderCommon<User> {
     super(User);
   }
 
-  setNickName(nickName: string): UserBuilder {
-    this.object.nickName = nickName;
+  setNickname(nickname: string): UserBuilder {
+    this.object.nickname = nickname;
     return this;
   }
 

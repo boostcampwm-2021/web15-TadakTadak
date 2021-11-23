@@ -12,7 +12,7 @@ export class User {
   id: number;
 
   @Column({ type: 'varchar', length: 45, unique: true })
-  nickName: string;
+  nickname: string;
 
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
@@ -46,7 +46,7 @@ export class User {
   lastCheckIn: LocalDate;
 
   setNickname(nickname: string) {
-    this.nickName = nickname;
+    this.nickname = nickname;
   }
 
   setPassword(password: string) {
