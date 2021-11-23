@@ -5,21 +5,22 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsException,
 } from '@nestjs/websockets';
 
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { IMessage, IRoomRequest } from './room.interface';
 import { LocalDateTime } from '@js-joda/core';
-import { pubClient, subClient } from '../redis.adapter';
 import { pubClient } from '../redis.adapter';
+import { RoomEvent } from './room.event';
 
 @WebSocketGateway({ cors: true })
 export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
 
-  @SubscribeMessage('msgToServer')
+  @SubscribeMessage(RoomEvent.MsgToServer)
   handleMessage(client: Socket, { roomId, message, nickname }: IMessage): void {
     const emitMessage: IMessage = {
       message: message,
@@ -30,8 +31,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.server.to(roomId).emit(RoomEvent.MsgToClient, emitMessage);
   }
 
-  @SubscribeMessage('join-room')
-    this.server.to(roomId).emit('user-list', this.userList[roomId]['list']);
+  @SubscribeMessage(RoomEvent.JoinRoom)
   handleJoinRoom(client: Socket, { field, img, nickname, uuid, maxHead }: IRoomRequest): void {
     client.leave(client.id);
     client.join(uuid);
@@ -48,14 +48,14 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       }
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
         }
       });
       return;
     });
   }
 
-  @SubscribeMessage('leave-room')
-    this.server.to(roomId).emit('user-list', this.userList[roomId]['list']);
+  @SubscribeMessage(RoomEvent.LeaveRoom)
   handleLeaveRoom(client: Socket, { nickname, uuid }: IRoomRequest): void {
     client.leave(uuid);
     pubClient.get(uuid, (err, data) => {
@@ -70,16 +70,16 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       pubClient.set(uuid, JSON.stringify(prevRoom));
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
         }
       });
       return;
     });
   }
 
-  @SubscribeMessage('kick-room')
+  @SubscribeMessage(RoomEvent.KickRoom)
   handleKickRoom(client: Socket, { uuid, kickNickname }: IRoomRequest): void {
     if (!kickNickname) return;
-    this.server.to(roomId).emit('user-list', this.userList[roomId]['list']);
     pubClient.get(uuid, (err, data) => {
       if (err || !data) throw WsException;
       const prevRoom = JSON.parse(data);
@@ -87,15 +87,14 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       pubClient.set(uuid, JSON.stringify(prevRoom));
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
         }
       });
       return;
     });
   }
 
-  @SubscribeMessage('verify-room')
-      this.server.to(client.id).emit('is-verify', true);
-      this.server.to(client.id).emit('is-verify', true);
+  @SubscribeMessage(RoomEvent.RemoveRoom)
   handleRemoveRoom(client: Socket, { uuid }: IRoomRequest): void {
     pubClient.get(uuid, (err, data) => {
       if (err || !data) throw WsException;
@@ -103,19 +102,22 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     });
   }
 
-    this.server.to(client.id).emit('is-verify', false);
+  @SubscribeMessage(RoomEvent.VerifyRoom)
   handleVerifyRoom(client: Socket, { uuid }: IRoomRequest): void {
     client.join(client.id);
     pubClient.get(uuid, (err, data) => {
       if (err) return WsException;
       if (!data) {
+        this.server.to(client.id).emit(RoomEvent.IsVerify, true);
         return;
       }
       const room: any = JSON.parse(data);
       const numberOfUsers: number = Object.keys(room['userList']).length;
       if (numberOfUsers < room.maxHead) {
+        this.server.to(client.id).emit(RoomEvent.IsVerify, true);
         return;
       }
+      this.server.to(client.id).emit(RoomEvent.IsVerify, false);
     });
   }
 
