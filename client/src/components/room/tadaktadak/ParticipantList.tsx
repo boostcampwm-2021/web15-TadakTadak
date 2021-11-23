@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import styled, { css, ThemeContext } from 'styled-components';
-import { FieldName } from '@src/contexts/userContext';
+import { FieldName, useUser } from '@src/contexts/userContext';
+import socket from '@src/socket';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
   hostNickname: string | undefined;
+  uuid: string;
 }
 
 const Container = styled.div`
@@ -52,11 +54,31 @@ const Position = styled.div`
   margin-left: ${({ theme }) => theme.margins.xs};
 `;
 
+const GetOutBtn = styled.div`
+  ${({ theme }) => css`
+    margin-left: ${theme.margins.base};
+    padding: ${theme.paddings.xs};
+    border-radius: ${theme.borderRadius.sm};
+    :hover {
+      background-color: ${theme.colors.primary};
+    }
+  `}
+  cursor: pointer;
+`;
+
 const ParticipantList = ({
   participants,
   hostNickname,
+  uuid,
 }: ParticipantListProps<{ field: { id: number; name: FieldName }; img: string }>): JSX.Element => {
   const themeContext = useContext(ThemeContext);
+  const user = useUser();
+
+  const onClickGetOutBtn = (e: React.MouseEvent<HTMLDivElement>) => {
+    const kickNickname = e.currentTarget.getAttribute('data-nickname');
+    if (!kickNickname) return;
+    socket.emit('kick-room', { roomId: uuid, kickNickname });
+  };
 
   return (
     <Container>
@@ -67,6 +89,11 @@ const ParticipantList = ({
             <Nickname>{nickname}</Nickname>
             {field && <DevField bgColor={themeContext.tagColors[field.name]}>{field.name}</DevField>}
             {hostNickname === nickname && <Position>호스트</Position>}
+            {user.nickname === hostNickname && user.nickname !== nickname && (
+              <GetOutBtn onClick={onClickGetOutBtn} data-nickname={nickname}>
+                추방
+              </GetOutBtn>
+            )}
           </Participant>
         ))}
       </List>
