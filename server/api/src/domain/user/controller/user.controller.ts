@@ -15,7 +15,7 @@ import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
 import { UserService } from '../service/user.service';
-import { HistoryService } from 'src/domain/history/service/history.service';
+import { HistoryService } from '../../history/service/history.service';
 import { UserUpdateDto } from '../dto/user-update.dto';
 
 @Controller('user')

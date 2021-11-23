@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseTimeEntity } from '../BaseTimeEntity';
-import { User } from 'src/domain/user/user.entity';
+import { User } from '../user/user.entity';
 
 export enum RoomType {
   TadakTadak = '타닥타닥',
