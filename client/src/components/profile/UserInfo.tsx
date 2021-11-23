@@ -43,7 +43,7 @@ const MainTitle = styled.h1`
   color: ${({ theme }) => theme.colors.bgGreen};
 `;
 
-const UploadSpan = styled.label`
+const UploadButton = styled.label`
   ${({ theme }) => theme.flexCenter}
   width:100%;
   background-color: ${({ theme }) => theme.colors.green};
@@ -57,7 +57,7 @@ const UploadSpan = styled.label`
   }
 `;
 
-const DeleteSpan = styled.button`
+const DeleteButton = styled.button`
   ${({ theme }) => theme.flexCenter}
   width:100%;
   background-color: ${({ theme }) => theme.colors.secondary};
@@ -112,9 +112,9 @@ function UserInfo(): JSX.Element {
         <ImageWrapper>
           <UserAvatar src={user.imageUrl}></UserAvatar>
           <ButtonWrapper>
-            <UploadSpan htmlFor="upload">업로드</UploadSpan>
+            <UploadButton htmlFor="upload">업로드</UploadButton>
             <input type="file" onChange={handleFileInput} id="upload" style={{ display: 'none' }}></input>
-            <DeleteSpan onClick={handleFileDelete}>삭제</DeleteSpan>
+            <DeleteButton onClick={handleFileDelete}>삭제</DeleteButton>
           </ButtonWrapper>
         </ImageWrapper>
       </Wrapper>
