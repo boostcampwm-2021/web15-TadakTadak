@@ -21,6 +21,7 @@
     "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "react-loading": "^2.0.3",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-select": "^5.2.1",
@@ -73,5 +74,5 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "prettier": "^2.4.1"
   },
-  "proxy": "https://api.tadaktadak.com"
+  "proxy": "http://localhost:3001"
 }
