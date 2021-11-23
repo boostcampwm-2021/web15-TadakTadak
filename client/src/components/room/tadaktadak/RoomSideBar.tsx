@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router';
 import Tab from '@components/common/Tab';
 import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
@@ -43,6 +44,7 @@ interface RoomSideBarProps {
 
 const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
   const { nickname, devField, imageUrl } = useUser();
+  const history = useHistory();
   const [tabs, setTabs] = useState({ ...initialTabState });
   const [chats, setChats] = useState<Array<Record<string, string | undefined>>>([]);
   const [participants, setParticipants] = useState({});
@@ -51,17 +53,32 @@ const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
   const onClickChatTap = () => setTabs({ ...initialTabState, isChat: !isChat });
   const onClickParticipantTap = () => setTabs({ ...initialTabState, isParticipant: !isParticipant });
 
-  const initSocket = useCallback(() => {
-    const joinPayload = { nickname, roomId: uuid, field: devField, img: imageUrl };
-    socket.emit('join-room', joinPayload);
-    socket.on('user-list', (data) => setParticipants({ ...data }));
-  }, [nickname, devField, imageUrl, uuid]);
-
   const leaveSocket = useCallback(() => {
     const leavePayload = { nickname, roomId: uuid };
     socket.emit('leave-room', leavePayload);
     postLeaveRoom(uuid);
   }, [nickname, uuid]);
+
+  const exitRoom = useCallback(() => {
+    leaveSocket();
+    history.push('/main');
+  }, [history, leaveSocket]);
+
+  const registerParticipants = useCallback(
+    (userList: { [key: string]: any }) => {
+      if (!nickname || !userList[nickname]) {
+        return exitRoom();
+      }
+      setParticipants({ ...userList });
+    },
+    [nickname, exitRoom],
+  );
+
+  const initSocket = useCallback(() => {
+    const joinPayload = { nickname, roomId: uuid, field: devField, img: imageUrl };
+    socket.emit('join-room', joinPayload);
+    socket.on('user-list', registerParticipants);
+  }, [nickname, devField, imageUrl, uuid, registerParticipants]);
 
   useEffect(() => {
     initSocket();
@@ -78,7 +95,7 @@ const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
       </SideBarTopMenus>
       <SideBarBottomMenus>
         {isChat && <ChatList chats={chats} uuid={uuid} setChats={setChats} />}
-        {isParticipant && <ParticipantList participants={participants} hostNickname={hostNickname} />}
+        {isParticipant && <ParticipantList participants={participants} hostNickname={hostNickname} uuid={uuid} />}
       </SideBarBottomMenus>
     </SideBarContainer>
   );
