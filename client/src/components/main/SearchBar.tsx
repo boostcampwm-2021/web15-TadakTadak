@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { TabState } from './RoomList';
-import { searchRoom } from '@src/apis';
+import { getRoom } from '@src/apis';
+import { getRoomQueryObj } from '@src/utils/apiUtils';
+import { RoomInfo } from './RoomList';
 
 interface SearchBarProps {
   tabState: TabState;
+  setRooms: React.Dispatch<React.SetStateAction<RoomInfo[]>>;
 }
 
-interface ButtonProps {
+interface SearchBtnProps {
   search: string;
 }
 
@@ -18,7 +21,7 @@ const Form = styled.form`
   justify-content: space-evenly;
 `;
 
-const Button = styled.button<ButtonProps>`
+const SearchBtn = styled.button<SearchBtnProps>`
   ${({ theme }) => theme.flexCenter}
   ${({ theme }) => css`
     font-size: ${theme.fontSizes.base};
@@ -42,24 +45,49 @@ const Button = styled.button<ButtonProps>`
     `}
 `;
 
+const InitBtn = styled.button`
+  ${({ theme }) => theme.flexCenter}
+  ${({ theme }) => css`
+    font-size: ${theme.fontSizes.base};
+    background-color: ${theme.colors.blue2};
+    width: ${theme.buttonSizes.lg};
+    padding: ${theme.paddings.sm};
+    color: ${theme.colors.white};
+    border-radius: ${theme.borderRadius.base};
+    margin-left: ${theme.margins.sm};
+  `}
+  :hover {
+    opacity: 0.9;
+  }
+  ${({ theme }) => theme.active};
+`;
+
 const Input = styled.input`
   font-size: ${({ theme }) => theme.fontSizes.lg};
   width: ${({ theme }) => theme.buttonSizes.xl};
 `;
 
-function SearchBar({ tabState }: SearchBarProps): JSX.Element {
-  const [search, setInput] = useState('');
-  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
+function SearchBar({ tabState, setRooms }: SearchBarProps): JSX.Element {
+  const [search, setSearch] = useState('');
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+  const onClickInit = () => setSearch('');
+  const handleSearchRoom = async () => {
+    const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
+    const queryObj = getRoomQueryObj(type, search, 1);
+    const { isOk, data } = await getRoom(queryObj);
+    if (isOk && data) {
+      setRooms([...data.results]);
+    }
+  };
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!search) return;
-    const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
-    const response = await searchRoom(search, type);
+    handleSearchRoom();
   };
   return (
     <Form onSubmit={onSubmitForm}>
-      <Input type="text" onChange={onChangeInput} value={search} placeholder="방을 검색하세요." />
-      <Button search={search}>검색하기</Button>
+      <Input type="text" onChange={onChangeInput} value={search} placeholder="방 제목을 검색하세요." />
+      <SearchBtn search={search}>검색하기</SearchBtn>
+      <InitBtn onClick={onClickInit}>초기화</InitBtn>
     </Form>
   );
 }
