@@ -47,40 +47,9 @@ export class UserController {
     return { result: await this.userService.updateImage(req.user['email'], file) };
   }
 
-  @Patch('/:userId/image')
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('image'))
-  async patchUserImage(@Param('userId') nickname: string, @UploadedFile() file: Express.Multer.File) {
-    return { result: await this.userService.updateImage(nickname, file) };
-  }
-
   @Delete('/image')
   @UseGuards(JwtAuthGuard)
   async deleteUserImage(@Req() req: Request) {
     return { result: await this.userService.deleteImage(req.user['email']) };
-  }
-
-  @Post('/:userId/time')
-  @UseGuards(JwtAuthGuard)
-  addUserPlayTime(@Param('userId') id: string): void {
-    return;
-  }
-
-  @Get('/:userId/follows')
-  @UseGuards(JwtAuthGuard)
-  getUserFollowList(@Param('userId') id: string): void {
-    return;
-  }
-
-  @Post('/:userId/follows')
-  @UseGuards(JwtAuthGuard)
-  addUserFollow(@Param('userId') id: string): void {
-    return;
-  }
-
-  @Delete('/:userId/follows')
-  @UseGuards(JwtAuthGuard)
-  deleteUserFollow(@Param('userId') id: string): void {
-    return;
   }
 }
