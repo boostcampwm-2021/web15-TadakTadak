@@ -4,6 +4,7 @@ import { FieldName } from '@src/contexts/userContext';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
+  hostNickname: string | undefined;
 }
 
 const Container = styled.div`
@@ -47,8 +48,13 @@ const DevField = styled.div<{ bgColor: string }>`
   `}
 `;
 
+const Position = styled.div`
+  margin-left: ${({ theme }) => theme.margins.xs};
+`;
+
 const ParticipantList = ({
   participants,
+  hostNickname,
 }: ParticipantListProps<{ field: { id: number; name: FieldName }; img: string }>): JSX.Element => {
   const themeContext = useContext(ThemeContext);
 
@@ -60,6 +66,7 @@ const ParticipantList = ({
             <Avatar src={img} />
             <Nickname>{nickname}</Nickname>
             {field && <DevField bgColor={themeContext.tagColors[field.name]}>{field.name}</DevField>}
+            {hostNickname === nickname && <Position>호스트</Position>}
           </Participant>
         ))}
       </List>

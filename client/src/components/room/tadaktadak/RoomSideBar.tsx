@@ -38,9 +38,10 @@ const initialTabState = {
 
 interface RoomSideBarProps {
   uuid: string;
+  hostNickname: string | undefined;
 }
 
-const RoomSideBar = ({ uuid }: RoomSideBarProps): JSX.Element => {
+const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
   const { nickname, devField, imageUrl } = useUser();
   const [tabs, setTabs] = useState({ ...initialTabState });
   const [chats, setChats] = useState<Array<Record<string, string | undefined>>>([]);
@@ -77,7 +78,7 @@ const RoomSideBar = ({ uuid }: RoomSideBarProps): JSX.Element => {
       </SideBarTopMenus>
       <SideBarBottomMenus>
         {isChat && <ChatList chats={chats} uuid={uuid} setChats={setChats} />}
-        {isParticipant && <ParticipantList participants={participants} />}
+        {isParticipant && <ParticipantList participants={participants} hostNickname={hostNickname} />}
       </SideBarBottomMenus>
     </SideBarContainer>
   );
