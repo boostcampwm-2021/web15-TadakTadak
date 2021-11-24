@@ -1,14 +1,9 @@
-import { useState, useContext } from 'react';
-import styled, { css, ThemeContext } from 'styled-components';
-import { TabState } from './RoomList';
-import { getRoom } from '@src/apis';
-import { getRoomQueryObj } from '@src/utils/apiUtils';
-import { RoomInfo } from './RoomList';
+import styled from 'styled-components';
 import { TiDelete } from 'react-icons/ti';
 
 interface SearchBarProps {
-  tabState: TabState;
-  setRooms: React.Dispatch<React.SetStateAction<RoomInfo[]>>;
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Form = styled.form`
@@ -34,21 +29,11 @@ const InitBtnStyle = {
   cursor: 'pointer',
 };
 
-function SearchBar({ tabState, setRooms }: SearchBarProps): JSX.Element {
-  const [search, setSearch] = useState('');
+function SearchBar({ search, setSearch }: SearchBarProps): JSX.Element {
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
   const onClickInit = () => setSearch('');
-  const handleSearchRoom = async () => {
-    const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
-    const queryObj = getRoomQueryObj(type, search, 1);
-    const { isOk, data } = await getRoom(queryObj);
-    if (isOk && data) {
-      setRooms([...data.results]);
-    }
-  };
-  const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSearchRoom();
   };
   return (
     <Form onSubmit={onSubmitForm}>
