@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserException } from 'src/exception';
-import { User } from 'src/domain/user/user.entity';
-import { UserRepository } from 'src/domain/user/repository/user.repository';
+import { UserException } from '../../../exception/index';
+import { User } from '../../user/user.entity';
+import { UserRepository } from '../../user/repository/user.repository';
 import { HistoryRepository } from '../repository/history.repository';
 import { VisitRepository } from '../repository/visit.repository';
 

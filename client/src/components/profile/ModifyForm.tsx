@@ -4,6 +4,7 @@ import { useUser, useUserFns } from '@contexts/userContext';
 import Select from '../common/Select';
 import useInput from '@src/hooks/useInput';
 import { patchUpdate } from '@src/apis';
+import { useDevField } from '@src/contexts/devFieldContext';
 
 interface InfoProps {
   onClickModifyToggle: React.MouseEventHandler<HTMLButtonElement>;
@@ -13,6 +14,7 @@ interface InfoProps {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 45rem;
 `;
 
 const InfoWrapper = styled.div`
@@ -66,7 +68,7 @@ const CancelSpan = styled.span`
 `;
 
 const Input = styled.input`
-  font-size: 40px;
+  font-size: 5rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -74,16 +76,12 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
 `;
 
-const devFieldOptions = [
-  { value: 1, label: '프론트엔드' },
-  { value: 2, label: '백엔드' },
-];
-
 const ModifyForm = ({ onClickModifyToggle, setIsModify }: InfoProps): JSX.Element => {
   const user = useUser();
   const { logUserIn } = useUserFns();
-  const [nickname, onChangeNickname] = useInput(user.nickname ?? '정보 오류');
+  const [nickname, onChangeNickname] = useInput(user.nickname ?? '');
   const [devField, setDevField] = useState(user.devField?.id);
+  const devFieldOptions = useDevField();
   const handleDevFieldSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>
     setDevField(+(e.target[e.target.selectedIndex] as HTMLOptionElement).value);
 

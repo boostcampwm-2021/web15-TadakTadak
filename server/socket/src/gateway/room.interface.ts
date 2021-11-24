@@ -1,7 +1,7 @@
 import { LocalDateTime } from '@js-joda/core';
 
 export interface IRoomRequest {
-  roomId: string;
+  uuid: string;
   nickname: string;
   kickNickname?: string;
   field?: string;

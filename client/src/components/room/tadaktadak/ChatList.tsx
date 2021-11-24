@@ -59,7 +59,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
 
   const sendMessage = useCallback(() => {
     if (!message) return;
-    const myMessage = { type: 'string', nickname, message, roomId: uuid };
+    const myMessage = { type: 'string', nickname, message, uuid };
     socket.emit('msgToServer', myMessage);
     onResetMessage();
   }, [onResetMessage, nickname, message, uuid]);

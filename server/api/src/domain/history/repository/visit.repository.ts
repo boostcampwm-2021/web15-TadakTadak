@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { LocalDate } from 'js-joda';
 import { Visit } from '../visit.entity';
-import { VisitBuilder } from 'src/builder/visit.builder';
+import { VisitBuilder } from '../../../builder/index';
 
 @EntityRepository(Visit)
 export class VisitRepository extends Repository<Visit> {
