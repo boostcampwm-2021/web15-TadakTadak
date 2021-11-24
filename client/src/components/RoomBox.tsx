@@ -5,8 +5,7 @@ import { useHistory } from 'react-router';
 import { useCallback, useEffect, useRef } from 'react';
 import socket from '@src/socket';
 import { useUser } from '@src/contexts/userContext';
-import { RoomType } from '@components/main/RoomList';
-import { ROOM_BOX } from '@utils/constant';
+import { RoomType, ROOM_BOX } from '@utils/constant';
 
 const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};

@@ -1,3 +1,8 @@
+export enum RoomType {
+  tadak = '타닥타닥',
+  campfire = '캠프파이어',
+}
+
 export const DEBOUNCE = {
   TIME: 500,
 };

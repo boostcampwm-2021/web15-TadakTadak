@@ -6,7 +6,7 @@ import { postRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
 import Select from '@components/common/Select';
 import { adminOptions } from '@utils/utils';
-import { RoomType } from './RoomList';
+import { RoomType } from '@utils/constant';
 import { INPUT } from '@utils/constant';
 
 const Container = styled.div`
@@ -43,25 +43,20 @@ const Button = styled.button`
   border-radius: 1rem;
 `;
 
-enum RoomIndexType {
-  타닥타닥 = 1,
-  캠프파이어 = 2,
-}
-
 type OptionType = {
   value: number;
   label: string;
 };
 
 const roomOptions: OptionType[] = [
-  { value: RoomIndexType.타닥타닥, label: '타닥타닥' },
-  { value: RoomIndexType.캠프파이어, label: '캠프파이어' },
+  { value: 1, label: RoomType.tadak },
+  { value: 2, label: RoomType.campfire },
 ];
 
 const CreateForm = (): JSX.Element => {
   const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [roomType, setRoomType] = useState(RoomIndexType[1]);
+  const [roomType, setRoomType] = useState<string>(RoomType.tadak);
   const [maxHeadcount, setMaxHeadcount] = useState('');
   const user = useUser();
   const history = useHistory();

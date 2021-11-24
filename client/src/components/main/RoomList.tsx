@@ -50,11 +50,6 @@ export interface TabState {
   campfire: boolean;
 }
 
-export enum RoomType {
-  tadak = '타닥타닥',
-  campfire = '캠프파이어',
-}
-
 const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
 
 function RoomList(): JSX.Element {
