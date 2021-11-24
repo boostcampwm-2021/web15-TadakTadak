@@ -6,15 +6,12 @@ import { FaGithub } from 'react-icons/fa';
 import InfoMessage from './InfoMessage';
 import Select from './common/Select';
 import { useDevField } from '@src/contexts/devFieldContext';
-
-const FORM_WIDTH = 30;
-const FORM_HEIGHT = 30;
-const DELAY = 3;
+import { FORM, INPUT } from '@utils/constant';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${FORM_WIDTH}rem;
+  width: ${FORM.JOIN_WIDTH}rem;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -28,8 +25,8 @@ const Form = styled.form`
   position: relative;
   flex-direction: column;
   justify-content: space-evenly;
-  width: ${FORM_WIDTH}rem;
-  height: ${FORM_HEIGHT}rem;
+  width: ${FORM.JOIN_WIDTH}rem;
+  height: ${FORM.JOIN_HEIGHT}rem;
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
     padding: ${theme.paddings.lg};
@@ -112,7 +109,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(''), DELAY * 1000);
+      const timer = setTimeout(() => setMessage(''), FORM.DELAY * 1000);
       return () => {
         clearTimeout(timer);
       };
@@ -128,7 +125,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
           id="email"
           value={email}
           onChange={onChangeEmail}
-          maxLength={50}
+          maxLength={INPUT.EMAIL_MAX_LENGTH}
           autoComplete="new-password"
         />
         <Input
@@ -137,7 +134,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
           id="nickname"
           value={nickname}
           onChange={onChangeNickname}
-          maxLength={50}
+          maxLength={INPUT.NICKNAME_MAX_LENGTH}
           autoComplete="new-password"
         />
         <Input
@@ -145,7 +142,8 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
           placeholder="Password"
           id="password"
           value={password}
-          maxLength={15}
+          minLength={INPUT.PASSWORD_MIN_LENGTH}
+          maxLength={INPUT.PASSWORD_MAX_LENGTH}
           onChange={onChangePassword}
         />
         <Select name={'개발 필드'} options={devFieldOptions} onChange={handleDevFieldSelectChange} />

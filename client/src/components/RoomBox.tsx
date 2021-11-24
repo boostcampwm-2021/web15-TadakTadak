@@ -5,11 +5,8 @@ import { useHistory } from 'react-router';
 import { useCallback, useEffect, useRef } from 'react';
 import socket from '@socket/socket';
 import { useUser } from '@src/contexts/userContext';
-import { RoomType } from '@components/main/RoomList';
+import { RoomType, ROOM_BOX } from '@utils/constant';
 import { SocketEvents } from '@src/socket/socketEvents';
-
-const ROOM_WIDTH = 20;
-const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
 
 const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -17,7 +14,7 @@ const RoomBoxWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.base};
   width: 100%;
-  height: ${ROOM_HEIGHT}rem;
+  height: ${ROOM_BOX.HEIGHT}rem;
   border-radius: ${({ theme }) => theme.borderRadius.base};
   cursor: pointer;
   position: relative;

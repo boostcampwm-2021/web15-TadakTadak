@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
@@ -7,7 +7,9 @@ import SearchBar from './SearchBar';
 import { getRoomQueryObj } from '@src/utils/apiUtils';
 import { UserProps } from '@src/contexts/userContext';
 import { getRoom } from '@src/apis';
-import InfoMessage from '@components/InfoMessage';
+import Loader from '@components/common/Loader';
+import useDebounce from '@src/hooks/useDebounce';
+import { DEBOUNCE, INFINITE_SCROLL } from '@src/utils/constant';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
@@ -48,39 +50,91 @@ export interface TabState {
   campfire: boolean;
 }
 
-export enum RoomType {
-  tadak = '타닥타닥',
-  campfire = '캠프파이어',
-}
-
 const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
 
 function RoomList(): JSX.Element {
   const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
+  const [search, setSearch] = useState('');
+  const debounceSearch = useDebounce(search, DEBOUNCE.TIME);
+  const [isLoading, setLoading] = useState(false);
+  const target = useRef<HTMLDivElement>(null);
+  const page = useRef(1);
 
   const onClickTadakTap = () => setTabState({ tadak: true, campfire: false });
   const onClickCampFireTap = () => setTabState({ tadak: false, campfire: true });
+  const getRoomList = useCallback(
+    async (searchStr: string) => {
+      setLoading(true);
+      page.current = 1;
+      const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
+      const queryObj = getRoomQueryObj(type, searchStr, 1);
+      const { isOk, data } = await getRoom(queryObj);
+      console.log(data?.results);
+      if (isOk && data) {
+        setRooms([...data.results]);
+      }
+      setLoading(false);
+    },
+    [tabState],
+  );
+  const addRoomList = useCallback(
+    async (searchStr: string) => {
+      setLoading(true);
+      const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
+      const queryObj = getRoomQueryObj(type, searchStr, page.current);
+      const { isOk, data } = await getRoom(queryObj);
+      console.log(data?.results);
+      if (isOk && data) {
+        setRooms((prevRooms) => [...prevRooms, ...data.results]);
+      }
+      setLoading(false);
+    },
+    [tabState, page],
+  );
 
-  const getRoomList = async (roomType: keyof typeof RoomType) => {
-    const queryObj = getRoomQueryObj(RoomType[roomType], '', 1);
-    const { isOk, data } = await getRoom(queryObj);
-    if (isOk && data) {
-      setRooms([...data.results]);
-    }
-  };
+  const changeExtraTransaction = useCallback(() => {
+    page.current += 1;
+    console.log(page.current);
+    addRoomList(debounceSearch);
+  }, [addRoomList, debounceSearch]);
+
+  const onIntersect: IntersectionObserverCallback = useCallback(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && page.current < INFINITE_SCROLL.MAX_LENGTH) {
+          observer.unobserve(entry.target);
+          changeExtraTransaction();
+        }
+      });
+    },
+    [changeExtraTransaction],
+  );
+
   useEffect(() => {
-    getRoomList(tabState.tadak ? 'tadak' : 'campfire');
-  }, [tabState]);
+    getRoomList(debounceSearch);
+  }, [getRoomList, debounceSearch, tabState]);
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target.current) {
+      observer = new IntersectionObserver(onIntersect, { threshold: 1 });
+      observer.observe(target.current as Element);
+    }
+    return () => observer && observer.disconnect();
+  }, [onIntersect, rooms]);
+
   return (
     <>
       <TabWrapper>
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
-        <SearchBar tabState={tabState} setRooms={setRooms} />
-        {rooms.length === 0 && <InfoMessage message="검색된 방이 없습니다." />}
+        <SearchBar search={search} setSearch={setSearch} />
       </TabWrapper>
-      <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
+      <RoomListGrid ref={target}>
+        {rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}
+        {isLoading && <Loader />}
+      </RoomListGrid>
     </>
   );
 }

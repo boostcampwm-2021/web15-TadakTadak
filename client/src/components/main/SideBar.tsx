@@ -9,9 +9,9 @@ import { Link, useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@src/contexts/userContext';
 import { useDevFieldFns } from '@src/contexts/devFieldContext';
+import { SIDEBAR } from '@src/utils/constant';
 import { MAIN } from '@pages/Main/Main';
 
-const SIDEBAR_MIN_WIDTH = '29rem';
 const AVATAR_WIDTH = '3rem';
 const AVATAR_HEIGHT = '3rem';
 
@@ -36,8 +36,8 @@ const SideBarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: ${SIDEBAR_MIN_WIDTH};
-  min-width: ${SIDEBAR_MIN_WIDTH};
+  width: ${SIDEBAR.MIN_WIDTH};
+  min-width: ${SIDEBAR.MIN_WIDTH};
   height: 100%;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.borderGrey};

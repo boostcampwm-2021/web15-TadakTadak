@@ -5,15 +5,12 @@ import { postLogin } from '@src/apis';
 import { useUserFns } from '@contexts/userContext';
 import { FaGithub } from 'react-icons/fa';
 import InfoMessage from './InfoMessage';
-
-const FORM_WIDTH = 30;
-const FORM_HEIGHT = 30;
-const DELAY = 3;
+import { FORM, INPUT } from '@utils/constant';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${FORM_WIDTH}rem;
+  width: ${FORM.LOGIN_WIDTH}rem;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -27,8 +24,8 @@ const Form = styled.form`
   position: relative;
   flex-direction: column;
   justify-content: space-evenly;
-  width: ${FORM_WIDTH}rem;
-  height: ${FORM_HEIGHT}rem;
+  width: ${FORM.LOGIN_WIDTH}rem;
+  height: ${FORM.LOGIN_HEIGHT}rem;
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
     padding: ${theme.paddings.lg};
@@ -105,7 +102,7 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(''), DELAY * 1000);
+      const timer = setTimeout(() => setMessage(''), FORM.DELAY * 1000);
       return () => {
         clearTimeout(timer);
       };
@@ -115,13 +112,21 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
   return (
     <Container>
       <Form onSubmit={onSubmitForm}>
-        <Input type="text" placeholder="Email" id="email" value={email} onChange={onChangeEmail} maxLength={50} />
+        <Input
+          type="text"
+          placeholder="Email"
+          id="email"
+          value={email}
+          onChange={onChangeEmail}
+          maxLength={INPUT.EMAIL_MAX_LENGTH}
+        />
         <Input
           type="password"
           placeholder="Password"
           id="password"
           value={password}
-          maxLength={15}
+          minLength={INPUT.PASSWORD_MIN_LENGTH}
+          maxLength={INPUT.PASSWORD_MAX_LENGTH}
           onChange={onChangePassword}
         />
         <Button>로그인</Button>

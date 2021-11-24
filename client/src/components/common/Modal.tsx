@@ -1,8 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-
-const MODAL_WIDTH = 65;
-const MODAL_HEIGHT = 50;
+import { MODAL } from '@utils/constant';
 
 export const ModalContainer = styled.div`
   width: 100%;
@@ -25,10 +23,10 @@ export const ModalWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 5rem 5rem 4rem 5rem;
-  width: ${MODAL_WIDTH}rem;
-  height: ${MODAL_HEIGHT}rem;
+  width: ${MODAL.WIDTH}rem;
+  height: ${MODAL.HEIGHT}rem;
   top: 20vh;
-  left: calc((100vw - ${MODAL_HEIGHT}rem) / 2 - ${MODAL_HEIGHT}rem / 4);
+  left: calc((100vw - ${MODAL.HEIGHT}rem) / 2 - ${MODAL.HEIGHT}rem / 4);
   position: absolute;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
