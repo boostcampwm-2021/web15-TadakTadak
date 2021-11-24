@@ -10,7 +10,7 @@ const Main = (): JSX.Element => {
   return (
     <MainWrapper>
       <DevFieldContextProvider>
-        <SideBar page={PAGE_NAME.MAIN} />
+        <SideBar page={PAGE_NAME.main} />
       </DevFieldContextProvider>
       <MainContainer>
         <ServiceInfo />

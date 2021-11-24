@@ -15,7 +15,7 @@ const Login = ({ modal, setModal }: LoginProps): JSX.Element => {
   return (
     <>
       {modal && (
-        <Modal title={isLogin ? MODAL_NAME.LOGIN : MODAL_NAME.JOIN} setModal={setModal}>
+        <Modal title={isLogin ? MODAL_NAME.login : MODAL_NAME.join} setModal={setModal}>
           {isLogin ? (
             <LoginForm onClickModalToggle={onClickModalToggle} setModal={setModal} />
           ) : (

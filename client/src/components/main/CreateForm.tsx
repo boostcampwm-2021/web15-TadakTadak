@@ -5,7 +5,8 @@ import { postRoom } from '@src/apis';
 import Select from '@components/common/Select';
 import Form from '@components/common/Form';
 import { adminOptions } from '@utils/utils';
-import { INPUT, FORM, RoomType } from '@utils/constant';
+import { INPUT, RoomType } from '@utils/constant';
+import { FORM } from '@utils/styleConstant';
 import useInput from '@hooks/useInput';
 import { useUser } from '@contexts/userContext';
 
@@ -73,13 +74,13 @@ const CreateForm = (): JSX.Element => {
 
   return (
     <Container>
-      <Form onSubmit={onSubmitForm} width={FORM.CREATE_WIDTH} height={FORM.CRAETE_HEIGHT}>
+      <Form onSubmit={onSubmitForm} width={FORM.createWidth} height={FORM.createHeight}>
         <Input
           type="text"
           placeholder="방 제목을 입력해주세요."
           id="roomTitle"
           onChange={onChangeRoomTitle}
-          maxLength={INPUT.ROOM_TITLE_MAX_LENGTH}
+          maxLength={INPUT.roomTitleMaxLen}
           required={true}
           autoComplete="new-password"
         />
@@ -88,7 +89,7 @@ const CreateForm = (): JSX.Element => {
           placeholder="방에 대한 설명을 입력해주세요.(선택)"
           id="description"
           onChange={onChangeDescription}
-          maxLength={INPUT.ROOM_DESC_MAX_LENGTH}
+          maxLength={INPUT.roomDescMaxLen}
           autoComplete="new-password"
         />
         <Select name={'방 유형'} options={roomOptions} onChange={handleRoomSelectChange} />

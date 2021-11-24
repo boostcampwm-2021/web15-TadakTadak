@@ -57,7 +57,7 @@ function RoomList(): JSX.Element {
   const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
   const [search, onChangeSearch, onResetSearch] = useInput('');
-  const debounceSearch = useDebounce(search, DEBOUNCE.TIME);
+  const debounceSearch = useDebounce(search, DEBOUNCE.time);
   const [isLoading, setLoading] = useState(false);
   const target = useRef<HTMLDivElement>(null);
   const page = useRef(1);
@@ -103,7 +103,7 @@ function RoomList(): JSX.Element {
   const onIntersect: IntersectionObserverCallback = useCallback(
     (entries, observer) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && page.current < INFINITE_SCROLL.MAX_LENGTH) {
+        if (entry.isIntersecting && page.current < INFINITE_SCROLL.maxLen) {
           observer.unobserve(entry.target);
           changeExtraTransaction();
         }

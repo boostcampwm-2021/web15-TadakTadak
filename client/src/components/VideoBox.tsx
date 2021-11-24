@@ -8,28 +8,29 @@ import {
 import styled from 'styled-components';
 import defaultImage from '@assets/default-avatar.jpeg';
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { VIDEO_BOX, SPEAK } from '@src/utils/constant';
+import { SPEAK } from '@utils/constant';
+import { VIDEO_BOX } from '@utils/styleConstant';
 
 const VideoWrap = styled.div`
   ${({ theme }) => theme.flexCenter};
-  width: ${VIDEO_BOX.WIDTH};
-  height: ${VIDEO_BOX.HEIGHT};
+  width: ${VIDEO_BOX.width};
+  height: ${VIDEO_BOX.height};
   background-image: url(${defaultImage});
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  border-radius: ${VIDEO_BOX.BORDER_RADIUS};
+  border-radius: ${VIDEO_BOX.borderRadius};
   overflow: hidden;
   position: relative;
 `;
 
 const VolumeVisualizer = styled.div`
-  width: ${VIDEO_BOX.WIDTH};
-  height: ${VIDEO_BOX.HEIGHT};
+  width: ${VIDEO_BOX.width};
+  height: ${VIDEO_BOX.height};
   position: absolute;
   right: 0;
   border: 3px solid ${({ theme }) => theme.colors.blue};
-  border-radius: ${VIDEO_BOX.BORDER_RADIUS};
+  border-radius: ${VIDEO_BOX.borderRadius};
 `;
 
 interface VideoBoxProps {
@@ -52,9 +53,9 @@ const VideoBox = ({ videoTrack, audioTrack }: VideoBoxProps): JSX.Element => {
       if (!isInterval.current) {
         setInterval(() => {
           if (audioTrack) {
-            setIsSpeak(audioTrack?.getVolumeLevel() > SPEAK.VOLUME);
+            setIsSpeak(audioTrack?.getVolumeLevel() > SPEAK.volume);
           }
-        }, SPEAK.VISUAL_TIME);
+        }, SPEAK.visualTime);
       }
       isInterval.current = true;
     },

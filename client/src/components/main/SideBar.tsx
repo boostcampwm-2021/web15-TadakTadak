@@ -7,9 +7,10 @@ import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
 import { Link, useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
-import { FieldName } from '@src/contexts/userContext';
-import { useDevFieldFns } from '@src/contexts/devFieldContext';
-import { PAGE_NAME, PATH, SIDEBAR, USER_AVATAR } from '@utils/constant';
+import { FieldName } from '@contexts/userContext';
+import { useDevFieldFns } from '@contexts/devFieldContext';
+import { PAGE_NAME, PATH } from '@utils/constant';
+import { SIDEBAR, USER_AVATAR } from '@utils/styleConstant';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
@@ -32,8 +33,8 @@ const SideBarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: ${SIDEBAR.MIN_WIDTH};
-  min-width: ${SIDEBAR.MIN_WIDTH};
+  width: ${SIDEBAR.minWidth};
+  min-width: ${SIDEBAR.minWidth};
   height: 100%;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.borderGrey};
@@ -104,8 +105,8 @@ const LogoutBtn = styled.button`
 
 const UserAvatar = styled.img`
   margin-right: ${({ theme }) => theme.margins.base};
-  width: ${USER_AVATAR.WIDTH};
-  height: ${USER_AVATAR.HEIGHT};
+  width: ${USER_AVATAR.width};
+  height: ${USER_AVATAR.height};
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -123,7 +124,7 @@ const UserDevField = styled.div<{ bgColor: FieldName }>`
 
 const MainLink = styled(Link)`
   width: 100%;
-  height: ${USER_AVATAR.WIDTH};
+  height: ${USER_AVATAR.width};
   ${({ theme }) => theme.flexCenter};
   & span {
     margin-right: 2rem;
@@ -146,13 +147,13 @@ const SideBar = ({ page }: SideBarProps): JSX.Element => {
   const onClickLoginBtn = () => setLoginModal(!loginModal);
   const onClickCreateBtn = () => setCreateModal(true);
   const onClickUserInfoBtn = () => {
-    history.push(PATH.PROFILE);
+    history.push(PATH.profile);
   };
   const onClickLogoutBtn = async () => {
     const { isOk } = await postLogout();
     if (isOk) {
       logUserOut();
-      if (history.location.pathname !== PATH.INTRODUCTION) location.href = PATH.MAIN;
+      if (history.location.pathname !== PATH.introduction) location.href = PATH.main;
     }
   };
 
@@ -178,7 +179,7 @@ const SideBar = ({ page }: SideBarProps): JSX.Element => {
       <SideBarTopMenus>
         {user.login ? (
           <>
-            {page === PAGE_NAME.MAIN ? (
+            {page === PAGE_NAME.main ? (
               <UserInfoDiv onClick={onClickUserInfoBtn}>
                 <UserAvatar src={user.imageUrl}></UserAvatar>
                 <UserNickname>{user.nickname}</UserNickname>
@@ -186,7 +187,7 @@ const SideBar = ({ page }: SideBarProps): JSX.Element => {
               </UserInfoDiv>
             ) : (
               <UserInfoDiv>
-                <MainLink to={PATH.MAIN}>
+                <MainLink to={PATH.main}>
                   <span>메인</span>
                   <IoHomeOutline />
                 </MainLink>

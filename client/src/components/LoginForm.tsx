@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaGithub } from 'react-icons/fa';
 import { postLogin } from '@src/apis';
-import { FORM, INPUT } from '@utils/constant';
+import { FORM_DELAY, INPUT } from '@utils/constant';
+import { FORM } from '@utils/styleConstant';
 import InfoMessage from './InfoMessage';
 import Form from './common/Form';
 import useInput from '@hooks/useInput';
@@ -11,7 +12,7 @@ import { useUserFns } from '@contexts/userContext';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${FORM.LOGIN_WIDTH}rem;
+  width: ${FORM.loginWidth}rem;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -88,7 +89,7 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(''), FORM.DELAY * 1000);
+      const timer = setTimeout(() => setMessage(''), FORM_DELAY * 1000);
       return () => {
         clearTimeout(timer);
       };
@@ -97,22 +98,22 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
 
   return (
     <Container>
-      <Form onSubmit={onSubmitForm} width={FORM.LOGIN_WIDTH} height={FORM.LOGIN_HEIGHT}>
+      <Form onSubmit={onSubmitForm} width={FORM.loginWidth} height={FORM.loginHeight}>
         <Input
           type="text"
           placeholder="Email"
           id="email"
           value={email}
           onChange={onChangeEmail}
-          maxLength={INPUT.EMAIL_MAX_LENGTH}
+          maxLength={INPUT.emailMaxLen}
         />
         <Input
           type="password"
           placeholder="Password"
           id="password"
           value={password}
-          minLength={INPUT.PASSWORD_MIN_LENGTH}
-          maxLength={INPUT.PASSWORD_MAX_LENGTH}
+          minLength={INPUT.pwdMinLen}
+          maxLength={INPUT.pwdMaxLen}
           onChange={onChangePassword}
         />
         <Button>로그인</Button>
