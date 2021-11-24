@@ -66,33 +66,33 @@ jobs:
     runs-on: [self-hosted, label-api-server]
     steps:
     - name: Github Container Registry로 로그인합니다.
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.DEPLOY_API_SERVER_CR }}
-      - name: 도커 컨테이너를 실행합니다.
-          run: |
-            docker ps -q --filter "name=api-container" | grep -q . && docker stop api-container && docker rm -fv api-container
-            docker run -d \
-            -e DB_MYSQL_HOST=${{ secrets.DB_MYSQL_HOST }} \
-            -e DB_MYSQL_PORT=${{ secrets.DB_MYSQL_PORT }} \
-            -e DB_MYSQL_USERNAME=${{ secrets.DB_MYSQL_USERNAME }} \
-            -e DB_MYSQL_PASSWORD=${{ secrets.DB_MYSQL_PASSWORD }} \
-            -e DB_MYSQL_DATABASE=${{ secrets.DB_MYSQL_DATABASE }} \
-            -e AGORA_APP_ID=${{ secrets.AGORA_APP_ID }} \
-            -e AGORA_APP_CERTIFICATE=${{ secrets.AGORA_APP_CERTIFICATE }} \
-            -e NCP_ACCESS_KEY=${{ secrets.NCP_ACCESS_KEY }} \
-            -e NCP_SECRET_KEY=${{ secrets.NCP_SECRET_KEY }} \
-            -e NCP_BUCKET_NAME=${{ secrets.NCP_BUCKET_NAME }} \
-            -e NCP_OBJ_STORAGE_END_POINT=${{ secrets.NCP_OBJ_STORAGE_END_POINT }} \
-            -e NCP_REGION=${{ secrets.NCP_REGION }} \
-            -e API_SERVER_URL=${{ secrets.API_SERVER_URL }} \
-            -e CLIENT_URL=${{ secrets.CLIENT_URL }} \
-            -e DEFAULT_IMG=${{ secrets.DEFAULT_IMG }} \
-            -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-            -p 3000:3000 \
-            --name api-container --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-            
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.DEPLOY_API_SERVER_CR }}
+    - name: 도커 컨테이너를 실행합니다.
+        run: |
+          docker ps -q --filter "name=api-container" | grep -q . && docker stop api-container && docker rm -fv api-container
+          docker run -d \
+          -e DB_MYSQL_HOST=${{ secrets.DB_MYSQL_HOST }} \
+          -e DB_MYSQL_PORT=${{ secrets.DB_MYSQL_PORT }} \
+          -e DB_MYSQL_USERNAME=${{ secrets.DB_MYSQL_USERNAME }} \
+          -e DB_MYSQL_PASSWORD=${{ secrets.DB_MYSQL_PASSWORD }} \
+          -e DB_MYSQL_DATABASE=${{ secrets.DB_MYSQL_DATABASE }} \
+          -e AGORA_APP_ID=${{ secrets.AGORA_APP_ID }} \
+          -e AGORA_APP_CERTIFICATE=${{ secrets.AGORA_APP_CERTIFICATE }} \
+          -e NCP_ACCESS_KEY=${{ secrets.NCP_ACCESS_KEY }} \
+          -e NCP_SECRET_KEY=${{ secrets.NCP_SECRET_KEY }} \
+          -e NCP_BUCKET_NAME=${{ secrets.NCP_BUCKET_NAME }} \
+          -e NCP_OBJ_STORAGE_END_POINT=${{ secrets.NCP_OBJ_STORAGE_END_POINT }} \
+          -e NCP_REGION=${{ secrets.NCP_REGION }} \
+          -e API_SERVER_URL=${{ secrets.API_SERVER_URL }} \
+          -e CLIENT_URL=${{ secrets.CLIENT_URL }} \
+          -e DEFAULT_IMG=${{ secrets.DEFAULT_IMG }} \
+          -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+          -p 3000:3000 \
+          --name api-container --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+          
 
-            
+          
