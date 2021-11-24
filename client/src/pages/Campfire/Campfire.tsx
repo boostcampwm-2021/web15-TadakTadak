@@ -19,9 +19,9 @@ interface RoomProps {
 const Campfire = ({ location }: RoomProps): JSX.Element => {
   const { agoraAppId, agoraToken, uuid, owner } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
-  const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
+  const [start, setStart] = useState<boolean>(false);
   const client = useClient();
-  const { ready, track } = useMicrophoneTrack(); // ready: 클라이언트 트랙 준비 여부
+  const { ready, track } = useMicrophoneTrack();
 
   useEffect(() => {
     const init = async () => {

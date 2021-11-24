@@ -61,7 +61,7 @@ const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
 
   const exitRoom = useCallback(() => {
     leaveSocket();
-    history.push('/main');
+    history.replace('/main');
   }, [history, leaveSocket]);
 
   const registerParticipants = useCallback(
