@@ -1,7 +1,8 @@
 import { useCallback, useContext } from 'react';
 import styled, { css, ThemeContext } from 'styled-components';
 import { FieldName, useUser } from '@src/contexts/userContext';
-import socket from '@src/socket';
+import socket from '@socket/socket';
+import { SocketEvents } from '@socket/socketEvents';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
@@ -78,7 +79,7 @@ const ParticipantList = ({
     (e: React.MouseEvent<HTMLDivElement>) => {
       const kickNickname = e.currentTarget.getAttribute('data-nickname');
       if (!kickNickname) return;
-      socket.emit('kick-room', { uuid, kickNickname });
+      socket.emit(SocketEvents.kickUser, { uuid, kickNickname });
     },
     [uuid],
   );

@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';
-import socket from '@src/socket';
+import socket from '@socket/socket';
 import Chat from './Chat';
 import { INPUT, CHAT } from '@src/utils/constant';
+import { SocketEvents } from '@socket/socketEvents';
 
 interface ChatListProps<T> {
   chats: Array<Record<string, T | undefined>>;
@@ -57,7 +58,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   const sendMessage = useCallback(() => {
     if (!message) return;
     const myMessage = { type: 'string', nickname, message, uuid };
-    socket.emit('msgToServer', myMessage);
+    socket.emit(SocketEvents.sendMsg, myMessage);
     onResetMessage();
   }, [onResetMessage, nickname, message, uuid]);
 
@@ -69,8 +70,8 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   const handleMessageReceive = useCallback((chat) => setChats((prevState) => [...prevState, chat]), [setChats]);
 
   useEffect(() => {
-    socket.removeListener('msgToClient');
-    socket.on('msgToClient', handleMessageReceive);
+    socket.removeListener(SocketEvents.receiveMsg);
+    socket.on(SocketEvents.receiveMsg, handleMessageReceive);
   }, [handleMessageReceive]);
 
   useEffect(() => {

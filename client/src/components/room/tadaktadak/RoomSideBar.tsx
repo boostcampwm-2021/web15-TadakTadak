@@ -5,9 +5,10 @@ import Tab from '@components/common/Tab';
 import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
-import socket from '@src/socket';
+import socket from '@socket/socket';
 import { postLeaveRoom } from '@src/apis';
 import { SIDEBAR } from '@src/utils/constant';
+import { SocketEvents } from '@socket/socketEvents';
 
 const SideBarContainer = styled.div`
   padding: ${({ theme }) => theme.paddings.lg};
@@ -38,9 +39,10 @@ const initialTabState = {
 interface RoomSideBarProps {
   uuid: string;
   hostNickname: string | undefined;
+  maxHeadcount: number;
 }
 
-const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
+const RoomSideBar = ({ uuid, hostNickname, maxHeadcount }: RoomSideBarProps): JSX.Element => {
   const { nickname, devField, imageUrl } = useUser();
   const history = useHistory();
   const [tabs, setTabs] = useState({ ...initialTabState });
@@ -53,7 +55,7 @@ const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
 
   const leaveSocket = useCallback(() => {
     const leavePayload = { nickname, uuid };
-    socket.emit('leave-room', leavePayload);
+    socket.emit(SocketEvents.leaveRoom, leavePayload);
     postLeaveRoom(uuid);
   }, [nickname, uuid]);
 
@@ -73,10 +75,10 @@ const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
   );
 
   const initSocket = useCallback(() => {
-    const joinPayload = { nickname, uuid, field: devField, img: imageUrl };
-    socket.emit('join-room', joinPayload);
-    socket.on('user-list', registerParticipants);
-  }, [nickname, devField, imageUrl, uuid, registerParticipants]);
+    const joinPayload = { nickname, uuid, field: devField, img: imageUrl, maxHead: maxHeadcount };
+    socket.emit(SocketEvents.joinRoom, joinPayload);
+    socket.on(SocketEvents.receiveUserList, registerParticipants);
+  }, [nickname, devField, imageUrl, uuid, maxHeadcount, registerParticipants]);
 
   useEffect(() => {
     initSocket();

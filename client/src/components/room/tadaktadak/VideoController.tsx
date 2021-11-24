@@ -73,12 +73,15 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
   }, [client, tracks, uuid, ownerId, user, setStart]);
 
   useEffect(() => {
-    window.onbeforeunload = leaveChannel;
-    return history.listen(() => {
-      if (history.action === 'POP') {
-        leaveChannel();
-      }
-    });
+    window.addEventListener('beforeunload', leaveChannel);
+    return () => {
+      window.removeEventListener('beforeunload', leaveChannel);
+      history.listen(() => {
+        if (history.action === 'POP') {
+          leaveChannel();
+        }
+      });
+    };
   }, [history, leaveChannel]);
 
   return (

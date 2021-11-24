@@ -3,9 +3,10 @@ import { RoomInfo } from './main/RoomList';
 import { getRoomByUuid, postEnterRoom } from '@src/apis';
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useRef } from 'react';
-import socket from '@src/socket';
+import socket from '@socket/socket';
 import { useUser } from '@src/contexts/userContext';
 import { RoomType, ROOM_BOX } from '@utils/constant';
+import { SocketEvents } from '@src/socket/socketEvents';
 
 const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -99,7 +100,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const history = useHistory();
 
   const verifyBySocket = useCallback(async () => {
-    socket.emit('verify-room', { uuid });
+    socket.emit(SocketEvents.canIEnter, { uuid });
   }, [uuid]);
 
   const onClickRoomBox = useCallback(async () => {
@@ -122,8 +123,8 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   }, [history, uuid, roomType, roomDataRef]);
 
   useEffect(() => {
-    socket.removeListener('is-verify');
-    socket.on('is-verify', enterRoom);
+    socket.removeListener(SocketEvents.youCanEnter);
+    socket.on(SocketEvents.youCanEnter, enterRoom);
   }, [enterRoom]);
 
   return (

@@ -3,8 +3,7 @@ import { useState } from 'react';
 import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
-import axios from 'axios';
-import { deleteImage } from '@src/apis';
+import { deleteImage, postAvatar } from '@src/apis';
 
 const Wrapper = styled.div`
   display: flex;
@@ -77,19 +76,14 @@ function UserInfo(): JSX.Element {
   const { logUserIn } = useUserFns();
 
   const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    // eslint-disable-next-line
     const fileList = e.target.files;
     if (!fileList || !fileList[0]) return;
     const formData = new FormData();
-    // eslint-disable-next-line
-
     formData.append('image', fileList[0]);
-    const { data } = await axios.post(`/api/user/image`, formData, {
-      withCredentials: true,
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    if (data.data) {
-      logUserIn(data.data);
+
+    const { isOk, data } = await postAvatar(formData);
+    if (isOk && data) {
+      logUserIn(data);
     }
   };
 
