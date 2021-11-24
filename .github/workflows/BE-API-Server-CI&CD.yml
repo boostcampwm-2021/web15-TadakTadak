@@ -65,13 +65,13 @@ jobs:
     name: API 서버 배포를 진행합니다.
     runs-on: [self-hosted, label-api-server]
     steps:
-    - name: Github Container Registry로 로그인합니다.
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.DEPLOY_API_SERVER_CR }}
-    - name: 도커 컨테이너를 실행합니다.
+      - name: Github Container Registry로 로그인합니다.
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DEPLOY_API_SERVER_CR }}
+      - name: 도커 컨테이너를 실행합니다.
         run: |
           docker ps -q --filter "name=api-container" | grep -q . && docker stop api-container && docker rm -fv api-container
           docker run -d \
@@ -93,6 +93,3 @@ jobs:
           -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
           -p 3000:3000 \
           --name api-container --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
-          
-
-          
