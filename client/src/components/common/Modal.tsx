@@ -23,10 +23,10 @@ export const ModalWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 5rem 5rem 4rem 5rem;
-  width: ${MODAL.width}rem;
-  height: ${MODAL.height}rem;
+  width: ${MODAL.width};
+  height: ${MODAL.height};
   top: 20vh;
-  left: calc((100vw - ${MODAL.height}rem) / 2 - ${MODAL.height}rem / 4);
+  left: calc((100vw - ${MODAL.height}) / 2 - ${MODAL.height} / 4);
   position: absolute;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
