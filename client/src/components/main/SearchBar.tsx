@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { TiDelete } from 'react-icons/ti';
+import { TabState } from './RoomList';
 
 interface SearchBarProps {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
+  setTabState: React.Dispatch<React.SetStateAction<TabState>>;
 }
 
 const Form = styled.form`
@@ -29,12 +31,11 @@ const InitBtnStyle = {
   cursor: 'pointer',
 };
 
-function SearchBar({ search, setSearch }: SearchBarProps): JSX.Element {
+function SearchBar({ search, setSearch, setTabState }: SearchBarProps): JSX.Element {
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
   const onClickInit = () => setSearch('');
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
+
   return (
     <Form onSubmit={onSubmitForm}>
       <Input type="text" onChange={onChangeInput} value={search} placeholder="방 제목을 검색하세요." />
