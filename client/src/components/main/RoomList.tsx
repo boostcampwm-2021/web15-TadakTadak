@@ -46,7 +46,7 @@ interface TabState {
   campfire: boolean;
 }
 
-enum RoomType {
+export enum RoomType {
   tadak = '타닥타닥',
   campfire = '캠프파이어',
 }

@@ -4,6 +4,8 @@ import { getRoomByUuid, postEnterRoom } from '@src/apis';
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useRef } from 'react';
 import socket from '@src/socket';
+import { useUser } from '@src/contexts/userContext';
+import { RoomType } from '@components/main/RoomList';
 
 const ROOM_WIDTH = 20;
 const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
@@ -77,7 +79,7 @@ const RoomBoxBottom = styled.div`
   align-items: flex-end;
 `;
 
-const RoomType = styled.div`
+const RoomFieldType = styled.div`
   ${({ theme }) => css`
     font-size: ${theme.fontSizes.sm};
     background-color: ${theme.colors.blue};
@@ -94,27 +96,33 @@ interface RoomBoxProps {
 }
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
-  const { uuid, title, description, nowHeadcount, maxHeadcount } = roomInfo;
+  const { uuid, title, description, nowHeadcount, maxHeadcount, roomType } = roomInfo;
+  const { login } = useUser();
   const roomDataRef = useRef<RoomInfo>();
   const history = useHistory();
 
   const verifyBySocket = useCallback(async () => {
-    socket.emit('verify-room', { roomId: uuid });
+    socket.emit('verify-room', { uuid });
   }, [uuid]);
 
   const onClickRoomBox = useCallback(async () => {
+    if (!login) {
+      // 로그인을 해야 입장 가능하다는 알람을 띄워줘야 한다.
+      return;
+    }
     const { isOk, data } = await getRoomByUuid(uuid);
     if (isOk && data) {
       if (data.nowHeadcount >= data.maxHeadcount) return;
       roomDataRef.current = data;
       verifyBySocket();
     }
-  }, [uuid, verifyBySocket]);
+  }, [uuid, login, verifyBySocket]);
 
   const enterRoom = useCallback(() => {
+    const pathname = roomType === RoomType.tadak ? `/room/tadak/${uuid}` : `/room/campfire/${uuid}`;
     postEnterRoom(uuid);
-    history.push({ pathname: `/room/${uuid}`, state: roomDataRef.current });
-  }, [history, uuid, roomDataRef]);
+    history.push({ pathname, state: roomDataRef.current });
+  }, [history, uuid, roomType, roomDataRef]);
 
   useEffect(() => {
     socket.removeListener('is-verify');
@@ -128,7 +136,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
         <RoomDescription>{description}</RoomDescription>
       </RoomBoxTop>
       <RoomBoxBottom>
-        <RoomType>백엔드</RoomType>
+        <RoomFieldType>백엔드</RoomFieldType>
         <RoomAdmitNumber>
           {nowHeadcount} / {maxHeadcount}
         </RoomAdmitNumber>

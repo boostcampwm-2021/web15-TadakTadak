@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
-import { useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
+import { useClient, useMicrophoneTrack } from '../../components/room/tadaktadak/videoConfig';
 import { RoomInfo } from '@components/main/RoomList';
-import { RoomContainer, RoomWrapper } from '@pages/Room/style';
+import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
 import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
-import VideoController from '@components/room/tadaktadak/VideoController';
-import Videos from '@components/room/tadaktadak/Videos';
+import CampfireController from '@src/components/room/campfire/CampfireController';
+import CamperList from '@src/components/room/campfire/CamperList';
 
 interface LocationProps {
   pathname: string;
@@ -16,22 +16,20 @@ interface RoomProps {
   location: LocationProps;
 }
 
-const Room = ({ location }: RoomProps): JSX.Element => {
+const Campfire = ({ location }: RoomProps): JSX.Element => {
   const { agoraAppId, agoraToken, uuid, owner } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
-  const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
+  const [start, setStart] = useState<boolean>(false);
   const client = useClient();
-  const { ready, tracks } = useMicrophoneAndCameraTracks(); // ready: 클라이언트 트랙 준비 여부
+  const { ready, track } = useMicrophoneTrack();
 
   useEffect(() => {
     const init = async () => {
       client.on('user-published', async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         console.log('subscribe success');
-        if (mediaType === 'video') {
-          setUsers((prevUsers) => [...new Set([...prevUsers, user])]);
-        }
         if (mediaType === 'audio') {
+          setUsers((prevUsers) => [...new Set([...prevUsers, user])]);
           user.audioTrack?.play();
         }
       });
@@ -45,9 +43,6 @@ const Room = ({ location }: RoomProps): JSX.Element => {
         if (type === 'audio') {
           user.audioTrack?.stop();
         }
-        if (type === 'video') {
-          user.videoTrack?.stop();
-        }
       });
 
       client.on('user-left', (user) => {
@@ -58,28 +53,33 @@ const Room = ({ location }: RoomProps): JSX.Element => {
       });
 
       await client.join(agoraAppId, uuid, agoraToken, null);
-      if (tracks) {
-        await client.publish([tracks[0], tracks[1]]);
-        await tracks[1].setEnabled(false);
-        await tracks[0].setEnabled(false);
+      if (track) {
+        await client.publish(track);
+        await track.setEnabled(false);
       }
       setStart(true);
     };
 
-    if (ready && tracks) {
+    if (ready && track) {
       console.log('init ready');
       init();
     }
-  }, [uuid, agoraAppId, agoraToken, client, ready, tracks]);
+  }, [uuid, agoraAppId, agoraToken, client, ready, track]);
 
   return (
     <RoomWrapper>
       <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} />
       <RoomContainer>
-        {start && tracks && <Videos users={users} tracks={tracks} />}
-        {ready && tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
+        <div>
+          <img
+            src="https://cdn.pixabay.com/photo/2016/05/27/04/20/fire-1419084_1280.jpg"
+            style={{ width: '500px', height: '500px' }}
+          />
+        </div>
+        {start && track && <CamperList users={users} track={track} />}
+        {ready && track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
       </RoomContainer>
     </RoomWrapper>
   );
 };
-export default Room;
+export default Campfire;
