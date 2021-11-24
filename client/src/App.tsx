@@ -2,11 +2,11 @@ import './styles/fonts.css';
 import { useCallback, useEffect } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
-import Introduction from '@pages/Introduction';
-import Main from '@pages/Main';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { getUserByToken } from '@src/apis';
-import Room from '@pages/Room';
+import Introduction from '@pages/Introduction';
+import Main from '@pages/Main';
+import Tadak from '@pages/Tadak';
 import CampFire from '@pages/Campfire';
 import Profile from '@pages/Profile';
 
@@ -33,7 +33,7 @@ const App = (): JSX.Element => {
         <Switch>
           <Route exact path="/" component={Introduction} />
           <Route path="/main" component={Main} />
-          <Route path="/room/tadak" component={Room} />
+          <Route path="/room/tadak" component={Tadak} />
           <Route path="/room/campfire" component={CampFire} />
           <Route path="/profile" component={Profile} />
           <Redirect from="*" to="/" />

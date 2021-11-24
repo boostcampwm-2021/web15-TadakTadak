@@ -60,12 +60,15 @@ const CampfireController = ({ track, setStart, uuid, ownerId }: CampfireControll
   }, [client, track, uuid, ownerId, user, setStart]);
 
   useEffect(() => {
-    window.onbeforeunload = leaveChannel;
-    return history.listen(() => {
-      if (history.action === 'POP') {
-        leaveChannel();
-      }
-    });
+    window.addEventListener('beforeunload', leaveChannel);
+    return () => {
+      window.removeEventListener('beforeunload', leaveChannel);
+      history.listen(() => {
+        if (history.action === 'POP') {
+          leaveChannel();
+        }
+      });
+    };
   }, [history, leaveChannel]);
 
   return (
@@ -85,7 +88,7 @@ const CampfireController = ({ track, setStart, uuid, ownerId }: CampfireControll
           color={themeContext.colors.secondary}
           onClick={() => {
             leaveChannel();
-            history.replace('/main');
+            // history.replace('/main');
           }}
         />
       </GetoutDiv>
