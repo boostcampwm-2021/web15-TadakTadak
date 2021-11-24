@@ -1,71 +1,38 @@
-import { useState } from 'react';
-import styled, { css } from 'styled-components';
+import { useState, useContext } from 'react';
+import styled, { css, ThemeContext } from 'styled-components';
 import { TabState } from './RoomList';
 import { getRoom } from '@src/apis';
 import { getRoomQueryObj } from '@src/utils/apiUtils';
 import { RoomInfo } from './RoomList';
+import { TiDelete } from 'react-icons/ti';
 
 interface SearchBarProps {
   tabState: TabState;
   setRooms: React.Dispatch<React.SetStateAction<RoomInfo[]>>;
 }
 
-interface SearchBtnProps {
-  search: string;
-}
-
 const Form = styled.form`
-  display: flex;
-  position: relative;
-  flex-direction: row;
+  ${({ theme }) => theme.flexCenter}
   justify-content: space-evenly;
+  position: relative;
 `;
 
-const SearchBtn = styled.button<SearchBtnProps>`
-  ${({ theme }) => theme.flexCenter}
-  ${({ theme }) => css`
-    font-size: ${theme.fontSizes.base};
-    background-color: ${theme.colors.green};
-    width: ${theme.buttonSizes.lg};
-    padding: ${theme.paddings.sm};
-    color: ${theme.colors.white};
-    border-radius: ${theme.borderRadius.base};
-  `}
-  opacity: 0.5;
-  cursor: not-allowed;
-  ${(props) =>
-    props.search &&
-    css`
-      cursor: pointer;
-      opacity: 1;
-      :hover {
-        opacity: 0.9;
-      }
-      ${({ theme }) => theme.active};
-    `}
-`;
-
-const InitBtn = styled.button`
-  ${({ theme }) => theme.flexCenter}
-  ${({ theme }) => css`
-    font-size: ${theme.fontSizes.base};
-    background-color: ${theme.colors.blue2};
-    width: ${theme.buttonSizes.lg};
-    padding: ${theme.paddings.sm};
-    color: ${theme.colors.white};
-    border-radius: ${theme.borderRadius.base};
-    margin-left: ${theme.margins.sm};
-  `}
-  :hover {
-    opacity: 0.9;
+const InitBtn = styled.span`
+  .icon:hover {
+    opacity: 0.8;
   }
-  ${({ theme }) => theme.active};
 `;
 
 const Input = styled.input`
   font-size: ${({ theme }) => theme.fontSizes.lg};
   width: ${({ theme }) => theme.buttonSizes.xl};
 `;
+
+const InitBtnStyle = {
+  fill: 'grey',
+  fontSize: '2.2rem',
+  cursor: 'pointer',
+};
 
 function SearchBar({ tabState, setRooms }: SearchBarProps): JSX.Element {
   const [search, setSearch] = useState('');
@@ -86,8 +53,9 @@ function SearchBar({ tabState, setRooms }: SearchBarProps): JSX.Element {
   return (
     <Form onSubmit={onSubmitForm}>
       <Input type="text" onChange={onChangeInput} value={search} placeholder="방 제목을 검색하세요." />
-      <SearchBtn search={search}>검색하기</SearchBtn>
-      <InitBtn onClick={onClickInit}>초기화</InitBtn>
+      <InitBtn>
+        <TiDelete className="icon" style={InitBtnStyle} onClick={onClickInit} />
+      </InitBtn>
     </Form>
   );
 }
