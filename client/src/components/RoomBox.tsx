@@ -6,9 +6,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import socket from '@src/socket';
 import { useUser } from '@src/contexts/userContext';
 import { RoomType } from '@components/main/RoomList';
-
-const ROOM_WIDTH = 20;
-const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
+import { ROOM_BOX } from '@utils/constant';
 
 const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -16,7 +14,7 @@ const RoomBoxWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.base};
   width: 100%;
-  height: ${ROOM_HEIGHT}rem;
+  height: ${ROOM_BOX.HEIGHT}rem;
   border-radius: ${({ theme }) => theme.borderRadius.base};
   cursor: pointer;
   position: relative;

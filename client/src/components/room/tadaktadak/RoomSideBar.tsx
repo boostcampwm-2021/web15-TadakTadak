@@ -7,17 +7,15 @@ import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
 import socket from '@src/socket';
 import { postLeaveRoom } from '@src/apis';
-
-const SIDEBAR_MIN_WIDTH = '29rem';
-const SIDEBAR_HEIGHT = '100vh';
+import { SIDEBAR } from '@src/utils/constant';
 
 const SideBarContainer = styled.div`
   padding: ${({ theme }) => theme.paddings.lg};
   display: flex;
   flex-direction: column;
-  width: ${SIDEBAR_MIN_WIDTH};
-  min-width: ${SIDEBAR_MIN_WIDTH};
-  height: ${SIDEBAR_HEIGHT};
+  width: ${SIDEBAR.MIN_WIDTH};
+  min-width: ${SIDEBAR.MIN_WIDTH};
+  height: ${SIDEBAR.HEIGHT};
   background-color: ${({ theme }) => theme.colors.white};
   z-index: 9999;
 `;

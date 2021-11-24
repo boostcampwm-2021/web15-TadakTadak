@@ -7,6 +7,7 @@ import { useUser } from '@contexts/userContext';
 import Select from '@components/common/Select';
 import { adminOptions } from '@utils/utils';
 import { RoomType } from './RoomList';
+import { INPUT } from '@utils/constant';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
@@ -98,7 +99,7 @@ const CreateForm = (): JSX.Element => {
           placeholder="방 제목을 입력해주세요."
           id="roomTitle"
           onChange={onChangeRoomTitle}
-          maxLength={50}
+          maxLength={INPUT.ROOM_TITLE_MAX_LENGTH}
           required={true}
           autoComplete="new-password"
         />
@@ -107,7 +108,7 @@ const CreateForm = (): JSX.Element => {
           placeholder="방에 대한 설명을 입력해주세요.(선택)"
           id="description"
           onChange={onChangeDescription}
-          maxLength={50}
+          maxLength={INPUT.ROOM_DESC_MAX_LENGTH}
           autoComplete="new-password"
         />
         <Select name={'방 유형'} options={roomOptions} onChange={handleRoomSelectChange} />

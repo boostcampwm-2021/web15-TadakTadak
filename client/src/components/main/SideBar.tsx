@@ -9,8 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@src/contexts/userContext';
 import { useDevFieldFns } from '@src/contexts/devFieldContext';
-
-const SIDEBAR_MIN_WIDTH = '29rem';
+import { SIDEBAR } from '@src/utils/constant';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
@@ -33,8 +32,8 @@ const SideBarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: ${SIDEBAR_MIN_WIDTH};
-  min-width: ${SIDEBAR_MIN_WIDTH};
+  width: ${SIDEBAR.MIN_WIDTH};
+  min-width: ${SIDEBAR.MIN_WIDTH};
   height: 100%;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.borderGrey};

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from '@components/common/Modal';
 import JoinForm from './JoinForm';
 import LoginForm from './LoginForm';
+import { MODAL_NAME } from '@utils/constant';
 
 interface LoginProps {
   modal: boolean;
@@ -14,7 +15,7 @@ const Login = ({ modal, setModal }: LoginProps): JSX.Element => {
   return (
     <>
       {modal && (
-        <Modal title={isLogin ? '로그인' : '회원가입'} setModal={setModal}>
+        <Modal title={isLogin ? MODAL_NAME.LOGIN : MODAL_NAME.JOIN} setModal={setModal}>
           {isLogin ? (
             <LoginForm onClickModalToggle={onClickModalToggle} setModal={setModal} />
           ) : (
