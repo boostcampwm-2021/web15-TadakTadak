@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
 import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
 import Tab from '@components/common/Tab';
-
+import SearchBar from './SearchBar';
+import { getRoomQueryObj } from '@src/utils/apiUtils';
 import { UserProps } from '@src/contexts/userContext';
 import { getRoom } from '@src/apis';
+import InfoMessage from '@components/InfoMessage';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
@@ -19,6 +20,7 @@ const TabWrapper = styled.div`
   ${({ theme }) => theme.flexCenter}
   margin-top: ${({ theme }) => theme.margins.xl};
   width: 100%;
+  position: relative;
 
   & div {
     transition: background-color 0.4s ease-in-out, border-color 0.3s ease-in-out;
@@ -41,7 +43,7 @@ export interface RoomInfo {
   maxHeadcount: number;
 }
 
-interface TabState {
+export interface TabState {
   tadak: boolean;
   campfire: boolean;
 }
@@ -61,13 +63,8 @@ function RoomList(): JSX.Element {
   const onClickCampFireTap = () => setTabState({ tadak: false, campfire: true });
 
   const getRoomList = async (roomType: keyof typeof RoomType) => {
-    const testQueryObj = {
-      type: RoomType[roomType],
-      search: '',
-      take: 15,
-      page: 1,
-    };
-    const { isOk, data } = await getRoom(testQueryObj);
+    const queryObj = getRoomQueryObj(RoomType[roomType], '', 1);
+    const { isOk, data } = await getRoom(queryObj);
     if (isOk && data) {
       setRooms([...data.results]);
     }
@@ -80,6 +77,8 @@ function RoomList(): JSX.Element {
       <TabWrapper>
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
+        <SearchBar tabState={tabState} setRooms={setRooms} />
+        {rooms.length === 0 && <InfoMessage message="검색된 방이 없습니다." />}
       </TabWrapper>
       <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
     </>
