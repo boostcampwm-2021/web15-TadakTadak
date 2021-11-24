@@ -1,15 +1,16 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
+import { getRoom } from '@src/apis';
+import { UserProps } from '@contexts/userContext';
+import useDebounce from '@hooks/useDebounce';
+import useInput from '@hooks/useInput';
+import Loader from '@components/common/Loader';
+import Tab from '@components/common/Tab';
 import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
-import Tab from '@components/common/Tab';
 import SearchBar from './SearchBar';
-import { getRoomQueryObj } from '@src/utils/apiUtils';
-import { UserProps } from '@src/contexts/userContext';
-import { getRoom } from '@src/apis';
-import Loader from '@components/common/Loader';
-import useDebounce from '@src/hooks/useDebounce';
-import { DEBOUNCE, INFINITE_SCROLL } from '@src/utils/constant';
+import { getRoomQueryObj } from '@utils/apiUtils';
+import { DEBOUNCE, INFINITE_SCROLL } from '@utils/constant';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
@@ -55,7 +56,7 @@ const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} room
 function RoomList(): JSX.Element {
   const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
-  const [search, setSearch] = useState('');
+  const [search, onChangeSearch, onResetSearch] = useInput('');
   const debounceSearch = useDebounce(search, DEBOUNCE.TIME);
   const [isLoading, setLoading] = useState(false);
   const target = useRef<HTMLDivElement>(null);
@@ -129,7 +130,7 @@ function RoomList(): JSX.Element {
       <TabWrapper>
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
-        <SearchBar search={search} setSearch={setSearch} />
+        <SearchBar search={search} onChange={onChangeSearch} onReset={onResetSearch} />
       </TabWrapper>
       <RoomListGrid ref={target}>
         {rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}
