@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import LoginModal from '../LoginModal';
 import { useUser, useUserFns } from '@contexts/userContext';
-import { IoLogOutOutline } from 'react-icons/io5';
+import { IoHomeOutline, IoLogOutOutline } from 'react-icons/io5';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@src/contexts/userContext';
 import { useDevFieldFns } from '@src/contexts/devFieldContext';
+import { MAIN } from '@pages/Main/Main';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
+const AVATAR_WIDTH = '3rem';
+const AVATAR_HEIGHT = '3rem';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
@@ -98,15 +101,15 @@ const LogoutBtn = styled.button`
   }
   ${({ theme }) => theme.active};
   & span {
-    margin-right: 20px;
+    margin-right: 2rem;
   }
   ${({ theme }) => theme.transition};
 `;
 
 const UserAvatar = styled.img`
   margin-right: ${({ theme }) => theme.margins.base};
-  width: 3rem;
-  height: 3rem;
+  width: ${AVATAR_WIDTH};
+  height: ${AVATAR_HEIGHT};
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -122,7 +125,21 @@ const UserDevField = styled.div<{ bgColor: FieldName }>`
   `}
 `;
 
-const SideBar = (): JSX.Element => {
+const MainLink = styled(Link)`
+  width: 100%;
+  height: ${AVATAR_HEIGHT};
+  ${({ theme }) => theme.flexCenter};
+  & span {
+    margin-right: 2rem;
+    margin-left: 1.3rem;
+  }
+`;
+
+interface SideBarProps {
+  page?: string;
+}
+
+const SideBar = ({ page }: SideBarProps): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();
@@ -165,11 +182,20 @@ const SideBar = (): JSX.Element => {
       <SideBarTopMenus>
         {user.login ? (
           <>
-            <UserInfoDiv onClick={onClickUserInfoBtn}>
-              <UserAvatar src={user.imageUrl}></UserAvatar>
-              <UserNickname>{user.nickname}</UserNickname>
-              <UserDevField bgColor={user?.devField?.name ?? 'None'}>{user?.devField?.name}</UserDevField>
-            </UserInfoDiv>
+            {page === MAIN ? (
+              <UserInfoDiv onClick={onClickUserInfoBtn}>
+                <UserAvatar src={user.imageUrl}></UserAvatar>
+                <UserNickname>{user.nickname}</UserNickname>
+                <UserDevField bgColor={user?.devField?.name ?? 'None'}>{user?.devField?.name}</UserDevField>
+              </UserInfoDiv>
+            ) : (
+              <UserInfoDiv>
+                <MainLink to="/main">
+                  <span>메인</span>
+                  <IoHomeOutline />
+                </MainLink>
+              </UserInfoDiv>
+            )}
             <LogoutBtn onClick={onClickLogoutBtn}>
               <span>로그아웃</span>
               <IoLogOutOutline />
