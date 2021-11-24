@@ -8,6 +8,7 @@ import {
   fetchPatch,
   fetchDelete,
   fetchDeleteImage,
+  fetcher,
 } from './utils/apiUtils';
 
 interface PostLogin {
@@ -42,6 +43,15 @@ interface PatchUpdate {
 
 export const patchUpdate = async (body: PatchUpdate): Promise<HTTPResponse<UserProps>> => {
   const response = await fetchPatch<UserProps>(`/api/user/${body.originalName}`, { ...body });
+  return response;
+};
+
+export const postAvatar = async (formData: FormData): Promise<HTTPResponse<UserProps>> => {
+  const response = await fetcher<UserProps>('/api/user/image', {
+    method: 'POST',
+    body: formData,
+    credentials: 'include',
+  });
   return response;
 };
 
