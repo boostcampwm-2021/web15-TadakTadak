@@ -1,0 +1,83 @@
+name: back-end [Socket-Server] CI & CD
+
+on:
+  push:
+    branches: [main]
+
+env:
+  DOCKER_IMAGE: ghcr.io/boostcampwm-2021/web15-tadaktadak/server/socket
+  VERSION: ${{ github.sha }}
+
+jobs:
+  build:
+    name: 소켓 서버 CI 및 빌드를 진행합니다.
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server/socket
+    steps:
+      - name: 소스코드로 체크아웃 합니다.
+        uses: actions/checkout@v2
+      - name: npm 모듈들을 캐싱합니다.
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+
+      - name: npm 으로 패키지 다운로드합니다.
+        run: npm install
+
+      - name: CI 작업을 수행합니다.
+        run: npm run ci
+
+      - name: docker buildx를 설치합니다.
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      - name: 도커 레이어를 캐싱합니다.
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ env.VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Github Container Registry로 로그인합니다.
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DEPLOY_SOCKET_SERVER_CR }}
+      - name: 빌드하고 푸시합니다.
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+          context: ./server/socket
+  deploy:
+    needs: build
+    name: 소켓 서버 배포를 진행합니다.
+    runs-on: [ self-hosted, label-socket-server ]
+    steps:
+      - name: Github Container Registry로 로그인합니다.
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DEPLOY_SOCKET_SERVER_CR }}
+      - name: 도커 컨테이너를 실행합니다.
+        run: |
+          docker ps -q --filter "name=socket-container-1" | grep -q . && docker stop socket-container-1 && docker rm -fv socket-container-1
+          docker ps -q --filter "name=socket-container-2" | grep -q . && docker stop socket-container-2 && docker rm -fv socket-container-2
+          docker run -d \
+            -e DB_REDIS_HOST=${{ secrets.DB_REDIS_HOST }} \
+            -e DB_REDIS_PORT=${{ secrets.DB_REDIS_PORT }} \
+            -p 3000:3000 \
+            --name socket-container-1 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
+          docker run -d \
+            -e DB_REDIS_HOST=${{ secrets.DB_REDIS_HOST }} \
+            -e DB_REDIS_PORT=${{ secrets.DB_REDIS_PORT }} \
+            -p 3001:3000 \
+            --name socket-container-2 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
