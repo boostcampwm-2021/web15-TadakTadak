@@ -8,6 +8,7 @@ import { getRoomQueryObj } from '@src/utils/apiUtils';
 import { UserProps } from '@src/contexts/userContext';
 import { getRoom } from '@src/apis';
 import InfoMessage from '@components/InfoMessage';
+import Loader from '@components/common/Loader';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
@@ -59,16 +60,19 @@ function RoomList(): JSX.Element {
   const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
   const [search, setSearch] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const onClickTadakTap = () => setTabState({ tadak: true, campfire: false });
   const onClickCampFireTap = () => setTabState({ tadak: false, campfire: true });
 
   const getRoomList = useCallback(async () => {
+    setLoading(true);
     const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
     const queryObj = getRoomQueryObj(type, search, 1);
     const { isOk, data } = await getRoom(queryObj);
     if (isOk && data) {
       setRooms([...data.results]);
     }
+    setLoading(false);
   }, [tabState, search]);
 
   useEffect(() => {
@@ -80,8 +84,8 @@ function RoomList(): JSX.Element {
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
         <SearchBar search={search} setSearch={setSearch} />
-        {rooms.length === 0 && <InfoMessage message="검색된 방이 없습니다." />}
       </TabWrapper>
+      {isLoading && <Loader />}
       <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
     </>
   );
