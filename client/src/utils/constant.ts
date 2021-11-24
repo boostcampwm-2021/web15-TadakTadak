@@ -9,6 +9,7 @@ export const DEBOUNCE = {
 
 export const INFINITE_SCROLL = {
   UNIT: 15,
+  THRESHOLD: 0.9,
 };
 
 export const MODAL = {
