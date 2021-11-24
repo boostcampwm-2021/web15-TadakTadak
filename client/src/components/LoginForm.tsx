@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
-import useInput from '@hooks/useInput';
-import { postLogin } from '@src/apis';
-import { useUserFns } from '@contexts/userContext';
+import styled from 'styled-components';
 import { FaGithub } from 'react-icons/fa';
-import InfoMessage from './InfoMessage';
+import { postLogin } from '@src/apis';
 import { FORM, INPUT } from '@utils/constant';
+import InfoMessage from './InfoMessage';
+import Form from './common/Form';
+import useInput from '@hooks/useInput';
+import { useUserFns } from '@contexts/userContext';
 
 const Container = styled.div`
   display: flex;
@@ -17,21 +18,6 @@ const Container = styled.div`
   align-items: center;
   position: absolute;
   top: 20%;
-`;
-
-const Form = styled.form`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: ${FORM.LOGIN_WIDTH}rem;
-  height: ${FORM.LOGIN_HEIGHT}rem;
-  ${({ theme }) => css`
-    background-color: ${theme.colors.grey};
-    padding: ${theme.paddings.lg};
-    border: 1px solid ${theme.colors.borderGrey};
-    border-radius: ${theme.borderRadius.base};
-  `};
 `;
 
 const Input = styled.input`
@@ -111,7 +97,7 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
 
   return (
     <Container>
-      <Form onSubmit={onSubmitForm}>
+      <Form onSubmit={onSubmitForm} width={FORM.LOGIN_WIDTH} height={FORM.LOGIN_HEIGHT}>
         <Input
           type="text"
           placeholder="Email"

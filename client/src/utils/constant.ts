@@ -60,10 +60,12 @@ export const VIDEO_BOX = {
 };
 
 export const FORM = {
-  JOIN_WIDTH: 30,
-  JOIN_HEIGHT: 30,
-  LOGIN_WIDTH: 30,
-  LOGIN_HEIGHT: 30,
+  JOIN_WIDTH: '30rem',
+  JOIN_HEIGHT: '30rem',
+  LOGIN_WIDTH: '30rem',
+  LOGIN_HEIGHT: '30rem',
+  CREATE_WIDTH: '100%',
+  CRAETE_HEIGHT: '30rem',
   DELAY: 3,
 };
 

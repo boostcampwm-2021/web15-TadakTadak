@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postJoin } from '@src/apis';
 import { FaGithub } from 'react-icons/fa';
 import InfoMessage from './InfoMessage';
 import Select from './common/Select';
-import { useDevField } from '@src/contexts/devFieldContext';
+import Form from './common/Form';
+import { useDevField } from '@contexts/devFieldContext';
 import { FORM, INPUT } from '@utils/constant';
 
 const Container = styled.div`
@@ -18,21 +19,6 @@ const Container = styled.div`
   align-items: center;
   position: absolute;
   top: 20%;
-`;
-
-const Form = styled.form`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: ${FORM.JOIN_WIDTH}rem;
-  height: ${FORM.JOIN_HEIGHT}rem;
-  ${({ theme }) => css`
-    background-color: ${theme.colors.grey};
-    padding: ${theme.paddings.lg};
-    border: 1px solid ${theme.colors.borderGrey};
-    border-radius: ${theme.borderRadius.base};
-  `};
 `;
 
 const Input = styled.input`
@@ -118,7 +104,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
 
   return (
     <Container>
-      <Form onSubmit={onSubmitForm}>
+      <Form onSubmit={onSubmitForm} width={FORM.JOIN_WIDTH} height={FORM.JOIN_HEIGHT}>
         <Input
           type="text"
           placeholder="Email"

@@ -1,33 +1,18 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import useInput from '@hooks/useInput';
+import styled from 'styled-components';
 import { postRoom } from '@src/apis';
-import { useUser } from '@contexts/userContext';
 import Select from '@components/common/Select';
+import Form from '@components/common/Form';
 import { adminOptions } from '@utils/utils';
-import { RoomType } from '@utils/constant';
-import { INPUT } from '@utils/constant';
+import { INPUT, FORM, RoomType } from '@utils/constant';
+import useInput from '@hooks/useInput';
+import { useUser } from '@contexts/userContext';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
   flex-direction: column;
   width: 60%;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 100%;
-  height: 30rem;
-  ${({ theme }) => css`
-    background-color: ${theme.colors.grey};
-    padding: ${theme.paddings.lg};
-    border: 1px solid ${theme.colors.borderGrey};
-    border-radius: ${theme.borderRadius.base};
-  `};
 `;
 
 const Input = styled.input`
@@ -88,7 +73,7 @@ const CreateForm = (): JSX.Element => {
 
   return (
     <Container>
-      <Form onSubmit={onSubmitForm}>
+      <Form onSubmit={onSubmitForm} width={FORM.CREATE_WIDTH} height={FORM.CRAETE_HEIGHT}>
         <Input
           type="text"
           placeholder="방 제목을 입력해주세요."
