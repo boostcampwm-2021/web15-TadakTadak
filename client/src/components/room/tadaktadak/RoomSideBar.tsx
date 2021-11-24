@@ -7,6 +7,7 @@ import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
 import socket from '@socket/socket';
 import { postLeaveRoom } from '@src/apis';
+import { SocketEvents } from '@socket/socketEvents';
 
 const SIDEBAR_MIN_WIDTH = '29rem';
 const SIDEBAR_HEIGHT = '100vh';
@@ -56,7 +57,7 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount }: RoomSideBarProps): JS
 
   const leaveSocket = useCallback(() => {
     const leavePayload = { nickname, uuid };
-    socket.emit('leave-room', leavePayload);
+    socket.emit(SocketEvents.leaveRoom, leavePayload);
     postLeaveRoom(uuid);
   }, [nickname, uuid]);
 
@@ -77,8 +78,8 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount }: RoomSideBarProps): JS
 
   const initSocket = useCallback(() => {
     const joinPayload = { nickname, uuid, field: devField, img: imageUrl, maxHead: maxHeadcount };
-    socket.emit('join-room', joinPayload);
-    socket.on('user-list', registerParticipants);
+    socket.emit(SocketEvents.joinRoom, joinPayload);
+    socket.on(SocketEvents.receiveUserList, registerParticipants);
   }, [nickname, devField, imageUrl, uuid, maxHeadcount, registerParticipants]);
 
   useEffect(() => {

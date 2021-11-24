@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import socket from '@socket/socket';
 import { useUser } from '@src/contexts/userContext';
 import { RoomType } from '@components/main/RoomList';
+import { SocketEvents } from '@src/socket/socketEvents';
 
 const ROOM_WIDTH = 20;
 const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
@@ -102,7 +103,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const history = useHistory();
 
   const verifyBySocket = useCallback(async () => {
-    socket.emit('verify-room', { uuid });
+    socket.emit(SocketEvents.canIEnter, { uuid });
   }, [uuid]);
 
   const onClickRoomBox = useCallback(async () => {
@@ -125,8 +126,8 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   }, [history, uuid, roomType, roomDataRef]);
 
   useEffect(() => {
-    socket.removeListener('is-verify');
-    socket.on('is-verify', enterRoom);
+    socket.removeListener(SocketEvents.youCanEnter);
+    socket.on(SocketEvents.youCanEnter, enterRoom);
   }, [enterRoom]);
 
   return (
