@@ -48,7 +48,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       }
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
-          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
         }
       });
       return;
@@ -70,7 +70,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       pubClient.set(uuid, JSON.stringify(prevRoom));
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
-          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
         }
       });
       return;
@@ -87,7 +87,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       pubClient.set(uuid, JSON.stringify(prevRoom));
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
-          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
         }
       });
       return;
