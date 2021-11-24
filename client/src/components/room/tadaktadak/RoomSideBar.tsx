@@ -5,7 +5,7 @@ import Tab from '@components/common/Tab';
 import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
-import socket from '@src/socket';
+import socket from '@socket/socket';
 import { postLeaveRoom } from '@src/apis';
 
 const SIDEBAR_MIN_WIDTH = '29rem';

@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 import styled, { css, ThemeContext } from 'styled-components';
 import { FieldName, useUser } from '@src/contexts/userContext';
-import socket from '@src/socket';
+import socket from '@socket/socket';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;

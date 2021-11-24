@@ -88,7 +88,7 @@ const CampfireController = ({ track, setStart, uuid, ownerId }: CampfireControll
           color={themeContext.colors.secondary}
           onClick={() => {
             leaveChannel();
-            history.replace('/main');
+            // history.replace('/main');
           }}
         />
       </GetoutDiv>

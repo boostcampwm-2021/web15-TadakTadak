@@ -3,7 +3,7 @@ import { RoomInfo } from './main/RoomList';
 import { getRoomByUuid, postEnterRoom } from '@src/apis';
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useRef } from 'react';
-import socket from '@src/socket';
+import socket from '@socket/socket';
 import { useUser } from '@src/contexts/userContext';
 import { RoomType } from '@components/main/RoomList';
 

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';
-import socket from '@src/socket';
+import socket from '@socket/socket';
 import Chat from './Chat';
 
 const INPUT_WIDTH = '90%';
