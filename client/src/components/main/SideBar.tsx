@@ -9,11 +9,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@src/contexts/userContext';
 import { useDevFieldFns } from '@src/contexts/devFieldContext';
-import { SIDEBAR } from '@src/utils/constant';
-import { MAIN } from '@pages/Main/Main';
-
-const AVATAR_WIDTH = '3rem';
-const AVATAR_HEIGHT = '3rem';
+import { PAGE_NAME, PATH, SIDEBAR, USER_AVATAR } from '@utils/constant';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
@@ -108,8 +104,8 @@ const LogoutBtn = styled.button`
 
 const UserAvatar = styled.img`
   margin-right: ${({ theme }) => theme.margins.base};
-  width: ${AVATAR_WIDTH};
-  height: ${AVATAR_HEIGHT};
+  width: ${USER_AVATAR.WIDTH};
+  height: ${USER_AVATAR.HEIGHT};
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -127,7 +123,7 @@ const UserDevField = styled.div<{ bgColor: FieldName }>`
 
 const MainLink = styled(Link)`
   width: 100%;
-  height: ${AVATAR_HEIGHT};
+  height: ${USER_AVATAR.WIDTH};
   ${({ theme }) => theme.flexCenter};
   & span {
     margin-right: 2rem;
@@ -150,13 +146,13 @@ const SideBar = ({ page }: SideBarProps): JSX.Element => {
   const onClickLoginBtn = () => setLoginModal(!loginModal);
   const onClickCreateBtn = () => setCreateModal(true);
   const onClickUserInfoBtn = () => {
-    history.push(`/profile`);
+    history.push(PATH.PROFILE);
   };
   const onClickLogoutBtn = async () => {
     const { isOk } = await postLogout();
     if (isOk) {
       logUserOut();
-      if (history.location.pathname !== '/') location.href = '/main';
+      if (history.location.pathname !== PATH.INTRODUCTION) location.href = PATH.MAIN;
     }
   };
 
@@ -182,7 +178,7 @@ const SideBar = ({ page }: SideBarProps): JSX.Element => {
       <SideBarTopMenus>
         {user.login ? (
           <>
-            {page === MAIN ? (
+            {page === PAGE_NAME.MAIN ? (
               <UserInfoDiv onClick={onClickUserInfoBtn}>
                 <UserAvatar src={user.imageUrl}></UserAvatar>
                 <UserNickname>{user.nickname}</UserNickname>
@@ -190,7 +186,7 @@ const SideBar = ({ page }: SideBarProps): JSX.Element => {
               </UserInfoDiv>
             ) : (
               <UserInfoDiv>
-                <MainLink to="/main">
+                <MainLink to={PATH.MAIN}>
                   <span>메인</span>
                   <IoHomeOutline />
                 </MainLink>

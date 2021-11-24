@@ -27,6 +27,11 @@ export const CAMPER = {
   ICON_BORDER_RADIUS: '3rem',
 };
 
+export const USER_AVATAR = {
+  WIDTH: '3rem',
+  HEIGHT: '3rem',
+};
+
 export const SPEAK = {
   VOLUME: 0.2,
   VISUAL_TIME: 1000,
@@ -78,4 +83,8 @@ export const PATH = {
   TADAK: '/room/tadak',
   CAMPFIRE: '/room/campfire',
   PROFILE: '/profile',
+};
+
+export const PAGE_NAME = {
+  MAIN: 'MAIN',
 };

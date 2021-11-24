@@ -4,14 +4,13 @@ import SideBar from '@components/main/SideBar';
 import RoomList from '@components/main/RoomList';
 import ServiceInfo from '@components/main/ServiceInfo';
 import DevFieldContextProvider from '@src/contexts/devFieldContext';
-
-export const MAIN = 'MAIN';
+import { PAGE_NAME } from '@utils/constant';
 
 const Main = (): JSX.Element => {
   return (
     <MainWrapper>
       <DevFieldContextProvider>
-        <SideBar page={MAIN} />
+        <SideBar page={PAGE_NAME.MAIN} />
       </DevFieldContextProvider>
       <MainContainer>
         <ServiceInfo />
