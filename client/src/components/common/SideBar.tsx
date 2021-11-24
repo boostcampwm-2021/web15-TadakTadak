@@ -8,6 +8,8 @@ const SideBarContainer = styled.div`
     background-color: ${theme.colors.white};
     border: 1px solid ${theme.colors.borderGrey};
   `};
+  position: fixed;
+  left: 0;
   justify-content: space-between;
   width: ${SIDEBAR.minWidth};
   min-width: ${SIDEBAR.minWidth};

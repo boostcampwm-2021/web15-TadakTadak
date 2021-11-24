@@ -1,5 +1,6 @@
 import { createGlobalStyle, css } from 'styled-components';
 import reset from 'styled-reset';
+import { SIDEBAR } from '@utils/styleConstant';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -22,6 +23,7 @@ const GlobalStyles = createGlobalStyle`
   }
   body {
     font-family: 'Dongle';
+    margin-left: ${SIDEBAR.minWidth};
   }
   a {
     text-decoration: none;
