@@ -2,7 +2,7 @@ name: back-end [API-Server] CI & CD
 
 on:
   push:
-    branches: "**"
+    branches: "main"
 env:
   DOCKER_IMAGE: ghcr.io/boostcampwm-2021/web15-tadaktadak/server/api
   VERSION: ${{ github.sha }}
