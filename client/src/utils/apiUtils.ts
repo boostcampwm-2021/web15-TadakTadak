@@ -138,6 +138,7 @@ export function getRoomQueryObj(type: TypeRoom, search: string, page: number): Q
     page,
   };
   return queryObj;
+}
 
 export async function fetchDeleteImage<T>(url: string): Promise<HTTPResponse<T>> {
   const requestUrl = getUrl(url);
