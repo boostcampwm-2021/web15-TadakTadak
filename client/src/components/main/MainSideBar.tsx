@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import LoginModal from '../LoginModal';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { IoHomeOutline, IoLogOutOutline } from 'react-icons/io5';
+import SideBar from '@components/common/SideBar';
 import Modal from '@components/common/Modal';
 import CreateForm from './CreateForm';
 import { Link, useHistory } from 'react-router-dom';
@@ -10,7 +11,7 @@ import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@contexts/userContext';
 import { useDevFieldFns } from '@contexts/devFieldContext';
 import { PAGE_NAME, PATH } from '@utils/constant';
-import { SIDEBAR, USER_AVATAR } from '@utils/styleConstant';
+import { USER_AVATAR } from '@utils/styleConstant';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
@@ -27,22 +28,6 @@ const CreateBtn = styled.button`
   }
   ${({ theme }) => theme.active};
 `;
-
-const SideBarContainer = styled.div`
-  padding: ${({ theme }) => theme.paddings.lg};
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: ${SIDEBAR.minWidth};
-  min-width: ${SIDEBAR.minWidth};
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.borderGrey};
-`;
-
-const SideBarTopMenus = styled.div``;
-
-const SideBarBottomMenus = styled.div``;
 
 const LoginBtn = styled.button`
   ${({ theme }) => css`
@@ -136,7 +121,7 @@ interface SideBarProps {
   page?: string;
 }
 
-const SideBar = ({ page }: SideBarProps): JSX.Element => {
+const MainSideBar = ({ page }: SideBarProps): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();
@@ -175,9 +160,9 @@ const SideBar = ({ page }: SideBarProps): JSX.Element => {
   }, [registerDevField]);
 
   return (
-    <SideBarContainer>
-      <SideBarTopMenus>
-        {user.login ? (
+    <SideBar
+      topMenus={
+        user.login ? (
           <>
             {page === PAGE_NAME.main ? (
               <UserInfoDiv onClick={onClickUserInfoBtn}>
@@ -199,16 +184,20 @@ const SideBar = ({ page }: SideBarProps): JSX.Element => {
             </LogoutBtn>
           </>
         ) : (
-          <LoginBtn onClick={onClickLoginBtn}>로그인</LoginBtn>
-        )}
-      </SideBarTopMenus>
-      {loginModal && <LoginModal modal={loginModal} setModal={setLoginModal} />}
-      <SideBarBottomMenus>
-        {user.login && <CreateBtn onClick={onClickCreateBtn}>방 생성하기</CreateBtn>}
-        {createModal && <Modal title="방 생성하기" children={<CreateForm />} setModal={setCreateModal} />}
-      </SideBarBottomMenus>
-    </SideBarContainer>
+          <>
+            <LoginBtn onClick={onClickLoginBtn}>로그인</LoginBtn>
+            {loginModal && <LoginModal modal={loginModal} setModal={setLoginModal} />}
+          </>
+        )
+      }
+      bottomMenus={
+        <>
+          {user.login && <CreateBtn onClick={onClickCreateBtn}>방 생성하기</CreateBtn>}
+          {createModal && <Modal title="방 생성하기" children={<CreateForm />} setModal={setCreateModal} />}
+        </>
+      }
+    />
   );
 };
 
-export default SideBar;
+export default MainSideBar;

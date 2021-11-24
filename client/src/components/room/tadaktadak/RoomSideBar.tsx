@@ -1,31 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
+import SideBar from '@components/common/SideBar';
 import Tab from '@components/common/Tab';
 import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
 import socket from '@socket/socket';
 import { postLeaveRoom } from '@src/apis';
-import { SIDEBAR } from '@utils/styleConstant';
 import { SocketEvents } from '@socket/socketEvents';
-
-const SideBarContainer = styled.div`
-  padding: ${({ theme }) => theme.paddings.lg};
-  display: flex;
-  flex-direction: column;
-  width: ${SIDEBAR.minWidth};
-  min-width: ${SIDEBAR.minWidth};
-  height: ${SIDEBAR.height};
-  background-color: ${({ theme }) => theme.colors.white};
-  z-index: 9999;
-`;
-
-const SideBarTopMenus = styled.div``;
-
-const SideBarBottomMenus = styled.div`
-  height: 100%;
-`;
 
 const SideBarTabs = styled.div`
   display: flex;
@@ -86,18 +69,21 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount }: RoomSideBarProps): JS
   }, [initSocket, leaveSocket]);
 
   return (
-    <SideBarContainer>
-      <SideBarTopMenus>
+    <SideBar
+      topMenus={
         <SideBarTabs>
           <Tab text="채팅" isActive={isChat} onClick={onClickChatTap} />
           <Tab text="참가자" isActive={isParticipant} onClick={onClickParticipantTap} />
         </SideBarTabs>
-      </SideBarTopMenus>
-      <SideBarBottomMenus>
-        {isChat && <ChatList chats={chats} uuid={uuid} setChats={setChats} />}
-        {isParticipant && <ParticipantList participants={participants} hostNickname={hostNickname} uuid={uuid} />}
-      </SideBarBottomMenus>
-    </SideBarContainer>
+      }
+      bottomMenus={
+        <>
+          {isChat && <ChatList chats={chats} uuid={uuid} setChats={setChats} />}
+          {isParticipant && <ParticipantList participants={participants} hostNickname={hostNickname} uuid={uuid} />}
+        </>
+      }
+      bottomMenuHeight={'100%'}
+    />
   );
 };
 
