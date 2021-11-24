@@ -27,7 +27,7 @@ export interface IMessage {
   type?: MessageType;
   language?: string;
   time?: LocalDateTime;
-  roomId: string;
+  uuid: string;
   nickname: string;
   message: string;
 }
