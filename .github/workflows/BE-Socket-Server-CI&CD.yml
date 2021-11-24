@@ -2,7 +2,8 @@ name: back-end [Socket-Server] CI & CD
 
 on:
   push:
-    branches: [main]
+    branches:
+      - "**"
 
 env:
   DOCKER_IMAGE: ghcr.io/boostcampwm-2021/web15-tadaktadak/server/socket

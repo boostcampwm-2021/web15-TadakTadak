@@ -21,14 +21,14 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   private logger: Logger = new Logger('AppGateway');
 
   @SubscribeMessage(RoomEvent.MsgToServer)
-  handleMessage(client: Socket, { roomId, message, nickname }: IMessage): void {
+  handleMessage(client: Socket, { uuid, message, nickname }: IMessage): void {
     const emitMessage: IMessage = {
       message: message,
       time: LocalDateTime.now(),
       nickname: nickname,
-      roomId: roomId,
+      uuid: uuid,
     };
-    this.server.to(roomId).emit(RoomEvent.MsgToClient, emitMessage);
+    this.server.to(uuid).emit(RoomEvent.MsgToClient, emitMessage);
   }
 
   @SubscribeMessage(RoomEvent.JoinRoom)
@@ -48,7 +48,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       }
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
-          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
         }
       });
       return;
@@ -70,7 +70,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       pubClient.set(uuid, JSON.stringify(prevRoom));
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
-          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
         }
       });
       return;
@@ -87,7 +87,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       pubClient.set(uuid, JSON.stringify(prevRoom));
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
-          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data));
+          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
         }
       });
       return;
