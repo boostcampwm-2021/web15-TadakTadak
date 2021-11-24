@@ -10,7 +10,7 @@ import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@src/contexts/userContext';
 import { useDevFieldFns } from '@src/contexts/devFieldContext';
 import { SIDEBAR } from '@src/utils/constant';
-import { MAIN } from '@pages/Main/Main';
+import { MAIN } from '@utils/constant';
 
 const AVATAR_WIDTH = '3rem';
 const AVATAR_HEIGHT = '3rem';

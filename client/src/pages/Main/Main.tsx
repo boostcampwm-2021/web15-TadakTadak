@@ -4,8 +4,7 @@ import SideBar from '@components/main/SideBar';
 import RoomList from '@components/main/RoomList';
 import ServiceInfo from '@components/main/ServiceInfo';
 import DevFieldContextProvider from '@src/contexts/devFieldContext';
-
-export const MAIN = 'MAIN';
+import { MAIN } from '@utils/constant';
 
 const Main = (): JSX.Element => {
   return (

@@ -8,7 +8,7 @@ export const DEBOUNCE = {
 };
 
 export const INFINITE_SCROLL = {
-  MAX_LENGTH: 15,
+  UNIT: 15,
 };
 
 export const MODAL = {
@@ -79,3 +79,5 @@ export const PATH = {
   CAMPFIRE: '/room/campfire',
   PROFILE: '/profile',
 };
+
+export const MAIN = 'MAIN';
