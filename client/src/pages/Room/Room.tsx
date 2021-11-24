@@ -17,11 +17,11 @@ interface RoomProps {
 }
 
 const Room = ({ location }: RoomProps): JSX.Element => {
-  const { agoraAppId, agoraToken, uuid, owner } = location.state;
+  const { agoraAppId, agoraToken, uuid, owner, maxHeadcount } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
-  const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
+  const [start, setStart] = useState<boolean>(false);
   const client = useClient();
-  const { ready, tracks } = useMicrophoneAndCameraTracks(); // ready: 클라이언트 트랙 준비 여부
+  const { ready, tracks } = useMicrophoneAndCameraTracks();
 
   useEffect(() => {
     const init = async () => {
@@ -74,7 +74,7 @@ const Room = ({ location }: RoomProps): JSX.Element => {
 
   return (
     <RoomWrapper>
-      <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} />
+      <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
       <RoomContainer>
         {start && tracks && <Videos users={users} tracks={tracks} />}
         {ready && tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}

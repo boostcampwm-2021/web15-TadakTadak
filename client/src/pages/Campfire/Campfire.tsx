@@ -17,7 +17,7 @@ interface RoomProps {
 }
 
 const Campfire = ({ location }: RoomProps): JSX.Element => {
-  const { agoraAppId, agoraToken, uuid, owner } = location.state;
+  const { agoraAppId, agoraToken, uuid, owner, maxHeadcount } = location.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [start, setStart] = useState<boolean>(false);
   const client = useClient();
@@ -68,7 +68,7 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
 
   return (
     <RoomWrapper>
-      <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} />
+      <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
       <RoomContainer>
         <div>
           <img

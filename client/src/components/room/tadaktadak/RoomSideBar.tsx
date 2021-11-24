@@ -40,9 +40,10 @@ const initialTabState = {
 interface RoomSideBarProps {
   uuid: string;
   hostNickname: string | undefined;
+  maxHeadcount: number;
 }
 
-const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
+const RoomSideBar = ({ uuid, hostNickname, maxHeadcount }: RoomSideBarProps): JSX.Element => {
   const { nickname, devField, imageUrl } = useUser();
   const history = useHistory();
   const [tabs, setTabs] = useState({ ...initialTabState });
@@ -75,10 +76,10 @@ const RoomSideBar = ({ uuid, hostNickname }: RoomSideBarProps): JSX.Element => {
   );
 
   const initSocket = useCallback(() => {
-    const joinPayload = { nickname, uuid, field: devField, img: imageUrl };
+    const joinPayload = { nickname, uuid, field: devField, img: imageUrl, maxHead: maxHeadcount };
     socket.emit('join-room', joinPayload);
     socket.on('user-list', registerParticipants);
-  }, [nickname, devField, imageUrl, uuid, registerParticipants]);
+  }, [nickname, devField, imageUrl, uuid, maxHeadcount, registerParticipants]);
 
   useEffect(() => {
     initSocket();
