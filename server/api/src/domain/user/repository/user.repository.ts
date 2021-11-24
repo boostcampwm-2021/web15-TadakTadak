@@ -17,17 +17,17 @@ export class UserRepository extends Repository<User> {
   }
 
   async findUserByNickname(nickname: string): Promise<User | undefined> {
-    return await this.findOne({ where: { nickName: nickname } });
+    return await this.findOne({ where: { nickname: nickname } });
   }
 
   async findUserByNicknameWithDev(nickname: string): Promise<User | undefined> {
-    return await this.findOne({ where: { nickName: nickname }, relations: ['devField'] });
+    return await this.findOne({ where: { nickname: nickname }, relations: ['devField'] });
   }
 
   async exists(user): Promise<boolean> {
     return (
       (await this.createQueryBuilder('user')
-        .where('user.nick_name = :nickname OR user.email = :email', {
+        .where('user.nickname = :nickname OR user.email = :email', {
           nickname: user.nickname,
           email: user.email,
         })

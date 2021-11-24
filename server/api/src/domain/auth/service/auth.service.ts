@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { LocalDate } from 'js-joda';
-import { Bcrypt } from 'src/utils/bcrypt';
+import { Bcrypt } from '../../../utils/bcrypt';
 import { UserBuilder } from '../../../builder';
 import { DevFieldException, UserException } from '../../../exception';
 import { User } from '../../user/user.entity';
-import { HistoryService } from 'src/domain/history/service/history.service';
+import { DevField } from '../../field/dev-field.entity';
+import { HistoryService } from '../../history/service/history.service';
 import { UserRepository } from '../../user/repository/user.repository';
-import { DevFieldRepository } from 'src/domain/field/repository/dev-field.repository';
+import { DevFieldRepository } from '../../field/repository/dev-field.repository';
 import { LoginRequestDto } from '../dto/login-request.dto';
 import { UserResponseDto } from '../dto/user-response.dto';
 import { JoinRequestDto } from '../dto/join-request.dto';
-import { DevField } from 'src/domain/field/dev-field.entity';
 
 @Injectable()
 export class AuthService {

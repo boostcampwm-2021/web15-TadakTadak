@@ -7,7 +7,7 @@ import { ImageService } from '../../image/service/image.service';
 import { DevFieldRepository } from '../../field/repository/dev-field.repository';
 import { UserRepository } from '../repository/user.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
-import { UserResponseDto } from 'src/domain/auth/dto/user-response.dto';
+import { UserResponseDto } from '../../auth/dto/user-response.dto';
 
 @Injectable()
 export class UserService {
@@ -43,7 +43,7 @@ export class UserService {
   }
 
   async updateImage(email: string, file) {
-    const updateUser: User = await this.authRepository.findUserByUserEmail(email);
+    const updateUser: User = await this.authRepository.findUserByEmailWithDev(email);
     if (!updateUser) throw UserException.userNotFound();
     if (updateUser.imageName) await this.imageService.deleteImage(updateUser.imageName);
     const imageInfo = await this.imageService.uploadImage(file);
@@ -54,14 +54,14 @@ export class UserService {
     return new UserResponseDto(updateUser);
   }
 
-  async deleteImage(nickname: string) {
-    const updateUser: User = await this.authRepository.findUserByNickname(nickname);
+  async deleteImage(email: string) {
+    const updateUser: User = await this.authRepository.findUserByEmailWithDev(email);
     if (!updateUser) throw UserException.userNotFound();
     if (!updateUser.imageName) return true;
     await this.imageService.deleteImage(updateUser.imageName);
-    updateUser.setImageUrl(process.env.NCP_BUCKET_NAME);
+    updateUser.setImageUrl(process.env.DEFAULT_IMG);
     updateUser.setImageName('');
     await this.authRepository.save(updateUser);
-    return true;
+    return new UserResponseDto(updateUser);
   }
 }

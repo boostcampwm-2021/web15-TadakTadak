@@ -1,6 +1,14 @@
 import { UserProps } from '@contexts/userContext';
 import { RoomInfo } from '@components/main/RoomList';
-import { HTTPResponse, queryObjToString, fetchGet, fetchPost, fetchPatch, fetchDelete } from './utils/apiUtils';
+import {
+  HTTPResponse,
+  queryObjToString,
+  fetchGet,
+  fetchPost,
+  fetchPatch,
+  fetchDelete,
+  fetchDeleteImage,
+} from './utils/apiUtils';
 
 interface PostLogin {
   email: string;
@@ -34,6 +42,11 @@ interface PatchUpdate {
 
 export const patchUpdate = async (body: PatchUpdate): Promise<HTTPResponse<UserProps>> => {
   const response = await fetchPatch<UserProps>(`/api/user/${body.originalName}`, { ...body });
+  return response;
+};
+
+export const deleteImage = async (): Promise<HTTPResponse<UserProps>> => {
+  const response = await fetchDeleteImage<UserProps>('/api/user/image');
   return response;
 };
 

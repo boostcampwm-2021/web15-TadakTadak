@@ -9,6 +9,7 @@ interface InfoProps {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 45rem;
 `;
 
 const InfoWrapper = styled.div`
