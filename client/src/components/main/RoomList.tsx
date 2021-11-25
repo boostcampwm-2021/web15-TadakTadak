@@ -1,15 +1,16 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
+import { getRoom } from '@src/apis';
+import { UserProps } from '@contexts/userContext';
+import useDebounce from '@hooks/useDebounce';
+import useInput from '@hooks/useInput';
+import Loader from '@components/common/Loader';
+import Tab from '@components/common/Tab';
 import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
-import Tab from '@components/common/Tab';
 import SearchBar from './SearchBar';
-import { getRoomQueryObj } from '@src/utils/apiUtils';
-import { UserProps } from '@src/contexts/userContext';
-import { getRoom } from '@src/apis';
-import Loader from '@components/common/Loader';
-import useDebounce from '@src/hooks/useDebounce';
-import { DEBOUNCE, INFINITE_SCROLL } from '@src/utils/constant';
+import { getRoomQueryObj } from '@utils/apiUtils';
+import { DEBOUNCE, INFINITE_SCROLL } from '@utils/constant';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
@@ -55,8 +56,8 @@ const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} room
 function RoomList(): JSX.Element {
   const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
-  const [search, setSearch] = useState('');
-  const debounceSearch = useDebounce(search, DEBOUNCE.TIME);
+  const [search, onChangeSearch, onResetSearch] = useInput('');
+  const debounceSearch = useDebounce(search, DEBOUNCE.time);
   const [isLoading, setLoading] = useState(false);
   const target = useRef<HTMLDivElement>(null);
   const page = useRef(1);
@@ -99,7 +100,7 @@ function RoomList(): JSX.Element {
   const onIntersect: IntersectionObserverCallback = useCallback(
     (entries, observer) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && rooms.length === page.current * INFINITE_SCROLL.UNIT) {
+        if (entry.isIntersecting && rooms.length === page.current * INFINITE_SCROLL.unit) {
           observer.unobserve(entry.target);
           addNewPage();
         }
@@ -115,7 +116,7 @@ function RoomList(): JSX.Element {
   useEffect(() => {
     let observer: IntersectionObserver;
     if (target.current?.lastElementChild) {
-      observer = new IntersectionObserver(onIntersect, { threshold: INFINITE_SCROLL.THRESHOLD });
+      observer = new IntersectionObserver(onIntersect, { threshold: INFINITE_SCROLL.threshold });
       observer.observe(target.current.lastElementChild);
     }
     return () => observer && observer.disconnect();
@@ -126,7 +127,7 @@ function RoomList(): JSX.Element {
       <TabWrapper>
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
-        <SearchBar search={search} setSearch={setSearch} />
+        <SearchBar search={search} onChange={onChangeSearch} onReset={onResetSearch} />
       </TabWrapper>
       <RoomListGrid ref={target}>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
       {isLoading && <Loader />}

@@ -4,9 +4,10 @@ import { getRoomByUuid, postEnterRoom } from '@src/apis';
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useRef } from 'react';
 import socket from '@socket/socket';
-import { useUser } from '@src/contexts/userContext';
-import { RoomType, ROOM_BOX } from '@utils/constant';
-import { SocketEvents } from '@src/socket/socketEvents';
+import { SocketEvents } from '@socket/socketEvents';
+import { useUser } from '@contexts/userContext';
+import { RoomType } from '@utils/constant';
+import { ROOM_BOX } from '@utils/styleConstant';
 
 const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -14,7 +15,7 @@ const RoomBoxWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.base};
   width: 100%;
-  height: ${ROOM_BOX.HEIGHT}rem;
+  height: ${ROOM_BOX.height}rem;
   border-radius: ${({ theme }) => theme.borderRadius.base};
   cursor: pointer;
   position: relative;

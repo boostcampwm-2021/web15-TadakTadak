@@ -61,7 +61,6 @@ const InfoForm = ({ onClickModifyToggle }: InfoProps): JSX.Element => {
           <Legend>{`닉네임`}</Legend>
           <Info>{user.nickname}</Info>
         </InfoSet>
-
         <InfoSet>
           <Legend>{`관심 분야`}</Legend>
           <Info>{user.devField?.name}</Info>

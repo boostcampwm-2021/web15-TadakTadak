@@ -1,8 +1,9 @@
-import { useCallback, useContext } from 'react';
-import styled, { css, ThemeContext } from 'styled-components';
+import { useCallback } from 'react';
+import styled, { css } from 'styled-components';
 import { FieldName, useUser } from '@src/contexts/userContext';
 import socket from '@socket/socket';
 import { SocketEvents } from '@socket/socketEvents';
+import { useTheme } from '@contexts/themeContext';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
@@ -72,7 +73,7 @@ const ParticipantList = ({
   hostNickname,
   uuid,
 }: ParticipantListProps<{ field: { id: number; name: FieldName }; img: string }>): JSX.Element => {
-  const themeContext = useContext(ThemeContext);
+  const theme = useTheme();
   const user = useUser();
 
   const onClickGetOutBtn = useCallback(
@@ -91,7 +92,7 @@ const ParticipantList = ({
           <Participant key={nickname}>
             <Avatar src={img} />
             <Nickname>{nickname}</Nickname>
-            {field && <DevField bgColor={themeContext.tagColors[field.name]}>{field.name}</DevField>}
+            {field && <DevField bgColor={theme.tagColors[field.name]}>{field.name}</DevField>}
             {hostNickname === nickname && <Position>호스트</Position>}
             {user.nickname === hostNickname && user.nickname !== nickname && (
               <GetOutBtn onClick={onClickGetOutBtn} data-nickname={nickname}>

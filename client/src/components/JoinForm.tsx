@@ -1,38 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postJoin } from '@src/apis';
 import { FaGithub } from 'react-icons/fa';
 import InfoMessage from './InfoMessage';
 import Select from './common/Select';
-import { useDevField } from '@src/contexts/devFieldContext';
-import { FORM, INPUT } from '@utils/constant';
+import Form from './common/Form';
+import { useDevField } from '@contexts/devFieldContext';
+import { INPUT, FORM_DELAY } from '@utils/constant';
+import { FORM } from '@utils/styleConstant';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${FORM.JOIN_WIDTH}rem;
+  width: ${FORM.joinWidth};
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: absolute;
   top: 20%;
-`;
-
-const Form = styled.form`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: ${FORM.JOIN_WIDTH}rem;
-  height: ${FORM.JOIN_HEIGHT}rem;
-  ${({ theme }) => css`
-    background-color: ${theme.colors.grey};
-    padding: ${theme.paddings.lg};
-    border: 1px solid ${theme.colors.borderGrey};
-    border-radius: ${theme.borderRadius.base};
-  `};
 `;
 
 const Input = styled.input`
@@ -109,7 +96,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(''), FORM.DELAY * 1000);
+      const timer = setTimeout(() => setMessage(''), FORM_DELAY * 1000);
       return () => {
         clearTimeout(timer);
       };
@@ -118,14 +105,14 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
 
   return (
     <Container>
-      <Form onSubmit={onSubmitForm}>
+      <Form onSubmit={onSubmitForm} width={FORM.joinWidth} height={FORM.joinHeight}>
         <Input
           type="text"
           placeholder="Email"
           id="email"
           value={email}
           onChange={onChangeEmail}
-          maxLength={INPUT.EMAIL_MAX_LENGTH}
+          maxLength={INPUT.emailMaxLen}
           autoComplete="new-password"
         />
         <Input
@@ -134,7 +121,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
           id="nickname"
           value={nickname}
           onChange={onChangeNickname}
-          maxLength={INPUT.NICKNAME_MAX_LENGTH}
+          maxLength={INPUT.nicknameMaxLen}
           autoComplete="new-password"
         />
         <Input
@@ -142,8 +129,8 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
           placeholder="Password"
           id="password"
           value={password}
-          minLength={INPUT.PASSWORD_MIN_LENGTH}
-          maxLength={INPUT.PASSWORD_MAX_LENGTH}
+          minLength={INPUT.pwdMinLen}
+          maxLength={INPUT.pwdMaxLen}
           onChange={onChangePassword}
         />
         <Select name={'개발 필드'} options={devFieldOptions} onChange={handleDevFieldSelectChange} />

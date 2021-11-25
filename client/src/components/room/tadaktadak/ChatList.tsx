@@ -4,7 +4,8 @@ import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';
 import socket from '@socket/socket';
 import Chat from './Chat';
-import { INPUT, CHAT } from '@src/utils/constant';
+import { INPUT } from '@utils/constant';
+import { CHAT } from '@utils/styleConstant';
 import { SocketEvents } from '@socket/socketEvents';
 
 interface ChatListProps<T> {
@@ -21,7 +22,7 @@ const Container = styled.div`
 
 const List = styled.ul`
   width: 100%;
-  height: ${CHAT.LIST_HEIGHT};
+  height: ${CHAT.listHeight};
   ${({ theme }) => theme.flexColumn};
   padding: ${({ theme }) => theme.paddings.sm};
   overflow: auto;
@@ -29,13 +30,13 @@ const List = styled.ul`
 
 const InputDiv = styled.div`
   width: 100%;
-  height: ${CHAT.INPUT_HEIGHT};
+  height: ${CHAT.inputHeight};
   ${({ theme }) => theme.flexColumn};
   justify-content: end;
   align-items: center;
 `;
 const Input = styled.input`
-  width: ${CHAT.INPUT_WIDTH};
+  width: ${CHAT.inputWidth};
   height: 5rem;
   padding: ${({ theme }) => theme.paddings.sm};
   border: 2px solid ${({ theme }) => theme.colors.borderGrey};
@@ -44,7 +45,7 @@ const Input = styled.input`
 `;
 
 const Line = styled.div`
-  width: ${CHAT.INPUT_WIDTH};
+  width: ${CHAT.inputWidth};
   border-top: 1px solid ${({ theme }) => theme.colors.black};
   opacity: 0.4;
   margin: 0 auto;
@@ -94,7 +95,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
           value={message}
           onChange={onChangeMessage}
           onKeyPress={onKeyPress}
-          maxLength={INPUT.CHAT_MAX_LENGTH}
+          maxLength={INPUT.chatMaxLen}
         />
       </InputDiv>
     </Container>
