@@ -28,15 +28,15 @@ export class UserController {
     return { result: await this.userService.updateUserInfo(nickname, userUpdateDto) };
   }
 
-  @Get('/log')
+  @Get('/log/year')
   @UseGuards(JwtAuthGuard)
-  async getUserLog(@Req() req: Request) {
+  async getUserLogYearly(@Req() req: Request) {
     return { result: await this.historyService.getYearHistory(req.user['email']) };
   }
 
-  @Get('/month')
+  @Get('/log/month')
   @UseGuards(JwtAuthGuard)
-  async getUserLogMonth(@Req() req: Request) {
+  async getUserLogMonthly(@Req() req: Request) {
     return { result: await this.historyService.getMonthHistory(req.user['email']) };
   }
 
