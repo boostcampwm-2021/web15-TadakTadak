@@ -56,6 +56,10 @@ const RoomBoxTop = styled.div`
   flex-direction: column;
 `;
 
+const RoomTopMenu = styled.div`
+  display: flex;
+`;
+
 const RoomTitle = styled.h6`
   display: block;
   width: 100%;
@@ -65,6 +69,7 @@ const RoomTitle = styled.h6`
     margin-bottom: ${theme.margins.base};
   `}
 `;
+
 const RoomDescription = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   opacity: 0.9;
@@ -79,13 +84,20 @@ const RoomBoxBottom = styled.div`
 `;
 
 const RoomFieldType = styled.div`
+  width: 5rem;
+  height: 2rem;
   ${({ theme }) => css`
+    ${theme.flexCenter};
     font-size: ${theme.fontSizes.sm};
     background-color: ${theme.colors.blue};
     color: ${theme.colors.white};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
   `}
+`;
+
+const RoomOwnerNickname = styled.span`
+  color: ${({ theme }) => theme.colors.green};
 `;
 
 const RoomAdmitNumber = styled.span``;
@@ -95,7 +107,7 @@ interface RoomBoxProps {
 }
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
-  const { uuid, title, description, nowHeadcount, maxHeadcount, roomType } = roomInfo;
+  const { uuid, title, description, nowHeadcount, maxHeadcount, roomType, owner } = roomInfo;
   const { login } = useUser();
   const roomDataRef = useRef<RoomInfo>();
   const history = useHistory();
@@ -131,11 +143,14 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   return (
     <RoomBoxWrapper onClick={onClickRoomBox}>
       <RoomBoxTop>
-        <RoomTitle>{title}</RoomTitle>
+        <RoomTopMenu>
+          <RoomTitle>{title}</RoomTitle>
+          <RoomFieldType>{owner?.devField}</RoomFieldType>
+        </RoomTopMenu>
         <RoomDescription>{description}</RoomDescription>
       </RoomBoxTop>
       <RoomBoxBottom>
-        <RoomFieldType>백엔드</RoomFieldType>
+        <RoomOwnerNickname>호스트 : {owner?.nickname}</RoomOwnerNickname>
         <RoomAdmitNumber>
           {nowHeadcount} / {maxHeadcount}
         </RoomAdmitNumber>
