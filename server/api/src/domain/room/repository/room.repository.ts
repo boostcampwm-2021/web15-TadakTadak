@@ -12,6 +12,12 @@ export class RoomRepository extends Repository<Room> {
   async findByKeywordAndCount(options: PaginationOptions, roomType: RoomType): Promise<[Room[], number]> {
     const { search, take, page } = options;
     return this.findAndCount({
+      join: {
+        alias: 'room',
+        innerJoinAndSelect: {
+          owner: 'room.owner',
+        },
+      },
       where: { title: Like('%' + search + '%'), roomType: roomType },
       order: { nowHeadcount: 'DESC' },
       take: take,

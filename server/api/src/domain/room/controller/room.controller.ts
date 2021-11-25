@@ -26,7 +26,7 @@ export class RoomController {
     @Query('search') search: string,
     @Query('take') take: number,
     @Query('page') page: number,
-  ): Promise<{ result: Pagination<Room> }> {
+  ): Promise<{ result: Pagination<RoomResponseDto> }> {
     return { result: await this.roomService.getRoomListAll({ search, take, page }, type) };
   }
 
