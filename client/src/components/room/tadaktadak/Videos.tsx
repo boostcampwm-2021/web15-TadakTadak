@@ -16,7 +16,7 @@ const UserInfoDiv = styled.div`
   width: 100%;
   ${({ theme }) => theme.flexCenter}
   margin-top: ${({ theme }) => theme.margins.sm};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
 `;
 
 const VideosGrid = styled.div`
@@ -41,13 +41,13 @@ const Videos = ({ users, tracks }: VideosProps): JSX.Element => {
       <VideosGrid id="videos">
         <VideoBoxWrapper>
           <VideoBox videoTrack={myVideoTrack} audioTrack={myAudioTrack} />
-          <UserInfoDiv>{userInfo.email}</UserInfoDiv>
+          <UserInfoDiv>{userInfo.nickname}(나)</UserInfoDiv>
         </VideoBoxWrapper>
         {users.length > 0 &&
           users.map((user) => (
             <VideoBoxWrapper>
               <VideoBox key={user.uid} videoTrack={user.videoTrack} audioTrack={user.audioTrack} />
-              <UserInfoDiv>{user.uid}</UserInfoDiv>
+              <UserInfoDiv>{decodeURI(String(user.uid))}</UserInfoDiv>
             </VideoBoxWrapper>
           ))}
       </VideosGrid>
