@@ -15,4 +15,16 @@ export class HistoryRepository extends Repository<History> {
   async getHistoryByNickname(user: User) {
     return await this.find({ where: { user: user } });
   }
+
+  async getMonthByNickname(user: User, year: number) {
+    return await this.createQueryBuilder()
+      .select('MONTH(check_in) as month')
+      .addSelect('COUNT(*) as count')
+      .where('YEAR(check_in) = :year AND user_id = :user', {
+        year: year,
+        user: user.id,
+      })
+      .groupBy('MONTH(check_in)')
+      .getRawMany();
+  }
 }
