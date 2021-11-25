@@ -58,7 +58,7 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
         });
       });
 
-      await client.join(agoraAppId, uuid, agoraToken, userInfo.email);
+      await client.join(agoraAppId, uuid, agoraToken, encodeURI(userInfo.nickname ?? ''));
       if (track) {
         await client.publish(track);
         await track.setEnabled(false);

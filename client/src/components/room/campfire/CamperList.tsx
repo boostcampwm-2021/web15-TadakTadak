@@ -1,3 +1,4 @@
+import { useUser } from '@src/contexts/userContext';
 import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import styled, { css } from 'styled-components';
 import CamperAvatar from './CamperAvatar';
@@ -17,10 +18,23 @@ const CamperListContainer = styled.div`
   `};
 `;
 
+const CamperWrapper = styled.div`
+  margin: ${({ theme }) => theme.margins.base};
+  ${({ theme }) => theme.flexColumn}
+  align-items: center;
+`;
+
+const CamperInfoDiv = styled.div`
+  width: 100%;
+  ${({ theme }) => theme.flexCenter}
+  margin-top: ${({ theme }) => theme.margins.sm};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  color: ${({ theme }) => theme.colors.grey};
+`;
+
 const CamperAvatarList = styled.div`
   ${({ theme }) => css`
     ${theme.flexCenter};
-    border: 1px solid ${theme.colors.borderGrey};
     border-radius: ${theme.borderRadius.sm};
   `};
 `;
@@ -31,12 +45,22 @@ interface CamperListProps {
 }
 
 const CamperList = ({ users, track }: CamperListProps): JSX.Element => {
+  const userInfo = useUser();
   return (
     <CamperListWrapper>
       <CamperListContainer>
         <CamperAvatarList>
-          <CamperAvatar audioTrack={track} />
-          {users.length > 0 && users.map((user) => <CamperAvatar key={user.uid} audioTrack={user.audioTrack} />)}
+          <CamperWrapper>
+            <CamperAvatar audioTrack={track} />
+            <CamperInfoDiv>{userInfo.nickname}(나)</CamperInfoDiv>
+          </CamperWrapper>
+          {users.length > 0 &&
+            users.map((user) => (
+              <CamperWrapper>
+                <CamperAvatar key={user.uid} audioTrack={user.audioTrack} />
+                <CamperInfoDiv>{decodeURI(String(user.uid))}</CamperInfoDiv>
+              </CamperWrapper>
+            ))}
         </CamperAvatarList>
       </CamperListContainer>
     </CamperListWrapper>
