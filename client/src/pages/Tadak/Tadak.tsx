@@ -59,7 +59,7 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
         });
       });
 
-      await client.join(agoraAppId, uuid, agoraToken, userInfo.email);
+      await client.join(agoraAppId, uuid, agoraToken, encodeURI(userInfo.nickname ?? ''));
       if (tracks) {
         await client.publish([tracks[0], tracks[1]]);
         await tracks[1].setEnabled(false);
