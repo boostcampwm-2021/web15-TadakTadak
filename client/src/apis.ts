@@ -127,3 +127,13 @@ export const getDevField = async (): Promise<HTTPResponse<GetDevField[]>> => {
   const response = await fetchGet<GetDevField[]>(`/api/field`);
   return response;
 };
+
+interface UserLogList {
+  id: number;
+  checkIn: string;
+}
+
+export const getUserLogList = async (nickname?: string): Promise<HTTPResponse<UserLogList[]>> => {
+  const response = await fetchGet<UserLogList[]>(`/api/user/${nickname}/log`);
+  return response;
+};
