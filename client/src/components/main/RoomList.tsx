@@ -116,7 +116,7 @@ function RoomList(): JSX.Element {
   useEffect(() => {
     let observer: IntersectionObserver;
     if (target.current?.lastElementChild) {
-      observer = new IntersectionObserver(onIntersect, { threshold: INFINITE_SCROLL.THRESHOLD });
+      observer = new IntersectionObserver(onIntersect, { threshold: INFINITE_SCROLL.threshold });
       observer.observe(target.current.lastElementChild);
     }
     return () => observer && observer.disconnect();
