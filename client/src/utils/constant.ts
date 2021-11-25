@@ -8,7 +8,8 @@ export const DEBOUNCE = {
 };
 
 export const INFINITE_SCROLL = {
-  maxLen: 15,
+  unit: 15,
+  threshold: 0.9,
 };
 
 export const SPEAK = {
@@ -44,3 +45,5 @@ export const PATH = {
 export const PAGE_NAME = {
   main: 'MAIN',
 };
+
+export const MAIN = 'MAIN';

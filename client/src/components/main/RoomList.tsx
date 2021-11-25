@@ -71,7 +71,6 @@ function RoomList(): JSX.Element {
       const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
       const queryObj = getRoomQueryObj(type, searchStr, 1);
       const { isOk, data } = await getRoom(queryObj);
-      console.log(data?.results);
       if (isOk && data) {
         setRooms([...data.results]);
       }
@@ -85,7 +84,6 @@ function RoomList(): JSX.Element {
       const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
       const queryObj = getRoomQueryObj(type, searchStr, page.current);
       const { isOk, data } = await getRoom(queryObj);
-      console.log(data?.results);
       if (isOk && data) {
         setRooms((prevRooms) => [...prevRooms, ...data.results]);
       }
@@ -94,22 +92,21 @@ function RoomList(): JSX.Element {
     [tabState, page],
   );
 
-  const changeExtraTransaction = useCallback(() => {
+  const addNewPage = useCallback(() => {
     page.current += 1;
-    console.log(page.current);
     addRoomList(debounceSearch);
   }, [addRoomList, debounceSearch]);
 
   const onIntersect: IntersectionObserverCallback = useCallback(
     (entries, observer) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && page.current < INFINITE_SCROLL.maxLen) {
+        if (entry.isIntersecting && rooms.length === page.current * INFINITE_SCROLL.unit) {
           observer.unobserve(entry.target);
-          changeExtraTransaction();
+          addNewPage();
         }
       });
     },
-    [changeExtraTransaction],
+    [addNewPage, rooms],
   );
 
   useEffect(() => {
@@ -118,9 +115,9 @@ function RoomList(): JSX.Element {
 
   useEffect(() => {
     let observer: IntersectionObserver;
-    if (target.current) {
-      observer = new IntersectionObserver(onIntersect, { threshold: 1 });
-      observer.observe(target.current as Element);
+    if (target.current?.lastElementChild) {
+      observer = new IntersectionObserver(onIntersect, { threshold: INFINITE_SCROLL.THRESHOLD });
+      observer.observe(target.current.lastElementChild);
     }
     return () => observer && observer.disconnect();
   }, [onIntersect, rooms]);
@@ -132,10 +129,8 @@ function RoomList(): JSX.Element {
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
         <SearchBar search={search} onChange={onChangeSearch} onReset={onResetSearch} />
       </TabWrapper>
-      <RoomListGrid ref={target}>
-        {rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}
-        {isLoading && <Loader />}
-      </RoomListGrid>
+      <RoomListGrid ref={target}>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
+      {isLoading && <Loader />}
     </>
   );
 }
