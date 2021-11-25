@@ -47,3 +47,5 @@ export const PAGE_NAME = {
 };
 
 export const MAIN = 'MAIN';
+
+export const CHECK_IN = 'check-in';
