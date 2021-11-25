@@ -1,14 +1,16 @@
 import styled, { css } from 'styled-components';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
-import { deleteImage, postAvatar } from '@src/apis';
+import { deleteImage, getUserLogList, postAvatar } from '@src/apis';
+import { getGrassDateList } from '@utils/utils';
+import { GRASS } from '@utils/styleConstant';
+import { CHECK_IN } from '@utils/constant';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
     padding: ${theme.paddings.lg};
@@ -19,7 +21,6 @@ const Wrapper = styled.div`
 
 const UserAvatar = styled.img`
   margin-right: ${({ theme }) => theme.margins.base};
-
   width: 30rem;
   height: 30rem;
   border-radius: 50%;
@@ -69,10 +70,35 @@ const DeleteButton = styled.button`
     color: ${({ theme }) => theme.colors.primary};
   }
 `;
+
+const GrassContainer = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(53, ${GRASS.width});
+  grid-template-rows: repeat(7, ${GRASS.height});
+  grid-gap: ${GRASS.gridGap};
+`;
+
+const FireBlock = styled.div`
+  width: ${GRASS.width};
+  height: ${GRASS.height};
+  background-color: ${({ theme }) => theme.colors.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.xs};
+`;
+
+const GreyBlock = styled.div`
+  width: ${GRASS.width};
+  height: ${GRASS.height};
+  background-color: ${({ theme }) => theme.colors.black};
+  border-radius: ${({ theme }) => theme.borderRadius.xs};
+  opacity: 0.3;
+`;
+
 function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
   const onClickModifyToggle = () => setIsModify(!isModify);
   const user = useUser();
+  const [grassList, setGrassList] = useState<string[]>([]);
   const { logUserIn } = useUserFns();
 
   const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,6 +121,24 @@ function UserInfo(): JSX.Element {
     }
   };
 
+  const loadUserGrassList = useCallback(async () => {
+    const oneYearGrassDateList = getGrassDateList(new Date(), 1);
+    const { isOk, data } = await getUserLogList(user.nickname);
+    if (isOk && data) {
+      data.forEach((date) => {
+        const idx = oneYearGrassDateList.indexOf(date.checkIn);
+        if (idx !== -1) {
+          oneYearGrassDateList[idx] = CHECK_IN;
+        }
+      });
+    }
+    return setGrassList([...oneYearGrassDateList]);
+  }, [user.nickname]);
+
+  useEffect(() => {
+    loadUserGrassList();
+  }, [loadUserGrassList]);
+
   return (
     <div>
       <MainTitle>마이 프로필</MainTitle>
@@ -113,6 +157,10 @@ function UserInfo(): JSX.Element {
           </ButtonWrapper>
         </ImageWrapper>
       </Wrapper>
+      <GrassContainer>
+        {grassList.length &&
+          grassList.map((date, idx) => (date === CHECK_IN ? <FireBlock key={idx} /> : <GreyBlock key={idx} />))}
+      </GrassContainer>
     </div>
   );
 }
