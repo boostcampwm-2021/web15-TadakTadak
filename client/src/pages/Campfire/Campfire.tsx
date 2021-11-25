@@ -6,6 +6,7 @@ import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
 import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import CampfireController from '@src/components/room/campfire/CampfireController';
 import CamperList from '@src/components/room/campfire/CamperList';
+import FireAnimation from '@components/fireAnimation';
 
 interface LocationProps {
   pathname: string;
@@ -22,6 +23,7 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
   const [start, setStart] = useState<boolean>(false);
   const client = useClient();
   const { ready, track } = useMicrophoneTrack();
+  const [fireOn, setFireOn] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -65,17 +67,13 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
       init();
     }
   }, [uuid, agoraAppId, agoraToken, client, ready, track]);
+  useEffect(() => setFireOn(true), []);
 
   return (
     <RoomWrapper>
       <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
       <RoomContainer>
-        <div>
-          <img
-            src="https://cdn.pixabay.com/photo/2016/05/27/04/20/fire-1419084_1280.jpg"
-            style={{ width: '500px', height: '500px' }}
-          />
-        </div>
+        <FireAnimation setFireOn={setFireOn} />
         {start && track && <CamperList users={users} track={track} />}
         {ready && track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
       </RoomContainer>
