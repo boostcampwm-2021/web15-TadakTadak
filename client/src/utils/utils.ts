@@ -40,3 +40,11 @@ export const getGrassDateList = (date: Date, year: number): string[] => {
   const grassDateList = getDateListFromStartToLast(prevOneYearDate, currentDate);
   return grassDateList;
 };
+
+export const chatTimeFormatting = (time?: string): string => {
+  if (time) {
+    const timeString = time.match(/\d{2}:\d{2}:\d{2}/);
+    return Array.isArray(timeString) ? timeString[0] : '';
+  }
+  return '';
+};
