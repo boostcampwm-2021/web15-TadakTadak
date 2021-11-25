@@ -22,6 +22,8 @@ const theme: DefaultTheme = {
     white: `rgba(255,255,255,1)`,
     bgWhite: '#F5F8FA',
     bgGreen: '#1d4456',
+    bgCampfire: '#EEFBFF',
+    bgChatBox: '#d6ebf1',
     blue: '#51A9FE',
     blue2: '#1F90FF',
     grey: '#F5F8FA',
