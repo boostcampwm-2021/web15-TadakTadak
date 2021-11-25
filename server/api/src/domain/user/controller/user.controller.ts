@@ -22,22 +22,22 @@ import { UserUpdateDto } from '../dto/user-update.dto';
 export class UserController {
   constructor(private readonly userService: UserService, private readonly historyService: HistoryService) {}
 
-  @Get('/:userId')
-  @UseGuards(JwtAuthGuard)
-  async getUserInfo(@Param('userId') nickname: string) {
-    return { result: await this.userService.getUserInfo(nickname) };
-  }
-
   @Patch('/:userId')
   @UseGuards(JwtAuthGuard)
   async patchUserInfo(@Param('userId') nickname: string, @Body() userUpdateDto: UserUpdateDto) {
     return { result: await this.userService.updateUserInfo(nickname, userUpdateDto) };
   }
 
-  @Get('/:userId/log')
+  @Get('/log/year')
   @UseGuards(JwtAuthGuard)
-  async getUserLog(@Param('userId') nickname: string) {
-    return { result: await this.historyService.getHistory(nickname) };
+  async getUserLogYearly(@Req() req: Request) {
+    return { result: await this.historyService.getYearHistory(req.user['email']) };
+  }
+
+  @Get('/log/month')
+  @UseGuards(JwtAuthGuard)
+  async getUserLogMonthly(@Req() req: Request) {
+    return { result: await this.historyService.getMonthHistory(req.user['email']) };
   }
 
   @Post('/image')
