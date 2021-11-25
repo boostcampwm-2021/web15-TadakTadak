@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 
-const campfireSoundPath = process.env.PUBLIC_URL + 'campfire-sound.mp3';
+const campfireSoundPath = '/campfire-sound.mp3';
 
 interface PlayFnProps {
   togglePlay: () => void;
