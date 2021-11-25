@@ -9,6 +9,7 @@ import FireAnimation from '@components/largeFireAnimation';
 import CampfireController from '@components/room/campfire/CampfireController';
 import CamperList from '@components/room/campfire/CamperList';
 import { RoomType } from '@utils/constant';
+import { useUser } from '@contexts/userContext';
 
 interface LocationProps {
   pathname: string;
@@ -26,6 +27,7 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
   const client = useClient();
   const { ready, track } = useMicrophoneTrack();
   const [fireOn, setFireOn] = useState(false);
+  const userInfo = useUser();
 
   useEffect(() => {
     const init = async () => {
@@ -56,7 +58,7 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
         });
       });
 
-      await client.join(agoraAppId, uuid, agoraToken, null);
+      await client.join(agoraAppId, uuid, agoraToken, userInfo.email);
       if (track) {
         await client.publish(track);
         await track.setEnabled(false);
@@ -68,7 +70,7 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
       console.log('init ready');
       init();
     }
-  }, [uuid, agoraAppId, agoraToken, client, ready, track]);
+  }, [uuid, agoraAppId, agoraToken, client, ready, track, userInfo]);
   useEffect(() => setFireOn(true), []);
 
   return (

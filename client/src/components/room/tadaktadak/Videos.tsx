@@ -1,10 +1,22 @@
 import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack, ICameraVideoTrack } from 'agora-rtc-react';
 import styled from 'styled-components';
 import VideoBox from '@components/VideoBox';
+import { useUser } from '@src/contexts/userContext';
 
 const VideosContainer = styled.div`
   ${({ theme }) => theme.flexCenter}
   height: 100%;
+`;
+
+const VideoBoxWrapper = styled.div`
+  ${({ theme }) => theme.flexColumn}
+`;
+
+const UserInfoDiv = styled.div`
+  width: 100%;
+  ${({ theme }) => theme.flexCenter}
+  margin-top: ${({ theme }) => theme.margins.sm};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
 const VideosGrid = styled.div`
@@ -22,13 +34,22 @@ interface VideosProps {
 const Videos = ({ users, tracks }: VideosProps): JSX.Element => {
   const myVideoTrack = tracks[1];
   const myAudioTrack = tracks[0];
+  const userInfo = useUser();
 
   return (
     <VideosContainer>
       <VideosGrid id="videos">
-        <VideoBox videoTrack={myVideoTrack} audioTrack={myAudioTrack} />
+        <VideoBoxWrapper>
+          <VideoBox videoTrack={myVideoTrack} audioTrack={myAudioTrack} />
+          <UserInfoDiv>{userInfo.email}</UserInfoDiv>
+        </VideoBoxWrapper>
         {users.length > 0 &&
-          users.map((user) => <VideoBox key={user.uid} videoTrack={user.videoTrack} audioTrack={user.audioTrack} />)}
+          users.map((user) => (
+            <VideoBoxWrapper>
+              <VideoBox key={user.uid} videoTrack={user.videoTrack} audioTrack={user.audioTrack} />
+              <UserInfoDiv>{user.uid}</UserInfoDiv>
+            </VideoBoxWrapper>
+          ))}
       </VideosGrid>
     </VideosContainer>
   );
