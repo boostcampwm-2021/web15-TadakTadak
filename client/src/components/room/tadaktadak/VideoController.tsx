@@ -10,6 +10,8 @@ import Button from '@components/common/Button';
 import ScreenShareDiv from './ScreenShareDiv';
 import { useUser } from '@contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
+import socket from '@socket/socket';
+import { SocketEvents } from '@socket/socketEvents';
 
 const ButtonContainer = styled.div`
   position: relative;
@@ -65,7 +67,10 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
   const handleScreenShare = () => setScreenShare(!screenShare);
 
   const leaveChannel = useCallback(async () => {
-    if (ownerId === user.id) deleteRoom({ uuid });
+    if (ownerId === user.id) {
+      socket.emit(SocketEvents.deleteRoom, { uuid });
+      deleteRoom({ uuid });
+    }
     await client.leave();
     client.removeAllListeners();
     tracks[0].close();
