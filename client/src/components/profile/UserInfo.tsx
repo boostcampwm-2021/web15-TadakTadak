@@ -1,12 +1,13 @@
 import styled, { css } from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
 import { deleteImage, getUserLogList, postAvatar } from '@src/apis';
 import { getGrassDateList } from '@utils/utils';
 import { GRASS } from '@utils/styleConstant';
-import { CHECK_IN } from '@utils/constant';
+import { CHECK_IN, PATH } from '@utils/constant';
 
 const Wrapper = styled.div`
   display: flex;
@@ -115,6 +116,7 @@ function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
   const onClickModifyToggle = () => setIsModify(!isModify);
   const user = useUser();
+  const history = useHistory();
   const [grassList, setGrassList] = useState<string[]>([]);
   const { logUserIn } = useUserFns();
 
@@ -153,8 +155,11 @@ function UserInfo(): JSX.Element {
   }, [user.nickname]);
 
   useEffect(() => {
+    if (!user.login) {
+      history.replace(PATH.introduction);
+    }
     loadUserGrassList();
-  }, [loadUserGrassList]);
+  }, [loadUserGrassList, history, user.login]);
 
   return (
     <div>
