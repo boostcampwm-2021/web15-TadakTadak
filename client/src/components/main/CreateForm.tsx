@@ -1,31 +1,19 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import useInput from '@hooks/useInput';
+import styled from 'styled-components';
 import { postRoom } from '@src/apis';
-import { useUser } from '@contexts/userContext';
 import Select from '@components/common/Select';
+import Form from '@components/common/Form';
 import { adminOptions } from '@utils/utils';
+import { INPUT, RoomType } from '@utils/constant';
+import { FORM } from '@utils/styleConstant';
+import useInput from '@hooks/useInput';
+import { useUser } from '@contexts/userContext';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
   flex-direction: column;
   width: 60%;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 100%;
-  height: 30rem;
-  ${({ theme }) => css`
-    background-color: ${theme.colors.grey};
-    padding: ${theme.paddings.lg};
-    border: 1px solid ${theme.colors.borderGrey};
-    border-radius: ${theme.borderRadius.base};
-  `};
 `;
 
 const Input = styled.input`
@@ -41,25 +29,20 @@ const Button = styled.button`
   border-radius: 1rem;
 `;
 
-enum RoomType {
-  타닥타닥 = 1,
-  캠프파이어 = 2,
-}
-
 type OptionType = {
   value: number;
   label: string;
 };
 
 const roomOptions: OptionType[] = [
-  { value: RoomType.타닥타닥, label: '타닥타닥' },
-  { value: RoomType.캠프파이어, label: '캠프파이어' },
+  { value: 1, label: RoomType.tadak },
+  { value: 2, label: RoomType.campfire },
 ];
 
 const CreateForm = (): JSX.Element => {
   const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [roomType, setRoomType] = useState(RoomType[1]);
+  const [roomType, setRoomType] = useState<string>(RoomType.tadak);
   const [maxHeadcount, setMaxHeadcount] = useState('');
   const user = useUser();
   const history = useHistory();
@@ -84,19 +67,20 @@ const CreateForm = (): JSX.Element => {
     const { isOk, data } = await postRoom(requestBody);
     if (isOk && data) {
       const { uuid } = data;
-      history.push(`/room/${uuid}`, data);
+      const pathname = data.roomType === RoomType.tadak ? `/room/tadak/${uuid}` : `/room/campfire/${uuid}`;
+      history.push(pathname, data);
     }
   };
 
   return (
     <Container>
-      <Form onSubmit={onSubmitForm}>
+      <Form onSubmit={onSubmitForm} width={FORM.createWidth} height={FORM.createHeight}>
         <Input
           type="text"
           placeholder="방 제목을 입력해주세요."
           id="roomTitle"
           onChange={onChangeRoomTitle}
-          maxLength={50}
+          maxLength={INPUT.roomTitleMaxLen}
           required={true}
           autoComplete="new-password"
         />
@@ -105,7 +89,7 @@ const CreateForm = (): JSX.Element => {
           placeholder="방에 대한 설명을 입력해주세요.(선택)"
           id="description"
           onChange={onChangeDescription}
-          maxLength={50}
+          maxLength={INPUT.roomDescMaxLen}
           autoComplete="new-password"
         />
         <Select name={'방 유형'} options={roomOptions} onChange={handleRoomSelectChange} />

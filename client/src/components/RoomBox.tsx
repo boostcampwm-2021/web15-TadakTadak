@@ -1,17 +1,21 @@
-import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { RoomInfo } from './main/RoomList';
+import { getRoomByUuid, postEnterRoom } from '@src/apis';
+import { useHistory } from 'react-router';
+import { useCallback, useEffect, useRef } from 'react';
+import socket from '@socket/socket';
+import { SocketEvents } from '@socket/socketEvents';
+import { useUser } from '@contexts/userContext';
+import { RoomType } from '@utils/constant';
+import { ROOM_BOX } from '@utils/styleConstant';
 
-const ROOM_WIDTH = 20;
-const ROOM_HEIGHT = ROOM_WIDTH * 0.75;
-
-const RoomLink = styled(Link)`
+const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.base};
   width: 100%;
-  height: ${ROOM_HEIGHT}rem;
+  height: ${ROOM_BOX.height}rem;
   border-radius: ${({ theme }) => theme.borderRadius.base};
   cursor: pointer;
   position: relative;
@@ -74,7 +78,7 @@ const RoomBoxBottom = styled.div`
   align-items: flex-end;
 `;
 
-const RoomType = styled.div`
+const RoomFieldType = styled.div`
   ${({ theme }) => css`
     font-size: ${theme.fontSizes.sm};
     background-color: ${theme.colors.blue};
@@ -91,20 +95,52 @@ interface RoomBoxProps {
 }
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
-  const { uuid, title, description, nowHeadcount, maxHeadcount } = roomInfo;
+  const { uuid, title, description, nowHeadcount, maxHeadcount, roomType } = roomInfo;
+  const { login } = useUser();
+  const roomDataRef = useRef<RoomInfo>();
+  const history = useHistory();
+
+  const verifyBySocket = useCallback(async () => {
+    socket.emit(SocketEvents.canIEnter, { uuid });
+  }, [uuid]);
+
+  const onClickRoomBox = useCallback(async () => {
+    if (!login) {
+      // 로그인을 해야 입장 가능하다는 알람을 띄워줘야 한다.
+      return;
+    }
+    const { isOk, data } = await getRoomByUuid(uuid);
+    if (isOk && data) {
+      if (data.nowHeadcount >= data.maxHeadcount) return;
+      roomDataRef.current = data;
+      verifyBySocket();
+    }
+  }, [uuid, login, verifyBySocket]);
+
+  const enterRoom = useCallback(() => {
+    const pathname = roomType === RoomType.tadak ? `/room/tadak/${uuid}` : `/room/campfire/${uuid}`;
+    postEnterRoom(uuid);
+    history.push({ pathname, state: roomDataRef.current });
+  }, [history, uuid, roomType, roomDataRef]);
+
+  useEffect(() => {
+    socket.removeListener(SocketEvents.youCanEnter);
+    socket.on(SocketEvents.youCanEnter, enterRoom);
+  }, [enterRoom]);
+
   return (
-    <RoomLink to={{ pathname: `/room/${uuid}`, state: roomInfo }}>
+    <RoomBoxWrapper onClick={onClickRoomBox}>
       <RoomBoxTop>
         <RoomTitle>{title}</RoomTitle>
         <RoomDescription>{description}</RoomDescription>
       </RoomBoxTop>
       <RoomBoxBottom>
-        <RoomType>백엔드</RoomType>
+        <RoomFieldType>백엔드</RoomFieldType>
         <RoomAdmitNumber>
           {nowHeadcount} / {maxHeadcount}
         </RoomAdmitNumber>
       </RoomBoxBottom>
-    </RoomLink>
+    </RoomBoxWrapper>
   );
 };
 

@@ -1,9 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDate } from 'js-joda';
-import { Bcrypt } from 'src/utils/bcrypt';
-import { LocalDateTransformer } from 'src/transformer/LocalDateTransformer';
+import { LocalDateTransformer } from '../../transformer/LocalDateTransformer';
 import { DevField } from '../field/dev-field.entity';
-import { Follow } from './follow.entity';
 import { History } from '../history/history.entity';
 
 @Entity()
@@ -12,7 +10,7 @@ export class User {
   id: number;
 
   @Column({ type: 'varchar', length: 45, unique: true })
-  nickName: string;
+  nickname: string;
 
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
@@ -36,9 +34,6 @@ export class User {
   @JoinColumn()
   devField: DevField;
 
-  @OneToMany(() => Follow, (follow) => follow.to)
-  follows: Follow[];
-
   @OneToMany(() => History, (history) => history.user)
   historys: History[];
 
@@ -46,13 +41,7 @@ export class User {
   lastCheckIn: LocalDate;
 
   setNickname(nickname: string) {
-    this.nickName = nickname;
-  }
-
-  setPassword(password: string) {
-    if (this.password !== password) {
-      this.password = Bcrypt.hash(password);
-    }
+    this.nickname = nickname;
   }
 
   setImageUrl(imageUrl: string) {

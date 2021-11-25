@@ -1,14 +1,15 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import styled, { css } from 'styled-components';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
-import styled, { css, ThemeContext } from 'styled-components';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
 import { useClient } from './videoConfig';
+import { deleteRoom } from '@src/apis';
 import Button from '@components/common/Button';
 import ScreenShareDiv from './ScreenShareDiv';
-import { deleteRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
+import { useTheme } from '@contexts/themeContext';
 
 const ButtonContainer = styled.div`
   position: relative;
@@ -41,8 +42,8 @@ interface VideoControllerProps {
 const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerProps): JSX.Element => {
   const client = useClient();
   const history = useHistory();
-  const themeContext = useContext(ThemeContext);
   const user = useUser();
+  const theme = useTheme();
   const [trackState, setTrackState] = useState({ video: false, audio: false });
   const [screenShare, setScreenShare] = useState(false);
 
@@ -73,11 +74,15 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
   }, [client, tracks, uuid, ownerId, user, setStart]);
 
   useEffect(() => {
-    return history.listen(() => {
-      if (history.action === 'POP') {
-        leaveChannel();
-      }
-    });
+    window.addEventListener('beforeunload', leaveChannel);
+    return () => {
+      window.removeEventListener('beforeunload', leaveChannel);
+      history.listen(() => {
+        if (history.action === 'POP') {
+          leaveChannel();
+        }
+      });
+    };
   }, [history, leaveChannel]);
 
   return (
@@ -115,7 +120,7 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
         <Button
           icon={<MdOutlineExitToApp fill="white" />}
           text={''}
-          color={themeContext.colors.secondary}
+          color={theme.colors.secondary}
           onClick={() => {
             leaveChannel();
             history.replace('/main');

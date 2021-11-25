@@ -1,40 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
-import useInput from '@hooks/useInput';
-import { postLogin } from '@src/apis';
-import { useUserFns } from '@contexts/userContext';
+import styled from 'styled-components';
 import { FaGithub } from 'react-icons/fa';
+import { postLogin } from '@src/apis';
+import { FORM_DELAY, INPUT } from '@utils/constant';
+import { FORM } from '@utils/styleConstant';
 import InfoMessage from './InfoMessage';
-
-const FORM_WIDTH = 30;
-const FORM_HEIGHT = 30;
-const DELAY = 3;
+import Form from './common/Form';
+import useInput from '@hooks/useInput';
+import { useUserFns } from '@contexts/userContext';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${FORM_WIDTH}rem;
+  width: ${FORM.loginWidth}rem;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: absolute;
   top: 20%;
-`;
-
-const Form = styled.form`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: ${FORM_WIDTH}rem;
-  height: ${FORM_HEIGHT}rem;
-  ${({ theme }) => css`
-    background-color: ${theme.colors.grey};
-    padding: ${theme.paddings.lg};
-    border: 1px solid ${theme.colors.borderGrey};
-    border-radius: ${theme.borderRadius.base};
-  `};
 `;
 
 const Input = styled.input`
@@ -105,7 +89,7 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(''), DELAY * 1000);
+      const timer = setTimeout(() => setMessage(''), FORM_DELAY * 1000);
       return () => {
         clearTimeout(timer);
       };
@@ -114,14 +98,22 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
 
   return (
     <Container>
-      <Form onSubmit={onSubmitForm}>
-        <Input type="text" placeholder="Email" id="email" value={email} onChange={onChangeEmail} maxLength={50} />
+      <Form onSubmit={onSubmitForm} width={FORM.loginWidth} height={FORM.loginHeight}>
+        <Input
+          type="text"
+          placeholder="Email"
+          id="email"
+          value={email}
+          onChange={onChangeEmail}
+          maxLength={INPUT.emailMaxLen}
+        />
         <Input
           type="password"
           placeholder="Password"
           id="password"
           value={password}
-          maxLength={15}
+          minLength={INPUT.pwdMinLen}
+          maxLength={INPUT.pwdMaxLen}
           onChange={onChangePassword}
         />
         <Button>로그인</Button>

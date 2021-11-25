@@ -15,12 +15,12 @@
     "@types/styled-components": "^5.1.15",
     "agora-rtc-react": "github:AgoraIO-Community/agora-rtc-react#v1.1.0",
     "agora-rtc-sdk-ng": "^4.7.2",
-    "axios": "^0.24.0",
     "dotenv": "^10.0.0",
     "react": "^17.0.2",
     "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "react-loading": "^2.0.3",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-select": "^5.2.1",
@@ -73,5 +73,5 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "prettier": "^2.4.1"
   },
-  "proxy": "https://api.tadaktadak.com"
+  "proxy": "http://localhost:3001"
 }

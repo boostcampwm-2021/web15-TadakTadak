@@ -2,12 +2,11 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';
-import socket from '@src/socket';
+import socket from '@socket/socket';
 import Chat from './Chat';
-
-const INPUT_WIDTH = '90%';
-const CHAT_LIST_HEIGHT = '80vh';
-const CHAT_INPUT_HEIGHT = '10vh';
+import { INPUT } from '@utils/constant';
+import { CHAT } from '@utils/styleConstant';
+import { SocketEvents } from '@socket/socketEvents';
 
 interface ChatListProps<T> {
   chats: Array<Record<string, T | undefined>>;
@@ -23,7 +22,7 @@ const Container = styled.div`
 
 const List = styled.ul`
   width: 100%;
-  height: ${CHAT_LIST_HEIGHT};
+  height: ${CHAT.listHeight};
   ${({ theme }) => theme.flexColumn};
   padding: ${({ theme }) => theme.paddings.sm};
   overflow: auto;
@@ -31,13 +30,13 @@ const List = styled.ul`
 
 const InputDiv = styled.div`
   width: 100%;
-  height: ${CHAT_INPUT_HEIGHT};
+  height: ${CHAT.inputHeight};
   ${({ theme }) => theme.flexColumn};
   justify-content: end;
   align-items: center;
 `;
 const Input = styled.input`
-  width: ${INPUT_WIDTH};
+  width: ${CHAT.inputWidth};
   height: 5rem;
   padding: ${({ theme }) => theme.paddings.sm};
   border: 2px solid ${({ theme }) => theme.colors.borderGrey};
@@ -46,7 +45,7 @@ const Input = styled.input`
 `;
 
 const Line = styled.div`
-  width: ${INPUT_WIDTH};
+  width: ${CHAT.inputWidth};
   border-top: 1px solid ${({ theme }) => theme.colors.black};
   opacity: 0.4;
   margin: 0 auto;
@@ -59,8 +58,8 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
 
   const sendMessage = useCallback(() => {
     if (!message) return;
-    const myMessage = { type: 'string', nickname, message, roomId: uuid };
-    socket.emit('msgToServer', myMessage);
+    const myMessage = { type: 'string', nickname, message, uuid };
+    socket.emit(SocketEvents.sendMsg, myMessage);
     onResetMessage();
   }, [onResetMessage, nickname, message, uuid]);
 
@@ -72,8 +71,8 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   const handleMessageReceive = useCallback((chat) => setChats((prevState) => [...prevState, chat]), [setChats]);
 
   useEffect(() => {
-    socket.removeListener('msgToClient');
-    socket.on('msgToClient', handleMessageReceive);
+    socket.removeListener(SocketEvents.receiveMsg);
+    socket.on(SocketEvents.receiveMsg, handleMessageReceive);
   }, [handleMessageReceive]);
 
   useEffect(() => {
@@ -96,6 +95,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
           value={message}
           onChange={onChangeMessage}
           onKeyPress={onKeyPress}
+          maxLength={INPUT.chatMaxLen}
         />
       </InputDiv>
     </Container>

@@ -1,8 +1,8 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { LocalDate } from 'js-joda';
-import { HistoryBuilder } from 'src/builder/history.builder';
+import { HistoryBuilder } from '../../../builder/index';
 import { History } from '../history.entity';
-import { User } from 'src/domain/user/user.entity';
+import { User } from '../../user/user.entity';
 
 @EntityRepository(History)
 export class HistoryRepository extends Repository<History> {

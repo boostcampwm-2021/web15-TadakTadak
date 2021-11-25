@@ -16,6 +16,7 @@ interface BtnSizes {
 }
 
 interface Sizes {
+  xs?: string;
   sm: string;
   base: string;
   lg: string;
@@ -38,6 +39,14 @@ interface Colors {
   green: string;
 }
 
+interface TagColors {
+  'Front-end': string;
+  'Back-end': string;
+  IOS: string;
+  Android: string;
+  None: string;
+}
+
 declare module 'styled-components' {
   export interface DefaultTheme {
     borderRadius: BorderRadius;
@@ -55,5 +64,6 @@ declare module 'styled-components' {
     flexColumn: string;
     active: string;
     transition: string;
+    tagColors: TagColors;
   }
 }

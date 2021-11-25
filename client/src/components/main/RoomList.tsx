@@ -1,12 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-
+import { getRoom } from '@src/apis';
+import { UserProps } from '@contexts/userContext';
+import useDebounce from '@hooks/useDebounce';
+import useInput from '@hooks/useInput';
+import Loader from '@components/common/Loader';
+import Tab from '@components/common/Tab';
 import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
-import Tab from '@components/common/Tab';
-
-import { UserProps } from '@src/contexts/userContext';
-import { getRoom } from '@src/apis';
+import SearchBar from './SearchBar';
+import { getRoomQueryObj } from '@utils/apiUtils';
+import { DEBOUNCE, INFINITE_SCROLL } from '@utils/constant';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
@@ -19,6 +23,7 @@ const TabWrapper = styled.div`
   ${({ theme }) => theme.flexCenter}
   margin-top: ${({ theme }) => theme.margins.xl};
   width: 100%;
+  position: relative;
 
   & div {
     transition: background-color 0.4s ease-in-out, border-color 0.3s ease-in-out;
@@ -41,14 +46,9 @@ export interface RoomInfo {
   maxHeadcount: number;
 }
 
-interface TabState {
+export interface TabState {
   tadak: boolean;
   campfire: boolean;
-}
-
-enum RoomType {
-  tadak = '타닥타닥',
-  campfire = '캠프파이어',
 }
 
 const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} roomInfo={roomInfo} />;
@@ -56,32 +56,81 @@ const renderRoomList = (roomInfo: RoomInfo) => <RoomBox key={roomInfo.uuid} room
 function RoomList(): JSX.Element {
   const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
+  const [search, onChangeSearch, onResetSearch] = useInput('');
+  const debounceSearch = useDebounce(search, DEBOUNCE.time);
+  const [isLoading, setLoading] = useState(false);
+  const target = useRef<HTMLDivElement>(null);
+  const page = useRef(1);
 
   const onClickTadakTap = () => setTabState({ tadak: true, campfire: false });
   const onClickCampFireTap = () => setTabState({ tadak: false, campfire: true });
+  const getRoomList = useCallback(
+    async (searchStr: string) => {
+      setLoading(true);
+      page.current = 1;
+      const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
+      const queryObj = getRoomQueryObj(type, searchStr, 1);
+      const { isOk, data } = await getRoom(queryObj);
+      if (isOk && data) {
+        setRooms([...data.results]);
+      }
+      setLoading(false);
+    },
+    [tabState],
+  );
+  const addRoomList = useCallback(
+    async (searchStr: string) => {
+      setLoading(true);
+      const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
+      const queryObj = getRoomQueryObj(type, searchStr, page.current);
+      const { isOk, data } = await getRoom(queryObj);
+      if (isOk && data) {
+        setRooms((prevRooms) => [...prevRooms, ...data.results]);
+      }
+      setLoading(false);
+    },
+    [tabState, page],
+  );
 
-  const getRoomList = async (roomType: keyof typeof RoomType) => {
-    const testQueryObj = {
-      type: RoomType[roomType],
-      search: '',
-      take: 15,
-      page: 1,
-    };
-    const { isOk, data } = await getRoom(testQueryObj);
-    if (isOk && data) {
-      setRooms([...data.results]);
-    }
-  };
+  const addNewPage = useCallback(() => {
+    page.current += 1;
+    addRoomList(debounceSearch);
+  }, [addRoomList, debounceSearch]);
+
+  const onIntersect: IntersectionObserverCallback = useCallback(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && rooms.length === page.current * INFINITE_SCROLL.unit) {
+          observer.unobserve(entry.target);
+          addNewPage();
+        }
+      });
+    },
+    [addNewPage, rooms],
+  );
+
   useEffect(() => {
-    getRoomList(tabState.tadak ? 'tadak' : 'campfire');
-  }, [tabState]);
+    getRoomList(debounceSearch);
+  }, [getRoomList, debounceSearch, tabState]);
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target.current?.lastElementChild) {
+      observer = new IntersectionObserver(onIntersect, { threshold: INFINITE_SCROLL.threshold });
+      observer.observe(target.current.lastElementChild);
+    }
+    return () => observer && observer.disconnect();
+  }, [onIntersect, rooms]);
+
   return (
     <>
       <TabWrapper>
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
+        <SearchBar search={search} onChange={onChangeSearch} onReset={onResetSearch} />
       </TabWrapper>
-      <RoomListGrid>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
+      <RoomListGrid ref={target}>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
+      {isLoading && <Loader />}
     </>
   );
 }

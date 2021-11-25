@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
 import { RoomInfo } from '@components/main/RoomList';
-import { RoomContainer, RoomWrapper } from '@pages/Room/style';
+import { TadakContainer, TadakWrapper } from '@src/pages/Tadak/style';
 import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import VideoController from '@components/room/tadaktadak/VideoController';
 import Videos from '@components/room/tadaktadak/Videos';
@@ -12,16 +12,16 @@ interface LocationProps {
   state: RoomInfo;
 }
 
-interface RoomProps {
+interface TadakProps {
   location: LocationProps;
 }
 
-const Room = ({ location }: RoomProps): JSX.Element => {
-  const { agoraAppId, agoraToken, uuid, owner } = location.state;
+const Tadak = ({ location }: TadakProps): JSX.Element => {
+  const { agoraAppId, agoraToken, uuid, owner, maxHeadcount } = location?.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
-  const [start, setStart] = useState<boolean>(false); // start: 서버에 초기화 완료
+  const [start, setStart] = useState<boolean>(false);
   const client = useClient();
-  const { ready, tracks } = useMicrophoneAndCameraTracks(); // ready: 클라이언트 트랙 준비 여부
+  const { ready, tracks } = useMicrophoneAndCameraTracks();
 
   useEffect(() => {
     const init = async () => {
@@ -73,13 +73,13 @@ const Room = ({ location }: RoomProps): JSX.Element => {
   }, [uuid, agoraAppId, agoraToken, client, ready, tracks]);
 
   return (
-    <RoomWrapper>
-      <RoomSideBar uuid={uuid} />
-      <RoomContainer>
+    <TadakWrapper>
+      <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
+      <TadakContainer>
         {start && tracks && <Videos users={users} tracks={tracks} />}
         {ready && tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
-      </RoomContainer>
-    </RoomWrapper>
+      </TadakContainer>
+    </TadakWrapper>
   );
 };
-export default Room;
+export default Tadak;
