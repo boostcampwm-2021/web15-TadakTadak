@@ -16,7 +16,6 @@ export class RoomResponseDto {
   owner: UserResponseDto;
   nowHeadcount: number;
   maxHeadcount: number;
-
   constructor(room: Room) {
     const owner: User = room.owner;
     this.id = room.id;
@@ -30,6 +29,7 @@ export class RoomResponseDto {
     this.agoraToken = room.agoraToken;
     this.nowHeadcount = room.nowHeadcount;
     this.maxHeadcount = room.maxHeadcount;
+
     this.owner = new UserResponseDtoBuilder()
       .setId(room.owner.id)
       .setNickname(owner.nickname)
@@ -39,6 +39,7 @@ export class RoomResponseDto {
       .setIntroduction(owner.introduction)
       .setIsSocial(owner.isSocial)
       .setLastCheckIn(owner.lastCheckIn)
+      .setDevField(owner.devField)
       .build();
   }
 }
