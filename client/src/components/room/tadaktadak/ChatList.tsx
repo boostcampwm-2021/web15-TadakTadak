@@ -38,6 +38,7 @@ const InputDiv = styled.div`
 const Input = styled.input`
   width: ${CHAT.inputWidth};
   height: 5rem;
+  font-size: ${CHAT.fontSize};
   padding: ${({ theme }) => theme.paddings.sm};
   border: 2px solid ${({ theme }) => theme.colors.borderGrey};
   border-radius: ${({ theme }) => theme.borderRadius.base};

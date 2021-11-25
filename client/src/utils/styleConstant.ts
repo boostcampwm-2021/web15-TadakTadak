@@ -2,6 +2,8 @@ export const CHAT = {
   listHeight: '80vh',
   inputHeight: '10vh',
   inputWidth: '90%',
+  msgWidth: '20rem',
+  fontSize: '1.8rem',
 };
 
 export const FORM = {
