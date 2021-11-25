@@ -133,7 +133,7 @@ interface UserLogList {
   checkIn: string;
 }
 
-export const getUserLogList = async (nickname?: string): Promise<HTTPResponse<UserLogList[]>> => {
-  const response = await fetchGet<UserLogList[]>(`/api/user/${nickname}/log`);
+export const getUserLogList = async (): Promise<HTTPResponse<UserLogList[]>> => {
+  const response = await fetchGet<UserLogList[]>('/api/log/year');
   return response;
 };

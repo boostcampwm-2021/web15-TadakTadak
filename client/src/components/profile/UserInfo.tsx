@@ -142,7 +142,7 @@ function UserInfo(): JSX.Element {
 
   const loadUserGrassList = useCallback(async () => {
     const oneYearGrassDateList = getGrassDateList(new Date(), 1);
-    const { isOk, data } = await getUserLogList(user.nickname);
+    const { isOk, data } = await getUserLogList();
     if (isOk && data) {
       data.forEach((date) => {
         const idx = oneYearGrassDateList.indexOf(date.checkIn);
@@ -152,7 +152,7 @@ function UserInfo(): JSX.Element {
       });
     }
     return setGrassList([...oneYearGrassDateList]);
-  }, [user.nickname]);
+  }, []);
 
   useEffect(() => {
     if (!user.login) {
