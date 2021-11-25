@@ -2,6 +2,7 @@ import { DefaultTheme } from 'styled-components';
 
 const theme: DefaultTheme = {
   borderRadius: {
+    xs: '0.1rem',
     sm: '0.4rem',
     base: '1.0rem',
     lg: '2.0rem',

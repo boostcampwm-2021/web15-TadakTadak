@@ -44,3 +44,9 @@ export const ROOM_BOX = {
   width: '20rem',
   height: '15rem',
 };
+
+export const GRASS = {
+  width: '0.8rem',
+  height: '0.8rem',
+  gridGap: '0.2rem',
+};
