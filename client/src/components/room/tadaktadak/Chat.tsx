@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { CHAT } from '@utils/styleConstant';
 
 const ChatContainer = styled.li`
   display: flex;
+  flex-direction: column;
   :not(:first-of-type) {
     margin-top: ${({ theme }) => theme.margins.base};
   }
@@ -14,9 +16,10 @@ const ChatNickname = styled.span`
 `;
 
 const ChatMesssage = styled.p`
-  width: 100%;
-  margin-left: ${({ theme }) => theme.margins.base};
-  font-size: ${({ theme }) => theme.fontSizes.base};
+  width: ${CHAT.msgWidth};
+  margin-left: ${({ theme }) => theme.margins.xl};
+  font-size: ${CHAT.fontSize};
+  overflow: hidden;
 `;
 
 interface ChatProps {
@@ -26,7 +29,7 @@ interface ChatProps {
 const Chat = React.memo(({ chat }: ChatProps): JSX.Element => {
   return (
     <ChatContainer>
-      <ChatNickname>{chat.nickname ?? 'Anonymous'}</ChatNickname>
+      <ChatNickname>{chat.nickname ?? 'Anonymous'} :</ChatNickname>
       <ChatMesssage>{chat.message}</ChatMesssage>
     </ChatContainer>
   );

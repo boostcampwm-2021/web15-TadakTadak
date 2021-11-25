@@ -3,11 +3,12 @@ import { useHistory } from 'react-router';
 import { IMicrophoneAudioTrack } from 'agora-rtc-react';
 import styled, { css, ThemeContext } from 'styled-components';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
-import { MdOutlineExitToApp } from 'react-icons/md';
+import { MdOutlineExitToApp, MdMusicNote, MdMusicOff } from 'react-icons/md';
 import { useClient } from '../tadaktadak/videoConfig';
 import Button from '@components/common/Button';
 import { deleteRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
+import { usePlayBgm, usePlayBgmFns } from '@contexts/bgmContext';
 
 const ButtonContainer = styled.div`
   position: relative;
@@ -42,6 +43,8 @@ const CampfireController = ({ track, setStart, uuid, ownerId }: CampfireControll
   const history = useHistory();
   const themeContext = useContext(ThemeContext);
   const user = useUser();
+  const isPlay = usePlayBgm();
+  const { togglePlay: onClickPlayMusicBtn } = usePlayBgmFns();
   const [trackState, setTrackState] = useState({ audio: false });
 
   const mute = async () => {
@@ -74,9 +77,9 @@ const CampfireController = ({ track, setStart, uuid, ownerId }: CampfireControll
   return (
     <ButtonContainer>
       <Controls>
+        <Button icon={isPlay ? <MdMusicNote fill={'white'} /> : <MdMusicOff />} onClick={onClickPlayMusicBtn} />
         <Button
           icon={trackState.audio ? <FaMicrophone fill="white" /> : <FaMicrophoneSlash />}
-          text={''}
           className={trackState.audio ? 'on' : ''}
           onClick={() => mute()}
         />
@@ -84,11 +87,10 @@ const CampfireController = ({ track, setStart, uuid, ownerId }: CampfireControll
       <GetoutDiv>
         <Button
           icon={<MdOutlineExitToApp fill="white" />}
-          text={''}
           color={themeContext.colors.secondary}
           onClick={() => {
             leaveChannel();
-            // history.replace('/main');
+            history.replace('/main');
           }}
         />
       </GetoutDiv>
