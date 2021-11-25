@@ -2,7 +2,6 @@ import './styles/fonts.css';
 import { useCallback, useEffect } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
-import BGMContextProvider from './contexts/bgmContext';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { getUserByToken } from '@src/apis';
 import Introduction from '@pages/Introduction';
@@ -35,9 +34,7 @@ const App = (): JSX.Element => {
           <Route exact path="/" component={Introduction} />
           <Route path="/main" component={Main} />
           <Route path="/room/tadak" component={Tadak} />
-          <BGMContextProvider>
-            <Route path="/room/campfire" component={CampFire} />
-          </BGMContextProvider>
+          <Route path="/room/campfire" component={CampFire} />
           <Route path="/profile" component={Profile} />
           <Redirect from="*" to="/" />
         </Switch>
