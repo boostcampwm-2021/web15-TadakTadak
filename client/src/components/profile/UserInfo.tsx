@@ -17,6 +17,9 @@ const Wrapper = styled.div`
     border: 1px solid ${theme.colors.borderGrey};
     border-radius: ${theme.borderRadius.base};
   `};
+  :last-child {
+    margin-top: ${({ theme }) => theme.margins.base};
+  }
 `;
 
 const UserAvatar = styled.img`
@@ -94,6 +97,20 @@ const GreyBlock = styled.div`
   opacity: 0.3;
 `;
 
+const InfoSet = styled.fieldset`
+  ${({ theme }) => css`
+    background-color: ${theme.colors.grey};
+    padding: ${theme.paddings.base};
+    border: 1px solid ${theme.colors.borderGrey};
+    border-radius: ${theme.borderRadius.base};
+  `};
+`;
+
+const Legend = styled.legend`
+  font-size: 3rem;
+  color: ${({ theme }) => theme.colors.bgGreen};
+`;
+
 function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
   const onClickModifyToggle = () => setIsModify(!isModify);
@@ -157,10 +174,15 @@ function UserInfo(): JSX.Element {
           </ButtonWrapper>
         </ImageWrapper>
       </Wrapper>
-      <GrassContainer>
-        {grassList.length &&
-          grassList.map((date, idx) => (date === CHECK_IN ? <FireBlock key={idx} /> : <GreyBlock key={idx} />))}
-      </GrassContainer>
+      <Wrapper>
+        <InfoSet>
+          <Legend>{`잔디 🔥`}</Legend>
+          <GrassContainer>
+            {grassList.length &&
+              grassList.map((date, idx) => (date === CHECK_IN ? <FireBlock key={idx} /> : <GreyBlock key={idx} />))}
+          </GrassContainer>
+        </InfoSet>
+      </Wrapper>
     </div>
   );
 }
