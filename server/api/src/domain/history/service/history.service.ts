@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { LocalDate } from 'js-joda';
 import { UserException } from '../../../exception/index';
 import { User } from '../../user/user.entity';
 import { UserRepository } from '../../user/repository/user.repository';
 import { HistoryRepository } from '../repository/history.repository';
 import { VisitRepository } from '../repository/visit.repository';
+import { HistoryResponseDto } from '../dto/history-response.dto';
 
 @Injectable()
 export class HistoryService {
@@ -21,10 +23,20 @@ export class HistoryService {
     return this.historyRepository.addHistory(user);
   }
 
-  async getHistory(nickname: string) {
-    const user: User = await this.userRepository.findUserByNickname(nickname);
+  async getYearHistory(email: string) {
+    const user: User = await this.userRepository.findUserByUserEmail(email);
     if (!user) throw UserException.userNotFound();
     return await this.historyRepository.getHistoryByNickname(user);
+  }
+
+  async getMonthHistory(email: string) {
+    const user: User = await this.userRepository.findUserByUserEmail(email);
+    if (!user) throw UserException.userNotFound();
+    const today = LocalDate.now().year();
+    const result: HistoryResponseDto = new HistoryResponseDto(
+      await this.historyRepository.getMonthByNickname(user, today),
+    );
+    return result;
   }
 
   async getLastVisitCount() {
