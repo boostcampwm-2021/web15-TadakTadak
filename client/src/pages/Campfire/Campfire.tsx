@@ -6,7 +6,7 @@ import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
 import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import CampfireController from '@src/components/room/campfire/CampfireController';
 import CamperList from '@src/components/room/campfire/CamperList';
-import FireAnimation from '@components/fireAnimation';
+import FireAnimation from '@components/largeFireAnimation';
 
 interface LocationProps {
   pathname: string;
