@@ -84,7 +84,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
       return showMessage('모두 입력해주세요');
     }
     const requestBody = { email, nickname, password, devField: +devField };
-    const isOk = await postJoin(requestBody);
+    const { isOk } = await postJoin(requestBody);
     if (!isOk) {
       return showMessage('이미 등록되어 있는 이메일입니다.');
     }
