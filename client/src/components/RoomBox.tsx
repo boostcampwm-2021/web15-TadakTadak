@@ -145,7 +145,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
       <RoomBoxTop>
         <RoomTopMenu>
           <RoomTitle>{title}</RoomTitle>
-          <RoomFieldType>{owner?.devField}</RoomFieldType>
+          <RoomFieldType>{owner?.devField || '백엔드'}</RoomFieldType>
         </RoomTopMenu>
         <RoomDescription>{description}</RoomDescription>
       </RoomBoxTop>
