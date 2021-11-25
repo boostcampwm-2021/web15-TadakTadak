@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { RtcRole, RtcTokenBuilder } from 'agora-access-token';
-import { RoomBuilder } from '../../../builder';
+import { RoomBuilder, UserBuilder } from '../../../builder';
 import { RoomException, UserException } from '../../../exception';
 import { Pagination, PaginationOptions } from '../../../paginate';
 import { Connection, DeleteResult } from 'typeorm';
@@ -20,7 +20,8 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {}
+  ) {
+  }
 
   async getRoomByUUID(uuid: string): Promise<RoomResponseDto> {
     const findRoom = await this.roomRepository.findRoomByUUID(uuid);
@@ -46,10 +47,11 @@ export class RoomService {
     return true;
   }
 
-  async getRoomListAll(options: PaginationOptions, roomType: RoomType): Promise<Pagination<Room>> {
+  async getRoomListAll(options: PaginationOptions, roomType: RoomType): Promise<Pagination<RoomResponseDto>> {
     const [results, total] = await this.roomRepository.findByKeywordAndCount(options, roomType);
-    return new Pagination<Room>({
-      results,
+    const newResult = results.map((room) => new RoomResponseDto(room));
+    return new Pagination<RoomResponseDto>({
+      results: newResult,
       total,
     });
   }
