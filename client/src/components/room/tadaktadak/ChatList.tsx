@@ -2,16 +2,18 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { TiDelete } from 'react-icons/ti';
 import { useUser } from '@contexts/userContext';
+import { useTheme } from '@contexts/themeContext';
 import useInput from '@hooks/useInput';
 import socket from '@socket/socket';
 import Chat from './Chat';
-import { INPUT } from '@utils/constant';
+import { INPUT, RoomType } from '@utils/constant';
 import { CHAT } from '@utils/styleConstant';
 import { SocketEvents } from '@socket/socketEvents';
 
 interface ChatListProps<T> {
   chats: Array<Record<string, T | undefined>>;
   uuid: string;
+  roomType?: string;
   setChats: React.Dispatch<React.SetStateAction<Array<Record<string, T | undefined>>>>;
 }
 
@@ -71,8 +73,9 @@ const InitBtnStyle = {
   cursor: 'pointer',
 };
 
-const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element => {
+const ChatList = ({ uuid, chats, setChats, roomType }: ChatListProps<string>): JSX.Element => {
   const { nickname } = useUser();
+  const theme = useTheme();
   const [message, onChangeMessage, onResetMessage] = useInput('');
   const scrollRef = useRef<HTMLUListElement>(null);
 
@@ -105,7 +108,14 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   return (
     <Container>
       <List ref={scrollRef}>
-        {chats.length > 0 && Object.values(chats).map((chat, idx) => <Chat key={idx} chat={chat} />)}
+        {chats.length > 0 &&
+          Object.values(chats).map((chat, idx) => (
+            <Chat
+              key={idx}
+              chat={chat}
+              bgChatBox={roomType === RoomType.campfire ? theme.colors.bgChatBox : undefined}
+            />
+          ))}
       </List>
       <Line />
       <InputDiv>

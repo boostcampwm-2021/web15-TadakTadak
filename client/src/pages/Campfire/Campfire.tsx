@@ -8,6 +8,7 @@ import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import FireAnimation from '@components/largeFireAnimation';
 import CampfireController from '@components/room/campfire/CampfireController';
 import CamperList from '@components/room/campfire/CamperList';
+import { RoomType } from '@utils/constant';
 
 interface LocationProps {
   pathname: string;
@@ -73,7 +74,12 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
   return (
     <BGMContextProvider>
       <RoomWrapper>
-        <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
+        <RoomSideBar
+          uuid={uuid}
+          hostNickname={owner?.nickname}
+          maxHeadcount={maxHeadcount}
+          roomType={RoomType.campfire}
+        />
         <RoomContainer>
           <FireAnimation setFireOn={setFireOn} />
           {start && track && <CamperList users={users} track={track} />}
