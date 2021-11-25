@@ -1,12 +1,12 @@
 import styled, { css } from 'styled-components';
 import { SIDEBAR } from '@utils/styleConstant';
 
-const SideBarContainer = styled.div`
-  ${({ theme }) => css`
+const SideBarContainer = styled.div<{ bgColor?: string; borderColor?: string }>`
+  ${({ theme, bgColor, borderColor }) => css`
     ${theme.flexColumn};
     padding: ${theme.paddings.lg};
-    background-color: ${theme.colors.white};
-    border: 1px solid ${theme.colors.borderGrey};
+    background-color: ${bgColor ? bgColor : theme.colors.white};
+    border: 1px solid ${borderColor ? borderColor : theme.colors.borderGrey};
   `};
   position: fixed;
   left: 0;
@@ -27,11 +27,13 @@ interface SideBarProps {
   topMenus: React.ReactNode;
   bottomMenus: React.ReactNode;
   bottomMenuHeight?: string;
+  bgColor?: string;
+  borderColor?: string;
 }
 
-const SideBar = ({ topMenus, bottomMenus, bottomMenuHeight }: SideBarProps): JSX.Element => {
+const SideBar = ({ topMenus, bottomMenus, bottomMenuHeight, bgColor, borderColor }: SideBarProps): JSX.Element => {
   return (
-    <SideBarContainer>
+    <SideBarContainer bgColor={bgColor} borderColor={borderColor}>
       <SideBarTopMenus>{topMenus}</SideBarTopMenus>
       <SideBarBottomMenus bottomMenuHeight={bottomMenuHeight}>{bottomMenus}</SideBarBottomMenus>
     </SideBarContainer>
