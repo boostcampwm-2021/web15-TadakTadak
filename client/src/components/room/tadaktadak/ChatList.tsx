@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { TiDelete } from 'react-icons/ti';
 import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';
 import socket from '@socket/socket';
@@ -29,15 +30,18 @@ const List = styled.ul`
 `;
 
 const InputDiv = styled.div`
+  position: relative;
   width: 100%;
   height: ${CHAT.inputHeight};
   ${({ theme }) => theme.flexColumn};
   justify-content: end;
   align-items: center;
 `;
+
 const Input = styled.input`
   width: ${CHAT.inputWidth};
   height: 5rem;
+  font-size: ${CHAT.fontSize};
   padding: ${({ theme }) => theme.paddings.sm};
   border: 2px solid ${({ theme }) => theme.colors.borderGrey};
   border-radius: ${({ theme }) => theme.borderRadius.base};
@@ -50,6 +54,22 @@ const Line = styled.div`
   opacity: 0.4;
   margin: 0 auto;
 `;
+
+const InitBtn = styled.span`
+  position: absolute;
+  bottom: 1rem;
+  right: 2rem;
+  .icon:hover {
+    opacity: 0.9;
+  }
+`;
+
+const InitBtnStyle = {
+  fill: 'grey',
+  opacity: 0.7,
+  fontSize: '2.2rem',
+  cursor: 'pointer',
+};
 
 const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element => {
   const { nickname } = useUser();
@@ -97,6 +117,11 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
           onKeyPress={onKeyPress}
           maxLength={INPUT.chatMaxLen}
         />
+        {message && (
+          <InitBtn>
+            <TiDelete style={InitBtnStyle} onClick={onResetMessage} />
+          </InitBtn>
+        )}
       </InputDiv>
     </Container>
   );

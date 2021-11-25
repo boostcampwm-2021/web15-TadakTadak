@@ -1,6 +1,7 @@
 import { BuilderCommon } from '../builder';
 import { LocalDate } from 'js-joda';
 import { UserResponseDto } from '../../domain/user/dto/user-response.dto';
+import { DevField } from '../../domain/field/dev-field.entity';
 
 export class UserResponseDtoBuilder extends BuilderCommon<UserResponseDto> {
   constructor() {
@@ -44,6 +45,11 @@ export class UserResponseDtoBuilder extends BuilderCommon<UserResponseDto> {
 
   setLastCheckIn(date: LocalDate): UserResponseDtoBuilder {
     this.object.lastCheckIn = date;
+    return this;
+  }
+
+  setDevField(devField: DevField): UserResponseDtoBuilder {
+    this.object.devField = devField;
     return this;
   }
 }

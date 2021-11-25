@@ -14,3 +14,29 @@ export const isPassword = (password: string): boolean => {
 };
 
 export const adminOptions = new Array(9).fill(0).map((_, i) => ({ value: i + 1, label: i + 1 }));
+
+const getPrevYear = (now: Date, number: number): Date => {
+  const tomorrow = new Date(now.setDate(now.getDate() + 1));
+  const prevYear = new Date(tomorrow.setFullYear(tomorrow.getFullYear() - number));
+  return prevYear;
+};
+
+const dateToString = (date: Date): string => date.toISOString().split('T')[0];
+
+const getDateListFromStartToLast = (startDate: string, lastDate: string): string[] => {
+  const dataList = [];
+  const start = new Date(startDate);
+  const last = new Date(lastDate);
+  while (start <= last) {
+    dataList.push(dateToString(start));
+    start.setDate(start.getDate() + 1);
+  }
+  return dataList;
+};
+
+export const getGrassDateList = (date: Date, year: number): string[] => {
+  const currentDate = dateToString(date);
+  const prevOneYearDate = dateToString(getPrevYear(date, year));
+  const grassDateList = getDateListFromStartToLast(prevOneYearDate, currentDate);
+  return grassDateList;
+};
