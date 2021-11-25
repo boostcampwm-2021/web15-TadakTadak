@@ -99,6 +99,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     pubClient.get(uuid, (err, data) => {
       if (err || !data) throw WsException;
       pubClient.del(uuid);
+      this.server.to(uuid).emit(RoomEvent.UserList, {});
     });
   }
 
