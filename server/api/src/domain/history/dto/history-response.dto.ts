@@ -14,7 +14,7 @@ export class HistoryResponseDto {
 
   constructor(counting) {
     counting.forEach((e) => {
-      this[e.month] = e.count;
+      this[e.month] = +e.count;
     });
   }
 }
