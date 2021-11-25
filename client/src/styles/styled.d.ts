@@ -1,6 +1,7 @@
 import 'styled-components';
 
 interface BorderRadius {
+  xs: string;
   sm: string;
   base: string;
   lg: string;

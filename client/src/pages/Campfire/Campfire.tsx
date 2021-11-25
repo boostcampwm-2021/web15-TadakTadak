@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { useClient, useMicrophoneTrack } from '../../components/room/tadaktadak/videoConfig';
+import BGMContextProvider from '@contexts/bgmContext';
 import { RoomInfo } from '@components/main/RoomList';
 import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
 import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
-import CampfireController from '@src/components/room/campfire/CampfireController';
-import CamperList from '@src/components/room/campfire/CamperList';
 import FireAnimation from '@components/largeFireAnimation';
+import CampfireController from '@components/room/campfire/CampfireController';
+import CamperList from '@components/room/campfire/CamperList';
 
 interface LocationProps {
   pathname: string;
@@ -70,14 +71,16 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
   useEffect(() => setFireOn(true), []);
 
   return (
-    <RoomWrapper>
-      <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
-      <RoomContainer>
-        <FireAnimation setFireOn={setFireOn} />
-        {start && track && <CamperList users={users} track={track} />}
-        {ready && track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
-      </RoomContainer>
-    </RoomWrapper>
+    <BGMContextProvider>
+      <RoomWrapper>
+        <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
+        <RoomContainer>
+          <FireAnimation setFireOn={setFireOn} />
+          {start && track && <CamperList users={users} track={track} />}
+          {ready && track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
+        </RoomContainer>
+      </RoomWrapper>
+    </BGMContextProvider>
   );
 };
 export default Campfire;

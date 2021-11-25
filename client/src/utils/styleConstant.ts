@@ -2,6 +2,8 @@ export const CHAT = {
   listHeight: '80vh',
   inputHeight: '10vh',
   inputWidth: '90%',
+  msgWidth: '20rem',
+  fontSize: '1.8rem',
 };
 
 export const FORM = {
@@ -43,4 +45,10 @@ export const VIDEO_BOX = {
 export const ROOM_BOX = {
   width: '20rem',
   height: '15rem',
+};
+
+export const GRASS = {
+  width: '0.8rem',
+  height: '0.8rem',
+  gridGap: '0.2rem',
 };
