@@ -29,9 +29,10 @@ const List = styled.ul`
   ${({ theme }) => theme.flexColumn};
   padding: ${({ theme }) => theme.paddings.sm};
   overflow: auto;
+  white-space: pre-wrap;
 `;
 
-const InputDiv = styled.div`
+const TextAreaWrapper = styled.div`
   position: relative;
   width: 100%;
   height: ${CHAT.inputHeight};
@@ -40,14 +41,17 @@ const InputDiv = styled.div`
   align-items: center;
 `;
 
-const Input = styled.input`
+const TextArea = styled.textarea`
   width: ${CHAT.inputWidth};
-  height: 5rem;
+  height: 6rem;
   font-size: ${CHAT.fontSize};
   padding: ${({ theme }) => theme.paddings.sm};
   border: 2px solid ${({ theme }) => theme.colors.borderGrey};
   border-radius: ${({ theme }) => theme.borderRadius.base};
   background-color: transparent;
+  ::placeholder {
+    font-size: ${CHAT.fontSize};
+  }
 `;
 
 const Line = styled.div`
@@ -60,7 +64,7 @@ const Line = styled.div`
 const InitBtn = styled.span`
   position: absolute;
   bottom: 1rem;
-  right: 2rem;
+  right: 3rem;
   .icon:hover {
     opacity: 0.9;
   }
@@ -87,7 +91,14 @@ const ChatList = ({ uuid, chats, setChats, roomType }: ChatListProps<string>): J
   }, [onResetMessage, nickname, message, uuid]);
 
   const onKeyPress = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && sendMessage(),
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter') {
+        if (!e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      }
+    },
     [sendMessage],
   );
 
@@ -118,9 +129,8 @@ const ChatList = ({ uuid, chats, setChats, roomType }: ChatListProps<string>): J
           ))}
       </List>
       <Line />
-      <InputDiv>
-        <Input
-          type="text"
+      <TextAreaWrapper>
+        <TextArea
           placeholder="Message..."
           value={message}
           onChange={onChangeMessage}
@@ -132,7 +142,7 @@ const ChatList = ({ uuid, chats, setChats, roomType }: ChatListProps<string>): J
             <TiDelete style={InitBtnStyle} onClick={onResetMessage} />
           </InitBtn>
         )}
-      </InputDiv>
+      </TextAreaWrapper>
     </Container>
   );
 };
