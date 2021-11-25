@@ -45,6 +45,9 @@ const ScreenShareDiv = ({
     };
     if (ready) pulishScreenShare();
     if (error) setScreenShare(false);
+    return () => {
+      client.unpublish(tracks);
+    };
   }, [setStart, setScreenShare, screenShare, client, preTracks, trackState, tracks, ready, error]);
 
   return <div></div>;
