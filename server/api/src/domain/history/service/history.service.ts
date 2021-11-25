@@ -27,7 +27,7 @@ export class HistoryService {
     const user: User = await this.userRepository.findUserByUserEmail(email);
     if (!user) throw UserException.userNotFound();
     const year = LocalDate.now().year();
-    return await this.historyRepository.getHistoryByNickname(user, year);
+    return await this.historyRepository.getYearHistoryByUser(user, year);
   }
 
   async getMonthHistory(email: string) {
@@ -35,7 +35,7 @@ export class HistoryService {
     if (!user) throw UserException.userNotFound();
     const year = LocalDate.now().year();
     const result: HistoryResponseDto = new HistoryResponseDto(
-      await this.historyRepository.getMonthByNickname(user, year),
+      await this.historyRepository.getMonthHistoryByUser(user, year),
     );
     return result;
   }

@@ -12,11 +12,11 @@ export class HistoryRepository extends Repository<History> {
     return true;
   }
 
-  async getHistoryByNickname(user: User) {
+  async getYearHistoryByUser(user: User, year: number) {
     return await this.find({ where: { user: user } });
   }
 
-  async getMonthByNickname(user: User, year: number) {
+  async getMonthHistoryByUser(user: User, year: number) {
     return await this.createQueryBuilder()
       .select('MONTH(check_in) as month')
       .addSelect('COUNT(*) as count')
