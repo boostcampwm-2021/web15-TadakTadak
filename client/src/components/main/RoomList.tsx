@@ -10,7 +10,8 @@ import ListGenerator from '@components/ListGenerator';
 import RoomBox from '@components/RoomBox';
 import SearchBar from './SearchBar';
 import { getRoomQueryObj } from '@utils/apiUtils';
-import { DEBOUNCE, INFINITE_SCROLL } from '@utils/constant';
+import { DEBOUNCE, INFINITE_SCROLL, ROOM_DESCRIPTION } from '@utils/constant';
+import QuestionButton from '@components/main/QuestionButton';
 
 const RoomListGrid = styled.div`
   padding: ${({ theme }) => theme.paddings.lg} 0;
@@ -28,6 +29,7 @@ const TabWrapper = styled.div`
   & div {
     transition: background-color 0.4s ease-in-out, border-color 0.3s ease-in-out;
   }
+
   & div:hover {
     background-color: ${({ theme }) => theme.colors.borderGrey};
     border-radius: ${({ theme }) => theme.borderRadius.sm};
@@ -125,8 +127,12 @@ function RoomList(): JSX.Element {
   return (
     <>
       <TabWrapper>
-        <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap} />
-        <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap} />
+        <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap}>
+          <QuestionButton text={ROOM_DESCRIPTION.tadak} />
+        </Tab>
+        <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap}>
+          <QuestionButton text={ROOM_DESCRIPTION.campfire} />
+        </Tab>
         <SearchBar search={search} onChange={onChangeSearch} onReset={onResetSearch} />
       </TabWrapper>
       <RoomListGrid ref={target}>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
