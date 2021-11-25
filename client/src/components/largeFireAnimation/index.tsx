@@ -12,7 +12,7 @@ interface FireAnimationProps {
 }
 
 function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
     setToggle((ps) => !ps);
     setFireOn(true);
