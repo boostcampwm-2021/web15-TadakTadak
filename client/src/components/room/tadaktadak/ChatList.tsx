@@ -45,7 +45,7 @@ const Input = styled.input`
   padding: ${({ theme }) => theme.paddings.sm};
   border: 2px solid ${({ theme }) => theme.colors.borderGrey};
   border-radius: ${({ theme }) => theme.borderRadius.base};
-  background-color: ${({ theme }) => theme.colors.bgWhite};
+  background-color: transparent;
 `;
 
 const Line = styled.div`
