@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaGithub } from 'react-icons/fa';
 import { postLogin } from '@src/apis';
 import { TOAST_TIME, INPUT } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
@@ -33,17 +32,6 @@ const Button = styled.button`
   border-radius: 1rem;
 `;
 
-const GithubLoginButton = styled.button`
-  ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.black};
-  color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.paddings.sm};
-  border-radius: 1rem;
-  & :first-child {
-    margin-right: ${({ theme }) => theme.margins.base};
-  }
-`;
-
 const ModalToggleSpan = styled.span`
   width: 100%;
   margin-top: ${({ theme }) => theme.margins.lg};
@@ -65,10 +53,6 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
   const [password, onChangePassword] = useInput('');
   const { logUserIn } = useUserFns();
   const toast = useToast(TOAST_TIME);
-
-  const onClickGithubLogin = () => {
-    toast('error', '추후 구현예정입니다 :)');
-  };
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -108,10 +92,6 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
           onChange={onChangePassword}
         />
         <Button>로그인</Button>
-        <GithubLoginButton onClick={onClickGithubLogin}>
-          <FaGithub fill="#fff" />
-          Github 로그인
-        </GithubLoginButton>
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>회원가입 하러 가기</ModalToggleSpan>
     </Container>

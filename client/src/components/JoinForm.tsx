@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postJoin } from '@src/apis';
-import { FaGithub } from 'react-icons/fa';
 import Select from './common/Select';
 import Form from './common/Form';
 import { useDevField } from '@contexts/devFieldContext';
@@ -35,18 +34,6 @@ const Button = styled.button`
   border-radius: 1rem;
 `;
 
-const GithubLoginButton = styled.button`
-  ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.black};
-  color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.paddings.sm};
-  width: 16rem;
-  border-radius: 1rem;
-  & :first-child {
-    margin-right: ${({ theme }) => theme.margins.base};
-  }
-`;
-
 const ModalToggleSpan = styled.span`
   display: block;
   width: 100%;
@@ -71,10 +58,6 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   const [devField, setDevField] = useState('');
   const devFieldOptions = useDevField();
   const toast = useToast(TOAST_TIME);
-
-  const onClickGithubJoin = () => {
-    // Github Join request
-  };
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -125,10 +108,6 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
         />
         <Select name={'개발 필드'} options={devFieldOptions} onChange={handleDevFieldSelectChange} />
         <Button>회원가입</Button>
-        <GithubLoginButton onClick={onClickGithubJoin}>
-          <FaGithub fill="#fff" />
-          Github 회원가입
-        </GithubLoginButton>
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>로그인 하러 가기</ModalToggleSpan>
     </Container>
