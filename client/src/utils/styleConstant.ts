@@ -1,3 +1,5 @@
+import { TOAST_TIME } from './constant';
+
 export const CHAT = {
   listHeight: '80vh',
   inputHeight: '10vh',
@@ -56,6 +58,6 @@ export const GRASS = {
 export const TOAST = {
   width: '40rem',
   height: '4rem',
-  second: '4s',
+  second: `${TOAST_TIME / 1000}.2s`,
   topPosition: '10vh',
 };
