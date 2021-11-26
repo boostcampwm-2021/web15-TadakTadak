@@ -2,7 +2,7 @@ import React, { createContext, useReducer, useContext, Dispatch } from 'react';
 
 export type ActionType = 'ADD_TOAST' | 'DELETE_TOAST';
 export type MessageType = 'success' | 'error';
-interface Toast {
+export interface Toast {
   id: string;
   message: string;
   type: MessageType;
@@ -44,15 +44,14 @@ function ToastReducer(state: State, action: Action) {
 interface ToastProviderProps {
   children: React.ReactNode;
 }
-export function ToastProvider({ children }: ToastProviderProps) {
+export const ToastProvider = ({ children }: ToastProviderProps): JSX.Element => {
   const [state, dispatch] = useReducer(ToastReducer, initialState);
-
   return (
     <ToastStateContext.Provider value={state}>
       <ToastDispatchContext.Provider value={dispatch}>{children}</ToastDispatchContext.Provider>
     </ToastStateContext.Provider>
   );
-}
+};
 
 export const useToastStateContext = (): State => useContext(ToastStateContext);
 export const useToastDispatchContext = (): InitDispatch => useContext(ToastDispatchContext);
