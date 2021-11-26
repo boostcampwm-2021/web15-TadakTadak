@@ -23,7 +23,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   @SubscribeMessage(RoomEvent.MsgToServer)
   handleMessage(client: Socket, { uuid, message, nickname }: IMessage): void {
     const emitMessage: IMessage = {
-      message: message,
+      message: message + process.env.NODE_PORT,
       time: LocalDateTime.now(),
       nickname: nickname,
       uuid: uuid,
