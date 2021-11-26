@@ -5,7 +5,7 @@ import { postJoin } from '@src/apis';
 import Select from './common/Select';
 import Form from './common/Form';
 import { useDevField } from '@contexts/devFieldContext';
-import { INPUT, TOAST_TIME } from '@utils/constant';
+import { INPUT, TOAST_TIME, TOAST_MESSAGE } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
 import { useToast } from '@src/hooks/useToast';
 
@@ -62,15 +62,15 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !nickname || !password || !devField) {
-      return toast('error', '모두 입력해주세요.');
+      return toast('error', TOAST_MESSAGE.inputEmpty);
     }
     const requestBody = { email, nickname, password, devField: +devField };
     const { isOk } = await postJoin(requestBody);
     if (!isOk) {
-      return toast('error', '이미 등록되어 있는 이메일입니다.');
+      return toast('error', TOAST_MESSAGE.alreadyEmail);
     }
     setIsLogin(true);
-    toast('success', '회원가입에 성공하였습니다.');
+    toast('success', TOAST_MESSAGE.joinSuccess);
   };
 
   const handleDevFieldSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { postLogin } from '@src/apis';
-import { TOAST_TIME, INPUT } from '@utils/constant';
+import { TOAST_TIME, INPUT, TOAST_MESSAGE } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
 import Form from './common/Form';
 import useInput from '@hooks/useInput';
@@ -57,7 +57,7 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
-      toast('error', '모두 입력해주세요');
+      toast('error', TOAST_MESSAGE.inputEmpty);
       return;
     }
     const requestBody = { email, password };
@@ -65,10 +65,10 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
     if (isOk && data) {
       logUserIn(data);
       setModal(false);
-      toast('success', '로그인에 성공하였습니다.');
+      toast('success', TOAST_MESSAGE.loginSuccess);
       return;
     }
-    toast('error', '이메일 및 비밀번호를 확인해주세요');
+    toast('error', TOAST_MESSAGE.loginConfirm);
   };
 
   return (

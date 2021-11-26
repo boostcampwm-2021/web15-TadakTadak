@@ -53,4 +53,12 @@ export const ROOM_DESCRIPTION = {
   campfire: '모닥불 주변에 모여서 대화를 나누는 아늑한 공간이에요.',
 };
 
+export const TOAST_MESSAGE = {
+  loginSuccess: '로그인에 성공하였습니다.',
+  joinSuccess: '회원가입에 성공하였습니다.',
+  inputEmpty: '모두 입력해주세요.',
+  loginConfirm: '이메일 및 비밀번호를 확인해주세요',
+  alreadyEmail: '이미 등록되어 있는 이메일입니다.',
+};
+
 export const CHECK_IN = 'check-in';
