@@ -39,14 +39,14 @@ const Videos = ({ users, tracks }: VideosProps): JSX.Element => {
   return (
     <VideosContainer>
       <VideosGrid id="videos">
-        <VideoBoxWrapper>
+        <VideoBoxWrapper key={userInfo.nickname}>
           <VideoBox videoTrack={myVideoTrack} audioTrack={myAudioTrack} />
           <UserInfoDiv>{userInfo.nickname}(나)</UserInfoDiv>
         </VideoBoxWrapper>
         {users.length > 0 &&
           users.map((user) => (
-            <VideoBoxWrapper>
-              <VideoBox key={user.uid} videoTrack={user.videoTrack} audioTrack={user.audioTrack} />
+            <VideoBoxWrapper key={user.uid}>
+              <VideoBox videoTrack={user.videoTrack} audioTrack={user.audioTrack} />
               <UserInfoDiv>{decodeURI(String(user.uid))}</UserInfoDiv>
             </VideoBoxWrapper>
           ))}
