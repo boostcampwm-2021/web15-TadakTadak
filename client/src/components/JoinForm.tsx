@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postJoin } from '@src/apis';
 import { FaGithub } from 'react-icons/fa';
-import InfoMessage from './InfoMessage';
 import Select from './common/Select';
 import Form from './common/Form';
 import { useDevField } from '@contexts/devFieldContext';
-import { INPUT, FORM_DELAY } from '@utils/constant';
+import { INPUT, TOAST_TIME } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
+import { useToast } from '@src/hooks/useToast';
 
 const Container = styled.div`
   display: flex;
@@ -68,11 +68,9 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const [message, setMessage] = useState('');
   const [devField, setDevField] = useState('');
   const devFieldOptions = useDevField();
-
-  const showMessage = (msg: string) => setMessage(msg);
+  const toast = useToast(TOAST_TIME);
 
   const onClickGithubJoin = () => {
     // Github Join request
@@ -81,27 +79,19 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !nickname || !password || !devField) {
-      return showMessage('모두 입력해주세요');
+      return toast('error', '모두 입력해주세요.');
     }
     const requestBody = { email, nickname, password, devField: +devField };
     const { isOk } = await postJoin(requestBody);
     if (!isOk) {
-      return showMessage('이미 등록되어 있는 이메일입니다.');
+      return toast('error', '이미 등록되어 있는 이메일입니다.');
     }
     setIsLogin(true);
+    toast('success', '회원가입에 성공하였습니다.');
   };
 
   const handleDevFieldSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>
     setDevField((e.target[e.target.selectedIndex] as HTMLOptionElement).value);
-
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(''), FORM_DELAY * 1000);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [message]);
 
   return (
     <Container>
@@ -139,7 +129,6 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
           <FaGithub fill="#fff" />
           Github 회원가입
         </GithubLoginButton>
-        {message && <InfoMessage message={message} />}
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>로그인 하러 가기</ModalToggleSpan>
     </Container>
