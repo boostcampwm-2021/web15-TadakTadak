@@ -75,6 +75,7 @@ jobs:
           docker run -d \
             -e DB_REDIS_HOST=${{ secrets.DB_REDIS_HOST }} \
             -e DB_REDIS_PORT=${{ secrets.DB_REDIS_PORT }} \
+            -e CLIENT_URL=${{ secrets.CLIENT_URL }} \
             -p 3000:3000 \
             --name socket-container-1 --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
           docker run -d \
