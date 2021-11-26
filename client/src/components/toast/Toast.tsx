@@ -12,7 +12,7 @@ interface ToastProps {
 const boxFade = keyframes`
   0%{
     opacity: 0;
-  }50%{
+  }3%{
     opacity: 1;
   }100%{
     opacity: 0;
