@@ -52,3 +52,10 @@ export const GRASS = {
   height: '0.8rem',
   gridGap: '0.2rem',
 };
+
+export const TOAST = {
+  width: '40rem',
+  height: '4rem',
+  second: '4s',
+  topPosition: '10vh',
+};
