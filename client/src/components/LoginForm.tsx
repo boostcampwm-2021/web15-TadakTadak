@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FaGithub } from 'react-icons/fa';
 import { postLogin } from '@src/apis';
-import { FORM_DELAY, INPUT } from '@utils/constant';
+import { TOAST_TIME, INPUT } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
-import InfoMessage from './InfoMessage';
 import Form from './common/Form';
 import useInput from '@hooks/useInput';
 import { useUserFns } from '@contexts/userContext';
+import { useToast } from '@src/hooks/useToast';
 
 const Container = styled.div`
   display: flex;
@@ -64,17 +64,16 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const { logUserIn } = useUserFns();
-  const [message, setMessage] = useState('');
+  const toast = useToast(TOAST_TIME);
 
-  const showMessage = (msg: string) => setMessage(msg);
   const onClickGithubLogin = () => {
-    // Github Login request
+    toast('error', '추후 구현예정입니다 :)');
   };
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
-      showMessage('모두 입력해주세요');
+      toast('error', '모두 입력해주세요');
       return;
     }
     const requestBody = { email, password };
@@ -82,19 +81,11 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
     if (isOk && data) {
       logUserIn(data);
       setModal(false);
+      toast('success', '로그인에 성공하였습니다.');
       return;
     }
-    showMessage('이메일 및 비밀번호를 확인해주세요');
+    toast('error', '이메일 및 비밀번호를 확인해주세요');
   };
-
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(''), FORM_DELAY * 1000);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [message]);
 
   return (
     <Container>
@@ -121,7 +112,6 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
           <FaGithub fill="#fff" />
           Github 로그인
         </GithubLoginButton>
-        {message && <InfoMessage message={message} />}
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>회원가입 하러 가기</ModalToggleSpan>
     </Container>
