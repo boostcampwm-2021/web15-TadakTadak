@@ -48,7 +48,7 @@ export const ROOM_BOX = {
 };
 
 export const GRASS = {
-  width: '0.8rem',
-  height: '0.8rem',
-  gridGap: '0.2rem',
+  width: '2.5rem',
+  height: '2.5rem',
+  gridGap: '0.3rem',
 };
