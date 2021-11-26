@@ -12,8 +12,9 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { IMessage, IRoomRequest } from './room.interface';
 import { LocalDateTime } from '@js-joda/core';
-import { pubClient } from '../redis.adapter';
+import { pubClient, subClient } from '../redis.adapter';
 import { RoomEvent } from './room.event';
+import socket from '../../../../client/src/socket/socket';
 
 @WebSocketGateway({ cors: true })
 export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -128,6 +129,9 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Client connected: ${client.id}`);
+    subClient.on('message', (channel: string, message: string) => {
+      socket.emit(channel, message);
+    });
   }
 
   handleDisconnect(client: Socket) {
