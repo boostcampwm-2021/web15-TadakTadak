@@ -34,9 +34,10 @@ const getDateListFromStartToLast = (startDate: string, lastDate: string): string
   return dataList;
 };
 
-export const getGrassDateList = (date: Date, year: number): string[] => {
-  const currentDate = dateToString(date);
-  const prevOneYearDate = dateToString(getPrevYear(date, year));
+export const getGrassDateList = (year: number): string[] => {
+  const tzoffset = new Date().getTimezoneOffset() * 60000;
+  const currentDate = dateToString(new Date(Date.now() - tzoffset));
+  const prevOneYearDate = dateToString(getPrevYear(new Date(), year));
   const grassDateList = getDateListFromStartToLast(prevOneYearDate, currentDate);
   return grassDateList;
 };

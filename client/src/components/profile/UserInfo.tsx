@@ -184,7 +184,7 @@ function UserInfo(): JSX.Element {
   renderLineGraph();
 
   const loadUserGrassList = useCallback(async () => {
-    const oneYearGrassDateList = getGrassDateList(new Date(), 1);
+    const oneYearGrassDateList = getGrassDateList(1);
     const { isOk, data } = await getUserLogList();
     if (isOk && data) {
       data.forEach((date) => {
@@ -194,6 +194,7 @@ function UserInfo(): JSX.Element {
         }
       });
     }
+    console.log(oneYearGrassDateList);
     return setGrassList([...oneYearGrassDateList]);
   }, []);
 
