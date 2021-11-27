@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { RtcRole, RtcTokenBuilder } from 'agora-access-token';
-import { RoomBuilder, UserBuilder } from '../../../builder';
+import { RoomBuilder } from '../../../builder';
 import { RoomException, UserException } from '../../../exception';
 import { Pagination, PaginationOptions } from '../../../paginate';
 import { Connection, DeleteResult } from 'typeorm';
-import { Room, RoomType } from '../room.entity';
+import { RoomType } from '../room.entity';
 import { RoomProcessOption, RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
@@ -20,8 +20,7 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {
-  }
+  ) {}
 
   async getRoomByUUID(uuid: string): Promise<RoomResponseDto> {
     const findRoom = await this.roomRepository.findRoomByUUID(uuid);
