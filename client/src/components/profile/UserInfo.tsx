@@ -12,6 +12,7 @@ import { CHECK_IN, PATH } from '@utils/constant';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
     padding: ${theme.paddings.lg};
@@ -112,6 +113,14 @@ const Legend = styled.legend`
   color: ${({ theme }) => theme.colors.bgGreen};
 `;
 
+const Canvas = styled.canvas`
+  width: 650px;
+  height: 450px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+`;
+
 function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
   const onClickModifyToggle = () => setIsModify(!isModify);
@@ -119,6 +128,7 @@ function UserInfo(): JSX.Element {
   const history = useHistory();
   const [grassList, setGrassList] = useState<string[]>([]);
   const { logUserIn } = useUserFns();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
@@ -178,6 +188,9 @@ function UserInfo(): JSX.Element {
             <DeleteButton onClick={handleFileDelete}>삭제</DeleteButton>
           </ButtonWrapper>
         </ImageWrapper>
+        <div>
+          <Canvas ref={canvasRef}></Canvas>
+        </div>
       </Wrapper>
 
       <InfoSet>
