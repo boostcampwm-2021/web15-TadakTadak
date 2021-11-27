@@ -66,3 +66,14 @@ export const TOAST_MESSAGE = {
 };
 
 export const CHECK_IN = 'check-in';
+
+export const CANVAS_SIZE = {
+  width: 800,
+  height: 400,
+};
+
+export const CANVAS_STYLE = {
+  YLine: '#888888',
+  XLine: '#f5f5f5',
+  resultLine: '#ee7f6e',
+};
