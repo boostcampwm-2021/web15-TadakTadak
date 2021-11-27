@@ -41,6 +41,28 @@ export const getGrassDateList = (date: Date, year: number): string[] => {
   return grassDateList;
 };
 
+export const drawLineChartYaxis = (ctx: any, line: any) => {
+  ctx.fillStyle = '#888888';
+  for (let i = 2; i <= 24; i++) {
+    ctx.moveTo(line.width - i * (line.width / 24) + 40, 0);
+    ctx.lineTo(line.width - i * (line.width / 24) + 40, line.height - 30);
+    ctx.stroke();
+    if (i % 2 === 0) ctx.fillText(13 - i / 2, line.width - i * (line.width / 24) + 40, line.height);
+    //text, x, y
+  }
+};
+
+export const drawLineChartXaxis = (ctx: any, line: any) => {
+  ctx.strokeStyle = '#f5f5f5';
+  ctx.font = '12px Noto Sans KR';
+  ctx.textAlign = 'center';
+  for (let i = 1; i <= 15; i++) {
+    ctx.moveTo(40, line.height - i * (line.height / 10) + 10);
+    ctx.lineTo(line.width - 40, line.height - i * (line.height / 10) + 8);
+    ctx.stroke();
+  }
+};
+
 export const getWidths = (line: any) => {
   return Array.from({ length: 12 }, (_, i) => {
     if (i === 0) return 0;
