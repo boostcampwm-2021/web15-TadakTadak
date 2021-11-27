@@ -76,12 +76,14 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
   return (
     <BGMContextProvider>
       <RoomWrapper>
-        <RoomSideBar
-          uuid={uuid}
-          hostNickname={owner?.nickname}
-          maxHeadcount={maxHeadcount}
-          roomType={RoomType.campfire}
-        />
+        {start && (
+          <RoomSideBar
+            uuid={uuid}
+            hostNickname={owner?.nickname}
+            maxHeadcount={maxHeadcount}
+            roomType={RoomType.campfire}
+          />
+        )}
         <RoomContainer>
           <FireAnimation setFireOn={setFireOn} />
           {start && track && <CamperList users={users} track={track} />}

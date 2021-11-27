@@ -76,7 +76,7 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
 
   return (
     <TadakWrapper>
-      <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
+      {start && <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />}
       <TadakContainer>
         {start && tracks && <Videos users={users} tracks={tracks} />}
         {ready && tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
