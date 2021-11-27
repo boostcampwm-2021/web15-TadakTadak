@@ -176,6 +176,8 @@ function UserInfo(): JSX.Element {
     const maxMonths = Math.max.apply(null, values);
     const width = getWidths(canvas);
     const height = getHeights(data, maxMonths, canvas);
+    drawLineChartXaxis(context, canvas);
+    drawLineChartYaxis(context, canvas);
   };
   renderLineGraph();
 
