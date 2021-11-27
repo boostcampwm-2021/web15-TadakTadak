@@ -36,8 +36,6 @@ export class RoomResponseDto {
       .setEmail(owner.email)
       .setImageUrl(owner.imageUrl)
       .setImageName(owner.imageName)
-      .setIntroduction(owner.introduction)
-      .setIsSocial(owner.isSocial)
       .setLastCheckIn(owner.lastCheckIn)
       .setDevField(owner.devField)
       .build();
