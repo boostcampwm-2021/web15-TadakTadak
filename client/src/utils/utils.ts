@@ -4,12 +4,12 @@ export const isEmail = (email: string): boolean => {
 };
 
 export const isNickname = (nickname: string): boolean => {
-  const regExp = /^(?=.*[a-zA-Z가-힣])[-a-zA-Z가-힣0-9_.]{2,10}$/;
+  const regExp = /^(?=.*[a-zA-Z가-힣])[-a-zA-Z가-힣0-9_.]{2,15}$/;
   return regExp.test(nickname);
 };
 
 export const isPassword = (password: string): boolean => {
-  const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+  const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{6,20}$/;
   return regExp.test(password);
 };
 

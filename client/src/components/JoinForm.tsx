@@ -8,6 +8,7 @@ import { useDevField } from '@contexts/devFieldContext';
 import { INPUT, TOAST_TIME, TOAST_MESSAGE } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
 import { useToast } from '@src/hooks/useToast';
+import { isEmail, isPassword, isNickname } from '@utils/utils';
 
 const Container = styled.div`
   display: flex;
@@ -61,8 +62,24 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email || !nickname || !password || !devField) {
+    if (!email || !nickname || !password) {
       return toast('error', TOAST_MESSAGE.inputEmpty);
+    }
+    if (!isEmail(email)) {
+      toast('error', TOAST_MESSAGE.invalidFormatEmail);
+      return;
+    }
+    if (!isNickname(nickname)) {
+      toast('error', TOAST_MESSAGE.invalidFormatNickname);
+      return;
+    }
+    if (!isPassword(password)) {
+      toast('error', TOAST_MESSAGE.invalidFormatPwd);
+      return;
+    }
+    if (!devField) {
+      toast('error', TOAST_MESSAGE.emptyDevField);
+      return;
     }
     const requestBody = { email, nickname, password, devField: +devField };
     const { isOk } = await postJoin(requestBody);

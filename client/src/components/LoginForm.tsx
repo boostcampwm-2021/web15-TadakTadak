@@ -7,6 +7,7 @@ import Form from './common/Form';
 import useInput from '@hooks/useInput';
 import { useUserFns } from '@contexts/userContext';
 import { useToast } from '@src/hooks/useToast';
+import { isEmail, isPassword } from '@utils/utils';
 
 const Container = styled.div`
   display: flex;
@@ -58,6 +59,14 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
     e.preventDefault();
     if (!email || !password) {
       toast('error', TOAST_MESSAGE.inputEmpty);
+      return;
+    }
+    if (!isEmail(email)) {
+      toast('error', TOAST_MESSAGE.invalidFormatEmail);
+      return;
+    }
+    if (!isPassword(password)) {
+      toast('error', TOAST_MESSAGE.invalidFormatPwd);
       return;
     }
     const requestBody = { email, password };
