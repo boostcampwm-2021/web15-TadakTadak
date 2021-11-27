@@ -20,7 +20,7 @@ function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
   return (
     <FireContainer className={toggle ? 'fire-container' : 'fire-container fire-off'}>
       <div className="fire-on"></div>
-      <div className="switch-wrap">
+      <div className="switch-wrap middle">
         <div id="switch" className={toggle ? '' : 'switched'} onClick={handleToggle}>
           <div id="circle"></div>
         </div>

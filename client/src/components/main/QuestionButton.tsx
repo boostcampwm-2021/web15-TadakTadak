@@ -20,6 +20,7 @@ const TooltipBox = styled.div`
   width: 200px;
   padding: 5px 5px;
   border-radius: 4px;
+  z-index: 1;
   transition: visibility 0.3s, color 0.3s, background-color 0.3s, width 0.3s, padding 0.3s ease-in-out;
 `;
 

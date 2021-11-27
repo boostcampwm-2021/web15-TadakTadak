@@ -107,4 +107,12 @@ export const getHeights = (months: any, maxMonths: any, line: any) => {
     if (months[i + 1]) return (months[i + 1] / maxMonths) * line.height * 0.8;
     return 0;
   });
+
+export const chatTimeFormatting = (time?: string): string => {
+  if (time) {
+    const timeString = time.match(/\d{2}:\d{2}:\d{2}/);
+    return Array.isArray(timeString) ? timeString[0] : '';
+  }
+  return '';
+
 };

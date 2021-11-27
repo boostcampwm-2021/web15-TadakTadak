@@ -17,12 +17,12 @@ const StyledTab = styled.div<TabProps>`
   text-align: center;
   cursor: pointer;
   border-bottom: 3px solid transparent;
+  background-color: transparent;
   ${(props) =>
     props.isActive &&
     css`
       border-bottom: 3px solid transparent;
       border-bottom: 3px solid ${props.theme.colors.blue};
-      background-color: ${props.theme.colors.grey};
     `}
 
   :hover {
