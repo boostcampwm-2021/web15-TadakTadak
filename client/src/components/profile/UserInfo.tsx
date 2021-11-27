@@ -166,19 +166,22 @@ function UserInfo(): JSX.Element {
     if (!isOk || !data) {
       return;
     }
+
     const canvas: HTMLCanvasElement = canvasRef.current;
-    const context = canvas.getContext('2d');
+    const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
     canvas.width = 800;
     canvas.height = 400;
-    const values = Object.keys(data).map((key) => data[key]);
+
+    const values = Object.keys(data).map((key: string) => data[key]);
     const maxMonths = Math.max.apply(null, values);
-    const width = getWidths(canvas);
-    const height = getHeights(data, maxMonths, canvas);
-    drawLineChartXaxis(context, canvas);
-    drawLineChartYaxis(context, canvas);
-    drawLineChartLines(width, context, height, canvas);
-    drawLineChartDots(context, width, height, data, canvas);
+    const width = getWidths(canvas.width);
+    const height = getHeights(data, maxMonths, canvas.height);
+    drawLineChartXaxis(context, canvas.width, canvas.height);
+    drawLineChartYaxis(context, canvas.width, canvas.height);
+    drawLineChartLines(width, context, height, canvas.height);
+    drawLineChartDots(context, width, height, data, canvas.height);
   };
+  renderLineGraph();
 
   const loadUserGrassList = useCallback(async () => {
     const oneYearGrassDateList = getGrassDateList(new Date(), 1);
