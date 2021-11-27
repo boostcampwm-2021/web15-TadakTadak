@@ -1,3 +1,4 @@
+import { CANVAS_STYLE } from './constant';
 export const isEmail = (email: string): boolean => {
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
   return regExp.test(email);
@@ -64,7 +65,7 @@ export const getHeights = (months: Array<number>, maxMonths: number, height: num
 };
 
 export const drawLineChartYaxis = (ctx: CanvasRenderingContext2D, width: number, height: number): void => {
-  ctx.fillStyle = '#888888';
+  ctx.fillStyle = CANVAS_STYLE.YLine;
   for (let i = 2; i <= 24; i++) {
     ctx.moveTo(width - i * (width / 24) + 40, 0);
     ctx.lineTo(width - i * (width / 24) + 40, height - 30);
@@ -74,7 +75,7 @@ export const drawLineChartYaxis = (ctx: CanvasRenderingContext2D, width: number,
 };
 
 export const drawLineChartXaxis = (ctx: CanvasRenderingContext2D, width: number, height: number): void => {
-  ctx.strokeStyle = '#f5f5f5';
+  ctx.strokeStyle = CANVAS_STYLE.XLine;
   ctx.font = '12px Noto Sans KR';
   ctx.textAlign = 'center';
   for (let i = 1; i <= 15; i++) {
@@ -98,7 +99,7 @@ export const drawLineChartLines = (
     ctx.lineWidth = 2;
     await new Promise((res) => setTimeout(res, 50 * i));
     ctx.moveTo(currentX, currentY);
-    ctx.strokeStyle = '#ee7f6e';
+    ctx.strokeStyle = CANVAS_STYLE.resultLine;
     ctx.lineTo(w + 40, height - heights[i] - 30);
     ctx.stroke();
     currentX = w + 40;
@@ -115,13 +116,13 @@ export const drawLineChartDots = (
 ): void => {
   ctx.beginPath();
   widths.forEach((w: number, i: number) => {
-    ctx.fillStyle = '#ee7f6e';
+    ctx.fillStyle = CANVAS_STYLE.resultLine;
     if (heights[i] > 0) {
       ctx.beginPath();
       ctx.arc(w + 40, height - heights[i] - 30, 6, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
-      ctx.fillStyle = '#ee7f6e';
+      ctx.fillStyle = CANVAS_STYLE.resultLine;
       ctx.fillText(months[i + 1], w + 40, height - heights[i] - 40);
     }
   });
