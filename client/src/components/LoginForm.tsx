@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { postLogin } from '@src/apis';
-import { TOAST_TIME, INPUT, TOAST_MESSAGE } from '@utils/constant';
+import { TOAST_TIME, INPUT, TOAST_MESSAGE, PLACEHOLDER_TXT } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
 import Form from './common/Form';
 import useInput from '@hooks/useInput';
@@ -85,16 +85,14 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
       <Form onSubmit={onSubmitForm} width={FORM.loginWidth} height={FORM.loginHeight}>
         <Input
           type="text"
-          placeholder="Email"
-          id="email"
+          placeholder={PLACEHOLDER_TXT.email}
           value={email}
           onChange={onChangeEmail}
           maxLength={INPUT.emailMaxLen}
         />
         <Input
           type="password"
-          placeholder="Password"
-          id="password"
+          placeholder={PLACEHOLDER_TXT.password}
           value={password}
           minLength={INPUT.pwdMinLen}
           maxLength={INPUT.pwdMaxLen}

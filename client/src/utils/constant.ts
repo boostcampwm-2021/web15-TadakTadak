@@ -70,4 +70,18 @@ export const TOAST_MESSAGE = {
   emptyHeadcount: '최대 입장 가능한 인원을 선택해주세요.',
 };
 
+export const PLACEHOLDER_TXT = {
+  roomTitle: `방 제목을 입력해주세요. (최대 ${INPUT.roomTitleMaxLen}자)`,
+  roomDiscrpt: '방에 대한 설명을 입력해주세요.(선택)',
+  email: '이메일 (Ex : user@tadaktadak.com)',
+  nickname: `닉네임 (최소 2자, 최대 ${INPUT.nicknameMaxLen}자, 영문/숫자/한글)`,
+  password: `비밀번호 (최소 ${INPUT.pwdMinLen}자, 최대 ${INPUT.pwdMaxLen}자, 영문, 숫자 조합 / 특수문자 가능)`,
+};
+
+export const SELECT_TEXT = {
+  roomType: '방 유형',
+  headCount: '인원',
+  devField: '개발 필드',
+};
+
 export const CHECK_IN = 'check-in';

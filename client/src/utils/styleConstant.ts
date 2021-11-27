@@ -9,9 +9,9 @@ export const CHAT = {
 };
 
 export const FORM = {
-  joinWidth: '30rem',
+  joinWidth: '40rem',
   joinHeight: '30rem',
-  loginWidth: '30rem',
+  loginWidth: '40rem',
   loginHeight: '30rem',
   createWidth: '100%',
   createHeight: '30rem',

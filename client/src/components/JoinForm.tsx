@@ -5,7 +5,7 @@ import { postJoin } from '@src/apis';
 import Select from './common/Select';
 import Form from './common/Form';
 import { useDevField } from '@contexts/devFieldContext';
-import { INPUT, TOAST_TIME, TOAST_MESSAGE } from '@utils/constant';
+import { INPUT, TOAST_TIME, TOAST_MESSAGE, PLACEHOLDER_TXT, SELECT_TEXT } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
 import { useToast } from '@src/hooks/useToast';
 import { isEmail, isPassword, isNickname } from '@utils/utils';
@@ -98,8 +98,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
       <Form onSubmit={onSubmitForm} width={FORM.joinWidth} height={FORM.joinHeight}>
         <Input
           type="text"
-          placeholder="Email"
-          id="email"
+          placeholder={PLACEHOLDER_TXT.email}
           value={email}
           onChange={onChangeEmail}
           maxLength={INPUT.emailMaxLen}
@@ -107,8 +106,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
         />
         <Input
           type="text"
-          placeholder="Nickname"
-          id="nickname"
+          placeholder={PLACEHOLDER_TXT.nickname}
           value={nickname}
           onChange={onChangeNickname}
           maxLength={INPUT.nicknameMaxLen}
@@ -116,14 +114,13 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
         />
         <Input
           type="password"
-          placeholder="Password"
-          id="password"
+          placeholder={PLACEHOLDER_TXT.password}
           value={password}
           minLength={INPUT.pwdMinLen}
           maxLength={INPUT.pwdMaxLen}
           onChange={onChangePassword}
         />
-        <Select name={'개발 필드'} options={devFieldOptions} onChange={handleDevFieldSelectChange} />
+        <Select name={SELECT_TEXT.devField} options={devFieldOptions} onChange={handleDevFieldSelectChange} />
         <Button>회원가입</Button>
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>로그인 하러 가기</ModalToggleSpan>
