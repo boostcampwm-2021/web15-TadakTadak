@@ -178,6 +178,8 @@ function UserInfo(): JSX.Element {
     const height = getHeights(data, maxMonths, canvas);
     drawLineChartXaxis(context, canvas);
     drawLineChartYaxis(context, canvas);
+    drawLineChartLines(width, context, height, canvas);
+    drawLineChartDots(context, width, height, data, canvas);
   };
   renderLineGraph();
 
