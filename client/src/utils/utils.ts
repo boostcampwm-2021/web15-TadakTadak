@@ -63,6 +63,23 @@ export const drawLineChartXaxis = (ctx: any, line: any) => {
   }
 };
 
+export const drawLineChartLines = (widths: any, ctx: any, heights: any, line: any) => {
+  let currentX = 40,
+    currentY = line.height - 30;
+
+  widths.forEach(async (w: any, i: any) => {
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    await new Promise((res) => setTimeout(res, 50 * i));
+    ctx.moveTo(currentX, currentY);
+    ctx.strokeStyle = '#ee7f6e';
+    ctx.lineTo(w + 40, line.height - heights[i] - 30);
+    ctx.stroke();
+    currentX = w + 40;
+    currentY = line.height - heights[i] - 30;
+  });
+};
+
 export const getWidths = (line: any) => {
   return Array.from({ length: 12 }, (_, i) => {
     if (i === 0) return 0;
