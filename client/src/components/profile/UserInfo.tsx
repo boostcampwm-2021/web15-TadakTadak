@@ -5,7 +5,15 @@ import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
 import { deleteImage, getUserLogList, getUserLogListPerMonth, postAvatar } from '@src/apis';
-import { drawLineChartXaxis, drawLineChartYaxis, getGrassDateList, getHeights, getWidths } from '@utils/utils';
+import {
+  drawLineChartDots,
+  drawLineChartLines,
+  drawLineChartXaxis,
+  drawLineChartYaxis,
+  getGrassDateList,
+  getHeights,
+  getWidths,
+} from '@utils/utils';
 import { GRASS } from '@utils/styleConstant';
 import { CHECK_IN, PATH } from '@utils/constant';
 
