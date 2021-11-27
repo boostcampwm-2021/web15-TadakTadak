@@ -4,6 +4,8 @@ import { useHistory } from 'react-router';
 import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
+import { TOAST_TIME, TOAST_MESSAGE } from '@utils/constant';
+import { useToast } from '@src/hooks/useToast';
 import { deleteImage, getUserLogList, getUserLogListPerMonth, postAvatar } from '@src/apis';
 import {
   drawLineChartDots,
@@ -137,7 +139,7 @@ function UserInfo(): JSX.Element {
   const [grassList, setGrassList] = useState<string[]>([]);
   const { logUserIn } = useUserFns();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
+  const toast = useToast(TOAST_TIME);
   const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (!fileList || !fileList[0]) return;
@@ -147,6 +149,7 @@ function UserInfo(): JSX.Element {
     const { isOk, data } = await postAvatar(formData);
     if (isOk && data) {
       logUserIn(data);
+      toast('success', TOAST_MESSAGE.updateImgSuccess);
     }
   };
 
@@ -155,6 +158,7 @@ function UserInfo(): JSX.Element {
     if (data) {
       if (data === true) return;
       logUserIn(data);
+      toast('success', TOAST_MESSAGE.deleteImgSuccess);
     }
   };
 
