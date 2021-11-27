@@ -29,6 +29,7 @@ export class AuthService {
 
   async login(loginRequestDto: LoginRequestDto) {
     const user: User = await this.userRepository.findUserByEmailWithDev(loginRequestDto.email);
+    console.log(user);
     if (!user || !Bcrypt.compare(loginRequestDto.password, user.password))
       throw UserException.userLoginInfoNotCorrect();
     const today = LocalDate.now();
@@ -55,6 +56,7 @@ export class AuthService {
       .setPassword(Bcrypt.hash(password))
       .setImageURL(process.env.DEFAULT_IMG)
       .setDevField(devField)
+      .setLastCheckIn(LocalDate.now().minusDays(1))
       .build();
     await this.userRepository.save(user);
     return true;
