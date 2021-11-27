@@ -167,6 +167,15 @@ function UserInfo(): JSX.Element {
     if (!isOk || !data) {
       return;
     }
+    const canvas: HTMLCanvasElement = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    canvas.width = 800;
+    canvas.height = 400;
+    const values = Object.keys(data).map((key) => data[key]);
+    const maxMonths = Math.max.apply(null, values);
+    const width = getWidths(canvas);
+    const height = getHeights(data, maxMonths, canvas);
   };
   renderLineGraph();
 
