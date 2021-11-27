@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
-import { deleteImage, getUserLogList, postAvatar } from '@src/apis';
+import { deleteImage, getUserLogList, getUserLogListPerMonth, postAvatar } from '@src/apis';
 import { getGrassDateList } from '@utils/utils';
 import { GRASS } from '@utils/styleConstant';
 import { CHECK_IN, PATH } from '@utils/constant';
@@ -148,6 +148,18 @@ function UserInfo(): JSX.Element {
       if (data === true) return;
       logUserIn(data);
     }
+  };
+
+  const renderLineGraph = async () => {
+    if (!canvasRef.current) {
+      return;
+    }
+    const { isOk, data } = await getUserLogListPerMonth();
+    if (!isOk || !data) {
+      return;
+    }
+    const canvas: HTMLCanvasElement = canvasRef.current;
+    const context = canvas.getContext('2d');
   };
 
   const loadUserGrassList = useCallback(async () => {
