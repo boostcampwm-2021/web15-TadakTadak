@@ -6,6 +6,7 @@ import { TadakContainer, TadakWrapper } from '@src/pages/Tadak/style';
 import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import VideoController from '@components/room/tadaktadak/VideoController';
 import Videos from '@components/room/tadaktadak/Videos';
+import { useUser } from '@contexts/userContext';
 
 interface LocationProps {
   pathname: string;
@@ -22,6 +23,7 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
   const [start, setStart] = useState<boolean>(false);
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
+  const userInfo = useUser();
 
   useEffect(() => {
     const init = async () => {
@@ -57,7 +59,7 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
         });
       });
 
-      await client.join(agoraAppId, uuid, agoraToken, null);
+      await client.join(agoraAppId, uuid, agoraToken, encodeURI(userInfo.nickname ?? ''));
       if (tracks) {
         await client.publish([tracks[0], tracks[1]]);
         await tracks[1].setEnabled(false);
@@ -70,7 +72,7 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
       console.log('init ready');
       init();
     }
-  }, [uuid, agoraAppId, agoraToken, client, ready, tracks]);
+  }, [uuid, agoraAppId, agoraToken, client, ready, tracks, userInfo]);
 
   return (
     <TadakWrapper>

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { FaGithub } from 'react-icons/fa';
 import { postLogin } from '@src/apis';
-import { FORM_DELAY, INPUT } from '@utils/constant';
+import { TOAST_TIME, INPUT, TOAST_MESSAGE } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
-import InfoMessage from './InfoMessage';
 import Form from './common/Form';
 import useInput from '@hooks/useInput';
 import { useUserFns } from '@contexts/userContext';
+import { useToast } from '@src/hooks/useToast';
 
 const Container = styled.div`
   display: flex;
@@ -33,17 +32,6 @@ const Button = styled.button`
   border-radius: 1rem;
 `;
 
-const GithubLoginButton = styled.button`
-  ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.black};
-  color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.paddings.sm};
-  border-radius: 1rem;
-  & :first-child {
-    margin-right: ${({ theme }) => theme.margins.base};
-  }
-`;
-
 const ModalToggleSpan = styled.span`
   width: 100%;
   margin-top: ${({ theme }) => theme.margins.lg};
@@ -64,17 +52,12 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const { logUserIn } = useUserFns();
-  const [message, setMessage] = useState('');
-
-  const showMessage = (msg: string) => setMessage(msg);
-  const onClickGithubLogin = () => {
-    // Github Login request
-  };
+  const toast = useToast(TOAST_TIME);
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
-      showMessage('모두 입력해주세요');
+      toast('error', TOAST_MESSAGE.inputEmpty);
       return;
     }
     const requestBody = { email, password };
@@ -82,19 +65,11 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
     if (isOk && data) {
       logUserIn(data);
       setModal(false);
+      toast('success', TOAST_MESSAGE.loginSuccess);
       return;
     }
-    showMessage('이메일 및 비밀번호를 확인해주세요');
+    toast('error', TOAST_MESSAGE.loginConfirm);
   };
-
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(''), FORM_DELAY * 1000);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [message]);
 
   return (
     <Container>
@@ -117,11 +92,6 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
           onChange={onChangePassword}
         />
         <Button>로그인</Button>
-        <GithubLoginButton onClick={onClickGithubLogin}>
-          <FaGithub fill="#fff" />
-          Github 로그인
-        </GithubLoginButton>
-        {message && <InfoMessage message={message} />}
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>회원가입 하러 가기</ModalToggleSpan>
     </Container>

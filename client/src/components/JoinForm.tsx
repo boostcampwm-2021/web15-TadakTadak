@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import useInput from '@hooks/useInput';
 import { postJoin } from '@src/apis';
-import { FaGithub } from 'react-icons/fa';
-import InfoMessage from './InfoMessage';
 import Select from './common/Select';
 import Form from './common/Form';
 import { useDevField } from '@contexts/devFieldContext';
-import { INPUT, FORM_DELAY } from '@utils/constant';
+import { INPUT, TOAST_TIME, TOAST_MESSAGE } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
+import { useToast } from '@src/hooks/useToast';
 
 const Container = styled.div`
   display: flex;
@@ -35,18 +34,6 @@ const Button = styled.button`
   border-radius: 1rem;
 `;
 
-const GithubLoginButton = styled.button`
-  ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.black};
-  color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.paddings.sm};
-  width: 16rem;
-  border-radius: 1rem;
-  & :first-child {
-    margin-right: ${({ theme }) => theme.margins.base};
-  }
-`;
-
 const ModalToggleSpan = styled.span`
   display: block;
   width: 100%;
@@ -68,40 +55,26 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const [message, setMessage] = useState('');
   const [devField, setDevField] = useState('');
   const devFieldOptions = useDevField();
-
-  const showMessage = (msg: string) => setMessage(msg);
-
-  const onClickGithubJoin = () => {
-    // Github Join request
-  };
+  const toast = useToast(TOAST_TIME);
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !nickname || !password || !devField) {
-      return showMessage('모두 입력해주세요');
+      return toast('error', TOAST_MESSAGE.inputEmpty);
     }
     const requestBody = { email, nickname, password, devField: +devField };
-    const isOk = await postJoin(requestBody);
+    const { isOk } = await postJoin(requestBody);
     if (!isOk) {
-      return showMessage('이미 등록되어 있는 이메일입니다.');
+      return toast('error', TOAST_MESSAGE.alreadyEmail);
     }
     setIsLogin(true);
+    toast('success', TOAST_MESSAGE.joinSuccess);
   };
 
   const handleDevFieldSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>
     setDevField((e.target[e.target.selectedIndex] as HTMLOptionElement).value);
-
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(''), FORM_DELAY * 1000);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [message]);
 
   return (
     <Container>
@@ -135,11 +108,6 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
         />
         <Select name={'개발 필드'} options={devFieldOptions} onChange={handleDevFieldSelectChange} />
         <Button>회원가입</Button>
-        <GithubLoginButton onClick={onClickGithubJoin}>
-          <FaGithub fill="#fff" />
-          Github 회원가입
-        </GithubLoginButton>
-        {message && <InfoMessage message={message} />}
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>로그인 하러 가기</ModalToggleSpan>
     </Container>
