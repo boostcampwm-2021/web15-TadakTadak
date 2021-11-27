@@ -5,7 +5,7 @@ import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
 import { deleteImage, getUserLogList, getUserLogListPerMonth, postAvatar } from '@src/apis';
-import { getGrassDateList, getHeights, getWidths } from '@utils/utils';
+import { drawLineChartXaxis, drawLineChartYaxis, getGrassDateList, getHeights, getWidths } from '@utils/utils';
 import { GRASS } from '@utils/styleConstant';
 import { CHECK_IN, PATH } from '@utils/constant';
 
@@ -168,6 +168,8 @@ function UserInfo(): JSX.Element {
     const height = getHeights(data, maxMonths, canvas);
     drawLineChartXaxis(context, canvas);
     drawLineChartYaxis(context, canvas);
+    drawLineChartLines(width, context, height, canvas);
+    drawLineChartDots(context, width, height, data, canvas);
   };
 
   const loadUserGrassList = useCallback(async () => {
