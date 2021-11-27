@@ -137,3 +137,8 @@ export const getUserLogList = async (): Promise<HTTPResponse<UserLogList[]>> => 
   const response = await fetchGet<UserLogList[]>('/api/user/log/year');
   return response;
 };
+
+export const getUserLogListPerMonth = async (): Promise<HTTPResponse<any>> => {
+  const response = await fetchGet<any>('/api/user/log/month');
+  return response;
+};
