@@ -194,7 +194,6 @@ function UserInfo(): JSX.Element {
         }
       });
     }
-    console.log(oneYearGrassDateList);
     return setGrassList([...oneYearGrassDateList]);
   }, []);
 
