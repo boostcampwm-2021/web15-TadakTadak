@@ -179,15 +179,14 @@ function UserInfo(): JSX.Element {
           </ButtonWrapper>
         </ImageWrapper>
       </Wrapper>
-      <Wrapper>
-        <InfoSet>
-          <Legend>{`잔디 🔥`}</Legend>
-          <GrassContainer>
-            {grassList.length &&
-              grassList.map((date, idx) => (date === CHECK_IN ? <FireBlock key={idx} /> : <GreyBlock key={idx} />))}
-          </GrassContainer>
-        </InfoSet>
-      </Wrapper>
+
+      <InfoSet>
+        <Legend>{`잔디 🔥`}</Legend>
+        <GrassContainer>
+          {grassList.length &&
+            grassList.map((date, idx) => (date === CHECK_IN ? <FireBlock key={idx} /> : <GreyBlock key={idx} />))}
+        </GrassContainer>
+      </InfoSet>
     </div>
   );
 }
