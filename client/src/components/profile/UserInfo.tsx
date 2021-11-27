@@ -185,7 +185,6 @@ function UserInfo(): JSX.Element {
     drawLineChartLines(width, context, height, canvas.height);
     drawLineChartDots(context, width, height, data, canvas.height);
   };
-  renderLineGraph();
 
   const loadUserGrassList = useCallback(async () => {
     const oneYearGrassDateList = getGrassDateList(1);
@@ -198,6 +197,7 @@ function UserInfo(): JSX.Element {
         }
       });
     }
+    renderLineGraph();
     return setGrassList([...oneYearGrassDateList]);
   }, []);
 
