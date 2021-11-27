@@ -5,10 +5,11 @@ import { postRoom } from '@src/apis';
 import Select from '@components/common/Select';
 import Form from '@components/common/Form';
 import { adminOptions } from '@utils/utils';
-import { INPUT, RoomType } from '@utils/constant';
+import { INPUT, RoomType, TOAST_TIME, TOAST_MESSAGE } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
-import useInput from '@hooks/useInput';
 import { useUser } from '@contexts/userContext';
+import useInput from '@hooks/useInput';
+import { useToast } from '@hooks/useToast';
 
 const Container = styled.div`
   ${({ theme }) => theme.flexCenter}
@@ -42,9 +43,10 @@ const roomOptions: OptionType[] = [
 const CreateForm = (): JSX.Element => {
   const [roomTitle, onChangeRoomTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [roomType, setRoomType] = useState<string>(RoomType.tadak);
+  const [roomType, setRoomType] = useState<string>('');
   const [maxHeadcount, setMaxHeadcount] = useState('');
   const user = useUser();
+  const toast = useToast(TOAST_TIME);
   const history = useHistory();
 
   const handleRoomSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>
@@ -54,9 +56,19 @@ const CreateForm = (): JSX.Element => {
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!roomTitle || !roomType || !maxHeadcount) {
+    if (!roomTitle) {
+      toast('error', TOAST_MESSAGE.emptyTitle);
       return;
     }
+    if (!roomType) {
+      toast('error', TOAST_MESSAGE.emptyRoomType);
+      return;
+    }
+    if (!maxHeadcount) {
+      toast('error', TOAST_MESSAGE.emptyHeadcount);
+      return;
+    }
+
     const requestBody = {
       userId: user.id,
       title: roomTitle,
@@ -68,8 +80,9 @@ const CreateForm = (): JSX.Element => {
     if (isOk && data) {
       const { uuid } = data;
       const pathname = data.roomType === RoomType.tadak ? `/room/tadak/${uuid}` : `/room/campfire/${uuid}`;
-      history.push(pathname, data);
+      return history.push(pathname, data);
     }
+    toast('error', TOAST_MESSAGE.alreadyRoom);
   };
 
   return (
@@ -81,7 +94,6 @@ const CreateForm = (): JSX.Element => {
           id="roomTitle"
           onChange={onChangeRoomTitle}
           maxLength={INPUT.roomTitleMaxLen}
-          required={true}
           autoComplete="new-password"
         />
         <Input
