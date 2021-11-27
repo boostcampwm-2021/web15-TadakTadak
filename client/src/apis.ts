@@ -134,6 +134,6 @@ interface UserLogList {
 }
 
 export const getUserLogList = async (): Promise<HTTPResponse<UserLogList[]>> => {
-  const response = await fetchGet<UserLogList[]>('/api/log/year');
+  const response = await fetchGet<UserLogList[]>('/api/user/log/year');
   return response;
 };

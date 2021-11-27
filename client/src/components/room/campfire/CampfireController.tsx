@@ -9,6 +9,8 @@ import Button from '@components/common/Button';
 import { deleteRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
 import { usePlayBgm, usePlayBgmFns } from '@contexts/bgmContext';
+import socket from '@src/socket/socket';
+import { SocketEvents } from '@socket/socketEvents';
 
 const ButtonContainer = styled.div`
   position: relative;
@@ -55,7 +57,10 @@ const CampfireController = ({ track, setStart, uuid, ownerId }: CampfireControll
   };
 
   const leaveChannel = useCallback(async () => {
-    if (ownerId === user.id) deleteRoom({ uuid });
+    if (ownerId === user.id) {
+      socket.emit(SocketEvents.deleteRoom, { uuid });
+      deleteRoom({ uuid });
+    }
     await client.leave();
     client.removeAllListeners();
     track.close();

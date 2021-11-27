@@ -2,16 +2,18 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { TiDelete } from 'react-icons/ti';
 import { useUser } from '@contexts/userContext';
+import { useTheme } from '@contexts/themeContext';
 import useInput from '@hooks/useInput';
 import socket from '@socket/socket';
 import Chat from './Chat';
-import { INPUT } from '@utils/constant';
+import { INPUT, RoomType } from '@utils/constant';
 import { CHAT } from '@utils/styleConstant';
 import { SocketEvents } from '@socket/socketEvents';
 
 interface ChatListProps<T> {
   chats: Array<Record<string, T | undefined>>;
   uuid: string;
+  roomType?: string;
   setChats: React.Dispatch<React.SetStateAction<Array<Record<string, T | undefined>>>>;
 }
 
@@ -27,9 +29,10 @@ const List = styled.ul`
   ${({ theme }) => theme.flexColumn};
   padding: ${({ theme }) => theme.paddings.sm};
   overflow: auto;
+  white-space: pre-wrap;
 `;
 
-const InputDiv = styled.div`
+const TextAreaWrapper = styled.div`
   position: relative;
   width: 100%;
   height: ${CHAT.inputHeight};
@@ -38,14 +41,17 @@ const InputDiv = styled.div`
   align-items: center;
 `;
 
-const Input = styled.input`
+const TextArea = styled.textarea`
   width: ${CHAT.inputWidth};
-  height: 5rem;
+  height: 6rem;
   font-size: ${CHAT.fontSize};
   padding: ${({ theme }) => theme.paddings.sm};
   border: 2px solid ${({ theme }) => theme.colors.borderGrey};
   border-radius: ${({ theme }) => theme.borderRadius.base};
-  background-color: ${({ theme }) => theme.colors.bgWhite};
+  background-color: transparent;
+  ::placeholder {
+    font-size: ${CHAT.fontSize};
+  }
 `;
 
 const Line = styled.div`
@@ -58,7 +64,7 @@ const Line = styled.div`
 const InitBtn = styled.span`
   position: absolute;
   bottom: 1rem;
-  right: 2rem;
+  right: 3rem;
   .icon:hover {
     opacity: 0.9;
   }
@@ -71,8 +77,9 @@ const InitBtnStyle = {
   cursor: 'pointer',
 };
 
-const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element => {
+const ChatList = ({ uuid, chats, setChats, roomType }: ChatListProps<string>): JSX.Element => {
   const { nickname } = useUser();
+  const theme = useTheme();
   const [message, onChangeMessage, onResetMessage] = useInput('');
   const scrollRef = useRef<HTMLUListElement>(null);
 
@@ -84,7 +91,14 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   }, [onResetMessage, nickname, message, uuid]);
 
   const onKeyPress = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && sendMessage(),
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter') {
+        if (!e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      }
+    },
     [sendMessage],
   );
 
@@ -105,12 +119,18 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
   return (
     <Container>
       <List ref={scrollRef}>
-        {chats.length > 0 && Object.values(chats).map((chat, idx) => <Chat key={idx} chat={chat} />)}
+        {chats.length > 0 &&
+          Object.values(chats).map((chat, idx) => (
+            <Chat
+              key={idx}
+              chat={chat}
+              bgChatBox={roomType === RoomType.campfire ? theme.colors.bgChatBox : undefined}
+            />
+          ))}
       </List>
       <Line />
-      <InputDiv>
-        <Input
-          type="text"
+      <TextAreaWrapper>
+        <TextArea
           placeholder="Message..."
           value={message}
           onChange={onChangeMessage}
@@ -122,7 +142,7 @@ const ChatList = ({ uuid, chats, setChats }: ChatListProps<string>): JSX.Element
             <TiDelete style={InitBtnStyle} onClick={onResetMessage} />
           </InitBtn>
         )}
-      </InputDiv>
+      </TextAreaWrapper>
     </Container>
   );
 };

@@ -31,7 +31,8 @@ const GlobalStyles = createGlobalStyle`
   }
   button,
   input,
-  select {
+  select,
+  textarea {
     outline: none;
     background-color:transparent;
     border:none;

@@ -33,6 +33,8 @@ interface Colors {
   white: string;
   bgWhite: string;
   bgGreen: string;
+  bgCampfire: string;
+  bgChatBox: string;
   blue: string;
   blue2: string;
   borderGrey: string;

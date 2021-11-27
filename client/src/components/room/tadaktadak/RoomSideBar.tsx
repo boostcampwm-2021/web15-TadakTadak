@@ -6,9 +6,12 @@ import Tab from '@components/common/Tab';
 import ChatList from './ChatList';
 import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
+import { useTheme } from '@contexts/themeContext';
 import socket from '@socket/socket';
 import { postLeaveRoom } from '@src/apis';
 import { SocketEvents } from '@socket/socketEvents';
+import { RoomType } from '@utils/constant';
+import { useClient } from './videoConfig';
 
 const SideBarTabs = styled.div`
   display: flex;
@@ -23,10 +26,13 @@ interface RoomSideBarProps {
   uuid: string;
   hostNickname: string | undefined;
   maxHeadcount: number;
+  roomType?: string;
 }
 
-const RoomSideBar = ({ uuid, hostNickname, maxHeadcount }: RoomSideBarProps): JSX.Element => {
+const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBarProps): JSX.Element => {
   const { nickname, devField, imageUrl } = useUser();
+  const theme = useTheme();
+  const client = useClient();
   const history = useHistory();
   const [tabs, setTabs] = useState({ ...initialTabState });
   const [chats, setChats] = useState<Array<Record<string, string | undefined>>>([]);
@@ -43,9 +49,10 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount }: RoomSideBarProps): JS
   }, [nickname, uuid]);
 
   const exitRoom = useCallback(() => {
-    leaveSocket();
+    client.removeAllListeners();
+    client.leave();
     history.replace('/main');
-  }, [history, leaveSocket]);
+  }, [history, client]);
 
   const registerParticipants = useCallback(
     (userList: { [key: string]: any }) => {
@@ -78,11 +85,13 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount }: RoomSideBarProps): JS
       }
       bottomMenus={
         <>
-          {isChat && <ChatList chats={chats} uuid={uuid} setChats={setChats} />}
+          {isChat && <ChatList chats={chats} uuid={uuid} setChats={setChats} roomType={roomType} />}
           {isParticipant && <ParticipantList participants={participants} hostNickname={hostNickname} uuid={uuid} />}
         </>
       }
       bottomMenuHeight={'100%'}
+      bgColor={roomType === RoomType.campfire ? theme.colors.bgCampfire : undefined}
+      borderColor={roomType === RoomType.campfire ? 'transparent' : undefined}
     />
   );
 };

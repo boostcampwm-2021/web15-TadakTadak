@@ -7,4 +7,5 @@ export enum SocketEvents {
   receiveUserList = 'user-list',
   canIEnter = 'verify-room',
   youCanEnter = 'is-verify',
+  deleteRoom = 'remove-room',
 }
