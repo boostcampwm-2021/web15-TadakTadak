@@ -28,8 +28,9 @@ const Legend = styled.legend`
 `;
 
 const Info = styled.div`
-  font-size: 7rem;
+  font-size: 5rem;
   color: ${({ theme }) => theme.colors.bgGreen};
+  width: 40rem;
 `;
 
 const InfoSet = styled.fieldset`
