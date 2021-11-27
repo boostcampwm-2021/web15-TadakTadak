@@ -48,3 +48,16 @@ export const chatTimeFormatting = (time?: string): string => {
   }
   return '';
 };
+
+export const getWidths = (line: any) => {
+  return Array.from({ length: 12 }, (_, i) => {
+    if (i === 0) return 0;
+    return (line.width / 12) * i;
+  });
+};
+export const getHeights = (months: any, maxMonths: any, line: any) => {
+  return Array.from({ length: 12 }, (_, i) => {
+    if (months[i + 1]) return (months[i + 1] / maxMonths) * line.height * 0.8;
+    return 0;
+  });
+};
