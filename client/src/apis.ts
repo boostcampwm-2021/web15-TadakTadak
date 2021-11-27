@@ -35,6 +35,11 @@ export const postJoin = async (body: PostJoin): Promise<HTTPResponse<boolean>> =
   return response;
 };
 
+export const getVisitCount = async (): Promise<HTTPResponse<number>> => {
+  const response = await fetchGet<number>('/api/history');
+  return response;
+};
+
 interface PatchUpdate {
   originalName: string;
   nickname: string;
