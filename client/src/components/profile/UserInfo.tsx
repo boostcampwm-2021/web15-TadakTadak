@@ -5,7 +5,15 @@ import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
 import { deleteImage, getUserLogList, getUserLogListPerMonth, postAvatar } from '@src/apis';
-import { getGrassDateList } from '@utils/utils';
+import {
+  getGrassDateList,
+  getHeights,
+  getWidths,
+  drawLineChartDots,
+  drawLineChartLines,
+  drawLineChartXaxis,
+  drawLineChartYaxis,
+} from '@utils/utils';
 import { GRASS } from '@utils/styleConstant';
 import { CHECK_IN, PATH } from '@utils/constant';
 
@@ -151,7 +159,18 @@ function UserInfo(): JSX.Element {
     }
   };
 
-  const loadUserGrassList = useCallback(async () => {
+  const renderLineGraph = async () => {
+    if (!canvasRef.current) {
+      return;
+    }
+    const { isOk, data } = await getUserLogListPerMonth();
+    if (!isOk || !data) {
+      return;
+    }
+  };
+  renderLineGraph();
+
+  const loadUserLogList = useCallback(async () => {
     const oneYearGrassDateList = getGrassDateList(new Date(), 1);
     const { isOk, data } = await getUserLogList();
     if (isOk && data) {
@@ -169,8 +188,8 @@ function UserInfo(): JSX.Element {
     if (!user.login) {
       history.replace(PATH.introduction);
     }
-    loadUserGrassList();
-  }, [loadUserGrassList, history, user.login]);
+    loadUserLogList();
+  }, [loadUserLogList, history, user.login]);
 
   return (
     <div>
