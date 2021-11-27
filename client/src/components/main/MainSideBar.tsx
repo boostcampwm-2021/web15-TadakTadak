@@ -140,7 +140,7 @@ const MainSideBar = ({ page }: SideBarProps): JSX.Element => {
     const { isOk } = await postLogout();
     if (isOk) {
       logUserOut();
-      if (history.location.pathname !== PATH.introduction) location.href = PATH.main;
+      if (history.location.pathname === PATH.profile) location.href = PATH.main;
       toast('success', TOAST_MESSAGE.logoutSuccess);
     }
   };
