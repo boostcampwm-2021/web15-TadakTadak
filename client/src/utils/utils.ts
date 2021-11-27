@@ -80,6 +80,22 @@ export const drawLineChartLines = (widths: any, ctx: any, heights: any, line: an
   });
 };
 
+export const drawLineChartDots = (ctx: any, widths: any, heights: any, months: any, line: any) => {
+  ctx.beginPath();
+  widths.forEach((w: any, i: any) => {
+    ctx.fillStyle = '#ee7f6e';
+    if (heights[i] > 0) {
+      ctx.beginPath();
+      ctx.arc(w + 40, line.height - heights[i] - 30, 6, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#ee7f6e';
+      ctx.fillText(months[i + 1], w + 40, line.height - heights[i] - 40);
+    }
+  });
+  ctx.stroke();
+};
+
 export const getWidths = (line: any) => {
   return Array.from({ length: 12 }, (_, i) => {
     if (i === 0) return 0;
