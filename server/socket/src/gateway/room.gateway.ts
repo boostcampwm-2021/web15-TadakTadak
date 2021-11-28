@@ -19,8 +19,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
 
-  constructor(private readonly roomService: RoomService) {
-  }
+  constructor(private readonly roomService: RoomService) {}
 
   @SubscribeMessage(RoomEvent.MsgToServer)
   handleMessage(client: Socket, { uuid, message, nickname }: IMessage): void {
