@@ -30,9 +30,13 @@ export class RoomService {
       if (err || !data) throw RoomException.roomNotFound();
       const findRoom = JSON.parse(data);
       const findMyNickname = findRoom['userList'][client.id].nickname;
-      const numberOfUsers = Object.keys(findRoom['userList']).length;
-      if (numberOfUsers === 1 || findRoom.owner === findMyNickname) {
+      if (findRoom.owner === findMyNickname) {
+        for (const userInfo of Object.entries(findRoom.userList)) {
+          const socketId: string = userInfo[0];
+          this.deRegisterUserBySocketID(socketId);
+        }
         this.deRegisterRoom(uuid);
+        this.emitEventForEmptyUserList(server, uuid);
         return;
       }
       delete findRoom['userList'][client.id];
@@ -75,7 +79,7 @@ export class RoomService {
           this.deRegisterUserBySocketID(socketId);
         }
         this.deRegisterRoom(uuid);
-        server.to(uuid).emit(RoomEvent.UserList, {});
+        this.emitEventForEmptyUserList(server, uuid);
       }
     });
   }
@@ -120,7 +124,7 @@ export class RoomService {
           }
           this.deRegisterRoom(uuid);
           await this.deleteRoomRequestToApiServer(uuid);
-          server.to(uuid).emit(RoomEvent.UserList, {});
+          this.emitEventForEmptyUserList(server, uuid);
         } else {
           for (const userInfo of Object.entries(findRoom.userList)) {
             const [socketId, socketData]: any = userInfo;
@@ -166,6 +170,10 @@ export class RoomService {
       if (err || !data) throw RoomException.roomNotFound();
       server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
     });
+  }
+
+  emitEventForEmptyUserList(server: Server, uuid: string) {
+    server.to(uuid).emit(RoomEvent.UserList, {});
   }
 
   emitEventForVerify({ client, server }, isVerify: boolean) {
