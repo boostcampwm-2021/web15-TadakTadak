@@ -89,11 +89,9 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     if (!kickNickname) return;
     pubClient.get(uuid, (err, data) => {
       if (err || !data) {
-        console.log(err);
         return;
       }
       const findRoom = JSON.parse(data);
-      console.log(findRoom);
       const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
       const findMyNickname = findRoom['userList'][client.id].nickname;
       if (findOwnerNickname !== findMyNickname) throw WsException;
