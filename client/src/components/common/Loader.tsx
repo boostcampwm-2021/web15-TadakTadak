@@ -1,21 +1,31 @@
 import { memo, useContext } from 'react';
 import ReactLoading from 'react-loading';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ThemeContext } from 'styled-components';
 
-const LoaderWrap = styled.div`
+interface LoaderProps {
+  isWholeScreen?: boolean;
+}
+
+const LoaderWrap = styled.div<LoaderProps>`
+  ${({ theme }) => theme.flexCenter};
   width: 100%;
   height: 80%;
-  display: flex;
-  justify-content: center;
+  ${({ isWholeScreen }) =>
+    isWholeScreen &&
+    css`
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+    `}
   text-align: center;
-  align-items: center;
 `;
 
-const Loader = (): JSX.Element => {
+const Loader = ({ isWholeScreen = false }: LoaderProps): JSX.Element => {
   const themeContext = useContext(ThemeContext);
   return (
-    <LoaderWrap>
+    <LoaderWrap isWholeScreen={isWholeScreen}>
       <ReactLoading type="spin" color={themeContext.colors.blue2} />
     </LoaderWrap>
   );
