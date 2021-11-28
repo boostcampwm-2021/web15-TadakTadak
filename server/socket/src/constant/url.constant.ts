@@ -1,1 +1,1 @@
-export const baseURL = process.env.NODE_ENV === 'production' ? 'https://api.tadaktadak.com' : 'http://localhost:3000';
+export const baseURL = process.env.NODE_ENV === 'production' ? process.env.API_SERVER_URL : 'http://localhost:3000';
