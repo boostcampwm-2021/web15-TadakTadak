@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
-import { useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
+import { TadakContainer, TadakWrapper } from './style';
+import { useClient, useMicrophoneAndCameraTracks } from '@components/room/tadaktadak/videoConfig';
 import { RoomInfo } from '@components/main/RoomList';
-import { TadakContainer, TadakWrapper } from '@src/pages/Tadak/style';
 import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import VideoController from '@components/room/tadaktadak/VideoController';
 import Videos from '@components/room/tadaktadak/Videos';
+import Loader from '@components/common/Loader';
 import { useUser } from '@contexts/userContext';
 
 interface LocationProps {
@@ -76,11 +77,17 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
 
   return (
     <TadakWrapper>
-      {start && <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />}
-      <TadakContainer>
-        {start && tracks && <Videos users={users} tracks={tracks} />}
-        {ready && tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
-      </TadakContainer>
+      {!start ? (
+        <Loader isWholeScreen={true} />
+      ) : (
+        <>
+          <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
+          <TadakContainer>
+            {tracks && <Videos users={users} tracks={tracks} />}
+            {tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
+          </TadakContainer>
+        </>
+      )}
     </TadakWrapper>
   );
 };
