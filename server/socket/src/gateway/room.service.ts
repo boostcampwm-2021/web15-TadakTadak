@@ -11,19 +11,14 @@ import { baseURL } from '../constant/url.constant';
 
 @Injectable()
 export class RoomService {
-  joinRoom(client: Socket, server: Server, { field, img, nickname, uuid, maxHead }: IRoomRequest) {
+  joinRoom(client: Socket, server: Server, iRoomRequest: IRoomRequest) {
+    const { uuid } = iRoomRequest;
     Redis.get(uuid, (err, data) => {
       if (err) throw RoomException.roomCreateError();
       if (!data) {
-        // Create new Room
-        const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {}, kickList: {} });
-        newRoom.userList = Object({ [client.id]: { nickname, img, field } });
-        this.saveRoomByUUID(uuid, newRoom);
+        this.createRoom(client, iRoomRequest);
       } else {
-        // Update Room
-        const findRoom = JSON.parse(data);
-        findRoom.userList[client.id] = Object({ nickname, img, field });
-        this.saveRoomByUUID(uuid, findRoom);
+        this.updateRoom(client, data, iRoomRequest);
       }
       Redis.set(client.id, uuid);
       this.emitEventForUserList(server, uuid);
@@ -145,6 +140,17 @@ export class RoomService {
         }
       });
     });
+  }
+
+  createRoom(client: Socket, { field, img, nickname, uuid, maxHead }: IRoomRequest) {
+    const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {}, kickList: {} });
+    newRoom.userList = Object({ [client.id]: { nickname, img, field } });
+    this.saveRoomByUUID(uuid, newRoom);
+  }
+  updateRoom(client: Socket, roomData: string, { uuid, nickname, img, field }: IRoomRequest) {
+    const findRoom = JSON.parse(roomData);
+    findRoom.userList[client.id] = Object({ nickname, img, field });
+    this.saveRoomByUUID(uuid, findRoom);
   }
 
   emitEventForUserList(server: Server, uuid: string) {
