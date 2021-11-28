@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import 'dotenv/config';
 import { INestApplication } from '@nestjs/common';
 import { RedisIoAdapter } from './redis.adapter';
-import { CorsConfig } from './gateway/config/cors.config';
+import { CorsConfig } from './config/cors.config';
 
 async function getNestApplicationByEnv(): Promise<INestApplication> {
   return await NestFactory.create(AppModule);
