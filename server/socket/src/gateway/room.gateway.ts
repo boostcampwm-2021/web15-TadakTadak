@@ -5,7 +5,6 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsException,
 } from '@nestjs/websockets';
 
 import { Server, Socket } from 'socket.io';
@@ -16,6 +15,8 @@ import { pubClient } from '../redis.adapter';
 import { RoomEvent } from './room.event';
 import axios from 'axios';
 import { baseURL } from '../constant/url.constant';
+import { RoomException } from '../exception/room.exception';
+import { ClientException } from '../exception/client.exception';
 
 @WebSocketGateway({ cors: true })
 export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -38,7 +39,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     client.leave(client.id);
     client.join(uuid);
     pubClient.get(uuid, (err, data) => {
-      if (err) throw WsException;
+      if (err) throw RoomException.roomCreateError();
       if (!data) {
         // Create new Room
         const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {}, kickList: {} });
@@ -64,7 +65,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleLeaveRoom(client: Socket, { uuid }: IRoomRequest): void {
     client.leave(uuid);
     pubClient.get(uuid, (err, data) => {
-      if (err || !data) throw WsException;
+      if (err || !data) throw RoomException.roomNotFound();
       const findRoom = JSON.parse(data);
       const findMyNickname = findRoom['userList'][client.id].nickname;
       const numberOfUsers = Object.keys(findRoom['userList']).length;
@@ -76,9 +77,8 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       pubClient.set(uuid, JSON.stringify(findRoom));
       pubClient.del(client.id);
       pubClient.get(uuid, (err, data) => {
-        if (typeof data === 'string') {
-          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
-        }
+        if (err || !data) throw RoomException.roomNotFound();
+        this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
       });
       return;
     });
@@ -88,13 +88,11 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleKickRoom(client: Socket, { uuid, kickNickname }: IRoomRequest): void {
     if (!kickNickname) return;
     pubClient.get(uuid, (err, data) => {
-      if (err || !data) {
-        return;
-      }
+      if (err || !data) throw RoomException.roomNotFound();
       const findRoom = JSON.parse(data);
       const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
       const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findOwnerNickname !== findMyNickname) throw WsException;
+      if (findOwnerNickname !== findMyNickname) throw ClientException.clientUnauthorized();
       for (const userInfo of Object.entries(findRoom.userList)) {
         const socketId: string = userInfo[0];
         const socketData: any = userInfo[1];
@@ -107,9 +105,8 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       }
       pubClient.set(uuid, JSON.stringify(findRoom));
       pubClient.get(uuid, (err, data) => {
-        if (typeof data === 'string') {
-          this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
-        }
+        if (err || !data) throw RoomException.roomNotFound();
+        this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
       });
       return;
     });
@@ -119,7 +116,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleRemoveRoom(client: Socket, { uuid }: IRoomRequest): void {
     client.leave(uuid);
     pubClient.get(uuid, (err, data) => {
-      if (err || !data) throw WsException;
+      if (err || !data) throw RoomException.roomNotFound();
       const findRoom = JSON.parse(data);
       const findMyNickname = findRoom['userList'][client.id].nickname;
       if (findRoom.owner === findMyNickname) {
@@ -137,13 +134,13 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleVerifyRoom(client: Socket, { uuid, nickname }: IRoomRequest): void {
     client.join(client.id);
     pubClient.get(client.id, (err, data) => {
-      if (err) return WsException;
+      if (err) throw RoomException.roomVerifyError();
       if (data) {
         this.server.to(client.id).emit(RoomEvent.IsVerify, false);
         return;
       }
       pubClient.get(uuid, (err, data) => {
-        if (err) return WsException;
+        if (err) throw RoomException.roomVerifyError();
         if (!data) {
           this.server.to(client.id).emit(RoomEvent.IsVerify, true);
           return;
@@ -175,10 +172,9 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
     pubClient.get(client.id, (err, uuid) => {
-      if (err) return WsException;
-      if (!uuid) return;
+      if (err || !uuid) throw ClientException.clientNotFound();
       pubClient.get(uuid, async (err, data) => {
-        if (err || !data) throw WsException;
+        if (err || !data) throw RoomException.roomNotFound();
         const findRoom = JSON.parse(data);
         const findMyNickname = findRoom['userList'][client.id].nickname;
         if (findMyNickname === findRoom.owner) {
@@ -205,9 +201,8 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
           }
           pubClient.set(uuid, JSON.stringify(findRoom));
           pubClient.get(uuid, (err, data) => {
-            if (typeof data === 'string') {
-              this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
-            }
+            if (err || !data) throw RoomException.roomNotFound();
+            this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
           });
         }
       });
