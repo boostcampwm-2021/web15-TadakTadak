@@ -41,7 +41,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       if (err) throw WsException;
       if (!data) {
         // Create new Room
-        const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {} });
+        const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {}, kickList: {} });
         newRoom.userList = Object({ [client.id]: { nickname, img, field } });
         pubClient.set(uuid, JSON.stringify(newRoom));
       } else {
@@ -88,15 +88,21 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleKickRoom(client: Socket, { uuid, kickNickname }: IRoomRequest): void {
     if (!kickNickname) return;
     pubClient.get(uuid, (err, data) => {
-      if (err || !data) throw WsException;
+      if (err || !data) {
+        console.log(err);
+        return;
+      }
       const findRoom = JSON.parse(data);
+      console.log(findRoom);
+      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
       const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findRoom.owner !== findMyNickname) throw WsException;
+      if (findOwnerNickname !== findMyNickname) throw WsException;
       for (const userInfo of Object.entries(findRoom.userList)) {
         const socketId: string = userInfo[0];
         const socketData: any = userInfo[1];
         if (socketData.nickname === kickNickname) {
           delete findRoom['userList'][socketId];
+          findRoom.kickList[kickNickname] = Object({ time: LocalDateTime.now() });
           pubClient.del(socketId);
           break;
         }
@@ -130,21 +136,33 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   }
 
   @SubscribeMessage(RoomEvent.VerifyRoom)
-  handleVerifyRoom(client: Socket, { uuid }: IRoomRequest): void {
+  handleVerifyRoom(client: Socket, { uuid, nickname }: IRoomRequest): void {
     client.join(client.id);
-    pubClient.get(uuid, (err, data) => {
+    pubClient.get(client.id, (err, data) => {
       if (err) return WsException;
-      if (!data) {
-        this.server.to(client.id).emit(RoomEvent.IsVerify, true);
+      if (data) {
+        this.server.to(client.id).emit(RoomEvent.IsVerify, false);
         return;
       }
-      const findRoom: any = JSON.parse(data);
-      const numberOfUsers: number = Object.keys(findRoom['userList']).length;
-      if (numberOfUsers < findRoom.maxHead) {
-        this.server.to(client.id).emit(RoomEvent.IsVerify, true);
-        return;
-      }
-      this.server.to(client.id).emit(RoomEvent.IsVerify, false);
+      pubClient.get(uuid, (err, data) => {
+        if (err) return WsException;
+        if (!data) {
+          this.server.to(client.id).emit(RoomEvent.IsVerify, true);
+          return;
+        }
+        const findRoom: any = JSON.parse(data);
+        const isKickUser = findRoom.kickList[nickname];
+        if (isKickUser) {
+          this.server.to(client.id).emit(RoomEvent.IsVerify, false);
+          return;
+        }
+        const numberOfUsers: number = Object.keys(findRoom['userList']).length;
+        if (numberOfUsers < findRoom.maxHead) {
+          this.server.to(client.id).emit(RoomEvent.IsVerify, true);
+          return;
+        }
+        this.server.to(client.id).emit(RoomEvent.IsVerify, false);
+      });
     });
   }
 
@@ -171,7 +189,6 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
             pubClient.del(socketId);
           }
           pubClient.del(uuid);
-
           await axios.delete(`${baseURL}/api/room/socket/${uuid}`, {
             headers: {
               'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
