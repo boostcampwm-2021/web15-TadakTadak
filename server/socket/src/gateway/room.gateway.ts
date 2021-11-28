@@ -158,5 +158,44 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
+    pubClient.get(client.id, (err, uuid) => {
+      if (err) return WsException;
+      if (!uuid) return;
+      pubClient.get(uuid, async (err, data) => {
+        if (err || !data) throw WsException;
+        const findRoom = JSON.parse(data);
+        const findMyNickname = findRoom['userList'][client.id].nickname;
+        if (findMyNickname === findRoom.owner) {
+          for (const userInfo of Object.entries(findRoom.userList)) {
+            const socketId: string = userInfo[0];
+            pubClient.del(socketId);
+          }
+          pubClient.del(uuid);
+
+          await axios.delete(`${baseURL}/api/room/socket/${uuid}`, {
+            headers: {
+              'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
+            },
+          });
+          this.server.to(uuid).emit(RoomEvent.UserList, {});
+        } else {
+          for (const userInfo of Object.entries(findRoom.userList)) {
+            const socketId: string = userInfo[0];
+            const socketData: any = userInfo[1];
+            if (socketData.nickname === findMyNickname) {
+              delete findRoom['userList'][socketId];
+              pubClient.del(socketId);
+              break;
+            }
+          }
+          pubClient.set(uuid, JSON.stringify(findRoom));
+          pubClient.get(uuid, (err, data) => {
+            if (typeof data === 'string') {
+              this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
+            }
+          });
+        }
+      });
+    });
   }
 }
