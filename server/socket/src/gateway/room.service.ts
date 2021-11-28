@@ -18,12 +18,12 @@ export class RoomService {
         // Create new Room
         const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {}, kickList: {} });
         newRoom.userList = Object({ [client.id]: { nickname, img, field } });
-        Redis.set(uuid, JSON.stringify(newRoom));
+        this.saveRoomByUUID(uuid, newRoom);
       } else {
         // Update Room
         const findRoom = JSON.parse(data);
         findRoom.userList[client.id] = Object({ nickname, img, field });
-        Redis.set(uuid, JSON.stringify(findRoom));
+        this.saveRoomByUUID(uuid, findRoom);
       }
       Redis.set(client.id, uuid);
       Redis.get(uuid, (err, data) => {
@@ -46,7 +46,7 @@ export class RoomService {
         return;
       }
       delete findRoom['userList'][client.id];
-      Redis.set(uuid, JSON.stringify(findRoom));
+      this.saveRoomByUUID(uuid, findRoom);
       Redis.del(client.id);
       Redis.get(uuid, (err, data) => {
         if (err || !data) throw RoomException.roomNotFound();
@@ -73,7 +73,7 @@ export class RoomService {
           break;
         }
       }
-      Redis.set(uuid, JSON.stringify(findRoom));
+      this.saveRoomByUUID(uuid, findRoom);
       Redis.get(uuid, (err, data) => {
         if (err || !data) throw RoomException.roomNotFound();
         server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
@@ -153,7 +153,7 @@ export class RoomService {
               break;
             }
           }
-          Redis.set(uuid, JSON.stringify(findRoom));
+          this.saveRoomByUUID(uuid, findRoom);
           Redis.get(uuid, (err, data) => {
             if (err || !data) throw RoomException.roomNotFound();
             server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
@@ -163,6 +163,9 @@ export class RoomService {
     });
   }
 
+  saveRoomByUUID(uuid: string, roomData: any): void {
+    Redis.set(uuid, JSON.stringify(roomData));
+  }
 
   async deleteRoomRequestToApiServer(uuid): Promise<void> {
     await axios.delete(`${baseURL}/api/room/socket/${uuid}`, {
