@@ -65,4 +65,8 @@ export class RoomRepository extends Repository<Room> {
   async deleteRoomByRoomID(roomID: number): Promise<DeleteResult> {
     return this.delete({ id: roomID });
   }
+
+  async deleteRoomByUUID(uuid: string): Promise<DeleteResult> {
+    return this.delete({ uuid: uuid });
+  }
 }

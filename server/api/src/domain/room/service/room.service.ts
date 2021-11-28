@@ -103,6 +103,12 @@ export class RoomService {
     return true;
   }
 
+  async deleteRoomFromSocket(uuid: string): Promise<boolean> {
+    const deleteResult: DeleteResult = await this.roomRepository.deleteRoomByUUID(uuid);
+    if (!deleteResult) throw RoomException.roomDeleteError();
+    return true;
+  }
+
   createTokenWithChannel(appID: string, uuid: string): string {
     const HOUR_TO_SECOND = 3600;
     const appCertificate: string = process.env.AGORA_APP_CERTIFICATE ?? '';
