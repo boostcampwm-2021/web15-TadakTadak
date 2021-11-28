@@ -14,6 +14,8 @@ import { IMessage, IRoomRequest } from './room.interface';
 import { LocalDateTime } from '@js-joda/core';
 import { pubClient } from '../redis.adapter';
 import { RoomEvent } from './room.event';
+import axios from 'axios';
+import { baseURL } from '../constant/url.constant';
 
 @WebSocketGateway({ cors: true })
 export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -23,7 +25,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   @SubscribeMessage(RoomEvent.MsgToServer)
   handleMessage(client: Socket, { uuid, message, nickname }: IMessage): void {
     const emitMessage: IMessage = {
-      message: message + process.env.NODE_PORT,
+      message: `${message} from ${process.env.NODE_PORT}`,
       time: LocalDateTime.now(),
       nickname: nickname,
       uuid: uuid,
@@ -37,15 +39,18 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     client.join(uuid);
     pubClient.get(uuid, (err, data) => {
       if (err) throw WsException;
-      const newRoom = Object({ maxHead: maxHead, userList: {} });
-      newRoom.userList = Object({ [nickname]: { img, field } });
       if (!data) {
+        // Create new Room
+        const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {} });
+        newRoom.userList = Object({ [client.id]: { nickname, img, field } });
         pubClient.set(uuid, JSON.stringify(newRoom));
       } else {
-        const prevRoom = JSON.parse(data);
-        prevRoom.userList[nickname] = Object({ img, field });
-        pubClient.set(uuid, JSON.stringify(prevRoom));
+        // Update Room
+        const findRoom = JSON.parse(data);
+        findRoom.userList[client.id] = Object({ nickname, img, field });
+        pubClient.set(uuid, JSON.stringify(findRoom));
       }
+      pubClient.set(client.id, uuid);
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
           this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
@@ -56,18 +61,20 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   }
 
   @SubscribeMessage(RoomEvent.LeaveRoom)
-  handleLeaveRoom(client: Socket, { nickname, uuid }: IRoomRequest): void {
+  handleLeaveRoom(client: Socket, { uuid }: IRoomRequest): void {
     client.leave(uuid);
     pubClient.get(uuid, (err, data) => {
       if (err || !data) throw WsException;
-      const prevRoom: any = JSON.parse(data);
-      const numberOfUsers: number = Object.keys(prevRoom['userList']).length;
-      if (numberOfUsers == 1) {
+      const findRoom = JSON.parse(data);
+      const findMyNickname = findRoom['userList'][client.id].nickname;
+      const numberOfUsers = Object.keys(findRoom['userList']).length;
+      if (numberOfUsers === 1 || findRoom.owner === findMyNickname) {
         pubClient.del(uuid);
         return;
       }
-      delete prevRoom['userList'][nickname];
-      pubClient.set(uuid, JSON.stringify(prevRoom));
+      delete findRoom['userList'][client.id];
+      pubClient.set(uuid, JSON.stringify(findRoom));
+      pubClient.del(client.id);
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
           this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
@@ -82,9 +89,19 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     if (!kickNickname) return;
     pubClient.get(uuid, (err, data) => {
       if (err || !data) throw WsException;
-      const prevRoom = JSON.parse(data);
-      delete prevRoom['userList'][kickNickname];
-      pubClient.set(uuid, JSON.stringify(prevRoom));
+      const findRoom = JSON.parse(data);
+      const findMyNickname = findRoom['userList'][client.id].nickname;
+      if (findRoom.owner !== findMyNickname) throw WsException;
+      for (const userInfo of Object.entries(findRoom.userList)) {
+        const socketId: string = userInfo[0];
+        const socketData: any = userInfo[1];
+        if (socketData.nickname === kickNickname) {
+          delete findRoom['userList'][socketId];
+          pubClient.del(socketId);
+          break;
+        }
+      }
+      pubClient.set(uuid, JSON.stringify(findRoom));
       pubClient.get(uuid, (err, data) => {
         if (typeof data === 'string') {
           this.server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
@@ -96,10 +113,19 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage(RoomEvent.RemoveRoom)
   handleRemoveRoom(client: Socket, { uuid }: IRoomRequest): void {
+    client.leave(uuid);
     pubClient.get(uuid, (err, data) => {
       if (err || !data) throw WsException;
-      pubClient.del(uuid);
-      this.server.to(uuid).emit(RoomEvent.UserList, {});
+      const findRoom = JSON.parse(data);
+      const findMyNickname = findRoom['userList'][client.id].nickname;
+      if (findRoom.owner === findMyNickname) {
+        for (const userInfo of Object.entries(findRoom.userList)) {
+          const socketId: string = userInfo[0];
+          pubClient.del(socketId);
+        }
+        pubClient.del(uuid);
+        this.server.to(uuid).emit(RoomEvent.UserList, {});
+      }
     });
   }
 
@@ -112,9 +138,9 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         this.server.to(client.id).emit(RoomEvent.IsVerify, true);
         return;
       }
-      const room: any = JSON.parse(data);
-      const numberOfUsers: number = Object.keys(room['userList']).length;
-      if (numberOfUsers < room.maxHead) {
+      const findRoom: any = JSON.parse(data);
+      const numberOfUsers: number = Object.keys(findRoom['userList']).length;
+      if (numberOfUsers < findRoom.maxHead) {
         this.server.to(client.id).emit(RoomEvent.IsVerify, true);
         return;
       }
@@ -128,9 +154,6 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Client connected: ${client.id}`);
-    subClient.on('message', (channel: string, message: string) => {
-      client.emit(channel, message);
-    });
   }
 
   handleDisconnect(client: Socket) {
