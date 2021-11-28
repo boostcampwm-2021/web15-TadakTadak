@@ -26,12 +26,7 @@ export class RoomService {
         this.saveRoomByUUID(uuid, findRoom);
       }
       Redis.set(client.id, uuid);
-      Redis.get(uuid, (err, data) => {
-        if (typeof data === 'string') {
-          server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
-        }
-      });
-      return;
+      this.emitEventForUserList(server, uuid);
     });
   }
 
@@ -48,11 +43,7 @@ export class RoomService {
       delete findRoom['userList'][client.id];
       this.saveRoomByUUID(uuid, findRoom);
       Redis.del(client.id);
-      Redis.get(uuid, (err, data) => {
-        if (err || !data) throw RoomException.roomNotFound();
-        server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
-      });
-      return;
+      this.emitEventForUserList(server, uuid);
     });
   }
 
@@ -74,11 +65,7 @@ export class RoomService {
         }
       }
       this.saveRoomByUUID(uuid, findRoom);
-      Redis.get(uuid, (err, data) => {
-        if (err || !data) throw RoomException.roomNotFound();
-        server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
-      });
-      return;
+      this.emitEventForUserList(server, uuid);
     });
   }
 
@@ -154,12 +141,16 @@ export class RoomService {
             }
           }
           this.saveRoomByUUID(uuid, findRoom);
-          Redis.get(uuid, (err, data) => {
-            if (err || !data) throw RoomException.roomNotFound();
-            server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
-          });
+          this.emitEventForUserList(server, uuid);
         }
       });
+    });
+  }
+
+  emitEventForUserList(server: Server, uuid: string) {
+    Redis.get(uuid, (err, data) => {
+      if (err || !data) throw RoomException.roomNotFound();
+      server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
     });
   }
 
