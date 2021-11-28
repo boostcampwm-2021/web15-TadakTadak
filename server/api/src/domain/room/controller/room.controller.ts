@@ -63,6 +63,7 @@ export class RoomController {
   @UseGuards(JwtAuthGuard)
   async deleteRoom(@Req() req: Request, @Param('uuid') uuid: string): Promise<{ result: boolean }> {
     const userEmail = req.user['email'];
-    return { result: await this.roomService.deleteRoom(userEmail, uuid) };
+    return { result: await this.roomService.deleteRoomByEmail(userEmail, uuid) };
+  }
   }
 }

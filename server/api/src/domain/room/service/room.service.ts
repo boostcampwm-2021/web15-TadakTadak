@@ -92,7 +92,7 @@ export class RoomService {
     return new RoomResponseDto(newRoom);
   }
 
-  async deleteRoom(email: string, uuid: string): Promise<boolean> {
+  async deleteRoomByEmail(email: string, uuid: string): Promise<boolean> {
     const user = await this.userRepository.findUserByUserEmail(email);
     if (!user) throw UserException.userNotFound();
     const findRoom = await this.roomRepository.findRoomByUserEmailAndUUID(email, uuid);
