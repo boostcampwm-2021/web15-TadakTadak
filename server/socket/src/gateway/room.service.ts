@@ -141,11 +141,7 @@ export class RoomService {
             Redis.del(socketId);
           }
           Redis.del(uuid);
-          await axios.delete(`${baseURL}/api/room/socket/${uuid}`, {
-            headers: {
-              'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
-            },
-          });
+          await this.deleteRoomRequestToApiServer(uuid);
           server.to(uuid).emit(RoomEvent.UserList, {});
         } else {
           for (const userInfo of Object.entries(findRoom.userList)) {
@@ -164,6 +160,15 @@ export class RoomService {
           });
         }
       });
+    });
+  }
+
+
+  async deleteRoomRequestToApiServer(uuid): Promise<void> {
+    await axios.delete(`${baseURL}/api/room/socket/${uuid}`, {
+      headers: {
+        'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
+      },
     });
   }
 }
