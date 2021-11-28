@@ -50,8 +50,7 @@ export class RoomService {
       const findMyNickname = findRoom['userList'][client.id].nickname;
       if (findOwnerNickname !== findMyNickname) throw ClientException.clientUnauthorized();
       for (const userInfo of Object.entries(findRoom.userList)) {
-        const socketId: string = userInfo[0];
-        const socketData: any = userInfo[1];
+        const [socketId, socketData]: any = userInfo;
         if (socketData.nickname === kickNickname) {
           delete findRoom['userList'][socketId];
           findRoom.kickList[kickNickname] = Object({ time: LocalDateTime.now() });
@@ -82,30 +81,27 @@ export class RoomService {
   }
 
   verifyRoom(client: Socket, server: Server, uuid: string, nickname: string) {
+    const fromTo = { client, server };
     Redis.get(client.id, (err, data) => {
       if (err) throw RoomException.roomVerifyError();
       if (data) {
-        server.to(client.id).emit(RoomEvent.IsVerify, false);
-        return;
+        return this.emitEventForVerify(fromTo, false);
       }
       Redis.get(uuid, (err, data) => {
         if (err) throw RoomException.roomVerifyError();
         if (!data) {
-          server.to(client.id).emit(RoomEvent.IsVerify, true);
-          return;
+          return this.emitEventForVerify(fromTo, true);
         }
-        const findRoom: any = JSON.parse(data);
+        const findRoom = JSON.parse(data);
         const isKickUser = findRoom.kickList[nickname];
         if (isKickUser) {
-          server.to(client.id).emit(RoomEvent.IsVerify, false);
-          return;
+          return this.emitEventForVerify(fromTo, false);
         }
         const numberOfUsers: number = Object.keys(findRoom['userList']).length;
         if (numberOfUsers < findRoom.maxHead) {
-          server.to(client.id).emit(RoomEvent.IsVerify, true);
-          return;
+          return this.emitEventForVerify(fromTo, true);
         }
-        server.to(client.id).emit(RoomEvent.IsVerify, false);
+        return this.emitEventForVerify(fromTo, false);
       });
     });
   }
@@ -170,6 +166,10 @@ export class RoomService {
       if (err || !data) throw RoomException.roomNotFound();
       server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
     });
+  }
+
+  emitEventForVerify({ client, server }, isVerify: boolean) {
+    server.to(client.id).emit(RoomEvent.IsVerify, isVerify);
   }
 
   // Same := registerRoom()
