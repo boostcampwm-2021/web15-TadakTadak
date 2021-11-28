@@ -12,7 +12,7 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { IMessage, IRoomRequest } from './room.interface';
 import { LocalDateTime } from '@js-joda/core';
-import { pubClient, subClient } from '../redis.adapter';
+import { pubClient } from '../redis.adapter';
 import { RoomEvent } from './room.event';
 
 @WebSocketGateway({ cors: true })

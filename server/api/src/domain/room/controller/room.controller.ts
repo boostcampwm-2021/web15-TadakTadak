@@ -1,11 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiExtraModels, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { Type } from 'class-transformer';
 import { RoomAPIDocs } from '../room.docs';
 import { Pagination } from 'src/paginate';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
-import { Room, RoomType, roomTypeToArray } from '../room.entity';
+import { RoomType} from '../room.entity';
 import { RoomService } from '../service/room.service';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
 import { RoomResponseDto } from '../dto/room-response.dto';
