@@ -91,5 +91,6 @@ jobs:
           -e CLIENT_URL=${{ secrets.CLIENT_URL }} \
           -e DEFAULT_IMG=${{ secrets.DEFAULT_IMG }} \
           -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+          -e SOCKET_SECRET_KEY=${{ secrets.SOCKET_SECRET_KEY }} \
           -p 3000:3000 \
           --name api-container --restart always ${{ env.DOCKER_IMAGE }}:${{ env.VERSION }}
