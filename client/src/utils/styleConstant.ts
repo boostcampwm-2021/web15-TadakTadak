@@ -20,6 +20,7 @@ export const FORM = {
 export const MODAL = {
   width: '65rem',
   height: '50rem',
+  topPosition: '-15vh',
 };
 
 export const SIDEBAR = {
