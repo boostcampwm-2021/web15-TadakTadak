@@ -76,25 +76,23 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
 
   return (
     <BGMContextProvider>
-      <RoomWrapper>
-        {!start ? (
-          <Loader isWholeScreen={true} />
-        ) : (
-          <>
-            <RoomSideBar
-              uuid={uuid}
-              hostNickname={owner?.nickname}
-              maxHeadcount={maxHeadcount}
-              roomType={RoomType.campfire}
-            />
-            <RoomContainer>
-              <FireAnimation setFireOn={setFireOn} />
-              {track && <CamperList users={users} track={track} />}
-              {track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
-            </RoomContainer>
-          </>
-        )}
-      </RoomWrapper>
+      {!start ? (
+        <Loader isWholeScreen={true} />
+      ) : (
+        <RoomWrapper>
+          <RoomSideBar
+            uuid={uuid}
+            hostNickname={owner?.nickname}
+            maxHeadcount={maxHeadcount}
+            roomType={RoomType.campfire}
+          />
+          <RoomContainer>
+            <FireAnimation setFireOn={setFireOn} />
+            {track && <CamperList users={users} track={track} />}
+            {track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
+          </RoomContainer>
+        </RoomWrapper>
+      )}
     </BGMContextProvider>
   );
 };

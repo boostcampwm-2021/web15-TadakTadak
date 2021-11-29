@@ -5,7 +5,7 @@ import { postRoom } from '@src/apis';
 import Select from '@components/common/Select';
 import Form from '@components/common/Form';
 import { adminOptions } from '@utils/utils';
-import { INPUT, RoomType, TOAST_TIME, TOAST_MESSAGE, PLACEHOLDER_TXT, SELECT_TEXT } from '@utils/constant';
+import { INPUT, RoomType, TOAST_MESSAGE, PLACEHOLDER_TXT, SELECT_TEXT } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
 import { useUser } from '@contexts/userContext';
 import useInput from '@hooks/useInput';

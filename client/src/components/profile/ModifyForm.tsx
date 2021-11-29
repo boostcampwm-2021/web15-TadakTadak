@@ -5,7 +5,7 @@ import Select from '../common/Select';
 import useInput from '@src/hooks/useInput';
 import { patchUpdate } from '@src/apis';
 import { useDevField } from '@src/contexts/devFieldContext';
-import { TOAST_TIME, TOAST_MESSAGE } from '@utils/constant';
+import { TOAST_MESSAGE } from '@utils/constant';
 import { useToast } from '@src/hooks/useToast';
 
 interface InfoProps {
@@ -85,7 +85,7 @@ const ModifyForm = ({ onClickModifyToggle, setIsModify }: InfoProps): JSX.Elemen
   const [nickname, onChangeNickname] = useInput(user.nickname ?? '');
   const [devField, setDevField] = useState(user.devField?.id);
   const devFieldOptions = useDevField();
-  const toast = useToast(TOAST_TIME);
+  const toast = useToast();
 
   const handleDevFieldSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>
     setDevField(+(e.target[e.target.selectedIndex] as HTMLOptionElement).value);

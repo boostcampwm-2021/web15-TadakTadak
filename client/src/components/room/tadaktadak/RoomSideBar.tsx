@@ -29,6 +29,14 @@ interface RoomSideBarProps {
   roomType?: string;
 }
 
+interface ParticipnatsProps {
+  field: {
+    id: number;
+    name: string;
+  };
+  img: string;
+}
+
 const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBarProps): JSX.Element => {
   const { nickname, devField, imageUrl } = useUser();
   const theme = useTheme();
@@ -54,7 +62,7 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
   }, [history, client]);
 
   const registerParticipants = useCallback(
-    (userList: { [key: string]: any }) => {
+    (userList: { [key: string]: ParticipnatsProps }) => {
       if (!nickname || !userList[nickname]) {
         return exitRoom();
       }

@@ -27,7 +27,7 @@ export const INPUT = {
   chatMaxLen: 100,
 };
 
-export const TOAST_TIME = 4000;
+export const TOAST_TIME = 2000;
 
 export const MODAL_NAME = {
   login: '로그인',

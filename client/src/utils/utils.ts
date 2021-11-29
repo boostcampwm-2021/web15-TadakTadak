@@ -1,4 +1,5 @@
 import { CANVAS } from './constant';
+
 export const isEmail = (email: string): boolean => {
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
   return regExp.test(email);
@@ -51,18 +52,10 @@ export const chatTimeFormatting = (time?: string): string => {
   return '';
 };
 
-export const getWidths = (width: number): Array<number> => {
-  return Array.from({ length: 12 }, (_, i) => {
-    if (i === 0) return 0;
-    return (width / 12) * i;
-  });
-};
-export const getHeights = (months: Array<number>, maxMonths: number, height: number): Array<number> => {
-  return Array.from({ length: 12 }, (_, i) => {
-    if (months[i + 1]) return (months[i + 1] / maxMonths) * height * 0.8;
-    return 0;
-  });
-};
+export const getWidths = (width: number): Array<number> => Array.from({ length: 12 }, (_, i) => (width / 12) * i);
+
+export const getHeights = (months: Record<string, number>, maxMonths: number, height: number): Array<number> =>
+  Object.values(months).map((cnt) => (cnt / maxMonths) * height * 0.8);
 
 export const drawLineChartYaxis = (ctx: CanvasRenderingContext2D, width: number, height: number): void => {
   ctx.fillStyle = CANVAS.YLine;
@@ -111,7 +104,7 @@ export const drawLineChartDots = (
   ctx: CanvasRenderingContext2D,
   widths: Array<number>,
   heights: Array<number>,
-  months: any,
+  months: Record<string, number>,
   height: number,
 ): void => {
   ctx.beginPath();
@@ -123,7 +116,7 @@ export const drawLineChartDots = (
       ctx.closePath();
       ctx.fill();
       ctx.fillStyle = CANVAS.resultLine;
-      ctx.fillText(months[i + 1], w + 40, height - heights[i] - 40);
+      ctx.fillText(String(months[i + 1]), w + 40, height - heights[i] - 40);
     }
   });
   ctx.stroke();
