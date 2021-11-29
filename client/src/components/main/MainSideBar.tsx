@@ -10,7 +10,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@contexts/userContext';
 import { useDevFieldFns } from '@contexts/devFieldContext';
-import { PAGE_NAME, PATH, TOAST_MESSAGE, TOAST_TIME } from '@utils/constant';
+import { PAGE_NAME, PATH, TOAST_MESSAGE } from '@utils/constant';
 import { USER_AVATAR } from '@utils/styleConstant';
 import { useToast } from '@src/hooks/useToast';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { postLogin } from '@src/apis';
-import { TOAST_TIME, INPUT, TOAST_MESSAGE, PLACEHOLDER_TXT } from '@utils/constant';
+import { INPUT, TOAST_MESSAGE, PLACEHOLDER_TXT } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
 import Form from './common/Form';
 import useInput from '@hooks/useInput';
