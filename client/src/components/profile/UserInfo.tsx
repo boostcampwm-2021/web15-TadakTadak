@@ -4,7 +4,8 @@ import { useHistory } from 'react-router';
 import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
-import { TOAST_MESSAGE, CANVAS_SIZE } from '@utils/constant';
+import { TOAST_MESSAGE, CANVAS } from '@utils/constant';
+
 import { useToast } from '@src/hooks/useToast';
 import { deleteImage, getUserLogList, getUserLogListPerMonth, postAvatar } from '@src/apis';
 import {
@@ -174,8 +175,8 @@ function UserInfo(): JSX.Element {
     const canvas: HTMLCanvasElement = canvasRef.current;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
-    canvas.width = CANVAS_SIZE.width;
-    canvas.height = CANVAS_SIZE.height;
+    canvas.width = CANVAS.width;
+    canvas.height = CANVAS.height;
 
     const values = Object.keys(data).map((key: string) => data[key]);
     const maxMonths = Math.max.apply(null, values);

@@ -93,7 +93,7 @@ const ModifyForm = ({ onClickModifyToggle, setIsModify }: InfoProps): JSX.Elemen
   const onSubmit = async () => {
     if (nickname === user.nickname && user.devField?.id === devField) {
       setIsModify(false);
-      toast('success', TOAST_MESSAGE.updateNotChange);
+      toast('success', TOAST_MESSAGE.nothingChange);
       return;
     }
 
