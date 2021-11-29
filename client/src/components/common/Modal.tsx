@@ -26,7 +26,7 @@ export const ModalWrapper = styled.div`
   width: ${MODAL.width};
   height: ${MODAL.height};
   top: 20vh;
-  left: calc((100vw - ${MODAL.width}) / 2 - ${MODAL.width} / 4);
+  left: calc((100vw - ${MODAL.width}) / 2);
   position: absolute;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
