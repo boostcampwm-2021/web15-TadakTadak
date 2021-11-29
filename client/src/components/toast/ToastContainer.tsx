@@ -6,8 +6,8 @@ export default function ToastContainer(): JSX.Element {
 
   return (
     <div>
-        {toasts &&
-          toasts.map((toast) => <Toast id={toast.id} key={toast.id} type={toast.type} message={toast.message} />)}
+      {toasts &&
+        toasts.map((toast) => <Toast id={toast.id} key={toast.id} type={toast.type} message={toast.message} />)}
     </div>
   );
 }
