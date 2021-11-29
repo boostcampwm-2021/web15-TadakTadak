@@ -85,7 +85,7 @@ const RoomBoxBottom = styled.div`
 `;
 
 const RoomFieldType = styled.div`
-  width: 5rem;
+  width: 6rem;
   height: 2rem;
   ${({ theme }) => css`
     ${theme.flexCenter};
@@ -147,7 +147,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
       <RoomBoxTop>
         <RoomTopMenu>
           <RoomTitle>{title}</RoomTitle>
-          <RoomFieldType>{owner?.devField || '백엔드'}</RoomFieldType>
+          <RoomFieldType>{owner?.devField?.name || 'All'}</RoomFieldType>
         </RoomTopMenu>
         <RoomDescription>{description}</RoomDescription>
       </RoomBoxTop>
