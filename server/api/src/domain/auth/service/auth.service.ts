@@ -29,7 +29,6 @@ export class AuthService {
 
   async login(loginRequestDto: LoginRequestDto) {
     const user: User = await this.userRepository.findUserByEmailWithDev(loginRequestDto.email);
-    console.log(user);
     if (!user || !Bcrypt.compare(loginRequestDto.password, user.password))
       throw UserException.userLoginInfoNotCorrect();
     const today = LocalDate.now();
