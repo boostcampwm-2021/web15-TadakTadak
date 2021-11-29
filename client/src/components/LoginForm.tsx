@@ -53,7 +53,7 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const { logUserIn } = useUserFns();
-  const toast = useToast(TOAST_TIME);
+  const toast = useToast();
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -6,8 +6,9 @@ import { useCallback, useEffect, useRef } from 'react';
 import socket from '@socket/socket';
 import { SocketEvents } from '@socket/socketEvents';
 import { useUser } from '@contexts/userContext';
-import { RoomType } from '@utils/constant';
+import { RoomType, TOAST_MESSAGE } from '@utils/constant';
 import { ROOM_BOX } from '@utils/styleConstant';
+import { useToast } from '@hooks/useToast';
 
 const RoomBoxWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -109,6 +110,7 @@ interface RoomBoxProps {
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const { uuid, title, description, nowHeadcount, maxHeadcount, roomType, owner } = roomInfo;
   const { login, nickname } = useUser();
+  const toast = useToast();
   const roomDataRef = useRef<RoomInfo>();
   const history = useHistory();
 
@@ -118,7 +120,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
 
   const onClickRoomBox = useCallback(async () => {
     if (!login) {
-      // 로그인을 해야 입장 가능하다는 알람을 띄워줘야 한다.
+      toast('error', TOAST_MESSAGE.notAllowedNonLogin);
       return;
     }
     const { isOk, data } = await getRoomByUuid(uuid);
@@ -127,7 +129,7 @@ const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
       roomDataRef.current = data;
       verifyBySocket();
     }
-  }, [uuid, login, verifyBySocket]);
+  }, [uuid, login, toast, verifyBySocket]);
 
   const enterRoom = useCallback(() => {
     const pathname = roomType === RoomType.tadak ? `/room/tadak/${uuid}` : `/room/campfire/${uuid}`;

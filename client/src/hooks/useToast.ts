@@ -1,8 +1,9 @@
 import { useToastDispatchContext, MessageType } from '@contexts/ToastContext';
+import { TOAST_TIME } from '@utils/constant';
 
 type ReturnType = (type: MessageType, message: string) => void;
 
-export function useToast(delay: number): ReturnType {
+export function useToast(delay = TOAST_TIME): ReturnType {
   const dispatch = useToastDispatchContext();
 
   function toast(type: MessageType, message: string) {

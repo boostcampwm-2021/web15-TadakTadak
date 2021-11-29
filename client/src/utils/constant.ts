@@ -61,6 +61,7 @@ export const TOAST_MESSAGE = {
   invalidFormatEmail: '이메일 형식을 확인해주세요.',
   invalidFormatPwd: '비밀번호는 6자 이상 20자 이하 영문, 숫자를 반드시 포함해야 합니다.',
   invalidFormatNickname: '닉네임은 2자 이상 15자 이하 영문,숫자,한글만 입력할 수 있습니다.',
+  notAllowedNonLogin: '로그인 후 입장할 수 있습니다.',
   loginConfirm: '이메일 및 비밀번호를 확인해주세요',
   alreadyEmail: '이미 등록되어 있는 이메일입니다.',
   alreadyRoom: '방은 최대 1개까지 생성할 수 있습니다.',

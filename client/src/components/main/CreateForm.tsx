@@ -46,7 +46,7 @@ const CreateForm = (): JSX.Element => {
   const [roomType, setRoomType] = useState<string>('');
   const [maxHeadcount, setMaxHeadcount] = useState('');
   const user = useUser();
-  const toast = useToast(TOAST_TIME);
+  const toast = useToast();
   const history = useHistory();
 
   const handleRoomSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>

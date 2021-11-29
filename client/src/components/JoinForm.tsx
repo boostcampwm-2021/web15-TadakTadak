@@ -58,7 +58,7 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
   const [password, onChangePassword] = useInput('');
   const [devField, setDevField] = useState('');
   const devFieldOptions = useDevField();
-  const toast = useToast(TOAST_TIME);
+  const toast = useToast();
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

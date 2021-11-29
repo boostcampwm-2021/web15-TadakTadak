@@ -126,7 +126,7 @@ const MainSideBar = ({ page }: SideBarProps): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();
-  const toast = useToast(TOAST_TIME);
+  const toast = useToast();
   const { logUserOut } = useUserFns();
   const history = useHistory();
   const { registerDevField } = useDevFieldFns();
