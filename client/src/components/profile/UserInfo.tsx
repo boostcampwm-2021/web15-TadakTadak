@@ -172,6 +172,7 @@ function UserInfo(): JSX.Element {
     }
 
     const canvas: HTMLCanvasElement = canvasRef.current;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
     canvas.width = CANVAS_SIZE.width;
     canvas.height = CANVAS_SIZE.height;
