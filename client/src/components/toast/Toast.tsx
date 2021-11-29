@@ -21,6 +21,7 @@ const boxFade = keyframes`
 
 const ToastDiv = styled.div`
   z-index: 100;
+  background: transparent;
   ${({ theme }) => theme.flexCenter}
   position: absolute;
   left: 0;
@@ -29,6 +30,7 @@ const ToastDiv = styled.div`
   animation: ${boxFade} ${TOAST.second} ease-in-out;
 `;
 const ToastWrapper = styled.div`
+  z-index: 100;
   position: relative;
   ${({ theme }) => theme.flexCenter}
   background-color: ${(props) => props.color};
