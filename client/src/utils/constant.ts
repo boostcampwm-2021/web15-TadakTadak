@@ -56,13 +56,37 @@ export const ROOM_DESCRIPTION = {
 export const TOAST_MESSAGE = {
   loginSuccess: '로그인에 성공하였습니다.',
   joinSuccess: '회원가입에 성공하였습니다.',
+  logoutSuccess: '로그아웃 되었습니다.',
   updateSuccess: '회원 정보를 변경했습니다.',
   updateNotChange: '변경 사항이 없습니다.',
   deleteImgSuccess: '아바타를 성공적으로 제거했습니다.',
   updateImgSuccess: '아바타를 성공적으로 변경했습니다.',
   inputEmpty: '모두 입력해주세요.',
+  invalidFormatEmail: '이메일 형식을 확인해주세요.',
+  invalidFormatPwd: '비밀번호는 6자 이상 20자 이하 영문, 숫자를 반드시 포함해야 합니다.',
+  invalidFormatNickname: '닉네임은 2자 이상 15자 이하 영문,숫자,한글만 입력할 수 있습니다.',
+  notAllowedNonLogin: '로그인 후 입장할 수 있습니다.',
   loginConfirm: '이메일 및 비밀번호를 확인해주세요',
   alreadyEmail: '이미 등록되어 있는 이메일입니다.',
+  alreadyRoom: '방은 최대 1개까지 생성할 수 있습니다.',
+  emptyDevField: '개발 분야를 선택해주세요.',
+  emptyTitle: '방 제목을 입력해주세요.',
+  emptyRoomType: '방 유형을 선택해주세요.',
+  emptyHeadcount: '최대 입장 가능한 인원을 선택해주세요.',
+};
+
+export const PLACEHOLDER_TXT = {
+  roomTitle: `방 제목을 입력해주세요. (최대 ${INPUT.roomTitleMaxLen}자)`,
+  roomDiscrpt: '방에 대한 설명을 입력해주세요.(선택)',
+  email: '이메일 (Ex : user@tadaktadak.com)',
+  nickname: `닉네임 (최소 2자, 최대 ${INPUT.nicknameMaxLen}자, 영문/숫자/한글)`,
+  password: `비밀번호 (최소 ${INPUT.pwdMinLen}자, 최대 ${INPUT.pwdMaxLen}자, 영문, 숫자 조합 / 특수문자 가능)`,
+};
+
+export const SELECT_TEXT = {
+  roomType: '방 유형',
+  headCount: '인원',
+  devField: '개발 필드',
 };
 
 export const CHECK_IN = 'check-in';

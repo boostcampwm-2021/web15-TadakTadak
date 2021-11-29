@@ -43,10 +43,9 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
   const onClickParticipantTap = () => setTabs({ ...initialTabState, isParticipant: !isParticipant });
 
   const leaveSocket = useCallback(() => {
-    const leavePayload = { nickname, uuid };
-    socket.emit(SocketEvents.leaveRoom, leavePayload);
+    socket.emit(SocketEvents.leaveRoom, { uuid });
     postLeaveRoom(uuid);
-  }, [nickname, uuid]);
+  }, [uuid]);
 
   const exitRoom = useCallback(() => {
     client.removeAllListeners();

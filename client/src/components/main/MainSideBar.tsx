@@ -10,8 +10,9 @@ import { Link, useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@contexts/userContext';
 import { useDevFieldFns } from '@contexts/devFieldContext';
-import { PAGE_NAME, PATH } from '@utils/constant';
+import { PAGE_NAME, PATH, TOAST_MESSAGE, TOAST_TIME } from '@utils/constant';
 import { USER_AVATAR } from '@utils/styleConstant';
+import { useToast } from '@src/hooks/useToast';
 
 const CreateBtn = styled.button`
   ${({ theme }) => css`
@@ -125,6 +126,7 @@ const MainSideBar = ({ page }: SideBarProps): JSX.Element => {
   const [loginModal, setLoginModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const user = useUser();
+  const toast = useToast();
   const { logUserOut } = useUserFns();
   const history = useHistory();
   const { registerDevField } = useDevFieldFns();
@@ -138,7 +140,8 @@ const MainSideBar = ({ page }: SideBarProps): JSX.Element => {
     const { isOk } = await postLogout();
     if (isOk) {
       logUserOut();
-      if (history.location.pathname !== PATH.introduction) location.href = PATH.main;
+      if (history.location.pathname === PATH.profile) location.href = PATH.main;
+      toast('success', TOAST_MESSAGE.logoutSuccess);
     }
   };
 

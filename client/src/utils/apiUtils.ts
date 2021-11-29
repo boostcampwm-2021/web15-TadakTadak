@@ -15,7 +15,7 @@ export interface HTTPResponse<T> {
   data?: T;
 }
 
-function getUrl(url: string): string {
+export function getUrl(url: string): string {
   return baseUrl + url;
 }
 

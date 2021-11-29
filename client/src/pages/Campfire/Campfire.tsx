@@ -8,6 +8,7 @@ import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
 import FireAnimation from '@components/largeFireAnimation';
 import CampfireController from '@components/room/campfire/CampfireController';
 import CamperList from '@components/room/campfire/CamperList';
+import Loader from '@components/common/Loader';
 import { RoomType } from '@utils/constant';
 import { useUser } from '@contexts/userContext';
 
@@ -76,17 +77,23 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
   return (
     <BGMContextProvider>
       <RoomWrapper>
-        <RoomSideBar
-          uuid={uuid}
-          hostNickname={owner?.nickname}
-          maxHeadcount={maxHeadcount}
-          roomType={RoomType.campfire}
-        />
-        <RoomContainer>
-          <FireAnimation setFireOn={setFireOn} />
-          {start && track && <CamperList users={users} track={track} />}
-          {ready && track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
-        </RoomContainer>
+        {!start ? (
+          <Loader isWholeScreen={true} />
+        ) : (
+          <>
+            <RoomSideBar
+              uuid={uuid}
+              hostNickname={owner?.nickname}
+              maxHeadcount={maxHeadcount}
+              roomType={RoomType.campfire}
+            />
+            <RoomContainer>
+              <FireAnimation setFireOn={setFireOn} />
+              {track && <CamperList users={users} track={track} />}
+              {track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
+            </RoomContainer>
+          </>
+        )}
       </RoomWrapper>
     </BGMContextProvider>
   );

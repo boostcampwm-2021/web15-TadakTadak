@@ -9,6 +9,7 @@ import {
   fetchDelete,
   fetchDeleteImage,
   fetcher,
+  getUrl,
 } from './utils/apiUtils';
 
 interface PostLogin {
@@ -52,7 +53,8 @@ export const patchUpdate = async (body: PatchUpdate): Promise<HTTPResponse<UserP
 };
 
 export const postAvatar = async (formData: FormData): Promise<HTTPResponse<UserProps>> => {
-  const response = await fetcher<UserProps>('/api/user/image', {
+  const url = getUrl('/api/user/image');
+  const response = await fetcher<UserProps>(url, {
     method: 'POST',
     body: formData,
     credentials: 'include',

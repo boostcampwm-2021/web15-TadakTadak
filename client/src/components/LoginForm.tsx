@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { postLogin } from '@src/apis';
-import { TOAST_TIME, INPUT, TOAST_MESSAGE } from '@utils/constant';
+import { TOAST_TIME, INPUT, TOAST_MESSAGE, PLACEHOLDER_TXT } from '@utils/constant';
 import { FORM } from '@utils/styleConstant';
 import Form from './common/Form';
 import useInput from '@hooks/useInput';
 import { useUserFns } from '@contexts/userContext';
 import { useToast } from '@src/hooks/useToast';
+import { isEmail, isPassword } from '@utils/utils';
 
 const Container = styled.div`
   display: flex;
@@ -52,12 +53,20 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const { logUserIn } = useUserFns();
-  const toast = useToast(TOAST_TIME);
+  const toast = useToast();
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
       toast('error', TOAST_MESSAGE.inputEmpty);
+      return;
+    }
+    if (!isEmail(email)) {
+      toast('error', TOAST_MESSAGE.invalidFormatEmail);
+      return;
+    }
+    if (!isPassword(password)) {
+      toast('error', TOAST_MESSAGE.invalidFormatPwd);
       return;
     }
     const requestBody = { email, password };
@@ -76,16 +85,14 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
       <Form onSubmit={onSubmitForm} width={FORM.loginWidth} height={FORM.loginHeight}>
         <Input
           type="text"
-          placeholder="Email"
-          id="email"
+          placeholder={PLACEHOLDER_TXT.email}
           value={email}
           onChange={onChangeEmail}
           maxLength={INPUT.emailMaxLen}
         />
         <Input
           type="password"
-          placeholder="Password"
-          id="password"
+          placeholder={PLACEHOLDER_TXT.password}
           value={password}
           minLength={INPUT.pwdMinLen}
           maxLength={INPUT.pwdMaxLen}
