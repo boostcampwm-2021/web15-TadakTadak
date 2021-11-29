@@ -24,12 +24,12 @@ const ToastDiv = styled.div`
   background: transparent;
   ${({ theme }) => theme.flexCenter}
   position: absolute;
-  left: 0;
-  right: 0;
+  width: ${TOAST.width};
+  left: calc((100vw-${TOAST.width}) / 2);
   top: ${TOAST.topPosition};
-  animation: ${boxFade} ${TOAST.second} ease-in-out;
 `;
 const ToastWrapper = styled.div`
+  animation: ${boxFade} ${TOAST.second} ease-in-out;
   z-index: 100;
   position: relative;
   ${({ theme }) => theme.flexCenter}
