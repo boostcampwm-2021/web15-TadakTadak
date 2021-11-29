@@ -4,7 +4,7 @@ import { MODAL } from '@utils/styleConstant';
 
 export const ModalContainer = styled.div`
   width: 100%;
-  top: -15vh;
+  top: ${MODAL.topPosition};
   display: block;
 `;
 
@@ -26,7 +26,7 @@ export const ModalWrapper = styled.div`
   width: ${MODAL.width};
   height: ${MODAL.height};
   top: 20vh;
-  left: calc((100vw - ${MODAL.height}) / 2 - ${MODAL.height} / 4);
+  left: calc((100vw - ${MODAL.width}) / 2 - ${MODAL.width} / 4);
   position: absolute;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
