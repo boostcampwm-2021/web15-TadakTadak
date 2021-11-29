@@ -57,6 +57,10 @@ export const TOAST_MESSAGE = {
   loginSuccess: '로그인에 성공하였습니다.',
   joinSuccess: '회원가입에 성공하였습니다.',
   logoutSuccess: '로그아웃 되었습니다.',
+  updateSuccess: '회원 정보를 변경했습니다.',
+  updateNotChange: '변경 사항이 없습니다.',
+  deleteImgSuccess: '아바타를 성공적으로 제거했습니다.',
+  updateImgSuccess: '아바타를 성공적으로 변경했습니다.',
   inputEmpty: '모두 입력해주세요.',
   invalidFormatEmail: '이메일 형식을 확인해주세요.',
   invalidFormatPwd: '비밀번호는 6자 이상 20자 이하 영문, 숫자를 반드시 포함해야 합니다.',
@@ -86,3 +90,14 @@ export const SELECT_TEXT = {
 };
 
 export const CHECK_IN = 'check-in';
+
+export const CANVAS_SIZE = {
+  width: 800,
+  height: 400,
+};
+
+export const CANVAS_STYLE = {
+  YLine: '#888888',
+  XLine: '#f5f5f5',
+  resultLine: '#ee7f6e',
+};

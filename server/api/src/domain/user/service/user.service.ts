@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserException, DevFieldException } from '../../../exception';
+import { UserResponseDtoBuilder } from '../../../builder';
 import { User } from '../user.entity';
 import { DevField } from '../../field/dev-field.entity';
 import { ImageService } from '../../image/service/image.service';
@@ -22,7 +23,13 @@ export class UserService {
   async getUserInfo(nickname: string): Promise<UserResponseDto> {
     const user: User = await this.authRepository.findUserByNicknameWithDev(nickname);
     if (!user) throw UserException.userNotFound();
-    return new UserResponseDto(user);
+    return new UserResponseDtoBuilder()
+      .setId(user.id)
+      .setNickname(user.nickname)
+      .setEmail(user.email)
+      .setImageUrl(user.imageUrl)
+      .setDevField(user.devField)
+      .build();
   }
 
   async updateUserInfo(nickname: string, userUpdateDto: UserUpdateDto) {
@@ -38,8 +45,13 @@ export class UserService {
     updateUser.setNickname(userUpdateDto.nickname);
     updateUser.setDevField(newDevField);
     await this.authRepository.save(updateUser);
-    //빌더 적용하기
-    return new UserResponseDto(updateUser);
+    return new UserResponseDtoBuilder()
+      .setId(updateUser.id)
+      .setNickname(updateUser.nickname)
+      .setEmail(updateUser.email)
+      .setImageUrl(updateUser.imageUrl)
+      .setDevField(updateUser.devField)
+      .build();
   }
 
   async updateImage(email: string, file) {
@@ -50,8 +62,13 @@ export class UserService {
     updateUser.setImageUrl(imageInfo.Location);
     updateUser.setImageName(imageInfo.key);
     await this.authRepository.save(updateUser);
-    //빌더 적용 하기
-    return new UserResponseDto(updateUser);
+    return new UserResponseDtoBuilder()
+      .setId(updateUser.id)
+      .setNickname(updateUser.nickname)
+      .setEmail(updateUser.email)
+      .setImageUrl(updateUser.imageUrl)
+      .setDevField(updateUser.devField)
+      .build();
   }
 
   async deleteImage(email: string) {
@@ -62,6 +79,12 @@ export class UserService {
     updateUser.setImageUrl(process.env.DEFAULT_IMG);
     updateUser.setImageName('');
     await this.authRepository.save(updateUser);
-    return new UserResponseDto(updateUser);
+    return new UserResponseDtoBuilder()
+      .setId(updateUser.id)
+      .setNickname(updateUser.nickname)
+      .setEmail(updateUser.email)
+      .setImageUrl(updateUser.imageUrl)
+      .setDevField(updateUser.devField)
+      .build();
   }
 }

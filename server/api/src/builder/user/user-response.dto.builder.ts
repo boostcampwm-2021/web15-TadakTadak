@@ -33,16 +33,6 @@ export class UserResponseDtoBuilder extends BuilderCommon<UserResponseDto> {
     return this;
   }
 
-  setIntroduction(introduction: string): UserResponseDtoBuilder {
-    this.object.introduction = introduction;
-    return this;
-  }
-
-  setIsSocial(isSocial: boolean): UserResponseDtoBuilder {
-    this.object.isSocial = isSocial;
-    return this;
-  }
-
   setLastCheckIn(date: LocalDate): UserResponseDtoBuilder {
     this.object.lastCheckIn = date;
     return this;

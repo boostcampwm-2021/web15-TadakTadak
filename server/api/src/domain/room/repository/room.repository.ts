@@ -14,7 +14,7 @@ export class RoomRepository extends Repository<Room> {
     return this.findAndCount({
       join: {
         alias: 'room',
-        innerJoinAndSelect: {
+        leftJoin: {
           owner: 'room.owner',
         },
       },
@@ -22,6 +22,7 @@ export class RoomRepository extends Repository<Room> {
       order: { nowHeadcount: 'DESC' },
       take: take,
       skip: take * (page - 1),
+      relations: ['owner', 'owner.devField'],
     });
   }
 
@@ -63,5 +64,9 @@ export class RoomRepository extends Repository<Room> {
 
   async deleteRoomByRoomID(roomID: number): Promise<DeleteResult> {
     return this.delete({ id: roomID });
+  }
+
+  async deleteRoomByUUID(uuid: string): Promise<DeleteResult> {
+    return this.delete({ uuid: uuid });
   }
 }

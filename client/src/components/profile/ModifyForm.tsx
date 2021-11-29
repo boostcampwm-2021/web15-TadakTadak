@@ -5,6 +5,8 @@ import Select from '../common/Select';
 import useInput from '@src/hooks/useInput';
 import { patchUpdate } from '@src/apis';
 import { useDevField } from '@src/contexts/devFieldContext';
+import { TOAST_TIME, TOAST_MESSAGE } from '@utils/constant';
+import { useToast } from '@src/hooks/useToast';
 
 interface InfoProps {
   onClickModifyToggle: React.MouseEventHandler<HTMLButtonElement>;
@@ -28,8 +30,9 @@ const Legend = styled.legend`
 `;
 
 const Info = styled.div`
-  font-size: 7rem;
+  font-size: 5rem;
   color: ${({ theme }) => theme.colors.bgGreen};
+  width: 40rem;
 `;
 
 const InfoSet = styled.fieldset`
@@ -82,12 +85,15 @@ const ModifyForm = ({ onClickModifyToggle, setIsModify }: InfoProps): JSX.Elemen
   const [nickname, onChangeNickname] = useInput(user.nickname ?? '');
   const [devField, setDevField] = useState(user.devField?.id);
   const devFieldOptions = useDevField();
+  const toast = useToast(TOAST_TIME);
+
   const handleDevFieldSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void =>
     setDevField(+(e.target[e.target.selectedIndex] as HTMLOptionElement).value);
 
   const onSubmit = async () => {
     if (nickname === user.nickname && user.devField?.id === devField) {
       setIsModify(false);
+      toast('success', TOAST_MESSAGE.updateNotChange);
       return;
     }
 
@@ -98,6 +104,7 @@ const ModifyForm = ({ onClickModifyToggle, setIsModify }: InfoProps): JSX.Elemen
     if (data) {
       logUserIn(data);
       setIsModify(false);
+      toast('success', TOAST_MESSAGE.updateSuccess);
     }
   };
   return (
