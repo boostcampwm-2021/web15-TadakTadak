@@ -108,13 +108,13 @@ interface RoomBoxProps {
 
 const RoomBox = ({ roomInfo }: RoomBoxProps): JSX.Element => {
   const { uuid, title, description, nowHeadcount, maxHeadcount, roomType, owner } = roomInfo;
-  const { login } = useUser();
+  const { login, nickname } = useUser();
   const roomDataRef = useRef<RoomInfo>();
   const history = useHistory();
 
   const verifyBySocket = useCallback(async () => {
-    socket.emit(SocketEvents.canIEnter, { uuid });
-  }, [uuid]);
+    socket.emit(SocketEvents.canIEnter, { uuid, nickname });
+  }, [uuid, nickname]);
 
   const onClickRoomBox = useCallback(async () => {
     if (!login) {
