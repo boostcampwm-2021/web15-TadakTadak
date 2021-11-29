@@ -26,7 +26,6 @@ const ToastDiv = styled.div`
   left: 0;
   right: 0;
   top: ${TOAST.topPosition};
-  transition: all 1s ease-in-out;
   animation: ${boxFade} ${TOAST.second} ease-in-out;
 `;
 const ToastWrapper = styled.div`
