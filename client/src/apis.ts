@@ -35,6 +35,11 @@ export const postJoin = async (body: PostJoin): Promise<HTTPResponse<boolean>> =
   return response;
 };
 
+export const getVisitCount = async (): Promise<HTTPResponse<number>> => {
+  const response = await fetchGet<number>('/api/history');
+  return response;
+};
+
 interface PatchUpdate {
   originalName: string;
   nickname: string;
@@ -135,5 +140,10 @@ interface UserLogList {
 
 export const getUserLogList = async (): Promise<HTTPResponse<UserLogList[]>> => {
   const response = await fetchGet<UserLogList[]>('/api/user/log/year');
+  return response;
+};
+
+export const getUserLogListPerMonth = async (): Promise<HTTPResponse<any>> => {
+  const response = await fetchGet<any>('/api/user/log/month');
   return response;
 };

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { getVisitCount } from '@src/apis';
 
 const MainTitle = styled.h1`
   font-size: 15rem;
@@ -14,8 +15,7 @@ function ServiceInfo(): JSX.Element {
   const [visit, setVisit] = useState<number>();
 
   const getServiceInfo = async () => {
-    // const query = '';
-    const { isOk, data } = await { isOk: true, data: 32 };
+    const { isOk, data } = await getVisitCount();
     if (isOk && data) {
       setVisit(data);
     }

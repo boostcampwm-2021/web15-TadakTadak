@@ -1,17 +1,28 @@
 import styled, { css } from 'styled-components';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
-import { deleteImage, getUserLogList, postAvatar } from '@src/apis';
-import { getGrassDateList } from '@utils/utils';
+import { TOAST_TIME, TOAST_MESSAGE, CANVAS_SIZE } from '@utils/constant';
+import { useToast } from '@src/hooks/useToast';
+import { deleteImage, getUserLogList, getUserLogListPerMonth, postAvatar } from '@src/apis';
+import {
+  drawLineChartDots,
+  drawLineChartLines,
+  drawLineChartXaxis,
+  drawLineChartYaxis,
+  getGrassDateList,
+  getHeights,
+  getWidths,
+} from '@utils/utils';
 import { GRASS } from '@utils/styleConstant';
 import { CHECK_IN, PATH } from '@utils/constant';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
     padding: ${theme.paddings.lg};
@@ -112,6 +123,14 @@ const Legend = styled.legend`
   color: ${({ theme }) => theme.colors.bgGreen};
 `;
 
+const Canvas = styled.canvas`
+  width: 650px;
+  height: 450px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+`;
+
 function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
   const onClickModifyToggle = () => setIsModify(!isModify);
@@ -119,7 +138,8 @@ function UserInfo(): JSX.Element {
   const history = useHistory();
   const [grassList, setGrassList] = useState<string[]>([]);
   const { logUserIn } = useUserFns();
-
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const toast = useToast(TOAST_TIME);
   const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (!fileList || !fileList[0]) return;
@@ -129,6 +149,7 @@ function UserInfo(): JSX.Element {
     const { isOk, data } = await postAvatar(formData);
     if (isOk && data) {
       logUserIn(data);
+      toast('success', TOAST_MESSAGE.updateImgSuccess);
     }
   };
 
@@ -137,11 +158,36 @@ function UserInfo(): JSX.Element {
     if (data) {
       if (data === true) return;
       logUserIn(data);
+      toast('success', TOAST_MESSAGE.deleteImgSuccess);
     }
   };
 
+  const renderLineGraph = async () => {
+    if (!canvasRef.current) {
+      return;
+    }
+    const { isOk, data } = await getUserLogListPerMonth();
+    if (!isOk || !data) {
+      return;
+    }
+
+    const canvas: HTMLCanvasElement = canvasRef.current;
+    const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
+    canvas.width = CANVAS_SIZE.width;
+    canvas.height = CANVAS_SIZE.height;
+
+    const values = Object.keys(data).map((key: string) => data[key]);
+    const maxMonths = Math.max.apply(null, values);
+    const width = getWidths(canvas.width);
+    const height = getHeights(data, maxMonths, canvas.height);
+    drawLineChartXaxis(context, canvas.width, canvas.height);
+    drawLineChartYaxis(context, canvas.width, canvas.height);
+    drawLineChartLines(width, context, height, canvas.height);
+    drawLineChartDots(context, width, height, data, canvas.height);
+  };
+
   const loadUserGrassList = useCallback(async () => {
-    const oneYearGrassDateList = getGrassDateList(new Date(), 1);
+    const oneYearGrassDateList = getGrassDateList(1);
     const { isOk, data } = await getUserLogList();
     if (isOk && data) {
       data.forEach((date) => {
@@ -151,6 +197,7 @@ function UserInfo(): JSX.Element {
         }
       });
     }
+    renderLineGraph();
     return setGrassList([...oneYearGrassDateList]);
   }, []);
 
@@ -178,16 +225,18 @@ function UserInfo(): JSX.Element {
             <DeleteButton onClick={handleFileDelete}>삭제</DeleteButton>
           </ButtonWrapper>
         </ImageWrapper>
+        <div>
+          <Canvas ref={canvasRef}></Canvas>
+        </div>
       </Wrapper>
-      <Wrapper>
-        <InfoSet>
-          <Legend>{`잔디 🔥`}</Legend>
-          <GrassContainer>
-            {grassList.length &&
-              grassList.map((date, idx) => (date === CHECK_IN ? <FireBlock key={idx} /> : <GreyBlock key={idx} />))}
-          </GrassContainer>
-        </InfoSet>
-      </Wrapper>
+
+      <InfoSet>
+        <Legend>{`잔디 🔥`}</Legend>
+        <GrassContainer>
+          {grassList.length &&
+            grassList.map((date, idx) => (date === CHECK_IN ? <FireBlock key={idx} /> : <GreyBlock key={idx} />))}
+        </GrassContainer>
+      </InfoSet>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { LocalDate } from 'js-joda';
 import { BuilderCommon } from '../builder';
 import { User } from '../../domain/user/user.entity';
 import { DevField } from '../../domain/field/dev-field.entity';
@@ -50,6 +51,11 @@ export class UserBuilder extends BuilderCommon<User> {
 
   setHistorys(historys: History[]): UserBuilder {
     this.object.historys = historys;
+    return this;
+  }
+
+  setLastCheckIn(lastCheckIn: LocalDate): UserBuilder {
+    this.object.lastCheckIn = lastCheckIn;
     return this;
   }
 }
