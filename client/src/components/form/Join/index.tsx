@@ -25,30 +25,14 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email || !nickname || !password) {
-      return toast('error', TOAST_MESSAGE.inputEmpty);
-    }
-    if (!isEmail(email)) {
-      toast('error', TOAST_MESSAGE.invalidFormatEmail);
-      return;
-    }
-    if (!isNickname(nickname)) {
-      toast('error', TOAST_MESSAGE.invalidFormatNickname);
-      return;
-    }
-    if (!isPassword(password)) {
-      toast('error', TOAST_MESSAGE.invalidFormatPwd);
-      return;
-    }
-    if (!devField) {
-      toast('error', TOAST_MESSAGE.emptyDevField);
-      return;
-    }
+    if (!email || !nickname || !password) return toast('error', TOAST_MESSAGE.inputEmpty);
+    if (!isEmail(email)) return toast('error', TOAST_MESSAGE.invalidFormatEmail);
+    if (!isNickname(nickname)) return toast('error', TOAST_MESSAGE.invalidFormatNickname);
+    if (!isPassword(password)) return toast('error', TOAST_MESSAGE.invalidFormatPwd);
+    if (!devField) return toast('error', TOAST_MESSAGE.emptyDevField);
     const requestBody = { email, nickname, password, devField: +devField };
     const { isOk } = await postJoin(requestBody);
-    if (!isOk) {
-      return toast('error', TOAST_MESSAGE.alreadyEmail);
-    }
+    if (!isOk) return toast('error', TOAST_MESSAGE.alreadyEmail);
     setIsLogin(true);
     toast('success', TOAST_MESSAGE.joinSuccess);
   };
