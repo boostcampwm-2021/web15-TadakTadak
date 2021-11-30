@@ -1,12 +1,11 @@
-import styled, { css } from 'styled-components';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
-import InfoCard from './InfoCard';
-import { useUser } from '@contexts/userContext';
-import ModifyInfoCard from './ModifyInfoCard';
-import { CANVAS } from '@utils/constant';
+import { Container, Title, Canvas } from './style';
 import GrassArea from '@components/profile/GrassArea';
 import ProfileAvatar from '@components/profile/Avatar';
+import ModifyInfoCard from '../ModifyInfoCard';
+import InfoCard from '../InfoCard';
+import { useUser } from '@contexts/userContext';
 import { getUserLogList, getUserLogListPerMonth } from '@src/apis';
 import {
   drawLineChartDots,
@@ -17,35 +16,7 @@ import {
   getHeights,
   getWidths,
 } from '@utils/utils';
-import { CHECK_IN, PATH } from '@utils/constant';
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  ${({ theme }) => css`
-    background-color: ${theme.colors.grey};
-    padding: ${theme.paddings.lg};
-    border: 1px solid ${theme.colors.borderGrey};
-    border-radius: ${theme.borderRadius.base};
-  `};
-  :last-child {
-    margin-top: ${({ theme }) => theme.margins.base};
-  }
-`;
-
-const MainTitle = styled.h1`
-  font-size: 10rem;
-  color: ${({ theme }) => theme.colors.bgGreen};
-`;
-
-const Canvas = styled.canvas`
-  width: 650px;
-  height: 450px;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-`;
+import { CANVAS, CHECK_IN, PATH } from '@utils/constant';
 
 function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
@@ -104,8 +75,8 @@ function UserInfo(): JSX.Element {
 
   return (
     <div>
-      <MainTitle>마이 프로필</MainTitle>
-      <Wrapper>
+      <Title>마이 프로필</Title>
+      <Container>
         {isModify ? (
           <ModifyInfoCard onnClickCancelBtn={onClickModifyToggle} setIsModify={setIsModify} />
         ) : (
@@ -115,7 +86,7 @@ function UserInfo(): JSX.Element {
         <div>
           <Canvas ref={canvasRef}></Canvas>
         </div>
-      </Wrapper>
+      </Container>
       <GrassArea grassList={grassList} />
     </div>
   );
