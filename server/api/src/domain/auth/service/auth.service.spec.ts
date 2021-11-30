@@ -13,9 +13,10 @@ import { JoinRequestDto } from '../dto/join-request.dto';
 import { JoinRequestDtoBuilder } from '../../../builder/auth/join-request.dto.builder';
 import { datatype, lorem, internet } from 'faker';
 import { DevFieldBuilder } from '../../../builder/dev-field.builder';
-import { UserBuilder } from '../../../builder';
-import { BadRequestException } from '@nestjs/common';
+import { LoginRequestDtoBuilder, UserBuilder } from '../../../builder';
+import { BadRequestException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { UserException } from '../../../exception';
+import { LoginRequestDto } from '../dto/login-request.dto';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -108,6 +109,23 @@ describe('AuthService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(BadRequestException);
         expect(e.message).toBe(UserException.userIsExist().message);
+      }
+    });
+
+    it('존재하지 않는 이메일로 로그인을 하면 예외가 발생한다.', async () => {
+      const loginRequestDto: LoginRequestDto = new LoginRequestDtoBuilder()
+        .setEmail(internet.email())
+        .setPassword(lorem.sentence())
+        .build();
+
+      jest.spyOn(userRepository, 'findUserByEmailWithDev').mockResolvedValue(undefined);
+      let result;
+      try {
+        result = await authService.login(loginRequestDto);
+      } catch (e) {
+        expect(e).toBeInstanceOf(UnauthorizedException);
+        expect(e.message).toBe('입력하신 사용자 정보가 올바르지 않습니다.');
+        expect(e.status).toBe(HttpStatus.UNAUTHORIZED);
       }
     });
   });
