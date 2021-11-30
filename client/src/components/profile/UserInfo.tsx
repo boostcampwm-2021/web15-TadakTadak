@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
-import InfoForm from './InfoForm';
+import InfoCard from './InfoCard';
 import { useUser } from '@contexts/userContext';
 import ModifyInfoCard from './ModifyInfoCard';
 import { CANVAS } from '@utils/constant';
@@ -109,7 +109,7 @@ function UserInfo(): JSX.Element {
         {isModify ? (
           <ModifyInfoCard onnClickCancelBtn={onClickModifyToggle} setIsModify={setIsModify} />
         ) : (
-          <InfoForm onClickModifyToggle={onClickModifyToggle} />
+          <InfoCard onClickModifyToggle={onClickModifyToggle} />
         )}
         <ProfileAvatar />
         <div>
