@@ -5,7 +5,7 @@ export const VideosContainer = styled.div`
   height: 100%;
 `;
 
-export const VideoBoxWrapper = styled.div`
+export const VideoCardWrapper = styled.div`
   ${({ theme }) => theme.flexColumn}
 `;
 
