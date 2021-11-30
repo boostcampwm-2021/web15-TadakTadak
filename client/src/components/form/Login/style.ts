@@ -4,14 +4,14 @@ import { FORM } from '@utils/styleConstant';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${FORM.loginWidth}rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   align-items: center;
+  width: ${FORM.loginWidth};
+  height: 100%;
   position: absolute;
   top: ${FORM.top};
 `;
+
+export const InputWrapper = styled.div``;
 
 export const Input = styled.input`
   font-size: ${({ theme }) => theme.fontSizes.lg};

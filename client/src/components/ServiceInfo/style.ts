@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import { PAGE_TITLE } from '@utils/styleConstant';
 
 export const MainTitle = styled.h1`
-  font-size: 15rem;
+  font-size: ${PAGE_TITLE.mainFontSize};
   color: ${({ theme }) => theme.colors.bgGreen};
 `;
 

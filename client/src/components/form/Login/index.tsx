@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Input, Button, ModalToggleSpan } from './style';
+import { Container, InputWrapper, Input, Button, ModalToggleSpan } from './style';
 import Form from '@src/components/form/Form';
 import { useUserFns } from '@contexts/userContext';
 import { useToast } from '@src/hooks/useToast';
@@ -38,21 +38,23 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
   return (
     <Container>
       <Form onSubmit={onSubmitForm} width={FORM.loginWidth} height={FORM.loginHeight}>
-        <Input
-          type="text"
-          placeholder={PLACEHOLDER_TXT.email}
-          value={email}
-          onChange={onChangeEmail}
-          maxLength={INPUT.emailMaxLen}
-        />
-        <Input
-          type="password"
-          placeholder={PLACEHOLDER_TXT.password}
-          value={password}
-          minLength={INPUT.pwdMinLen}
-          maxLength={INPUT.pwdMaxLen}
-          onChange={onChangePassword}
-        />
+        <InputWrapper>
+          <Input
+            type="text"
+            placeholder={PLACEHOLDER_TXT.email}
+            value={email}
+            onChange={onChangeEmail}
+            maxLength={INPUT.emailMaxLen}
+          />
+          <Input
+            type="password"
+            placeholder={PLACEHOLDER_TXT.password}
+            value={password}
+            minLength={INPUT.pwdMinLen}
+            maxLength={INPUT.pwdMaxLen}
+            onChange={onChangePassword}
+          />
+        </InputWrapper>
         <Button>로그인</Button>
       </Form>
       <ModalToggleSpan onClick={onClickModalToggle}>회원가입 하러 가기</ModalToggleSpan>

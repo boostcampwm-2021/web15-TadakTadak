@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { FieldName } from '@contexts/userContext';
+import { DevFieldType } from '@src/types';
 import { USER_AVATAR } from '@utils/styleConstant';
 
 export const MakeRoomBtn = styled.button`
@@ -88,7 +88,7 @@ export const UserAvatar = styled.img`
 
 export const UserNickname = styled.span``;
 
-export const UserDevField = styled.div<{ bgColor: FieldName }>`
+export const UserDevField = styled.div<{ bgColor: DevFieldType }>`
   ${({ theme, bgColor }) => css`
     margin-left: ${theme.margins.base};
     background-color: ${theme.tagColors[bgColor]};

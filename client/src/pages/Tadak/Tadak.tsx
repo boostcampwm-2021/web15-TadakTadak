@@ -7,11 +7,11 @@ import VideoController from '@components/video/VideoController';
 import VideoList from '@components/video/VideoList';
 import Loader from '@components/common/Loader';
 import { useUser } from '@contexts/userContext';
-import { RoomInfo } from '@src/types/interfaces';
+import { RoomInfoType } from '@src/types';
 
 interface LocationProps {
   pathname: string;
-  state: RoomInfo;
+  state: RoomInfoType;
 }
 
 interface TadakProps {

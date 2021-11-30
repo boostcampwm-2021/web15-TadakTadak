@@ -45,7 +45,7 @@ interface Colors {
 interface TagColors {
   'Front-end': string;
   'Back-end': string;
-  IOS: string;
+  iOS: string;
   Android: string;
   None: string;
 }

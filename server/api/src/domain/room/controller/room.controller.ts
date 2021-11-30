@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { RoomAPIDocs } from '../room.docs';
 import { Pagination } from 'src/paginate';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
-import { RoomType} from '../room.entity';
+import { RoomType } from '../room.entity';
 import { RoomService } from '../service/room.service';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
 import { RoomResponseDto } from '../dto/room-response.dto';

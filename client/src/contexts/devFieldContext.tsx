@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useState } from 'react';
 
-export interface DevFieldProps {
+interface DevFieldProps {
   label: string;
   value: string;
 }
 
-export interface DevFieldFnProps {
+interface DevFieldFnProps {
   registerDevField: (newDevField: DevFieldProps[]) => void;
 }
 

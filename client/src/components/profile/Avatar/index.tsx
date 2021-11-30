@@ -1,8 +1,8 @@
-import { Avatar, AvatarContainer, ButtonWrapper, UploadBtn, DeleteBtn } from './style';
+import { Avatar, AvatarContainer, ButtonWrapper, UploadBtn, DeleteBtn, Legend, Info, InfoSet } from './style';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { useToast } from '@hooks/useToast';
 import { deleteImage, postAvatar } from '@src/apis';
-import { TOAST_MESSAGE } from '@utils/constant';
+import { TOAST_MESSAGE, LEGEND_TEXT } from '@utils/constant';
 
 const ProfileAvatar = (): JSX.Element => {
   const user = useUser();
@@ -32,12 +32,15 @@ const ProfileAvatar = (): JSX.Element => {
 
   return (
     <AvatarContainer>
-      <Avatar src={user.imageUrl}></Avatar>
-      <ButtonWrapper>
-        <UploadBtn htmlFor="upload">업로드</UploadBtn>
-        <input type="file" onChange={onChangeFileInput} id="upload" style={{ display: 'none' }}></input>
-        <DeleteBtn onClick={onClickDeleteBtn}>삭제</DeleteBtn>
-      </ButtonWrapper>
+      <InfoSet>
+        <Legend>{LEGEND_TEXT.avatar}</Legend>
+        <Avatar src={user.imageUrl}></Avatar>
+        <ButtonWrapper>
+          <UploadBtn htmlFor="upload">업로드</UploadBtn>
+          <input type="file" onChange={onChangeFileInput} id="upload" style={{ display: 'none' }}></input>
+          <DeleteBtn onClick={onClickDeleteBtn}>삭제</DeleteBtn>
+        </ButtonWrapper>
+      </InfoSet>
     </AvatarContainer>
   );
 };
