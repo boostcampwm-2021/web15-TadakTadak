@@ -10,6 +10,7 @@ import { UserRepository } from '../repository/user.repository';
 import { UserResponseDto } from '../dto/user-response.dto';
 
 import 'dotenv/config';
+import { UserUpdateDto } from '../dto/user-update.dto';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -38,7 +39,7 @@ describe('UserService', () => {
   it('존재하지 않는 사용자를 조회하면 404 예외를 발생한다.', async () => {
     //given
     const userNickname = 'IMNOTUSER';
-    jest.spyOn(userRepository, 'findUserByNicknameWithDev').mockResolvedValue(null);
+    jest.spyOn(userRepository, 'findUserByNicknameWithDev').mockResolvedValue(undefined);
 
     try {
       //when
@@ -66,5 +67,20 @@ describe('UserService', () => {
     expect(findedUser.nickname).toBe(userNickname);
   });
 
-  it('');
+  it('존재하지 않는 사용자의 정보를 수정하면 404 예외를 발생한다.', async () => {
+    //given
+    const userNickname = 'IMNOTUSER';
+
+    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(undefined);
+
+    try {
+      //when
+      const result = await userService.updateUserInfo(userNickname, new UserUpdateDto());
+    } catch (e) {
+      //then
+      expect(e).toBeInstanceOf(NotFoundException);
+      expect(e.message).toBe('사용자를 찾을 수 없습니다.');
+      expect(e.status).toBe(HttpStatus.NOT_FOUND);
+    }
+  });
 });
