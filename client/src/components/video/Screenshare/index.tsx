@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ICameraVideoTrack, IMicrophoneAudioTrack, createScreenVideoTrack } from 'agora-rtc-react';
-import { useClient } from './videoConfig';
+import { useClient } from '../videoConfig';
 
 interface ScreenShareDivProps {
   preTracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
