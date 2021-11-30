@@ -39,7 +39,7 @@ function RoomList(): JSX.Element {
     async (searchStr: string) => {
       setLoading(true);
       const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
-      const queryObj = getRoomQueryObj(type, searchStr, page.current);
+      const queryObj = getRoomQueryObj({ type, search: searchStr, page: page.current });
       const { isOk, data } = await getRoom(queryObj);
       if (isOk && data) setRooms([...data.results]);
       setLoading(false);
