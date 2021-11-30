@@ -1,34 +1,15 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
-import { postRoom } from '@src/apis';
+import { Container, Input, Button } from './style';
 import Select from '@components/common/Select';
-import Form from '@components/common/Form';
-import { adminOptions } from '@utils/utils';
-import { INPUT, RoomType, TOAST_MESSAGE, PLACEHOLDER_TXT, SELECT_TEXT } from '@utils/constant';
-import { FORM } from '@utils/styleConstant';
+import Form from '@components/form/Form';
 import { useUser } from '@contexts/userContext';
-import useInput from '@hooks/useInput';
 import { useToast } from '@hooks/useToast';
-
-const Container = styled.div`
-  ${({ theme }) => theme.flexCenter}
-  flex-direction: column;
-  width: 60%;
-`;
-
-const Input = styled.input`
-  font-size: ${({ theme }) => theme.fontSizes.base};
-`;
-
-const Button = styled.button`
-  ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.green};
-  padding: ${({ theme }) => theme.paddings.sm};
-  width: 100%;
-  color: white;
-  border-radius: 1rem;
-`;
+import useInput from '@hooks/useInput';
+import { postRoom } from '@src/apis';
+import { INPUT, RoomType, TOAST_MESSAGE, PLACEHOLDER_TXT, SELECT_TEXT } from '@utils/constant';
+import { adminOptions } from '@utils/utils';
+import { FORM } from '@utils/styleConstant';
 
 type OptionType = {
   value: number;

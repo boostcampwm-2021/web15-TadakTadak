@@ -1,40 +1,39 @@
 import { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useHistory } from 'react-router';
-import SideBar from '@components/common/SideBar';
+import { Tabs } from './style';
+import { SocketEvents } from '@socket/socketEvents';
+import socket from '@socket/socket';
+import ParticipantList from '@components/room/tadaktadak/ParticipantList';
+import ChatList from '@components/chat/ChatList';
+import SideBar from '@components/sideBar/SideBar';
 import Tab from '@components/common/Tab';
-import ChatList from './ChatList';
-import ParticipantList from './ParticipantList';
 import { useUser } from '@contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
-import socket from '@socket/socket';
+import { useClient } from '../../room/tadaktadak/videoConfig';
 import { postLeaveRoom } from '@src/apis';
-import { SocketEvents } from '@socket/socketEvents';
-import { RoomType } from '@utils/constant';
-import { useClient } from './videoConfig';
-
-const SideBarTabs = styled.div`
-  display: flex;
-`;
+import { RoomType, TabType } from '@utils/constant';
+import { SIDEBAR } from '@utils/styleConstant';
 
 const initialTabState = {
   isChat: false,
   isParticipant: false,
 };
 
+interface ParticipantsProps {
+  [key: string]: {
+    field: {
+      id: number;
+      name: string;
+    };
+    img: string;
+  };
+}
+
 interface RoomSideBarProps {
   uuid: string;
   hostNickname: string | undefined;
   maxHeadcount: number;
   roomType?: string;
-}
-
-interface ParticipnatsProps {
-  field: {
-    id: number;
-    name: string;
-  };
-  img: string;
 }
 
 const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBarProps): JSX.Element => {
@@ -62,7 +61,7 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
   }, [history, client]);
 
   const registerParticipants = useCallback(
-    (userList: { [key: string]: ParticipnatsProps }) => {
+    (userList: ParticipantsProps) => {
       if (!nickname || !userList[nickname]) {
         return exitRoom();
       }
@@ -85,10 +84,10 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
   return (
     <SideBar
       topMenus={
-        <SideBarTabs>
-          <Tab text="채팅" isActive={isChat} onClick={onClickChatTap} />
-          <Tab text="참가자" isActive={isParticipant} onClick={onClickParticipantTap} />
-        </SideBarTabs>
+        <Tabs>
+          <Tab text={TabType.chat} isActive={isChat} onClick={onClickChatTap} />
+          <Tab text={TabType.participant} isActive={isParticipant} onClick={onClickParticipantTap} />
+        </Tabs>
       }
       bottomMenus={
         <>
@@ -96,7 +95,7 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
           {isParticipant && <ParticipantList participants={participants} hostNickname={hostNickname} uuid={uuid} />}
         </>
       }
-      bottomMenuHeight={'100%'}
+      bottomMenuHeight={SIDEBAR.RoomBottomMenuHeight}
       bgColor={roomType === RoomType.campfire ? theme.colors.bgCampfire : undefined}
       borderColor={roomType === RoomType.campfire ? 'transparent' : undefined}
     />

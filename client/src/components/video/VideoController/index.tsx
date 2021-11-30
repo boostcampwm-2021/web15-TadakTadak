@@ -6,10 +6,10 @@ import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import socket from '@socket/socket';
 import { SocketEvents } from '@socket/socketEvents';
 import { ButtonContainer, Controls, Getout } from './style';
-import Button from '@components/common/Button';
 import ScreenShare from '../Screenshare';
 import { useClient } from '../config';
 import { deleteRoom } from '@src/apis';
+import Button from '@components/common/CircleButton';
 import { useUser } from '@contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
 

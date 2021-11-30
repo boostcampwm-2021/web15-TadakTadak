@@ -1,14 +1,11 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 
-interface FormProps {
+interface StyledFormProps {
   width: string;
   height: string;
-  children: React.ReactNode;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const StyledForm = styled.form<FormProps>`
+export const StyledForm = styled.form<StyledFormProps>`
   display: flex;
   position: relative;
   flex-direction: column;
@@ -22,13 +19,3 @@ const StyledForm = styled.form<FormProps>`
     border-radius: ${theme.borderRadius.base};
   `};
 `;
-
-const Form = ({ onSubmit, width, height, children }: FormProps): JSX.Element => {
-  return (
-    <StyledForm onSubmit={onSubmit} width={width} height={height}>
-      {children}
-    </StyledForm>
-  );
-};
-
-export default Form;

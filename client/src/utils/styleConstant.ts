@@ -9,12 +9,15 @@ export const CHAT = {
 };
 
 export const FORM = {
+  top: '20%',
   joinWidth: '40rem',
   joinHeight: '30rem',
   loginWidth: '40rem',
   loginHeight: '30rem',
   createWidth: '100%',
   createHeight: '30rem',
+  btnWidth: '16rem',
+  btnBorderRadius: '1rem',
 };
 
 export const MODAL = {
@@ -26,6 +29,8 @@ export const MODAL = {
 export const SIDEBAR = {
   minWidth: '29rem',
   height: '100vh',
+  zIndex: 10,
+  RoomBottomMenuHeight: '100%',
 };
 
 export const CAMPER_ICON = {
@@ -54,6 +59,8 @@ export const GRASS = {
   width: '2.5rem',
   height: '2.5rem',
   gridGap: '0.3rem',
+  rowNumbers: 7,
+  columnNumbers: 53,
 };
 
 export const TOAST = {

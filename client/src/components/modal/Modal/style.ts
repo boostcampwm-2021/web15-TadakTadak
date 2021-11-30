@@ -1,14 +1,13 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 import { MODAL } from '@utils/styleConstant';
 
-export const ModalContainer = styled.div`
+export const Container = styled.div`
   width: 100%;
   top: ${MODAL.topPosition};
   display: block;
 `;
 
-export const ModalBackground = styled.div`
+export const BlackBackground = styled.div`
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -18,7 +17,7 @@ export const ModalBackground = styled.div`
   z-index: 2;
 `;
 
-export const ModalWrapper = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,25 +67,3 @@ export const Title = styled.h4`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   margin-bottom: ${({ theme }) => theme.margins.xl};
 `;
-
-interface ModalProps {
-  title?: string;
-  children: React.ReactNode;
-  setModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Modal = ({ setModal, children, title }: ModalProps): JSX.Element => {
-  const onClickModalBackground = () => setModal(false);
-  return (
-    <ModalContainer>
-      <ModalBackground onClick={onClickModalBackground}>
-        <ModalWrapper onClick={(e) => e.stopPropagation()}>
-          {title && <Title>{title}</Title>}
-          {children}
-        </ModalWrapper>
-      </ModalBackground>
-    </ModalContainer>
-  );
-};
-
-export default Modal;
