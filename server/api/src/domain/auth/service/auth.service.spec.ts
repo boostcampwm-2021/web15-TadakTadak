@@ -17,6 +17,7 @@ import { LoginRequestDtoBuilder, UserBuilder } from '../../../builder';
 import { BadRequestException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { UserException } from '../../../exception';
 import { LoginRequestDto } from '../dto/login-request.dto';
+import { Bcrypt } from '../../../utils/bcrypt';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -118,6 +119,24 @@ describe('AuthService', () => {
         .setPassword(lorem.sentence())
         .build();
 
+      jest.spyOn(userRepository, 'findUserByEmailWithDev').mockResolvedValue(undefined);
+      let result;
+      try {
+        result = await authService.login(loginRequestDto);
+      } catch (e) {
+        expect(e).toBeInstanceOf(UnauthorizedException);
+        expect(e.message).toBe('입력하신 사용자 정보가 올바르지 않습니다.');
+        expect(e.status).toBe(HttpStatus.UNAUTHORIZED);
+      }
+    });
+
+    it('일치하지 않는 비밀번호로 로그인을 하면 예외가 발생한다.', async () => {
+      const loginRequestDto: LoginRequestDto = new LoginRequestDtoBuilder()
+        .setEmail(internet.email())
+        .setPassword(lorem.sentence())
+        .build();
+
+      Bcrypt.compare = jest.fn().mockReturnValue(false);
       jest.spyOn(userRepository, 'findUserByEmailWithDev').mockResolvedValue(undefined);
       let result;
       try {
