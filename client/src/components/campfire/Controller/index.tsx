@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { IMicrophoneAudioTrack } from 'agora-rtc-react';
-import styled, { css, ThemeContext } from 'styled-components';
+import { ButtonContainer, Controls, GetoutDiv } from './style';
+import { ThemeContext } from 'styled-components';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdMusicNote, MdMusicOff } from 'react-icons/md';
 import { useClient } from '@components/video/config';
@@ -11,27 +12,6 @@ import { useUser } from '@contexts/userContext';
 import { usePlayBgm, usePlayBgmFns } from '@contexts/bgmContext';
 import socket from '@src/socket/socket';
 import { SocketEvents } from '@socket/socketEvents';
-
-const ButtonContainer = styled.div`
-  position: relative;
-`;
-const Controls = styled.div`
-  position: fixed;
-  ${({ theme }) => css`
-    ${theme.flexCenter}
-    bottom: ${theme.margins.xl};
-    left: 29rem;
-    right: 0;
-  `}
-`;
-
-const GetoutDiv = styled.div`
-  position: fixed;
-  ${({ theme }) => css`
-    top: ${theme.margins.xl};
-    right: ${theme.margins.sm};
-  `}
-`;
 
 interface CampfireControllerProps {
   track: IMicrophoneAudioTrack;

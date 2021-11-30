@@ -1,43 +1,7 @@
 import { useUser } from '@src/contexts/userContext';
 import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack } from 'agora-rtc-react';
-import styled, { css } from 'styled-components';
-import CamperAvatar from './CamperAvatar';
-
-const CamperListWrapper = styled.div`
-  position: relative;
-`;
-
-const CamperListContainer = styled.div`
-  position: fixed;
-  padding: ${({ theme }) => theme.paddings.lg};
-  ${({ theme }) => css`
-    ${theme.flexCenter};
-    bottom: 12rem;
-    left: 29rem;
-    right: 0;
-  `};
-`;
-
-const CamperWrapper = styled.div`
-  margin: ${({ theme }) => theme.margins.base};
-  ${({ theme }) => theme.flexColumn}
-  align-items: center;
-`;
-
-const CamperInfoDiv = styled.div`
-  width: 100%;
-  ${({ theme }) => theme.flexCenter}
-  margin-top: ${({ theme }) => theme.margins.sm};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  color: ${({ theme }) => theme.colors.grey};
-`;
-
-const CamperAvatarList = styled.div`
-  ${({ theme }) => css`
-    ${theme.flexCenter};
-    border-radius: ${theme.borderRadius.sm};
-  `};
-`;
+import { CamperListWrapper, CamperListContainer, CamperAvatarList, CamperWrapper, CamperInfoDiv } from './style';
+import CamperAvatar from '../CamperAvatar';
 
 interface CamperListProps {
   users: IAgoraRTCRemoteUser[];

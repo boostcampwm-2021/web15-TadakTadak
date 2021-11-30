@@ -4,7 +4,7 @@ import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
 import { useClient, useMicrophoneTrack } from '@components/video/config';
 import RoomSideBar from '@components/sideBar/Room';
 import FireAnimation from '@src/components/fireAnimation/Campfire';
-import CampfireController from '@src/components/campfire/CampfireController';
+import CampfireController from '@src/components/campfire/Controller';
 import CamperList from '@src/components/campfire/CamperList';
 import Loader from '@components/common/Loader';
 import BGMContextProvider from '@contexts/bgmContext';
