@@ -35,11 +35,7 @@ jobs:
       - name: CI 작업을 수행합니다.
         run: npm run ci
 
-      - name: Create .env file
-        run: |
-          touch .env
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-          cat .env
-
       - name: 테스트를 수행합니다.
         run: npm test
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
