@@ -3,7 +3,7 @@ import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
 import { useClient, useMicrophoneTrack } from '@components/video/config';
 import RoomSideBar from '@components/sideBar/Room';
-import FireAnimation from '@components/FireAnimation/Campfire';
+import FireAnimation from '@src/components/fireAnimation/Campfire';
 import CampfireController from '@components/room/campfire/CampfireController';
 import CamperList from '@components/room/campfire/CamperList';
 import Loader from '@components/common/Loader';
