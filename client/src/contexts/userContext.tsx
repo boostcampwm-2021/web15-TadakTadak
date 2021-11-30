@@ -18,6 +18,7 @@ export interface UserProps {
 
 export interface UserFnProps {
   logUserIn: (newUser: UserProps) => void;
+  changeUserInfo: (newUser: UserProps) => void;
   logUserOut: () => void;
 }
 
@@ -31,6 +32,7 @@ const UserContext = React.createContext<UserContextProps>({
   fn: {
     logUserIn: () => {},
     logUserOut: () => {},
+    changeUserInfo: () => {},
   },
 });
 
@@ -38,9 +40,17 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }): JSX.E
   const initialState = { login: false };
   const [user, setUser] = useState(initialState);
   const logUserIn = (newUser: UserProps) => setUser({ ...newUser, login: true });
+  const changeUserInfo = (info: UserProps) =>
+    setUser((prev) => {
+      return { ...prev, ...info };
+    });
   const logUserOut = () => setUser(initialState);
 
-  return <UserContext.Provider value={{ user, fn: { logUserIn, logUserOut } }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, fn: { logUserIn, logUserOut, changeUserInfo } }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUser = (): UserProps => {

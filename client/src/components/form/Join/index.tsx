@@ -1,51 +1,14 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import { Container, Input, Button, ModalToggleSpan } from './style';
+import Select from '@components/common/Select';
+import Form from '../Form';
+import { useDevField } from '@contexts/devFieldContext';
+import { useToast } from '@src/hooks/useToast';
 import useInput from '@hooks/useInput';
 import { postJoin } from '@src/apis';
-import Select from './common/Select';
-import Form from './common/Form';
-import { useDevField } from '@contexts/devFieldContext';
 import { INPUT, TOAST_MESSAGE, PLACEHOLDER_TXT, SELECT_TEXT } from '@utils/constant';
-import { FORM } from '@utils/styleConstant';
-import { useToast } from '@src/hooks/useToast';
 import { isEmail, isPassword, isNickname } from '@utils/utils';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: ${FORM.joinWidth};
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  top: 20%;
-`;
-
-const Input = styled.input`
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-`;
-
-const Button = styled.button`
-  ${({ theme }) => theme.flexCenter}
-  background-color: ${({ theme }) => theme.colors.green};
-  padding: ${({ theme }) => theme.paddings.sm};
-  color: ${({ theme }) => theme.colors.white};
-  width: 16rem;
-  border-radius: 1rem;
-`;
-
-const ModalToggleSpan = styled.span`
-  display: block;
-  width: 100%;
-  margin-top: ${({ theme }) => theme.margins.lg};
-  color: ${({ theme }) => theme.colors.blue};
-  text-align: center;
-  cursor: pointer;
-  :hover {
-    color: ${({ theme }) => theme.colors.primary};
-  }
-`;
+import { FORM } from '@utils/styleConstant';
 
 interface JoinProps {
   onClickModalToggle: React.MouseEventHandler<HTMLButtonElement>;

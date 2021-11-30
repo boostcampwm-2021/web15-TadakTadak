@@ -1,15 +1,6 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 
-interface ButtonProps {
-  icon?: React.ReactNode;
-  text?: string;
-  className?: string;
-  color?: string;
-  onClick?: () => void;
-}
-
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   border: none;
   cursor: pointer;
   border-radius: 50%;
@@ -47,14 +38,3 @@ const StyledButton = styled.button`
   &:disabled {
   }
 `;
-
-const Button = ({ text, icon, className, color, onClick }: ButtonProps): JSX.Element => {
-  return (
-    <StyledButton color={color} className={className} onClick={onClick}>
-      {icon}
-      {text}
-    </StyledButton>
-  );
-};
-
-export default Button;

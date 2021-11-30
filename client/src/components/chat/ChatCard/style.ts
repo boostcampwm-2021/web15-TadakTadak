@@ -1,9 +1,7 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 import { CHAT } from '@utils/styleConstant';
-import { chatTimeFormatting } from '@src/utils/utils';
 
-const ChatContainer = styled.li<{ bgChatBox?: string }>`
+export const Container = styled.li<{ bgChatBox?: string }>`
   display: flex;
   flex-direction: column;
   background-color: #ebf1f3;
@@ -18,45 +16,24 @@ const ChatContainer = styled.li<{ bgChatBox?: string }>`
     margin-top: ${({ theme }) => theme.margins.base};
   }
 `;
-const ChatTitle = styled.div`
+export const Title = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const ChatNickname = styled.span`
+export const Nickname = styled.span`
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
-const ChatTime = styled.span`
+export const Time = styled.span`
   color: ${({ theme }) => theme.colors.black};
   opacity: 0.5;
 `;
 
-const ChatMesssage = styled.p`
+export const Message = styled.p`
   width: ${CHAT.msgWidth};
   margin-left: ${({ theme }) => theme.margins.xl};
   font-size: ${CHAT.fontSize};
   overflow: hidden;
 `;
-
-interface ChatProps {
-  chat: Record<string, string | undefined>;
-  bgChatBox?: string;
-}
-
-const Chat = React.memo(({ chat, bgChatBox }: ChatProps): JSX.Element => {
-  const chatTime = chatTimeFormatting(chat.time);
-
-  return (
-    <ChatContainer bgChatBox={bgChatBox}>
-      <ChatTitle>
-        <ChatNickname>{chat.nickname ?? 'Anonymous'} :</ChatNickname>
-        <ChatTime>{chatTime}</ChatTime>
-      </ChatTitle>
-      <ChatMesssage>{chat.message}</ChatMesssage>
-    </ChatContainer>
-  );
-});
-
-export default Chat;

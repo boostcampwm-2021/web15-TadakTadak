@@ -1,6 +1,5 @@
 import { MainWrapper, MainContainer } from './style';
-
-import MainSideBar from '@src/components/main/MainSideBar';
+import MainSideBar from '@components/sideBar/Main';
 import RoomList from '@components/main/RoomList';
 import ServiceInfo from '@components/main/ServiceInfo';
 import DevFieldContextProvider from '@src/contexts/devFieldContext';

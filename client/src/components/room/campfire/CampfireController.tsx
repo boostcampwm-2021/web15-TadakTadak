@@ -5,7 +5,7 @@ import styled, { css, ThemeContext } from 'styled-components';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdMusicNote, MdMusicOff } from 'react-icons/md';
 import { useClient } from '../tadaktadak/videoConfig';
-import Button from '@components/common/Button';
+import Button from '@components/common/CircleButton';
 import { deleteRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
 import { usePlayBgm, usePlayBgmFns } from '@contexts/bgmContext';

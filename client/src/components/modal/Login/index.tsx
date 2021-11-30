@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Modal from '@components/common/Modal';
-import JoinForm from './JoinForm';
-import LoginForm from './LoginForm';
+import LoginForm from '@components/form/Login';
+import JoinForm from '@components/form/Join';
+import Modal from '@components/modal/Modal';
 import { MODAL_NAME } from '@utils/constant';
 
 interface LoginProps {
@@ -12,6 +12,7 @@ interface LoginProps {
 const Login = ({ modal, setModal }: LoginProps): JSX.Element => {
   const [isLogin, setIsLogin] = useState(true);
   const onClickModalToggle = () => setIsLogin(!isLogin);
+
   return (
     <>
       {modal && (
