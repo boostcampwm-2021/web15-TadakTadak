@@ -73,3 +73,9 @@ export const TOAST = {
 export const SEARCH_BAR = {
   initBtn: { fill: 'grey', fontSize: '2.2rem', cursor: 'pointer' },
 };
+
+export const PROFILE = {
+  avatarWidth: '15rem',
+  avatarHeight: '15rem',
+  btnBorderRadius: '1rem',
+};

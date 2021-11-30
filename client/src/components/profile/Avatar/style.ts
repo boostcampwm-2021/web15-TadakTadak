@@ -1,14 +1,13 @@
 import styled from 'styled-components';
+import { PROFILE } from '@utils/styleConstant';
 
 export const AvatarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: ${({ theme }) => theme.margins.xl};
+  ${({ theme }) => theme.flexColumn};
 `;
 export const Avatar = styled.img`
   margin-right: ${({ theme }) => theme.margins.base};
-  width: 30rem;
-  height: 30rem;
+  width: ${PROFILE.avatarWidth};
+  height: ${PROFILE.avatarHeight};
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -25,23 +24,13 @@ export const UploadBtn = styled.label`
   margin-top: ${({ theme }) => theme.margins.sm};
   padding: ${({ theme }) => theme.paddings.sm};
   color: ${({ theme }) => theme.colors.white};
-  border-radius: 1rem;
+  border-radius: ${PROFILE.btnBorderRadius};
   cursor: pointer;
   :hover {
-    color: ${({ theme }) => theme.colors.primary};
+    opacity: 0.7;
   }
 `;
 
-export const DeleteBtn = styled.button`
-  ${({ theme }) => theme.flexCenter}
-  width:100%;
+export const DeleteBtn = styled(UploadBtn)`
   background-color: ${({ theme }) => theme.colors.secondary};
-  margin-top: ${({ theme }) => theme.margins.sm};
-  padding: ${({ theme }) => theme.paddings.sm};
-  color: ${({ theme }) => theme.colors.white};
-  border-radius: 1rem;
-  cursor: pointer;
-  :hover {
-    color: ${({ theme }) => theme.colors.primary};
-  }
 `;

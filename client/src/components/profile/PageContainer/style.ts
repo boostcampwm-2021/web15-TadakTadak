@@ -2,8 +2,8 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
+  align-items: end;
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
     padding: ${theme.paddings.lg};
