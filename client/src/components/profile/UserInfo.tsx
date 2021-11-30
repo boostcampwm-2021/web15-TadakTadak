@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import InfoForm from './InfoForm';
 import { useUser } from '@contexts/userContext';
-import ModifyForm from './ModifyForm';
+import ModifyInfoCard from './ModifyInfoCard';
 import { CANVAS } from '@utils/constant';
 import GrassArea from '@components/profile/GrassArea';
 import ProfileAvatar from '@components/profile/Avatar';
@@ -107,7 +107,7 @@ function UserInfo(): JSX.Element {
       <MainTitle>마이 프로필</MainTitle>
       <Wrapper>
         {isModify ? (
-          <ModifyForm onClickModifyToggle={onClickModifyToggle} setIsModify={setIsModify} />
+          <ModifyInfoCard onnClickCancelBtn={onClickModifyToggle} setIsModify={setIsModify} />
         ) : (
           <InfoForm onClickModifyToggle={onClickModifyToggle} />
         )}
