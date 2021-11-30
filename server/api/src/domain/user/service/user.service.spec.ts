@@ -1,4 +1,4 @@
-import { HttpStatus, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserBuilder } from '../../../builder';
 import { JwtStrategy } from '../../auth/strategy/jwt.strategy';
@@ -81,6 +81,23 @@ describe('UserService', () => {
       expect(e).toBeInstanceOf(NotFoundException);
       expect(e.message).toBe('사용자를 찾을 수 없습니다.');
       expect(e.status).toBe(HttpStatus.NOT_FOUND);
+    }
+  });
+
+  it('중복되는 닉네임으로 사용자의 정보를 수정하면 404 예외를 발생한다.', async () => {
+    //given
+    const userNickname = 'ALREADYUSED';
+
+    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
+
+    try {
+      //when
+      const result = await userService.updateUserInfo(userNickname, new UserUpdateDto());
+    } catch (e) {
+      //then
+      expect(e).toBeInstanceOf(BadRequestException);
+      expect(e.message).toBe('이미 존재하는 회원입니다.');
+      expect(e.status).toBe(HttpStatus.BAD_REQUEST);
     }
   });
 });
