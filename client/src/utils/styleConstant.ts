@@ -62,3 +62,7 @@ export const TOAST = {
   second: `${TOAST_TIME / 1000}.2s`,
   topPosition: '10vh',
 };
+
+export const SEARCH_BAR = {
+  initBtn: { fill: 'grey', fontSize: '2.2rem', cursor: 'pointer' },
+};
