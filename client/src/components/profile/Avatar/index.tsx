@@ -2,7 +2,7 @@ import { Avatar, AvatarContainer, ButtonWrapper, UploadBtn, DeleteBtn, Legend, I
 import { useUser, useUserFns } from '@contexts/userContext';
 import { useToast } from '@hooks/useToast';
 import { deleteImage, postAvatar } from '@src/apis';
-import { TOAST_MESSAGE } from '@utils/constant';
+import { TOAST_MESSAGE, LEGEND_TEXT } from '@utils/constant';
 
 const ProfileAvatar = (): JSX.Element => {
   const user = useUser();
@@ -34,7 +34,7 @@ const ProfileAvatar = (): JSX.Element => {
   return (
     <AvatarContainer>
       <InfoSet>
-        <Legend>{`아바타`}</Legend>
+        <Legend>{LEGEND_TEXT.avatar}</Legend>
         <Avatar src={user.imageUrl}></Avatar>
         <ButtonWrapper>
           <UploadBtn htmlFor="upload">업로드</UploadBtn>

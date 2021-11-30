@@ -16,7 +16,7 @@ import {
   getHeights,
   getWidths,
 } from '@utils/utils';
-import { CANVAS, CHECK_IN, PATH } from '@utils/constant';
+import { CANVAS, CHECK_IN, PATH, LEGEND_TEXT } from '@utils/constant';
 
 function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
@@ -80,7 +80,7 @@ function UserInfo(): JSX.Element {
         <InfoContainer>
           <ProfileAvatar />
           <InfoSet>
-            <Legend>유저 정보</Legend>
+            <Legend>{isModify ? LEGEND_TEXT.modifyUserInfo : LEGEND_TEXT.userInfo}</Legend>
             {isModify ? (
               <ModifyInfoCard onnClickCancelBtn={onClickModifyToggle} setIsModify={setIsModify} />
             ) : (
@@ -89,7 +89,7 @@ function UserInfo(): JSX.Element {
           </InfoSet>
         </InfoContainer>
         <InfoSet>
-          <Legend>{'월별 출석 통계'}</Legend>
+          <Legend>{LEGEND_TEXT.grassChart}</Legend>
           <Canvas ref={canvasRef}></Canvas>
         </InfoSet>
       </Container>

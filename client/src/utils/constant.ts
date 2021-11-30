@@ -108,6 +108,10 @@ export const KEY_PRESS = {
   enter: 'Enter',
 };
 
-export const GRASS = {
-  title: '잔디 🔥',
+export const LEGEND_TEXT = {
+  grass: '매일 출석해서 잔디를 모으세요! 🔥',
+  avatar: '아바타',
+  userInfo: '유저 정보',
+  modifyUserInfo: '유저 정보 수정',
+  grassChart: '월별 출석 통계',
 };
