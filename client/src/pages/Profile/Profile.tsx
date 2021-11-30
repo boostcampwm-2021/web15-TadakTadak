@@ -1,7 +1,8 @@
 import { ProfileWrapper, ProfileContainer } from './style';
-import MainSideBar from '@src/components/main/MainSideBar';
+import MainSideBar from '@components/sideBar/Main';
 import UserInfo from '@components/profile/UserInfo';
 import DevFieldContextProvider from '@src/contexts/devFieldContext';
+
 const Profile = (): JSX.Element => {
   return (
     <ProfileWrapper>

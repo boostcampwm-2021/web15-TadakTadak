@@ -28,6 +28,8 @@ export const MODAL = {
 export const SIDEBAR = {
   minWidth: '29rem',
   height: '100vh',
+  zIndex: 10,
+  RoomBottomMenuHeight: '100%',
 };
 
 export const CAMPER_ICON = {

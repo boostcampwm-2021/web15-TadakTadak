@@ -4,7 +4,7 @@ import { useClient, useMicrophoneTrack } from '../../components/room/tadaktadak/
 import BGMContextProvider from '@contexts/bgmContext';
 import { RoomInfo } from '@components/main/RoomList';
 import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
-import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
+import RoomSideBar from '@components/sideBar/Room';
 import FireAnimation from '@components/largeFireAnimation';
 import CampfireController from '@components/room/campfire/CampfireController';
 import CamperList from '@components/room/campfire/CamperList';

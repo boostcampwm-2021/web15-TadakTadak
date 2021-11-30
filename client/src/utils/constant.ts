@@ -3,6 +3,11 @@ export enum RoomType {
   campfire = '캠프파이어',
 }
 
+export enum TabType {
+  chat = '채팅',
+  participant = '참가자',
+}
+
 export const DEBOUNCE = {
   time: 500,
 };
@@ -81,6 +86,7 @@ export const PLACEHOLDER_TXT = {
   email: '이메일 (Ex : user@tadaktadak.com)',
   nickname: `닉네임 (최소 2자, 최대 ${INPUT.nicknameMaxLen}자, 영문/숫자/한글)`,
   password: `비밀번호 (최소 ${INPUT.pwdMinLen}자, 최대 ${INPUT.pwdMaxLen}자, 영문, 숫자 조합 / 특수문자 가능)`,
+  chat: '메시지를 입력하세요..',
 };
 
 export const SELECT_TEXT = {
@@ -97,4 +103,8 @@ export const CANVAS = {
   YLine: '#888888',
   XLine: '#f5f5f5',
   resultLine: '#ee7f6e',
+};
+
+export const KEY_PRESS = {
+  enter: 'Enter',
 };
