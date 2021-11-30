@@ -25,7 +25,11 @@ describe('RoomService', () => {
     userRepository = module.get<UserRepository>(UserRepository);
   });
 
-  it('should be defined', () => {
-    // expect(roomService).toBeDefined();
+  it('[getRoomByUUID] UUID로 방의 정보를 조회할 수 있다.', async () => {
+    jest.spyOn(roomRepository, 'findRoomByUUID').mockResolvedValue(mockRoom);
+    const result = await roomService.getRoomByUUID(lorem.sentence());
+    expect(result).toStrictEqual(new RoomResponseDto(mockRoom));
+  });
+
   });
 });
