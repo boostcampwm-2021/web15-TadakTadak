@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - "**"
+env:
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
 jobs:
   build:
@@ -31,8 +33,6 @@ jobs:
 
       - name: npm 으로 패키지 다운로드합니다.
         run: npm install
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       - name: CI 작업을 수행합니다.
         run: npm run ci
