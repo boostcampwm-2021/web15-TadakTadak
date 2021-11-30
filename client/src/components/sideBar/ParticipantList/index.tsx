@@ -2,8 +2,9 @@ import { useCallback } from 'react';
 import socket from '@socket/socket';
 import { SocketEvents } from '@socket/socketEvents';
 import { Container, List, Participant, Avatar, Nickname, DevField, Position, GetOutBtn } from './style';
-import { FieldName, useUser } from '@src/contexts/userContext';
+import { useUser } from '@src/contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
+import { DevFieldType } from '@src/types';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
@@ -15,7 +16,7 @@ const ParticipantList = ({
   participants,
   hostNickname,
   uuid,
-}: ParticipantListProps<{ field: { id: number; name: FieldName }; img: string }>): JSX.Element => {
+}: ParticipantListProps<{ field: { id: number; name: DevFieldType }; img: string }>): JSX.Element => {
   const theme = useTheme();
   const user = useUser();
 

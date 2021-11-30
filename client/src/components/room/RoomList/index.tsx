@@ -8,9 +8,9 @@ import TabInfo from '@components/room/TabInfo';
 import useDebounce from '@hooks/useDebounce';
 import useInput from '@hooks/useInput';
 import { getRoom } from '@src/apis';
-import { getRoomQueryObj } from '@utils/apiUtils';
+import { getRoomQueryObj } from '@src/apis/apiUtils';
 import { DEBOUNCE, INFINITE_SCROLL, ROOM_DESCRIPTION } from '@utils/constant';
-import { RoomInfo, TabState } from '@src/types/interfaces';
+import { RoomInfoType, TabStateType } from '@src/types';
 
 interface ListGeneratorProps<T> {
   list: T[];
@@ -21,11 +21,11 @@ const ListGenerator = <T extends unknown>({ list, renderItem }: ListGeneratorPro
   return <>{list.map((item) => renderItem(item))}</>;
 };
 
-const renderRoomList = (roomInfo: RoomInfo) => <RoomCard key={roomInfo.uuid} roomInfo={roomInfo} />;
+const renderRoomList = (roomInfo: RoomInfoType) => <RoomCard key={roomInfo.uuid} roomInfo={roomInfo} />;
 
 function RoomList(): JSX.Element {
-  const [tabState, setTabState] = useState<TabState>({ tadak: true, campfire: false });
-  const [rooms, setRooms] = useState<RoomInfo[]>([]);
+  const [tabState, setTabState] = useState<TabStateType>({ tadak: true, campfire: false });
+  const [rooms, setRooms] = useState<RoomInfoType[]>([]);
   const [search, onChangeSearch, onResetSearch] = useInput('');
   const debounceSearch = useDebounce(search, DEBOUNCE.time);
   const [isLoading, setLoading] = useState(false);

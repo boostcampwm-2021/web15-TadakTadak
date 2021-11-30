@@ -1,31 +1,31 @@
 import styled, { css } from 'styled-components';
+import { PROFILE } from '@utils/styleConstant';
 
 export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 45rem;
+  width: 100%;
+  min-width: ${PROFILE.infoCardMinWidth};
+  ${({ theme }) => theme.flexColumn};
 `;
 
 export const InfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 3px;
+  ${({ theme }) => theme.flexColumn};
 `;
+
 export const Legend = styled.legend`
-  font-size: 3rem;
+  font-size: ${PROFILE.legendFontSize};
   color: ${({ theme }) => theme.colors.bgGreen};
 `;
 
 export const Info = styled.div`
-  font-size: 5rem;
+  font-size: ${PROFILE.infoFontSize};
   color: ${({ theme }) => theme.colors.bgGreen};
-  width: 40rem;
+  word-break: break-all;
 `;
 
 export const InfoSet = styled.fieldset`
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
-    padding: ${theme.paddings.lg};
+    padding: ${theme.paddings.sm};
     border: 1px solid ${theme.colors.borderGrey};
     border-radius: ${theme.borderRadius.base};
   `};
@@ -33,7 +33,8 @@ export const InfoSet = styled.fieldset`
 
 export const ModifyBtn = styled.span`
   ${({ theme }) => theme.flexCenter}
-  width:100%;
+  font-size: ${PROFILE.legendFontSize};
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.green};
   padding: ${({ theme }) => theme.paddings.sm};
   color: ${({ theme }) => theme.colors.white};
@@ -46,7 +47,8 @@ export const ModifyBtn = styled.span`
 
 export const CancelBtn = styled.span`
   ${({ theme }) => theme.flexCenter}
-  width:100%;
+  font-size: ${PROFILE.legendFontSize};
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.secondary};
   padding: ${({ theme }) => theme.paddings.sm};
   color: ${({ theme }) => theme.colors.white};
@@ -58,10 +60,9 @@ export const CancelBtn = styled.span`
 `;
 
 export const Input = styled.input`
-  font-size: 5rem;
+  font-size: ${PROFILE.legendFontSize};
 `;
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  flex-direction: row;
 `;

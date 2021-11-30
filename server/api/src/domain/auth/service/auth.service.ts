@@ -35,7 +35,7 @@ export class AuthService {
     const isToday = user.lastCheckIn.isEqual(today);
     if (!isToday) {
       user.setLastCheckIn(today);
-      this.historyService.checkIn(user);
+      await this.historyService.checkIn(user);
       await this.userRepository.save(user);
     }
     const token = this.jwtService.sign({ email: loginRequestDto.email });

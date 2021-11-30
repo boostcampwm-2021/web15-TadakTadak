@@ -1,18 +1,13 @@
-import { UserProps } from '@contexts/userContext';
+import UserInfoType from './userInfo';
 
-export interface RoomInfo {
+export default interface RoomInfoType {
   agoraAppId: string;
   agoraToken: string;
   uuid: string;
-  owner?: UserProps;
+  owner?: UserInfoType;
   title: string;
   roomType: string;
   description: string;
   nowHeadcount: number;
   maxHeadcount: number;
-}
-
-export interface TabState {
-  tadak: boolean;
-  campfire: boolean;
 }
