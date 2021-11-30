@@ -108,3 +108,7 @@ export const CANVAS = {
 export const KEY_PRESS = {
   enter: 'Enter',
 };
+
+export const GRASS = {
+  title: '잔디 🔥',
+};

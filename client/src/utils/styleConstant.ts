@@ -59,6 +59,8 @@ export const GRASS = {
   width: '2.5rem',
   height: '2.5rem',
   gridGap: '0.3rem',
+  rowNumbers: 7,
+  columnNumbers: 53,
 };
 
 export const TOAST = {

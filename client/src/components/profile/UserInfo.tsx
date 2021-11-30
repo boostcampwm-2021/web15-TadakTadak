@@ -5,7 +5,7 @@ import InfoForm from './InfoForm';
 import { useUser, useUserFns } from '@contexts/userContext';
 import ModifyForm from './ModifyForm';
 import { TOAST_MESSAGE, CANVAS } from '@utils/constant';
-
+import GrassArea from '@components/GrassArea';
 import { useToast } from '@src/hooks/useToast';
 import { deleteImage, getUserLogList, getUserLogListPerMonth, postAvatar } from '@src/apis';
 import {
@@ -231,14 +231,7 @@ function UserInfo(): JSX.Element {
           <Canvas ref={canvasRef}></Canvas>
         </div>
       </Wrapper>
-
-      <InfoSet>
-        <Legend>{`잔디 🔥`}</Legend>
-        <GrassContainer>
-          {grassList.length &&
-            grassList.map((date, idx) => (date === CHECK_IN ? <FireBlock key={idx} /> : <GreyBlock key={idx} />))}
-        </GrassContainer>
-      </InfoSet>
+      <GrassArea grassList={grassList} />
     </div>
   );
 }
