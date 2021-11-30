@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef, useCallback } from 'react';
 import {
   IRemoteVideoTrack,
   IRemoteAudioTrack,
@@ -5,35 +6,10 @@ import {
   ICameraVideoTrack,
   AgoraVideoPlayer,
 } from 'agora-rtc-react';
-import styled from 'styled-components';
-import defaultImage from '@assets/default-avatar.jpeg';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { VideoWrap, VolumeVisualizer } from './style';
 import { SPEAK } from '@utils/constant';
-import { VIDEO_BOX } from '@utils/styleConstant';
 
-const VideoWrap = styled.div`
-  ${({ theme }) => theme.flexCenter};
-  width: ${VIDEO_BOX.width};
-  height: ${VIDEO_BOX.height};
-  background-image: url(${defaultImage});
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: ${VIDEO_BOX.borderRadius};
-  overflow: hidden;
-  position: relative;
-`;
-
-const VolumeVisualizer = styled.div`
-  width: ${VIDEO_BOX.width};
-  height: ${VIDEO_BOX.height};
-  position: absolute;
-  right: 0;
-  border: 3px solid ${({ theme }) => theme.colors.blue};
-  border-radius: ${VIDEO_BOX.borderRadius};
-`;
-
-interface VideoBoxProps {
+interface VideoCardProps {
   videoTrack: ICameraVideoTrack | IRemoteVideoTrack | undefined;
   audioTrack: IMicrophoneAudioTrack | IRemoteAudioTrack | undefined;
 }
@@ -44,7 +20,7 @@ interface DivWithFullscreen extends HTMLDivElement {
   webkitRequestFullscreen?: () => void;
 }
 
-const VideoBox = ({ videoTrack, audioTrack }: VideoBoxProps): JSX.Element => {
+const VideoCard = ({ videoTrack, audioTrack }: VideoCardProps): JSX.Element => {
   const [isSpeak, setIsSpeak] = useState(false);
   const isInterval = useRef(false);
   const videoRef = useRef<DivWithFullscreen>(null);
@@ -100,4 +76,4 @@ const VideoBox = ({ videoTrack, audioTrack }: VideoBoxProps): JSX.Element => {
   );
 };
 
-export default VideoBox;
+export default VideoCard;
