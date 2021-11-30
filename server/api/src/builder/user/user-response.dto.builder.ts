@@ -1,7 +1,7 @@
 import { BuilderCommon } from '../builder';
 import { LocalDate } from 'js-joda';
-import { UserResponseDto } from '../../domain/user/dto/user-response.dto';
 import { DevField } from '../../domain/field/dev-field.entity';
+import { UserResponseDto } from '../../domain/user/dto/user-response.dto';
 
 export class UserResponseDtoBuilder extends BuilderCommon<UserResponseDto> {
   constructor() {
