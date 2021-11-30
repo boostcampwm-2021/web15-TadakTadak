@@ -45,7 +45,7 @@ export const VIDEO_BOX = {
   borderRadius: '3rem',
 };
 
-export const ROOM_BOX = {
+export const ROOM_CARD = {
   width: '20rem',
   height: '15rem',
 };
