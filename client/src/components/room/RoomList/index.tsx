@@ -8,7 +8,7 @@ import TabInfo from '@components/room/TabInfo';
 import useDebounce from '@hooks/useDebounce';
 import useInput from '@hooks/useInput';
 import { getRoom } from '@src/apis';
-import { getRoomQueryObj } from '@utils/apiUtils';
+import { getRoomQueryObj } from '@src/apis/apiUtils';
 import { DEBOUNCE, INFINITE_SCROLL, ROOM_DESCRIPTION } from '@utils/constant';
 import { RoomInfoType, TabStateType } from '@src/types';
 

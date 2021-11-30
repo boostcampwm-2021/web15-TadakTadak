@@ -9,7 +9,7 @@ import {
   fetchDeleteImage,
   fetcher,
   getUrl,
-} from './utils/apiUtils';
+} from './apiUtils';
 
 interface PostLogin {
   email: string;
