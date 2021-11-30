@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { LocalDate } from 'js-joda';
 import { Bcrypt } from '../../../utils/bcrypt';
-import { UserBuilder } from '../../../builder';
+import { UserBuilder, UserResponseDtoBuilder } from '../../../builder';
 import { DevFieldException, UserException } from '../../../exception';
 import { User } from '../../user/user.entity';
 import { DevField } from '../../field/dev-field.entity';
@@ -35,11 +35,17 @@ export class AuthService {
     const isToday = user.lastCheckIn.isEqual(today);
     if (!isToday) {
       user.setLastCheckIn(today);
-      this.historyService.checkIn(user);
+      await this.historyService.checkIn(user);
       await this.userRepository.save(user);
     }
     const token = this.jwtService.sign({ email: loginRequestDto.email });
-    const userInfo: UserResponseDto = new UserResponseDto(user);
+    const userInfo: UserResponseDto = new UserResponseDtoBuilder()
+      .setId(user.id)
+      .setNickname(user.nickname)
+      .setEmail(user.email)
+      .setImageUrl(user.imageUrl)
+      .setDevField(user.devField)
+      .build();
     return { token, userInfo };
   }
 
@@ -55,6 +61,7 @@ export class AuthService {
       .setPassword(Bcrypt.hash(password))
       .setImageURL(process.env.DEFAULT_IMG)
       .setDevField(devField)
+      .setLastCheckIn(LocalDate.now().minusDays(1))
       .build();
     await this.userRepository.save(user);
     return true;
@@ -63,6 +70,12 @@ export class AuthService {
   async getUserInfo(email: string) {
     const user: User = await this.userRepository.findUserByEmailWithDev(email);
     if (!user) throw UserException.userNotFound();
-    return new UserResponseDto(user);
+    return new UserResponseDtoBuilder()
+      .setId(user.id)
+      .setNickname(user.nickname)
+      .setEmail(user.email)
+      .setImageUrl(user.imageUrl)
+      .setDevField(user.devField)
+      .build();
   }
 }

@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { RtcRole, RtcTokenBuilder } from 'agora-access-token';
-import { RoomBuilder, UserBuilder } from '../../../builder';
+import { RoomBuilder } from '../../../builder';
 import { RoomException, UserException } from '../../../exception';
 import { Pagination, PaginationOptions } from '../../../paginate';
-import { Connection, DeleteResult } from 'typeorm';
-import { Room, RoomType } from '../room.entity';
+import { DeleteResult } from 'typeorm';
+import { RoomType } from '../room.entity';
 import { RoomProcessOption, RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
@@ -15,13 +15,11 @@ import { RoomResponseDto } from '../dto/room-response.dto';
 @Injectable()
 export class RoomService {
   constructor(
-    private connection: Connection,
     @InjectRepository(RoomRepository)
     private readonly roomRepository: RoomRepository,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-  ) {
-  }
+  ) {}
 
   async getRoomByUUID(uuid: string): Promise<RoomResponseDto> {
     const findRoom = await this.roomRepository.findRoomByUUID(uuid);
@@ -57,9 +55,6 @@ export class RoomService {
   }
 
   async createRoom(createRoomRequestDto: CreateRoomRequestDto, email: string): Promise<RoomResponseDto> {
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-
     const { title, description, maxHeadcount, roomType } = createRoomRequestDto;
     const uuid = uuidv4();
     const user = await this.userRepository.findUserByUserEmail(email);
@@ -79,27 +74,23 @@ export class RoomService {
       .setAgoraToken(agoraToken)
       .setOwner(user)
       .build();
-
-    try {
-      await queryRunner.startTransaction();
-      await this.roomRepository.createRoom(newRoom);
-      await queryRunner.commitTransaction();
-    } catch (e) {
-      await queryRunner.rollbackTransaction();
-      throw RoomException.roomCreateError();
-    } finally {
-      await queryRunner.release();
-    }
+    await this.roomRepository.createRoom(newRoom);
     return new RoomResponseDto(newRoom);
   }
 
-  async deleteRoom(email: string, uuid: string): Promise<boolean> {
+  async deleteRoomByEmail(email: string, uuid: string): Promise<boolean> {
     const user = await this.userRepository.findUserByUserEmail(email);
     if (!user) throw UserException.userNotFound();
     const findRoom = await this.roomRepository.findRoomByUserEmailAndUUID(email, uuid);
     if (!findRoom) throw RoomException.roomNotFound();
     if (user.id != findRoom.owner.id) throw UserException.userUnauthorized();
     const deleteResult: DeleteResult = await this.roomRepository.deleteRoomByRoomID(findRoom.id);
+    if (!deleteResult) throw RoomException.roomDeleteError();
+    return true;
+  }
+
+  async deleteRoomFromSocket(uuid: string): Promise<boolean> {
+    const deleteResult: DeleteResult = await this.roomRepository.deleteRoomByUUID(uuid);
     if (!deleteResult) throw RoomException.roomDeleteError();
     return true;
   }

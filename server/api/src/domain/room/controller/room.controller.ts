@@ -1,11 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiExtraModels, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { Type } from 'class-transformer';
 import { RoomAPIDocs } from '../room.docs';
 import { Pagination } from 'src/paginate';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
-import { Room, RoomType, roomTypeToArray } from '../room.entity';
+import { RoomType } from '../room.entity';
 import { RoomService } from '../service/room.service';
 import { CreateRoomRequestDto } from '../dto/create-room-request.dto';
 import { RoomResponseDto } from '../dto/room-response.dto';
@@ -63,6 +62,15 @@ export class RoomController {
   @UseGuards(JwtAuthGuard)
   async deleteRoom(@Req() req: Request, @Param('uuid') uuid: string): Promise<{ result: boolean }> {
     const userEmail = req.user['email'];
-    return { result: await this.roomService.deleteRoom(userEmail, uuid) };
+    return { result: await this.roomService.deleteRoomByEmail(userEmail, uuid) };
+  }
+
+  @Delete('socket/:uuid')
+  async deleteRoomBySocket(@Req() req: Request, @Param('uuid') uuid: string): Promise<{ result: boolean }> {
+    const key = req.header('socket-secret-key');
+    if (key === process.env.SOCKET_SECRET_KEY) {
+      return { result: await this.roomService.deleteRoomFromSocket(uuid) };
+    }
+    return { result: false };
   }
 }

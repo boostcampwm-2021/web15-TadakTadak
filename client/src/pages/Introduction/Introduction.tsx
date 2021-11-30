@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useUser } from '@contexts/userContext';
-import { useEffect, useState } from 'react';
-import FireAnimation from '@components/fireAnimation';
+import FireAnimation from '@components/fireAnimation/Introduction';
+import { PATH } from '@utils/constant';
 
 interface IntroContainerProps {
   fireOn: boolean;
@@ -29,14 +30,16 @@ const IntroContainer = styled.div<IntroContainerProps>`
 const IntroTitle = styled.div`
   z-index: 2;
   color: white;
-  font-size: 250px;
+  font-size: 22rem;
 `;
+
 const IntroDescription = styled.div`
   z-index: 2;
   color: white;
-  font-size: 40px;
+  font-size: 4rem;
   margin-bottom: ${({ theme }) => theme.margins.xl};
 `;
+
 const IntroButtonDescription = styled.div`
   z-index: 2;
   color: white;
@@ -44,20 +47,25 @@ const IntroButtonDescription = styled.div`
   margin-top: 70px;
 `;
 
-const Introduction = (props: { history: { push(url: string): void } }): JSX.Element => {
+interface IntroductionProps {
+  history: {
+    push: (url: string) => void;
+  };
+}
+
+const Introduction = ({ history: { push } }: IntroductionProps): JSX.Element => {
   const user = useUser();
   const [fireOn, setFireOn] = useState(false);
-  const { push } = props.history;
 
   useEffect(() => {
     if (user.login) {
-      push('/main');
+      push(PATH.main);
     }
   }, [user, push]);
 
   useEffect(() => {
     if (fireOn) {
-      setTimeout(() => push('/main'), 1500);
+      setTimeout(() => push(PATH.main), 1500);
     }
   }, [fireOn, push]);
 

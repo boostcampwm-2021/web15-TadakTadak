@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
-import { useClient, useMicrophoneTrack } from '../../components/room/tadaktadak/videoConfig';
-import BGMContextProvider from '@contexts/bgmContext';
-import { RoomInfo } from '@components/main/RoomList';
 import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
-import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
-import FireAnimation from '@components/largeFireAnimation';
-import CampfireController from '@components/room/campfire/CampfireController';
-import CamperList from '@components/room/campfire/CamperList';
-import { RoomType } from '@utils/constant';
+import { useClient, useMicrophoneTrack } from '@components/video/config';
+import RoomSideBar from '@components/sideBar/Room';
+import FireAnimation from '@src/components/fireAnimation/Campfire';
+import CampfireController from '@src/components/campfire/Controller';
+import CamperList from '@src/components/campfire/CamperList';
+import Loader from '@components/common/Loader';
+import BGMContextProvider from '@contexts/bgmContext';
 import { useUser } from '@contexts/userContext';
+import { RoomType } from '@utils/constant';
+import { RoomInfoType } from '@src/types';
 
 interface LocationProps {
   pathname: string;
-  state: RoomInfo;
+  state: RoomInfoType;
 }
 
 interface RoomProps {
@@ -75,19 +76,23 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
 
   return (
     <BGMContextProvider>
-      <RoomWrapper>
-        <RoomSideBar
-          uuid={uuid}
-          hostNickname={owner?.nickname}
-          maxHeadcount={maxHeadcount}
-          roomType={RoomType.campfire}
-        />
-        <RoomContainer>
-          <FireAnimation setFireOn={setFireOn} />
-          {start && track && <CamperList users={users} track={track} />}
-          {ready && track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
-        </RoomContainer>
-      </RoomWrapper>
+      {!start ? (
+        <Loader isWholeScreen={true} />
+      ) : (
+        <RoomWrapper>
+          <RoomSideBar
+            uuid={uuid}
+            hostNickname={owner?.nickname}
+            maxHeadcount={maxHeadcount}
+            roomType={RoomType.campfire}
+          />
+          <RoomContainer>
+            <FireAnimation fireOn={fireOn} setFireOn={setFireOn} />
+            {track && <CamperList users={users} track={track} />}
+            {track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
+          </RoomContainer>
+        </RoomWrapper>
+      )}
     </BGMContextProvider>
   );
 };

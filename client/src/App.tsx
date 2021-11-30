@@ -2,6 +2,7 @@ import './styles/fonts.css';
 import { useCallback, useEffect } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
+import ToastContainer from '@components/toast/ToastContainer';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { getUserByToken } from '@src/apis';
 import Introduction from '@pages/Introduction';
@@ -29,6 +30,7 @@ const App = (): JSX.Element => {
 
   return (
     <>
+      <ToastContainer />
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Introduction} />

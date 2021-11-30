@@ -1,28 +1,14 @@
 import React, { useContext, useState } from 'react';
+import { UserInfoType } from '@src/types';
 
-export type FieldName = 'Front-end' | 'Back-end' | 'IOS' | 'Android' | 'None';
-
-export interface UserProps {
-  id?: number;
-  nickname?: string;
-  email?: string;
-  imageUrl?: string;
-  introduction?: string;
-  isSocial?: boolean;
-  devField?: {
-    id: number;
-    name: FieldName;
-  };
-  login?: boolean;
-}
-
-export interface UserFnProps {
-  logUserIn: (newUser: UserProps) => void;
+interface UserFnProps {
+  logUserIn: (newUser: UserInfoType) => void;
+  changeUserInfo: (newUser: UserInfoType) => void;
   logUserOut: () => void;
 }
 
 interface UserContextProps {
-  user: UserProps;
+  user: UserInfoType;
   fn: UserFnProps;
 }
 
@@ -31,19 +17,28 @@ const UserContext = React.createContext<UserContextProps>({
   fn: {
     logUserIn: () => {},
     logUserOut: () => {},
+    changeUserInfo: () => {},
   },
 });
 
 const UserContextProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const initialState = { login: false };
   const [user, setUser] = useState(initialState);
-  const logUserIn = (newUser: UserProps) => setUser({ ...newUser, login: true });
+  const logUserIn = (newUser: UserInfoType) => setUser({ ...newUser, login: true });
+  const changeUserInfo = (info: UserInfoType) =>
+    setUser((prev) => {
+      return { ...prev, ...info };
+    });
   const logUserOut = () => setUser(initialState);
 
-  return <UserContext.Provider value={{ user, fn: { logUserIn, logUserOut } }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, fn: { logUserIn, logUserOut, changeUserInfo } }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
-export const useUser = (): UserProps => {
+export const useUser = (): UserInfoType => {
   const { user } = useContext(UserContext);
   return user;
 };

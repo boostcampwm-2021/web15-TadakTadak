@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
-import { useClient, useMicrophoneAndCameraTracks } from '../../components/room/tadaktadak/videoConfig';
-import { RoomInfo } from '@components/main/RoomList';
-import { TadakContainer, TadakWrapper } from '@src/pages/Tadak/style';
-import RoomSideBar from '@components/room/tadaktadak/RoomSideBar';
-import VideoController from '@components/room/tadaktadak/VideoController';
-import Videos from '@components/room/tadaktadak/Videos';
+import { TadakContainer, TadakWrapper } from './style';
+import { useClient, useMicrophoneAndCameraTracks } from '@components/video/config';
+import RoomSideBar from '@components/sideBar/Room';
+import VideoController from '@components/video/VideoController';
+import VideoList from '@components/video/VideoList';
+import Loader from '@components/common/Loader';
 import { useUser } from '@contexts/userContext';
+import { RoomInfoType } from '@src/types';
 
 interface LocationProps {
   pathname: string;
-  state: RoomInfo;
+  state: RoomInfoType;
 }
 
 interface TadakProps {
@@ -76,11 +77,17 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
 
   return (
     <TadakWrapper>
-      <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
-      <TadakContainer>
-        {start && tracks && <Videos users={users} tracks={tracks} />}
-        {ready && tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
-      </TadakContainer>
+      {!start ? (
+        <Loader isWholeScreen={true} />
+      ) : (
+        <>
+          <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
+          <TadakContainer>
+            {tracks && <VideoList users={users} tracks={tracks} />}
+            {tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
+          </TadakContainer>
+        </>
+      )}
     </TadakWrapper>
   );
 };
