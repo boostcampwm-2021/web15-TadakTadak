@@ -7,8 +7,6 @@ on:
   pull_request:
     branches:
       - "**"
-env:
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
 jobs:
   build:
@@ -36,6 +34,12 @@ jobs:
 
       - name: CI 작업을 수행합니다.
         run: npm run ci
+
+      - name: JWT_SECRET 전달
+        run: |
+          echo "JWT_SECRET=$JWT_SECRET" >> .env.production
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       - name: 테스트를 수행합니다.
         run: npm test
