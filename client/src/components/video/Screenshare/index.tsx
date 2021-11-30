@@ -10,7 +10,7 @@ interface ScreenShareDivProps {
   setScreenShare: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ScreenShareDiv = ({
+const ScreenShare = ({
   preTracks,
   trackState,
   screenShare,
@@ -46,4 +46,4 @@ const ScreenShareDiv = ({
   return <div></div>;
 };
 
-export default ScreenShareDiv;
+export default ScreenShare;
