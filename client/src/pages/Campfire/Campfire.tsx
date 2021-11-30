@@ -87,7 +87,7 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
             roomType={RoomType.campfire}
           />
           <RoomContainer>
-            <FireAnimation setFireOn={setFireOn} />
+            <FireAnimation fireOn={fireOn} setFireOn={setFireOn} />
             {track && <CamperList users={users} track={track} />}
             {track && <CampfireController track={track} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
           </RoomContainer>

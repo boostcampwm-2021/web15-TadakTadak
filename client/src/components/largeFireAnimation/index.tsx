@@ -8,6 +8,7 @@ const FireContainer = styled.div`
 `;
 
 interface FireAnimationProps {
+  fireOn: boolean;
   setFireOn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
