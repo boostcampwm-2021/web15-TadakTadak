@@ -31,5 +31,15 @@ describe('RoomService', () => {
     expect(result).toStrictEqual(new RoomResponseDto(mockRoom));
   });
 
+  it('[getRoomByUUID] 잘못된 UUID를 요정하면 조회가 불가능하다.', async () => {
+    jest.spyOn(roomRepository, 'findRoomByUUID').mockResolvedValue(undefined);
+    try {
+      await roomService.getRoomByUUID(lorem.sentence());
+    } catch (e) {
+      expect(e).toBeInstanceOf(NotFoundException);
+      expect(e.message).toBe(RoomException.roomNotFound().message);
+    }
+  });
+
   });
 });
