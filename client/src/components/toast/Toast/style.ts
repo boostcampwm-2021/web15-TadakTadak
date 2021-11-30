@@ -27,7 +27,8 @@ export const ToastWrapper = styled.div`
   ${({ theme }) => theme.flexCenter}
   background-color: ${(props) => props.color};
   width: ${TOAST.width};
-  height: ${TOAST.height};
+  min-height: ${TOAST.height};
+  padding: ${({ theme }) => theme.paddings.base} 5rem;
   border-radius: 10px;
   font-size: ${({ theme }) => theme.fontSizes.xl};
   div {
@@ -35,8 +36,8 @@ export const ToastWrapper = styled.div`
   }
   .button {
     position: absolute;
-    right: 10px;
+    right: 0.5rem;
     cursor: pointer;
-    font-size: ${({ theme }) => theme.fontSizes.xl};
+    font-size: 3rem;
   }
 `;
