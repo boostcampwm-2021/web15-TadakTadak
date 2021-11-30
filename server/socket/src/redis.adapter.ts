@@ -2,6 +2,7 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { RedisClient } from 'redis';
 import { Logger } from '@nestjs/common';
+import 'dotenv/config';
 
 const HOST: string = process.env.DB_REDIS_HOST ?? 'localhost';
 const PORT: number = process.env.DB_REDIS_PORT ? parseInt(process.env.DB_REDIS_PORT) : 6379;
