@@ -5,7 +5,7 @@ import { useUser, useUserFns } from '@contexts/userContext';
 import { IoHomeOutline, IoLogOutOutline } from 'react-icons/io5';
 import SideBar from '@components/common/SideBar';
 import Modal from '@components/common/Modal';
-import CreateForm from './CreateForm';
+import MakeRoomForm from '../form/MakeRoom';
 import { Link, useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
 import { FieldName } from '@contexts/userContext';
@@ -196,7 +196,7 @@ const MainSideBar = ({ page }: SideBarProps): JSX.Element => {
       bottomMenus={
         <>
           {user.login && <CreateBtn onClick={onClickCreateBtn}>방 생성하기</CreateBtn>}
-          {createModal && <Modal title="방 생성하기" children={<CreateForm />} setModal={setCreateModal} />}
+          {createModal && <Modal title="방 생성하기" children={<MakeRoomForm />} setModal={setCreateModal} />}
         </>
       }
     />

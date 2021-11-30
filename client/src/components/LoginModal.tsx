@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '@components/common/Modal';
-import JoinForm from './JoinForm';
-import LoginForm from './LoginForm';
+import JoinForm from './form/Join';
+import LoginForm from './form/Login';
 import { MODAL_NAME } from '@utils/constant';
 
 interface LoginProps {

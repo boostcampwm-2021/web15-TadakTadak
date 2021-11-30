@@ -9,12 +9,15 @@ export const CHAT = {
 };
 
 export const FORM = {
+  top: '20%',
   joinWidth: '40rem',
   joinHeight: '30rem',
   loginWidth: '40rem',
   loginHeight: '30rem',
   createWidth: '100%',
   createHeight: '30rem',
+  btnWidth: '16rem',
+  btnBorderRadius: '1rem',
 };
 
 export const MODAL = {
