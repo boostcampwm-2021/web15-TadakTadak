@@ -37,7 +37,7 @@ jobs:
 
       - name: JWT_SECRET 전달
         run: |
-          echo "JWT_SECRET=$JWT_SECRET" >> .env.production
+          echo "JWT_SECRET=$JWT_SECRET" >> .env
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
