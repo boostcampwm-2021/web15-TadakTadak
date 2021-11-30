@@ -1,4 +1,4 @@
-import { useToastDispatchContext, MessageType } from '@contexts/ToastContext';
+import { useToastDispatchContext, MessageType } from '@contexts/toastContext';
 import { TOAST_TIME } from '@utils/constant';
 
 type ReturnType = (type: MessageType, message: string) => void;

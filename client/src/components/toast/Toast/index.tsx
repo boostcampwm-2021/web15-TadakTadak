@@ -1,6 +1,6 @@
 import { MdDeleteForever } from 'react-icons/md';
 import { ToastDiv, ToastWrapper } from './style';
-import { useToastDispatchContext, MessageType } from '@contexts/ToastContext';
+import { useToastDispatchContext, MessageType } from '@contexts/toastContext';
 
 interface ToastProps {
   type: MessageType;

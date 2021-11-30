@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import UserContextProvider from '@contexts/userContext';
-import { ToastProvider } from '@contexts/ToastContext';
+import { ToastProvider } from '@contexts/toastContext';
 import { theme } from './styles/theme';
 import App from './App';
 
