@@ -17,7 +17,7 @@ export const ToastDiv = styled.div`
   ${({ theme }) => theme.flexCenter}
   position: absolute;
   width: ${TOAST.width};
-  left: calc((100vw-${TOAST.width}) / 2);
+  left: calc((100vw - ${TOAST.width}) / 2);
   top: ${TOAST.topPosition};
 `;
 export const ToastWrapper = styled.div`
