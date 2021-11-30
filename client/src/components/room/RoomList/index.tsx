@@ -39,7 +39,7 @@ function RoomList(): JSX.Element {
       setLoading(true);
       page.current = 1;
       const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
-      const queryObj = getRoomQueryObj(type, searchStr, 1);
+      const queryObj = getRoomQueryObj({ type, search: searchStr, page: 1 });
       const { isOk, data } = await getRoom(queryObj);
       if (isOk && data) {
         setRooms([...data.results]);
@@ -52,7 +52,7 @@ function RoomList(): JSX.Element {
     async (searchStr: string) => {
       setLoading(true);
       const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
-      const queryObj = getRoomQueryObj(type, searchStr, page.current);
+      const queryObj = getRoomQueryObj({ type, search: searchStr, page: page.current });
       const { isOk, data } = await getRoom(queryObj);
       if (isOk && data) {
         setRooms((prevRooms) => [...prevRooms, ...data.results]);
