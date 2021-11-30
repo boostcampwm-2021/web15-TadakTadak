@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import LoginModal from '../LoginModal';
+import LoginModal from '../modal/Login';
 import { useUser, useUserFns } from '@contexts/userContext';
 import { IoHomeOutline, IoLogOutOutline } from 'react-icons/io5';
 import SideBar from '@components/common/SideBar';
-import Modal from '@components/common/Modal';
+import Modal from '@components/modal/Modal';
 import MakeRoomForm from '../form/MakeRoom';
 import { Link, useHistory } from 'react-router-dom';
 import { getDevField, postLogout } from '@src/apis';
