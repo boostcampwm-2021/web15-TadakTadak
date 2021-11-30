@@ -102,18 +102,21 @@ describe('UserService', () => {
     }
   });
 
-  //   it('존재하지 않는 개발 필드로 사용자의 정보를 수정하면 예외를 발생한다.', async () => {
-  //     const userNickname = 'IAMUSER';
+  it('존재하지 않는 개발 필드로 사용자의 정보를 수정하면 예외를 발생한다.', async () => {
+    //given
+    const userNickname = 'IAMUSER';
 
-  //     jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
-  //     // jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(undefined);
-  //     jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(undefined);
-  //     try {
-  //       const result = await userService.updateUserInfo(userNickname, new UserUpdateDto());
-  //     } catch (e) {
-  //       expect(e).toBeInstanceOf(NotFoundException);
-  //       expect(e.message).toBe('해당되는 개발 분야를 찾을 수 없습니다.');
-  //       expect(e.status).toBe(HttpStatus.NOT_FOUND);
-  //     }
-  //   });
+    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
+    jest.spyOn(userRepository, 'isExistUserByNickname').mockResolvedValue(false);
+    jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(undefined);
+    try {
+      //when
+      const result = await userService.updateUserInfo(userNickname, new UserUpdateDto());
+    } catch (e) {
+      //then
+      expect(e).toBeInstanceOf(NotFoundException);
+      expect(e.message).toBe('해당되는 개발 분야를 찾을 수 없습니다.');
+      expect(e.status).toBe(HttpStatus.NOT_FOUND);
+    }
+  });
 });
