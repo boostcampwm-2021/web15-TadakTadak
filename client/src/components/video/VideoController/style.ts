@@ -13,7 +13,7 @@ export const Controls = styled.div`
   `}
 `;
 
-export const GetoutDiv = styled.div`
+export const Getout = styled.div`
   position: fixed;
   ${({ theme }) => css`
     top: ${theme.margins.xl};

@@ -1,16 +1,17 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
-import { useClient } from '../video/videoConfig';
-import { deleteRoom } from '@src/apis';
-import Button from '@components/common/Button';
-import ScreenShareDiv from './ScreenShareDiv';
-import { useUser } from '@contexts/userContext';
-import { useTheme } from '@contexts/themeContext';
+import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import socket from '@socket/socket';
 import { SocketEvents } from '@socket/socketEvents';
+import { ButtonContainer, Controls, Getout } from './style';
+import Button from '@components/common/Button';
+import ScreenShare from '../Screenshare';
+import { useClient } from '../videoConfig';
+import { deleteRoom } from '@src/apis';
+import { useUser } from '@contexts/userContext';
+import { useTheme } from '@contexts/themeContext';
 
 interface VideoControllerProps {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
@@ -90,7 +91,7 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
           onClick={handleScreenShare}
         />
         {screenShare && (
-          <ScreenShareDiv
+          <ScreenShare
             preTracks={tracks}
             trackState={trackState}
             screenShare={screenShare}
@@ -99,7 +100,7 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
           />
         )}
       </Controls>
-      <GetoutDiv>
+      <Getout>
         <Button
           icon={<MdOutlineExitToApp fill="white" />}
           text={''}
@@ -109,7 +110,7 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
             history.replace('/main');
           }}
         />
-      </GetoutDiv>
+      </Getout>
     </ButtonContainer>
   );
 };
