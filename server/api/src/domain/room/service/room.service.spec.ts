@@ -72,5 +72,12 @@ describe('RoomService', () => {
     }
   });
 
+  it('[leaveRoom] UUID로 방에 퇴장할 수 있다.', async () => {
+    jest.spyOn(roomRepository, 'findRoomByUUID').mockResolvedValue(mockRoom);
+    jest.spyOn(roomRepository, 'roomProcess').mockResolvedValue(new UpdateResult());
+    const result = await roomService.leaveRoom(lorem.sentence());
+    expect(result).toBe(true);
+  });
+
   });
 });
