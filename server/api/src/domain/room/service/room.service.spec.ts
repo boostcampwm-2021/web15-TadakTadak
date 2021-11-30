@@ -79,5 +79,26 @@ describe('RoomService', () => {
     expect(result).toBe(true);
   });
 
+  it('[leaveRoom] 잘못된 UUID를 요청하면 방에 퇴장이 불가능하다.', async () => {
+    jest.spyOn(roomRepository, 'findRoomByUUID').mockResolvedValue(undefined);
+    jest.spyOn(roomRepository, 'roomProcess').mockResolvedValue(new UpdateResult());
+    try {
+      await roomService.leaveRoom(lorem.sentence());
+    } catch (e) {
+      expect(e).toBeInstanceOf(NotFoundException);
+      expect(e.message).toBe(RoomException.roomNotFound().message);
+    }
+  });
+
+  it('[leaveRoom] 현재 방의 이용자가 최소 이용자면 퇴장이 불가능하다.', async () => {
+    const fullRoomMock = { ...mockRoom };
+    fullRoomMock.nowHeadcount = 0;
+    jest.spyOn(roomRepository, 'findRoomByUUID').mockResolvedValue(fullRoomMock);
+    try {
+      await roomService.leaveRoom(lorem.sentence());
+    } catch (e) {
+      expect(e).toBeInstanceOf(InternalServerErrorException);
+      expect(e.message).toBe(RoomException.roomLeaveError().message);
+    }
   });
 });
