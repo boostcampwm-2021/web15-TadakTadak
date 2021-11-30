@@ -7,4 +7,4 @@ ADD ./ /app
 RUN npm install
 ENV NODE_ENV=production
 RUN npm run build
-CMD node dist/main.js
+CMD node dist/src/main.js
