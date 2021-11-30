@@ -1,26 +1,7 @@
 import { memo, useContext } from 'react';
 import ReactLoading from 'react-loading';
-import styled, { css } from 'styled-components';
+import { LoaderProps, LoaderWrap } from './style';
 import { ThemeContext } from 'styled-components';
-
-interface LoaderProps {
-  isWholeScreen?: boolean;
-}
-
-const LoaderWrap = styled.div<LoaderProps>`
-  ${({ theme }) => theme.flexCenter};
-  width: 100%;
-  height: 80%;
-  ${({ isWholeScreen }) =>
-    isWholeScreen &&
-    css`
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-    `}
-  text-align: center;
-`;
 
 const Loader = ({ isWholeScreen = false }: LoaderProps): JSX.Element => {
   const themeContext = useContext(ThemeContext);
