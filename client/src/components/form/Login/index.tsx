@@ -24,7 +24,7 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
     e.preventDefault();
     if (!email || !password) return toast('error', TOAST_MESSAGE.inputEmpty);
     if (!isEmail(email)) return toast('error', TOAST_MESSAGE.invalidFormatEmail);
-    if (!isPassword(password)) return toast('error', TOAST_MESSAGE.invalidFormatPwd);
+    if (!isPassword(password)) return toast('error', TOAST_MESSAGE.invalidPassword);
     const requestBody = { email, password };
     const { isOk, data } = await postLogin(requestBody);
     if (isOk && data) {
