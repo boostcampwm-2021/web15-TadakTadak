@@ -50,7 +50,7 @@ export const VIDEO_BOX = {
   borderRadius: '3rem',
 };
 
-export const ROOM_BOX = {
+export const ROOM_CARD = {
   width: '20rem',
   height: '15rem',
 };
@@ -68,4 +68,8 @@ export const TOAST = {
   height: '4rem',
   second: `${TOAST_TIME / 1000}.2s`,
   topPosition: '10vh',
+};
+
+export const SEARCH_BAR = {
+  initBtn: { fill: 'grey', fontSize: '2.2rem', cursor: 'pointer' },
 };

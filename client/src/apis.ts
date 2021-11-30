@@ -1,5 +1,5 @@
 import { UserProps } from '@contexts/userContext';
-import { RoomInfo } from '@components/main/RoomList';
+import { RoomInfo } from '@src/types/interfaces';
 import {
   HTTPResponse,
   queryObjToString,
