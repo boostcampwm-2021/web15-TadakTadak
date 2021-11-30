@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
-import { useClient, useMicrophoneTrack } from '../../components/room/tadaktadak/videoConfig';
-import BGMContextProvider from '@contexts/bgmContext';
-import { RoomInfo } from '@components/main/RoomList';
 import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
+import { useClient, useMicrophoneTrack } from '@components/video/config';
 import RoomSideBar from '@components/sideBar/Room';
 import FireAnimation from '@components/largeFireAnimation';
 import CampfireController from '@components/room/campfire/CampfireController';
 import CamperList from '@components/room/campfire/CamperList';
 import Loader from '@components/common/Loader';
-import { RoomType } from '@utils/constant';
+import BGMContextProvider from '@contexts/bgmContext';
 import { useUser } from '@contexts/userContext';
+import { RoomType } from '@utils/constant';
+import { RoomInfo } from '@src/types/interfaces';
 
 interface LocationProps {
   pathname: string;
