@@ -1,4 +1,4 @@
-import Toast from './Toast';
+import Toast from '../Toast';
 import { useToastStateContext } from '@contexts/ToastContext';
 
 export default function ToastContainer(): JSX.Element {
