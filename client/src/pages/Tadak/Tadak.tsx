@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { TadakContainer, TadakWrapper } from './style';
-import { useClient, useMicrophoneAndCameraTracks } from '@components/room/tadaktadak/videoConfig';
-import { RoomInfo } from '@components/main/RoomList';
+import { useClient, useMicrophoneAndCameraTracks } from '@components/video/config';
 import RoomSideBar from '@components/sideBar/Room';
-import VideoController from '@components/room/tadaktadak/VideoController';
-import Videos from '@components/room/tadaktadak/Videos';
+import VideoController from '@components/video/VideoController';
+import VideoList from '@components/video/VideoList';
 import Loader from '@components/common/Loader';
 import { useUser } from '@contexts/userContext';
+import { RoomInfo } from '@src/types/interfaces';
 
 interface LocationProps {
   pathname: string;
@@ -83,7 +83,7 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
         <>
           <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
           <TadakContainer>
-            {tracks && <Videos users={users} tracks={tracks} />}
+            {tracks && <VideoList users={users} tracks={tracks} />}
             {tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
           </TadakContainer>
         </>
