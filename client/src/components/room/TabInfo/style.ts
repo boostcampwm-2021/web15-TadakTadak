@@ -18,7 +18,7 @@ export const TooltipBox = styled.div`
   transition: visibility 0.3s, color 0.3s, background-color 0.3s, width 0.3s, padding 0.3s ease-in-out;
 `;
 
-export const StyledQuestionButton = styled.span`
+export const StyledTabInfo = styled.span`
   margin-left: 1rem;
   vertical-align: middle;
   position: relative;
