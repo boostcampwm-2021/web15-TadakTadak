@@ -1,10 +1,6 @@
 import 'dotenv/config';
-
+import { getOptions, postOptions, patchOptions, deleteOptions, BodyType } from './options';
 const baseUrl = process.env.REACT_APP_SERVER_URL ?? '';
-
-type BodyType = {
-  [key: string]: string | number | null;
-};
 
 export interface HTTPResponse<T> {
   isOk: boolean;
@@ -23,52 +19,6 @@ export function queryObjToString<T>(queryObj: T): string {
   return Object.entries(queryObj)
     .map((e) => e.join('='))
     .join('&');
-}
-
-function simpleOptions(method: string): RequestInit {
-  return {
-    method,
-    headers: {
-      Accept: 'application/json',
-    },
-    credentials: 'include',
-  };
-}
-
-function getOptions(): RequestInit {
-  return simpleOptions('GET');
-}
-
-function postOptions(body: BodyType): RequestInit {
-  return Object.keys(body).length
-    ? {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(body),
-      }
-    : simpleOptions('POST');
-}
-
-function patchOptions(body: BodyType): RequestInit {
-  return Object.keys(body).length
-    ? {
-        method: 'PATCH',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(body),
-      }
-    : simpleOptions('PATCH');
-}
-
-function deleteOptions(): RequestInit {
-  return simpleOptions('DELETE');
 }
 
 export async function fetcher<T>(url: string, options: RequestInit): Promise<HTTPResponse<T>> {
