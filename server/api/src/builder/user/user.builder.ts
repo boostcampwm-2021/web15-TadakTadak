@@ -8,6 +8,10 @@ export class UserBuilder extends BuilderCommon<User> {
   constructor() {
     super(User);
   }
+  setId(id: number): UserBuilder {
+    this.object.id = id;
+    return this;
+  }
 
   setNickname(nickname: string): UserBuilder {
     this.object.nickname = nickname;
