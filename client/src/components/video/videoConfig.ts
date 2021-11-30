@@ -3,6 +3,7 @@ import {
   ClientConfig,
   createMicrophoneAndCameraTracks,
   createMicrophoneAudioTrack,
+  createScreenVideoTrack,
 } from 'agora-rtc-react';
 
 const config: ClientConfig = {
@@ -13,5 +14,12 @@ const config: ClientConfig = {
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 const useMicrophoneTrack = createMicrophoneAudioTrack();
+const useScreenVideoTrack = createScreenVideoTrack(
+  {
+    encoderConfig: '1080p_1',
+    optimizationMode: 'detail',
+  },
+  'disable',
+);
 
-export { useClient, useMicrophoneAndCameraTracks, useMicrophoneTrack };
+export { useClient, useMicrophoneAndCameraTracks, useMicrophoneTrack, useScreenVideoTrack };

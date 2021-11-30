@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { ICameraVideoTrack, IMicrophoneAudioTrack, createScreenVideoTrack } from 'agora-rtc-react';
-import { useClient } from '../videoConfig';
+import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
+import { useClient, useScreenVideoTrack } from '../videoConfig';
 
 interface ScreenShareDivProps {
   preTracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
@@ -18,13 +18,6 @@ const ScreenShareDiv = ({
   setScreenShare,
 }: ScreenShareDivProps): JSX.Element => {
   const client = useClient();
-  const useScreenVideoTrack = createScreenVideoTrack(
-    {
-      encoderConfig: '1080p_1',
-      optimizationMode: 'detail',
-    },
-    'disable',
-  );
   const { ready, tracks, error } = useScreenVideoTrack();
 
   useEffect(() => {
