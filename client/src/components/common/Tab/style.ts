@@ -1,14 +1,13 @@
 import styled, { css } from 'styled-components';
-import React from 'react';
 
-interface TabProps {
+export interface TabProps {
   text?: string;
   isActive: boolean;
   onClick?: () => void;
   children?: React.ReactNode;
 }
 
-const StyledTab = styled.div<TabProps>`
+export const StyledTab = styled.div<TabProps>`
   ${({ theme }) => css`
     padding: ${theme.paddings.sm};
     font-size: ${theme.fontSizes.lg};
@@ -36,14 +35,3 @@ const StyledTab = styled.div<TabProps>`
   }
   transition: background-color 0.4s ease-in-out, border-color 0.3s ease-in-out;
 `;
-
-const Tab = ({ text, isActive, onClick, children }: TabProps): JSX.Element => {
-  return (
-    <StyledTab isActive={isActive} onClick={onClick}>
-      {text}
-      {children}
-    </StyledTab>
-  );
-};
-
-export default Tab;
