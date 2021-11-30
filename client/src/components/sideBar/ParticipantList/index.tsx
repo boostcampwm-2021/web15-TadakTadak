@@ -4,7 +4,7 @@ import { SocketEvents } from '@socket/socketEvents';
 import { Container, List, Participant, Avatar, Nickname, DevField, Position, GetOutBtn } from './style';
 import { useUser } from '@src/contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
-import { DevFieldType } from '@src/types';
+import { ParticipantType } from '@src/types';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
@@ -12,11 +12,7 @@ interface ParticipantListProps<T> {
   uuid: string;
 }
 
-const ParticipantList = ({
-  participants,
-  hostNickname,
-  uuid,
-}: ParticipantListProps<{ field: { id: number; name: DevFieldType }; img: string }>): JSX.Element => {
+const ParticipantList = ({ participants, hostNickname, uuid }: ParticipantListProps<ParticipantType>): JSX.Element => {
   const theme = useTheme();
   const user = useUser();
 
@@ -32,7 +28,7 @@ const ParticipantList = ({
   return (
     <Container>
       <List>
-        {Object.entries(participants).map(([nickname, { field, img }]) => (
+        {Object.values(participants).map(({ nickname, field, img }) => (
           <Participant key={nickname}>
             <Avatar src={img} />
             <Nickname>{nickname}</Nickname>

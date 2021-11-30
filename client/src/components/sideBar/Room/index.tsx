@@ -13,6 +13,7 @@ import { useClient } from '@components/video/config';
 import { postLeaveRoom } from '@src/apis';
 import { RoomType, TabType } from '@utils/constant';
 import { SIDEBAR } from '@utils/styleConstant';
+import { ParticipantType } from '@src/types';
 
 const initialTabState = {
   isChat: false,
@@ -20,13 +21,7 @@ const initialTabState = {
 };
 
 interface ParticipantsProps {
-  [key: string]: {
-    field: {
-      id: number;
-      name: string;
-    };
-    img: string;
-  };
+  [key: string]: ParticipantType;
 }
 
 interface RoomSideBarProps {
@@ -62,7 +57,7 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
 
   const registerParticipants = useCallback(
     (userList: ParticipantsProps) => {
-      if (!nickname || !userList[nickname]) return exitRoom();
+      if (!nickname || !userList[socket.id]) return exitRoom();
       setParticipants({ ...userList });
     },
     [nickname, exitRoom],

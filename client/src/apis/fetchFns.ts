@@ -3,8 +3,9 @@ import { getOptions, postOptions, patchOptions, deleteOptions, BodyType } from '
 import fetcher from './fetcher';
 import { getUrl } from './apiUtils';
 
-export async function fetchGet<T>(url: string, query?: string): Promise<HTTPResponse<T>> {
-  const requestUrl = getUrl(`${url}?${query}`);
+export async function fetchGet<T>(url: string, query = ''): Promise<HTTPResponse<T>> {
+  const path = query ? `${url}?${query}` : url;
+  const requestUrl = getUrl(path);
   const response = await fetcher<T>(requestUrl, getOptions());
   return response;
 }
