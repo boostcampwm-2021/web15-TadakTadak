@@ -1,4 +1,4 @@
-import { MdDeleteForever } from 'react-icons/md';
+import { IoMdClose } from 'react-icons/io';
 import { ToastDiv, ToastWrapper } from './style';
 import { useToastDispatchContext, MessageType } from '@contexts/toastContext';
 
@@ -19,7 +19,7 @@ export default function Toast({ type, message, id }: ToastProps): JSX.Element {
         <ToastDiv>
           <ToastWrapper color="green">
             <div>{message}</div>
-            <MdDeleteForever className="button" onClick={onClickDispatch} fill="white" />
+            <IoMdClose className="button" onClick={onClickDispatch} fill="white" />
           </ToastWrapper>
         </ToastDiv>
       )}
@@ -27,7 +27,7 @@ export default function Toast({ type, message, id }: ToastProps): JSX.Element {
         <ToastDiv>
           <ToastWrapper color="red">
             <div>{message}</div>
-            <MdDeleteForever className="button" onClick={onClickDispatch} fill="white" />
+            <IoMdClose className="button" onClick={onClickDispatch} fill="white" />
           </ToastWrapper>
         </ToastDiv>
       )}

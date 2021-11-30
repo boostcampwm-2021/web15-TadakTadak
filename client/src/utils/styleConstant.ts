@@ -68,7 +68,7 @@ export const GRASS = {
 };
 
 export const TOAST = {
-  width: '40rem',
+  width: '38rem',
   height: '4rem',
   second: `${TOAST_TIME / 1000}.2s`,
   topPosition: '10vh',

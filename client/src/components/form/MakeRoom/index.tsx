@@ -37,19 +37,9 @@ const CreateForm = (): JSX.Element => {
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!roomTitle) {
-      toast('error', TOAST_MESSAGE.emptyTitle);
-      return;
-    }
-    if (!roomType) {
-      toast('error', TOAST_MESSAGE.emptyRoomType);
-      return;
-    }
-    if (!maxHeadcount) {
-      toast('error', TOAST_MESSAGE.emptyHeadcount);
-      return;
-    }
-
+    if (!roomTitle) return toast('error', TOAST_MESSAGE.emptyTitle);
+    if (!roomType) return toast('error', TOAST_MESSAGE.emptyRoomType);
+    if (!maxHeadcount) return toast('error', TOAST_MESSAGE.emptyHeadcount);
     const requestBody = {
       userId: user.id,
       title: roomTitle,

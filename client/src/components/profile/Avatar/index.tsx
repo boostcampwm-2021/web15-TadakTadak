@@ -14,7 +14,6 @@ const ProfileAvatar = (): JSX.Element => {
     if (!fileList || !fileList[0]) return;
     const formData = new FormData();
     formData.append('image', fileList[0]);
-
     const { isOk, data } = await postAvatar(formData);
     if (isOk && data) {
       changeUserInfo(data);

@@ -44,11 +44,15 @@ const RoomCard = ({ roomInfo }: RoomCardProps): JSX.Element => {
     }
   }, [uuid, login, toast, verifyBySocket]);
 
-  const enterRoom = useCallback(() => {
-    const pathname = roomType === RoomType.tadak ? `/room/tadak/${uuid}` : `/room/campfire/${uuid}`;
-    postEnterRoom(uuid);
-    history.push({ pathname, state: roomDataRef.current });
-  }, [history, uuid, roomType, roomDataRef]);
+  const enterRoom = useCallback(
+    (iCanEnter) => {
+      if (!iCanEnter) return;
+      const pathname = roomType === RoomType.tadak ? `/room/tadak/${uuid}` : `/room/campfire/${uuid}`;
+      postEnterRoom(uuid);
+      history.push({ pathname, state: roomDataRef.current });
+    },
+    [history, uuid, roomType, roomDataRef],
+  );
 
   useEffect(() => {
     socket.removeListener(SocketEvents.youCanEnter);

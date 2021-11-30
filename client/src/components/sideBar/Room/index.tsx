@@ -62,9 +62,7 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
 
   const registerParticipants = useCallback(
     (userList: ParticipantsProps) => {
-      if (!nickname || !userList[nickname]) {
-        return exitRoom();
-      }
+      if (!nickname || !userList[nickname]) return exitRoom();
       setParticipants({ ...userList });
     },
     [nickname, exitRoom],

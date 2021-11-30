@@ -22,25 +22,15 @@ const LoginForm = ({ onClickModalToggle, setModal }: LoginProps): JSX.Element =>
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email || !password) {
-      toast('error', TOAST_MESSAGE.inputEmpty);
-      return;
-    }
-    if (!isEmail(email)) {
-      toast('error', TOAST_MESSAGE.invalidFormatEmail);
-      return;
-    }
-    if (!isPassword(password)) {
-      toast('error', TOAST_MESSAGE.invalidFormatPwd);
-      return;
-    }
+    if (!email || !password) return toast('error', TOAST_MESSAGE.inputEmpty);
+    if (!isEmail(email)) return toast('error', TOAST_MESSAGE.invalidFormatEmail);
+    if (!isPassword(password)) return toast('error', TOAST_MESSAGE.invalidPassword);
     const requestBody = { email, password };
     const { isOk, data } = await postLogin(requestBody);
     if (isOk && data) {
       logUserIn(data);
       setModal(false);
-      toast('success', TOAST_MESSAGE.loginSuccess);
-      return;
+      return toast('success', TOAST_MESSAGE.loginSuccess);
     }
     toast('error', TOAST_MESSAGE.loginConfirm);
   };
