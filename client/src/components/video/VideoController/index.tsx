@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import styled, { css } from 'styled-components';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
@@ -12,27 +11,6 @@ import { useUser } from '@contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
 import socket from '@socket/socket';
 import { SocketEvents } from '@socket/socketEvents';
-
-const ButtonContainer = styled.div`
-  position: relative;
-`;
-const Controls = styled.div`
-  position: fixed;
-  ${({ theme }) => css`
-    ${theme.flexCenter}
-    bottom: ${theme.margins.xl};
-    left: 29rem;
-    right: 0;
-  `}
-`;
-
-const GetoutDiv = styled.div`
-  position: fixed;
-  ${({ theme }) => css`
-    top: ${theme.margins.xl};
-    right: ${theme.margins.sm};
-  `}
-`;
 
 interface VideoControllerProps {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
