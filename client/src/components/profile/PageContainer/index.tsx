@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
-import { Container, Title, Canvas } from './style';
+import { Wrapper, InfoContainer, Container, Title, Canvas, InfoSet, Legend } from './style';
 import GrassArea from '@components/profile/GrassArea';
 import ProfileAvatar from '@components/profile/Avatar';
 import ModifyInfoCard from '../ModifyInfoCard';
@@ -16,7 +16,7 @@ import {
   getHeights,
   getWidths,
 } from '@utils/utils';
-import { CANVAS, CHECK_IN, PATH } from '@utils/constant';
+import { CANVAS, CHECK_IN, PATH, LEGEND_TEXT } from '@utils/constant';
 
 function UserInfo(): JSX.Element {
   const [isModify, setIsModify] = useState(false);
@@ -74,21 +74,27 @@ function UserInfo(): JSX.Element {
   }, [loadUserGrassList, history, user.login]);
 
   return (
-    <div>
+    <Wrapper>
       <Title>마이 프로필</Title>
       <Container>
-        {isModify ? (
-          <ModifyInfoCard onnClickCancelBtn={onClickModifyToggle} setIsModify={setIsModify} />
-        ) : (
-          <InfoCard onClickModifyToggle={onClickModifyToggle} />
-        )}
-        <ProfileAvatar />
-        <div>
+        <InfoContainer>
+          <ProfileAvatar />
+          <InfoSet>
+            <Legend>{isModify ? LEGEND_TEXT.modifyUserInfo : LEGEND_TEXT.userInfo}</Legend>
+            {isModify ? (
+              <ModifyInfoCard onnClickCancelBtn={onClickModifyToggle} setIsModify={setIsModify} />
+            ) : (
+              <InfoCard onClickModifyToggle={onClickModifyToggle} />
+            )}
+          </InfoSet>
+        </InfoContainer>
+        <InfoSet>
+          <Legend>{LEGEND_TEXT.grassChart}</Legend>
           <Canvas ref={canvasRef}></Canvas>
-        </div>
+        </InfoSet>
       </Container>
       <GrassArea grassList={grassList} />
-    </div>
+    </Wrapper>
   );
 }
 

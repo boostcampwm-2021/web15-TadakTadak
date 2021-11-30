@@ -2,16 +2,19 @@ import styled, { css } from 'styled-components';
 import { GRASS } from '@utils/styleConstant';
 
 export const InfoSet = styled.fieldset`
+  margin-top: ${({ theme }) => theme.margins.lg};
+  height: ${GRASS.containerHeight};
   ${({ theme }) => css`
     background-color: ${theme.colors.grey};
     padding: ${theme.paddings.base};
+    padding-left: ${theme.paddings.lg};
     border: 1px solid ${theme.colors.borderGrey};
     border-radius: ${theme.borderRadius.base};
   `};
 `;
 
 export const Legend = styled.legend`
-  font-size: 3rem;
+  font-size: ${GRASS.legendFontSize};
   color: ${({ theme }) => theme.colors.bgGreen};
 `;
 

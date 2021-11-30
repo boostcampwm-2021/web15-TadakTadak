@@ -1,24 +1,15 @@
-import { UserProps } from '@contexts/userContext';
-import { RoomInfo } from '@src/types/interfaces';
-import {
-  HTTPResponse,
-  queryObjToString,
-  fetchGet,
-  fetchPost,
-  fetchPatch,
-  fetchDelete,
-  fetchDeleteImage,
-  fetcher,
-  getUrl,
-} from './utils/apiUtils';
+import { UserInfoType, RoomInfoType, HTTPResponse } from '@src/types';
+import { queryObjToString, getUrl } from './apiUtils';
+import { fetchGet, fetchPost, fetchPatch, fetchDelete, fetchDeleteImage } from './fetchFns';
+import fetcher from './fetcher';
 
 interface PostLogin {
   email: string;
   password: string;
 }
 
-export const postLogin = async (body: PostLogin): Promise<HTTPResponse<UserProps>> => {
-  const response = await fetchPost<UserProps>('/api/auth/login', { ...body });
+export const postLogin = async (body: PostLogin): Promise<HTTPResponse<UserInfoType>> => {
+  const response = await fetchPost<UserInfoType>('/api/auth/login', { ...body });
   return response;
 };
 
@@ -47,14 +38,14 @@ interface PatchUpdate {
   devField?: number;
 }
 
-export const patchUpdate = async (body: PatchUpdate): Promise<HTTPResponse<UserProps>> => {
-  const response = await fetchPatch<UserProps>(`/api/user/${body.originalName}`, { ...body });
+export const patchUpdate = async (body: PatchUpdate): Promise<HTTPResponse<UserInfoType>> => {
+  const response = await fetchPatch<UserInfoType>(`/api/user/${body.originalName}`, { ...body });
   return response;
 };
 
-export const postAvatar = async (formData: FormData): Promise<HTTPResponse<UserProps>> => {
+export const postAvatar = async (formData: FormData): Promise<HTTPResponse<UserInfoType>> => {
   const url = getUrl('/api/user/image');
-  const response = await fetcher<UserProps>(url, {
+  const response = await fetcher<UserInfoType>(url, {
     method: 'POST',
     body: formData,
     credentials: 'include',
@@ -62,13 +53,13 @@ export const postAvatar = async (formData: FormData): Promise<HTTPResponse<UserP
   return response;
 };
 
-export const deleteImage = async (): Promise<HTTPResponse<UserProps>> => {
-  const response = await fetchDeleteImage<UserProps>('/api/user/image');
+export const deleteImage = async (): Promise<HTTPResponse<UserInfoType>> => {
+  const response = await fetchDeleteImage<UserInfoType>('/api/user/image');
   return response;
 };
 
-export const getUserByToken = async (): Promise<HTTPResponse<UserProps>> => {
-  const response = await fetchGet<UserProps>('/api/auth/token');
+export const getUserByToken = async (): Promise<HTTPResponse<UserInfoType>> => {
+  const response = await fetchGet<UserInfoType>('/api/auth/token');
   return response;
 };
 
@@ -80,8 +71,8 @@ interface PostRoom {
   roomType: string;
 }
 
-export const postRoom = async (body: PostRoom): Promise<HTTPResponse<RoomInfo>> => {
-  const response = await fetchPost<RoomInfo>('/api/room', { ...body });
+export const postRoom = async (body: PostRoom): Promise<HTTPResponse<RoomInfoType>> => {
+  const response = await fetchPost<RoomInfoType>('/api/room', { ...body });
   return response;
 };
 
@@ -94,7 +85,7 @@ interface GetRoomQueryObj {
 
 interface ResponseGetRoomData {
   pageTotal: number;
-  results: RoomInfo[];
+  results: RoomInfoType[];
   total: number;
 }
 
@@ -104,8 +95,8 @@ export const getRoom = async (queryObj: GetRoomQueryObj): Promise<HTTPResponse<R
   return response;
 };
 
-export const getRoomByUuid = async (uuid: string): Promise<HTTPResponse<RoomInfo>> => {
-  const response = await fetchGet<RoomInfo>(`/api/room/${uuid}`);
+export const getRoomByUuid = async (uuid: string): Promise<HTTPResponse<RoomInfoType>> => {
+  const response = await fetchGet<RoomInfoType>(`/api/room/${uuid}`);
   return response;
 };
 

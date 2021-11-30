@@ -16,18 +16,18 @@ import {
 import { useUser } from '@contexts/userContext';
 import { useToast } from '@hooks/useToast';
 import { RoomType, TOAST_MESSAGE } from '@utils/constant';
-import { RoomInfo } from '@src/types/interfaces';
+import { RoomInfoType } from '@src/types';
 import { getRoomByUuid, postEnterRoom } from '@src/apis';
 
 interface RoomCardProps {
-  roomInfo: RoomInfo;
+  roomInfo: RoomInfoType;
 }
 
 const RoomCard = ({ roomInfo }: RoomCardProps): JSX.Element => {
   const { uuid, title, description, nowHeadcount, maxHeadcount, roomType, owner } = roomInfo;
   const { login, nickname } = useUser();
   const toast = useToast();
-  const roomDataRef = useRef<RoomInfo>();
+  const roomDataRef = useRef<RoomInfoType>();
   const history = useHistory();
 
   const verifyBySocket = useCallback(async () => {
@@ -60,7 +60,7 @@ const RoomCard = ({ roomInfo }: RoomCardProps): JSX.Element => {
       <RoomCardTop>
         <RoomTopMenu>
           <RoomTitle>{title}</RoomTitle>
-          <RoomFieldType>{owner?.devField?.name || 'All'}</RoomFieldType>
+          <RoomFieldType bgColor={owner?.devField?.name || 'None'}>{owner?.devField?.name}</RoomFieldType>
         </RoomTopMenu>
         <RoomDescription>{description}</RoomDescription>
       </RoomCardTop>
