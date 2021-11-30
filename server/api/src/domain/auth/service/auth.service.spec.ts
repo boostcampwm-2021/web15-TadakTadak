@@ -13,16 +13,22 @@ import { JoinRequestDto } from '../dto/join-request.dto';
 import { JoinRequestDtoBuilder } from '../../../builder/auth/join-request.dto.builder';
 import { datatype, lorem, internet } from 'faker';
 import { DevFieldBuilder } from '../../../builder/dev-field.builder';
-import { LoginRequestDtoBuilder, UserBuilder } from '../../../builder';
+import { HistoryBuilder, LoginRequestDtoBuilder, UserBuilder } from '../../../builder';
 import { BadRequestException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { UserException } from '../../../exception';
 import { LoginRequestDto } from '../dto/login-request.dto';
 import { Bcrypt } from '../../../utils/bcrypt';
+import { User } from '../../user/user.entity';
+import { LocalDate } from 'js-joda';
+import { DevField } from '../../field/dev-field.entity';
+import { History } from '../../history/history.entity';
 
 describe('AuthService', () => {
   let authService: AuthService;
   let userRepository: UserRepository;
   let devFieldRepository: DevFieldRepository;
+  let historyService: HistoryService;
+  let historyRepository: HistoryRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -47,6 +53,8 @@ describe('AuthService', () => {
     authService = module.get<AuthService>(AuthService);
     userRepository = module.get<UserRepository>(UserRepository);
     devFieldRepository = module.get<DevFieldRepository>(DevFieldRepository);
+    historyService = module.get<HistoryService>(HistoryService);
+    historyRepository = module.get<HistoryRepository>(HistoryRepository);
   });
 
   describe('유저 회원가입', () => {
@@ -136,8 +144,9 @@ describe('AuthService', () => {
         .setPassword(lorem.sentence())
         .build();
 
+      jest.spyOn(userRepository, 'findUserByEmailWithDev').mockResolvedValue(new User());
       Bcrypt.compare = jest.fn().mockReturnValue(false);
-      jest.spyOn(userRepository, 'findUserByEmailWithDev').mockResolvedValue(undefined);
+
       let result;
       try {
         result = await authService.login(loginRequestDto);
@@ -146,6 +155,38 @@ describe('AuthService', () => {
         expect(e.message).toBe('입력하신 사용자 정보가 올바르지 않습니다.');
         expect(e.status).toBe(HttpStatus.UNAUTHORIZED);
       }
+    });
+
+    it('오늘 첫 로그인이면 잔디를 심는다.', async () => {
+      const loginRequestDto: LoginRequestDto = new LoginRequestDtoBuilder()
+        .setEmail(internet.email())
+        .setPassword(lorem.sentence())
+        .build();
+
+      const user: User = new UserBuilder()
+        .setId(datatype.number())
+        .setNickname(lorem.sentence())
+        .setEmail(loginRequestDto.email)
+        .setPassword(loginRequestDto.password)
+        .setDevField(new DevField())
+        .setIntroduction('')
+        .setImageName('')
+        .setImageURL(process.env.DEFAULT_IMG)
+        .setHistorys([])
+        .setIsSocial(false)
+        .setLastCheckIn(LocalDate.now().minusDays(1))
+        .build();
+      const history: History = new HistoryBuilder().setCheckIn(LocalDate.now()).setUser(user).build();
+      Bcrypt.compare = jest.fn().mockReturnValue(true);
+      jest.spyOn(userRepository, 'findUserByEmailWithDev').mockResolvedValue(user);
+      jest.spyOn(historyService, 'checkIn').mockResolvedValue(true);
+      jest.spyOn(historyRepository, 'addHistory').mockResolvedValue(true);
+      jest.spyOn(historyRepository, 'save').mockResolvedValue(history);
+      jest.spyOn(userRepository, 'save').mockResolvedValue(user);
+      await authService.login(loginRequestDto);
+
+      expect(historyService.checkIn).toHaveBeenCalled();
+      expect(userRepository.save).toHaveBeenCalled();
     });
   });
 });
