@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
-import { Container, Title, Canvas } from './style';
+import { Wrapper, InfoContainer, Container, Title, Canvas, InfoSet, Legend } from './style';
 import GrassArea from '@components/profile/GrassArea';
 import ProfileAvatar from '@components/profile/Avatar';
 import ModifyInfoCard from '../ModifyInfoCard';
@@ -74,21 +74,27 @@ function UserInfo(): JSX.Element {
   }, [loadUserGrassList, history, user.login]);
 
   return (
-    <div>
+    <Wrapper>
       <Title>마이 프로필</Title>
       <Container>
-        {isModify ? (
-          <ModifyInfoCard onnClickCancelBtn={onClickModifyToggle} setIsModify={setIsModify} />
-        ) : (
-          <InfoCard onClickModifyToggle={onClickModifyToggle} />
-        )}
-        <ProfileAvatar />
-        <div>
+        <InfoContainer>
+          <ProfileAvatar />
+          <InfoSet>
+            <Legend>유저 정보</Legend>
+            {isModify ? (
+              <ModifyInfoCard onnClickCancelBtn={onClickModifyToggle} setIsModify={setIsModify} />
+            ) : (
+              <InfoCard onClickModifyToggle={onClickModifyToggle} />
+            )}
+          </InfoSet>
+        </InfoContainer>
+        <InfoSet>
+          <Legend>{'월별 출석 통계'}</Legend>
           <Canvas ref={canvasRef}></Canvas>
-        </div>
+        </InfoSet>
       </Container>
       <GrassArea grassList={grassList} />
-    </div>
+    </Wrapper>
   );
 }
 

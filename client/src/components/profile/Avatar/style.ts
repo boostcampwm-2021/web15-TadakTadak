@@ -1,9 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { PROFILE } from '@utils/styleConstant';
 
 export const AvatarContainer = styled.div`
-  ${({ theme }) => theme.flexColumn};
+  width: 100%;
+  display: flex;
+  align-items: center;
 `;
+
 export const Avatar = styled.img`
   margin-right: ${({ theme }) => theme.margins.base};
   width: ${PROFILE.avatarWidth};
@@ -13,8 +16,9 @@ export const Avatar = styled.img`
 `;
 
 export const ButtonWrapper = styled.div`
+  width: 10rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 export const UploadBtn = styled.label`
@@ -33,4 +37,26 @@ export const UploadBtn = styled.label`
 
 export const DeleteBtn = styled(UploadBtn)`
   background-color: ${({ theme }) => theme.colors.secondary};
+`;
+
+export const Legend = styled.legend`
+  font-size: ${PROFILE.legendFontSize};
+  color: ${({ theme }) => theme.colors.bgGreen};
+`;
+
+export const Info = styled.div`
+  font-size: ${PROFILE.infoFontSize};
+  color: ${({ theme }) => theme.colors.bgGreen};
+  word-break: break-all;
+`;
+
+export const InfoSet = styled.fieldset`
+  width: 100%;
+  ${({ theme }) => css`
+    ${theme.flexCenter};
+    background-color: ${theme.colors.grey};
+    padding: ${theme.paddings.sm};
+    border: 1px solid ${theme.colors.borderGrey};
+    border-radius: ${theme.borderRadius.base};
+  `};
 `;

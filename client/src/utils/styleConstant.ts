@@ -1,5 +1,7 @@
 import { TOAST_TIME } from './constant';
 
+const WINDOW_HEIGHT = window.innerHeight;
+
 export const CHAT = {
   listHeight: '80vh',
   inputHeight: '10vh',
@@ -56,9 +58,11 @@ export const ROOM_CARD = {
 };
 
 export const GRASS = {
-  width: '2.5rem',
-  height: '2.5rem',
+  containerHeight: '18vh',
+  width: `${WINDOW_HEIGHT / 800}rem`,
+  height: `${WINDOW_HEIGHT / 800}rem`,
   gridGap: '0.3rem',
+  legendFontSize: '3rem',
   rowNumbers: 7,
   columnNumbers: 53,
 };
@@ -74,8 +78,19 @@ export const SEARCH_BAR = {
   initBtn: { fill: 'grey', fontSize: '2.2rem', cursor: 'pointer' },
 };
 
+export const PAGE_TITLE = {
+  mainFontSize: '15rem',
+  profileFontSize: '8rem',
+  profileHeight: '10vh',
+};
+
 export const PROFILE = {
-  avatarWidth: '15rem',
-  avatarHeight: '15rem',
+  containerHeight: '65vh',
+  avatarWidth: '16rem',
+  avatarHeight: '16rem',
   btnBorderRadius: '1rem',
+  infoCardMinWidth: '20rem',
+  infoCardWidth: '60rem',
+  infoFontSize: '3rem',
+  legendFontSize: '2.3rem',
 };

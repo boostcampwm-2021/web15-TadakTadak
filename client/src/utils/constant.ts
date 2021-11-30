@@ -101,6 +101,7 @@ export const CANVAS = {
   YLine: '#888888',
   XLine: '#f5f5f5',
   resultLine: '#ee7f6e',
+  legendFontSize: '2.3rem',
 };
 
 export const KEY_PRESS = {
