@@ -9,7 +9,7 @@ import SideBar from '@components/sideBar/SideBar';
 import Tab from '@components/common/Tab';
 import { useUser } from '@contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
-import { useClient } from '../../room/tadaktadak/videoConfig';
+import { useClient } from '@components/video/config';
 import { postLeaveRoom } from '@src/apis';
 import { RoomType, TabType } from '@utils/constant';
 import { SIDEBAR } from '@utils/styleConstant';
