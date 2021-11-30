@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from '../strategy/jwt.strategy';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { UserRepository } from '../../user/repository/user.repository';
 import { DevFieldRepository } from '../../field/repository/dev-field.repository';
@@ -13,7 +13,7 @@ import { JoinRequestDto } from '../dto/join-request.dto';
 import { JoinRequestDtoBuilder } from '../../../builder/auth/join-request.dto.builder';
 import { datatype, lorem, internet } from 'faker';
 import { DevFieldBuilder } from '../../../builder/dev-field.builder';
-import { HistoryBuilder, LoginRequestDtoBuilder, UserBuilder } from '../../../builder';
+import { HistoryBuilder, LoginRequestDtoBuilder, UserBuilder, UserResponseDtoBuilder } from '../../../builder';
 import { BadRequestException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { UserException } from '../../../exception';
 import { LoginRequestDto } from '../dto/login-request.dto';
@@ -22,6 +22,7 @@ import { User } from '../../user/user.entity';
 import { LocalDate } from 'js-joda';
 import { DevField } from '../../field/dev-field.entity';
 import { History } from '../../history/history.entity';
+import { UserResponseDto } from '../../user/dto/user-response.dto';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -29,6 +30,7 @@ describe('AuthService', () => {
   let devFieldRepository: DevFieldRepository;
   let historyService: HistoryService;
   let historyRepository: HistoryRepository;
+  let jwtService: JwtService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -55,6 +57,7 @@ describe('AuthService', () => {
     devFieldRepository = module.get<DevFieldRepository>(DevFieldRepository);
     historyService = module.get<HistoryService>(HistoryService);
     historyRepository = module.get<HistoryRepository>(HistoryRepository);
+    jwtService = module.get<JwtService>(JwtService);
   });
 
   describe('유저 회원가입', () => {
@@ -187,6 +190,42 @@ describe('AuthService', () => {
 
       expect(historyService.checkIn).toHaveBeenCalled();
       expect(userRepository.save).toHaveBeenCalled();
+    });
+
+    it('로그인이 성공적이면 jwt 토큰과 유저 정보를 반환한다.', async () => {
+      const loginRequestDto: LoginRequestDto = new LoginRequestDtoBuilder()
+        .setEmail(internet.email())
+        .setPassword(lorem.sentence())
+        .build();
+
+      const findDevByIdResponseDevField = new DevFieldBuilder().setId(0).setName('Front-end').build();
+      const user: User = new UserBuilder()
+        .setId(datatype.number())
+        .setNickname(lorem.sentence())
+        .setEmail(loginRequestDto.email)
+        .setPassword(loginRequestDto.password)
+        .setDevField(findDevByIdResponseDevField)
+        .setIntroduction('')
+        .setImageName('')
+        .setImageURL(process.env.DEFAULT_IMG)
+        .setHistorys([])
+        .setIsSocial(false)
+        .setLastCheckIn(LocalDate.now())
+        .build();
+
+      const userResponse: UserResponseDto = new UserResponseDtoBuilder()
+        .setId(user.id)
+        .setNickname(user.nickname)
+        .setEmail(user.email)
+        .setDevField(user.devField)
+        .setImageUrl(user.imageUrl)
+        .build();
+
+      Bcrypt.compare = jest.fn().mockReturnValue(true);
+      jest.spyOn(userRepository, 'findUserByEmailWithDev').mockResolvedValue(user);
+      const { token, userInfo } = await authService.login(loginRequestDto);
+
+      expect(userInfo).toStrictEqual(userResponse);
     });
   });
 });
