@@ -102,9 +102,8 @@ describe('AuthService', () => {
       jest.spyOn(userRepository, 'exists').mockResolvedValue(true);
       jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(findDevByIdResponseDevField);
       jest.spyOn(userRepository, 'save').mockResolvedValue(saveResponseUser);
-      let result;
       try {
-        result = await authService.join(joinRequestDto);
+        await authService.join(joinRequestDto);
       } catch (e) {
         expect(e).toBeInstanceOf(BadRequestException);
         expect(e.message).toBe(UserException.userIsExist().message);

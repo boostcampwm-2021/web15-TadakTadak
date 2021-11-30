@@ -5,7 +5,7 @@ import { RtcRole, RtcTokenBuilder } from 'agora-access-token';
 import { RoomBuilder } from '../../../builder';
 import { RoomException, UserException } from '../../../exception';
 import { Pagination, PaginationOptions } from '../../../paginate';
-import { Connection, DeleteResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 import { RoomType } from '../room.entity';
 import { RoomProcessOption, RoomRepository } from '../repository/room.repository';
 import { UserRepository } from '../../user/repository/user.repository';
