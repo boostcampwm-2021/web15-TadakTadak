@@ -1,6 +1,6 @@
 import { BadRequestException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserBuilder } from '../../../builder';
+import { UserBuilder, UserUpdateDtoBuilder } from '../../../builder';
 import { JwtStrategy } from '../../auth/strategy/jwt.strategy';
 import { User } from '../user.entity';
 import { UserService } from './user.service';
@@ -11,6 +11,7 @@ import { UserResponseDto } from '../dto/user-response.dto';
 
 import 'dotenv/config';
 import { UserUpdateDto } from '../dto/user-update.dto';
+import { DevField } from '../../field/dev-field.entity';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -118,5 +119,21 @@ describe('UserService', () => {
       expect(e.message).toBe('해당되는 개발 분야를 찾을 수 없습니다.');
       expect(e.status).toBe(HttpStatus.NOT_FOUND);
     }
+  });
+
+  it('사용자의 닉네임 수정이 성공한다.', async () => {
+    const userNickname = 'ORIGINALNICKNAME';
+    const userUpdateDto: UserUpdateDto = new UserUpdateDtoBuilder()
+      .setNickname('CHANGEDNICKNAME')
+      .setDevField(1)
+      .build();
+
+    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
+    jest.spyOn(userRepository, 'isExistUserByNickname').mockResolvedValue(false);
+    jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(new DevField());
+    jest.spyOn(userRepository, 'save').mockResolvedValue(new User());
+    const result: UserResponseDto = await userService.updateUserInfo(userNickname, userUpdateDto);
+
+    expect(result.nickname).toBe('CHANGEDNICKNAME');
   });
 });
