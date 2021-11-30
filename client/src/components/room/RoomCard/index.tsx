@@ -60,7 +60,7 @@ const RoomCard = ({ roomInfo }: RoomCardProps): JSX.Element => {
       <RoomCardTop>
         <RoomTopMenu>
           <RoomTitle>{title}</RoomTitle>
-          <RoomFieldType>{owner?.devField?.name || 'All'}</RoomFieldType>
+          <RoomFieldType bgColor={owner?.devField?.name || 'None'}>{owner?.devField?.name}</RoomFieldType>
         </RoomTopMenu>
         <RoomDescription>{description}</RoomDescription>
       </RoomCardTop>

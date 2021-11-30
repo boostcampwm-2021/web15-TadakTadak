@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { ROOM_CARD } from '@utils/styleConstant';
+import { FieldName } from '@contexts/userContext';
 
 export const RoomCardWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -75,16 +76,16 @@ export const RoomCardBottom = styled.div`
   align-items: flex-end;
 `;
 
-export const RoomFieldType = styled.div`
+export const RoomFieldType = styled.div<{ bgColor: FieldName }>`
   width: 6rem;
   height: 2rem;
-  ${({ theme }) => css`
+  ${({ theme, bgColor }) => css`
     ${theme.flexCenter};
     font-size: ${theme.fontSizes.sm};
     background-color: ${theme.colors.blue};
-    color: ${theme.colors.white};
     padding: ${theme.paddings.sm};
     border-radius: ${theme.borderRadius.sm};
+    background-color: ${theme.tagColors[bgColor]};
   `}
 `;
 

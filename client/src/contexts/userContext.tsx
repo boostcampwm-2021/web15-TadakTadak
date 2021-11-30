@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 
-export type FieldName = 'Front-end' | 'Back-end' | 'IOS' | 'Android' | 'None';
+export type FieldName = 'Front-end' | 'Back-end' | 'iOS' | 'Android' | 'None';
 
 export interface UserProps {
   id?: number;

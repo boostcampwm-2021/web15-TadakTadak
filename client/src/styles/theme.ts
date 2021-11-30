@@ -31,9 +31,9 @@ const theme: DefaultTheme = {
     green: '#339933',
   },
   tagColors: {
-    'Front-end': '#9EEDEF',
+    'Front-end': '#61DAFB',
     'Back-end': '#F5F5D5',
-    IOS: '#FFE4E5',
+    iOS: '#FFE4E5',
     Android: '#8685EF',
     None: '#908989',
   },
