@@ -1,6 +1,6 @@
 import { MainWrapper, MainContainer } from './style';
 import MainSideBar from '@components/sideBar/Main';
-import RoomList from '@components/main/RoomList';
+import RoomList from '@components/room/RoomList';
 import ServiceInfo from '@components/main/ServiceInfo';
 import DevFieldContextProvider from '@src/contexts/devFieldContext';
 import { PAGE_NAME } from '@utils/constant';
