@@ -1,15 +1,7 @@
-import { UserInfoType, RoomInfoType } from '@src/types';
-import {
-  HTTPResponse,
-  queryObjToString,
-  fetchGet,
-  fetchPost,
-  fetchPatch,
-  fetchDelete,
-  fetchDeleteImage,
-  fetcher,
-  getUrl,
-} from './apiUtils';
+import { UserInfoType, RoomInfoType, HTTPResponse } from '@src/types';
+import { queryObjToString, getUrl } from './apiUtils';
+import { fetchGet, fetchPost, fetchPatch, fetchDelete, fetchDeleteImage } from './fetchFns';
+import fetcher from './fetcher';
 
 interface PostLogin {
   email: string;
