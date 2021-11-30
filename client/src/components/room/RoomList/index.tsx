@@ -4,7 +4,7 @@ import Loader from '@components/common/Loader';
 import Tab from '@components/common/Tab';
 import RoomCard from '@components/room/RoomCard';
 import SearchBar from '@components/SearchBar';
-import QuestionButton from '@components/main/QuestionButton';
+import TabInfo from '@components/room/TabInfo';
 import useDebounce from '@hooks/useDebounce';
 import useInput from '@hooks/useInput';
 import { getRoom } from '@src/apis';
@@ -96,10 +96,10 @@ function RoomList(): JSX.Element {
     <>
       <TabWrapper>
         <Tab text="타닥타닥" isActive={tabState.tadak} onClick={onClickTadakTap}>
-          <QuestionButton text={ROOM_DESCRIPTION.tadak} />
+          <TabInfo text={ROOM_DESCRIPTION.tadak} />
         </Tab>
         <Tab text="캠프파이어" isActive={tabState.campfire} onClick={onClickCampFireTap}>
-          <QuestionButton text={ROOM_DESCRIPTION.campfire} />
+          <TabInfo text={ROOM_DESCRIPTION.campfire} />
         </Tab>
         <SearchBar search={search} onChange={onChangeSearch} onReset={onResetSearch} />
       </TabWrapper>
