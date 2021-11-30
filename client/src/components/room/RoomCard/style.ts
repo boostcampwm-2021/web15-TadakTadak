@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { ROOM_CARD } from '@utils/styleConstant';
-import { FieldName } from '@contexts/userContext';
+import { DevFieldType } from '@src/types';
 
 export const RoomCardWrapper = styled.div`
   ${({ theme }) => theme.flexCenter};
@@ -76,7 +76,7 @@ export const RoomCardBottom = styled.div`
   align-items: flex-end;
 `;
 
-export const RoomFieldType = styled.div<{ bgColor: FieldName }>`
+export const RoomFieldType = styled.div<{ bgColor: DevFieldType }>`
   width: 6rem;
   height: 2rem;
   ${({ theme, bgColor }) => css`

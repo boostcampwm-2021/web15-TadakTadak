@@ -10,11 +10,11 @@ import Loader from '@components/common/Loader';
 import BGMContextProvider from '@contexts/bgmContext';
 import { useUser } from '@contexts/userContext';
 import { RoomType } from '@utils/constant';
-import { RoomInfo } from '@src/types/interfaces';
+import { RoomInfoType } from '@src/types';
 
 interface LocationProps {
   pathname: string;
-  state: RoomInfo;
+  state: RoomInfoType;
 }
 
 interface RoomProps {
