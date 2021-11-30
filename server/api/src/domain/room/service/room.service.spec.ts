@@ -41,5 +41,12 @@ describe('RoomService', () => {
     }
   });
 
+  it('[joinRoom] UUID로 방에 접속할 수 있다.', async () => {
+    jest.spyOn(roomRepository, 'findRoomByUUID').mockResolvedValue(mockRoom);
+    jest.spyOn(roomRepository, 'roomProcess').mockResolvedValue(new UpdateResult());
+    const result = await roomService.joinRoom(lorem.sentence());
+    expect(result).toBe(true);
+  });
+
   });
 });
