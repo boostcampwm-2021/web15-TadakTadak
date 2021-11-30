@@ -1,15 +1,6 @@
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { MainTitle, MainInfo } from './style';
 import { getVisitCount } from '@src/apis';
-
-const MainTitle = styled.h1`
-  font-size: 15rem;
-  color: ${({ theme }) => theme.colors.bgGreen};
-`;
-
-const MainInfo = styled.div`
-  font-size: 4rem;
-`;
 
 function ServiceInfo(): JSX.Element {
   const [visit, setVisit] = useState<number>();
