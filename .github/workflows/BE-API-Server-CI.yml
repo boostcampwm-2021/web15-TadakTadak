@@ -34,3 +34,6 @@ jobs:
 
       - name: CI 작업을 수행합니다.
         run: npm run ci
+
+      - name: 테스트를 수행합니다.
+        run: npm test
