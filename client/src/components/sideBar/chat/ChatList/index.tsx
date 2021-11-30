@@ -3,7 +3,7 @@ import { TiDelete } from 'react-icons/ti';
 import socket from '@socket/socket';
 import { SocketEvents } from '@socket/socketEvents';
 import { Container, List, TextAreaWrapper, TextArea, Line, TextResetBtn } from './style';
-import ChatCard from '@components/chat/ChatCard';
+import ChatCard from '@src/components/sideBar/chat/ChatCard';
 import { useUser } from '@contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
 import useInput from '@hooks/useInput';
