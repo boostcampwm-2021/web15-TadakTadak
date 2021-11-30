@@ -48,5 +48,29 @@ describe('RoomService', () => {
     expect(result).toBe(true);
   });
 
+  it('[joinRoom] 잘못된 UUID를 요청하면 방에 접속이 불가능하다.', async () => {
+    jest.spyOn(roomRepository, 'findRoomByUUID').mockResolvedValue(undefined);
+    jest.spyOn(roomRepository, 'roomProcess').mockResolvedValue(new UpdateResult());
+    try {
+      await roomService.joinRoom(lorem.sentence());
+    } catch (e) {
+      expect(e).toBeInstanceOf(NotFoundException);
+      expect(e.message).toBe(RoomException.roomNotFound().message);
+    }
+  });
+
+  it('[joinRoom] 현재 방의 이용자가 최대 이용자면 접속이 불가능하다.', async () => {
+    const fullRoomMock = { ...mockRoom };
+    fullRoomMock.nowHeadcount = 9;
+    fullRoomMock.maxHeadcount = 9;
+    jest.spyOn(roomRepository, 'findRoomByUUID').mockResolvedValue(fullRoomMock);
+    try {
+      await roomService.joinRoom(lorem.sentence());
+    } catch (e) {
+      expect(e).toBeInstanceOf(BadRequestException);
+      expect(e.message).toBe(RoomException.roomFullError().message);
+    }
+  });
+
   });
 });
