@@ -27,18 +27,15 @@ const ModifyInfoCard = ({ onnClickCancelBtn, setIsModify }: InfoProps): JSX.Elem
   const onClickModifyBtn = async () => {
     if (nickname === user.nickname && user.devField?.id === devField) {
       setIsModify(false);
-      toast('success', TOAST_MESSAGE.nothingChange);
-      return;
+      return toast('success', TOAST_MESSAGE.nothingChange);
     }
-
     const originalName = user.nickname ?? '';
     const requestBody = { originalName, nickname, devField: devField === 0 ? user.devField?.id : devField };
-
     const { data } = await patchUpdate(requestBody);
     if (data) {
       logUserIn(data);
       setIsModify(false);
-      toast('success', TOAST_MESSAGE.updateSuccess);
+      return toast('success', TOAST_MESSAGE.updateSuccess);
     }
   };
   return (

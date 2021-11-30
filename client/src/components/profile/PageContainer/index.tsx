@@ -27,20 +27,14 @@ function UserInfo(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const renderLineGraph = async () => {
-    if (!canvasRef.current) {
-      return;
-    }
+    if (!canvasRef.current) return;
     const { isOk, data } = await getUserLogListPerMonth();
-    if (!isOk || !data) {
-      return;
-    }
-
+    if (!isOk || !data) return;
     const canvas: HTMLCanvasElement = canvasRef.current;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
     canvas.width = CANVAS.width;
     canvas.height = CANVAS.height;
-
     const values = Object.keys(data).map((key: string) => data[key]);
     const maxMonths = Math.max.apply(null, values);
     const width = getWidths(canvas.width);

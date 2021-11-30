@@ -34,38 +34,23 @@ function RoomList(): JSX.Element {
 
   const onClickTadakTap = () => setTabState({ tadak: true, campfire: false });
   const onClickCampFireTap = () => setTabState({ tadak: false, campfire: true });
+
   const getRoomList = useCallback(
-    async (searchStr: string) => {
-      setLoading(true);
-      page.current = 1;
-      const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
-      const queryObj = getRoomQueryObj(type, searchStr, 1);
-      const { isOk, data } = await getRoom(queryObj);
-      if (isOk && data) {
-        setRooms([...data.results]);
-      }
-      setLoading(false);
-    },
-    [tabState],
-  );
-  const addRoomList = useCallback(
     async (searchStr: string) => {
       setLoading(true);
       const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
       const queryObj = getRoomQueryObj(type, searchStr, page.current);
       const { isOk, data } = await getRoom(queryObj);
-      if (isOk && data) {
-        setRooms((prevRooms) => [...prevRooms, ...data.results]);
-      }
+      if (isOk && data) setRooms([...data.results]);
       setLoading(false);
     },
-    [tabState, page],
+    [tabState],
   );
 
   const addNewPage = useCallback(() => {
     page.current += 1;
-    addRoomList(debounceSearch);
-  }, [addRoomList, debounceSearch]);
+    getRoomList(debounceSearch);
+  }, [getRoomList, debounceSearch]);
 
   const onIntersect: IntersectionObserverCallback = useCallback(
     (entries, observer) => {
@@ -80,6 +65,7 @@ function RoomList(): JSX.Element {
   );
 
   useEffect(() => {
+    page.current = 1;
     getRoomList(debounceSearch);
   }, [getRoomList, debounceSearch, tabState]);
 
