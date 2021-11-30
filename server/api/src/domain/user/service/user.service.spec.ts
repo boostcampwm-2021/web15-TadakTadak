@@ -1,13 +1,15 @@
+import { HttpStatus, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { UserBuilder } from '../../../builder';
 import { JwtStrategy } from '../../auth/strategy/jwt.strategy';
+import { User } from '../user.entity';
 import { UserService } from './user.service';
 import { ImageService } from '../../image/service/image.service';
 import { DevFieldRepository } from '../../field/repository/dev-field.repository';
 import { UserRepository } from '../repository/user.repository';
+import { UserResponseDto } from '../dto/user-response.dto';
 
 import 'dotenv/config';
-import { HttpStatus, NotFoundException } from '@nestjs/common';
-import { UserException } from '../../../exception';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -34,16 +36,35 @@ describe('UserService', () => {
   });
 
   it('존재하지 않는 사용자를 조회하면 404 예외를 발생한다.', async () => {
-    const userNickname = 'zaehuun';
+    //given
+    const userNickname = 'IMNOTUSER';
     jest.spyOn(userRepository, 'findUserByNicknameWithDev').mockResolvedValue(null);
 
     try {
+      //when
       const result = await userService.getUserInfo(userNickname);
     } catch (e) {
-      //   console.log(e.statusCode);
+      //then
       expect(e).toBeInstanceOf(NotFoundException);
       expect(e.message).toBe('사용자를 찾을 수 없습니다.');
       expect(e.status).toBe(HttpStatus.NOT_FOUND);
     }
   });
+
+  it('존재하는 사용자를 조회하면 해당 사용자가 조회된다.', async () => {
+    //given
+    const userNickname = 'IMUSER';
+    const toBeFindedUser: User = new UserBuilder().setNickname(userNickname).build();
+
+    jest.spyOn(userRepository, 'findUserByNicknameWithDev').mockResolvedValue(toBeFindedUser);
+
+    //when
+    const findedUser: UserResponseDto = await userService.getUserInfo(userNickname);
+
+    //then
+    expect(findedUser).toBeInstanceOf(UserResponseDto);
+    expect(findedUser.nickname).toBe(userNickname);
+  });
+
+  it('');
 });

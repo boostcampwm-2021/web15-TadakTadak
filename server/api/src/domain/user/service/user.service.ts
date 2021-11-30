@@ -8,7 +8,7 @@ import { ImageService } from '../../image/service/image.service';
 import { DevFieldRepository } from '../../field/repository/dev-field.repository';
 import { UserRepository } from '../repository/user.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
-import { UserResponseDto } from '../../auth/dto/user-response.dto';
+import { UserResponseDto } from '../dto/user-response.dto';
 
 @Injectable()
 export class UserService {
