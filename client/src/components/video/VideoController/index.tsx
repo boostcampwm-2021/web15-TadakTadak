@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
-import { useClient } from './videoConfig';
+import { useClient } from '../video/videoConfig';
 import { deleteRoom } from '@src/apis';
 import Button from '@components/common/Button';
 import ScreenShareDiv from './ScreenShareDiv';
