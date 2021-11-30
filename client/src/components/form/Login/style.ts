@@ -10,7 +10,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: ${FORM.top}%;
+  top: ${FORM.top};
 `;
 
 export const Input = styled.input`
