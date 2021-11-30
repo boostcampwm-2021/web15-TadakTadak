@@ -1,17 +1,16 @@
 import { BadRequestException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserBuilder, UserUpdateDtoBuilder } from '../../../builder';
+import { DevFieldBuilder, UserBuilder, UserUpdateDtoBuilder } from '../../../builder';
 import { JwtStrategy } from '../../auth/strategy/jwt.strategy';
 import { User } from '../user.entity';
+import { DevField } from '../../field/dev-field.entity';
 import { UserService } from './user.service';
 import { ImageService } from '../../image/service/image.service';
 import { DevFieldRepository } from '../../field/repository/dev-field.repository';
 import { UserRepository } from '../repository/user.repository';
 import { UserResponseDto } from '../dto/user-response.dto';
-
-import 'dotenv/config';
 import { UserUpdateDto } from '../dto/user-update.dto';
-import { DevField } from '../../field/dev-field.entity';
+import 'dotenv/config';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -122,6 +121,7 @@ describe('UserService', () => {
   });
 
   it('사용자의 닉네임 수정이 성공한다.', async () => {
+    //given
     const userNickname = 'ORIGINALNICKNAME';
     const userUpdateDto: UserUpdateDto = new UserUpdateDtoBuilder()
       .setNickname('CHANGEDNICKNAME')
@@ -132,8 +132,34 @@ describe('UserService', () => {
     jest.spyOn(userRepository, 'isExistUserByNickname').mockResolvedValue(false);
     jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(new DevField());
     jest.spyOn(userRepository, 'save').mockResolvedValue(new User());
+
+    //when
     const result: UserResponseDto = await userService.updateUserInfo(userNickname, userUpdateDto);
 
+    //then
     expect(result.nickname).toBe('CHANGEDNICKNAME');
+  });
+
+  it('사용자의 개발 분야 수정이 성공한다.', async () => {
+    //given
+    const userNickname = 'ORIGINALNICKNAME';
+    const updateDevFieldId = 2;
+    const userUpdateDto: UserUpdateDto = new UserUpdateDtoBuilder()
+      .setNickname(userNickname)
+      .setDevField(updateDevFieldId)
+      .build();
+
+    const updateDevField: DevField = new DevFieldBuilder().setId(updateDevFieldId).setName('Back-end').build();
+
+    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
+    jest.spyOn(userRepository, 'isExistUserByNickname').mockResolvedValue(false);
+    jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(updateDevField);
+    jest.spyOn(userRepository, 'save').mockResolvedValue(new User());
+
+    //when
+    const result = await userService.updateUserInfo(userNickname, userUpdateDto);
+
+    //then
+    expect(result.devField.id).toBe(updateDevFieldId);
   });
 });
