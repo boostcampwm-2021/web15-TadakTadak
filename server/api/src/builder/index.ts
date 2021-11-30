@@ -3,4 +3,5 @@ export { UserBuilder } from './user/user.builder';
 export { HistoryBuilder } from './history.builder';
 export { VisitBuilder } from './visit.builder';
 export { UserResponseDtoBuilder } from './user/user-response.dto.builder';
+export { UserUpdateDtoBuilder } from './user/user-update.dto.builder';
 export { BuilderCommon } from './builder';

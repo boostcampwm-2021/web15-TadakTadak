@@ -1,6 +1,5 @@
 import { BuilderCommon } from '../builder';
 import { JoinRequestDto } from '../../domain/auth/dto/join-request.dto';
-import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class JoinRequestDtoBuilder extends BuilderCommon<JoinRequestDto> {
   constructor() {
