@@ -4,7 +4,7 @@ import { IMicrophoneAudioTrack } from 'agora-rtc-react';
 import styled, { css, ThemeContext } from 'styled-components';
 import { FaMicrophone, FaMicrophoneSlash } from 'react-icons/fa';
 import { MdOutlineExitToApp, MdMusicNote, MdMusicOff } from 'react-icons/md';
-import { useClient } from '../tadaktadak/videoConfig';
+import { useClient } from '@components/video/config';
 import Button from '@components/common/CircleButton';
 import { deleteRoom } from '@src/apis';
 import { useUser } from '@contexts/userContext';
