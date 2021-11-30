@@ -6,7 +6,7 @@ import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-ic
 import { MdOutlineExitToApp, MdScreenShare, MdStopScreenShare } from 'react-icons/md';
 import { useClient } from './videoConfig';
 import { deleteRoom } from '@src/apis';
-import Button from '@components/common/Button';
+import Button from '@components/common/CircleButton';
 import ScreenShareDiv from './ScreenShareDiv';
 import { useUser } from '@contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
