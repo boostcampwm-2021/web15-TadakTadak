@@ -1,6 +1,6 @@
 import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack, ICameraVideoTrack } from 'agora-rtc-react';
 import { VideosContainer, VideosGrid, VideoCardWrapper, UserInfoDiv } from './style';
-import VideoCard from '@components/VideoCard';
+import VideoCard from '@components/video/VideoCard';
 import { useUser } from '@contexts/userContext';
 
 interface VideosProps {
