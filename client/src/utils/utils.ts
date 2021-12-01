@@ -11,7 +11,7 @@ export const isNickname = (nickname: string): boolean => {
 };
 
 export const isPassword = (password: string): boolean => {
-  const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{6,20}$/;
+  const regExp = /^(?=.*\d)(?=[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{6,20}$/;
   return regExp.test(password);
 };
 

@@ -1,4 +1,4 @@
-import { isEmail, isNickname } from './utils';
+import { isEmail, isNickname, isPassword } from './utils';
 
 /*
     정규표현식을 통해 이메일의 유효성을 검증하는 isEmail 함수 테스트
@@ -88,5 +88,63 @@ describe('유효하지 않은 닉네임 검증하기', () => {
   test('한글/영어로 시작하지 않는 닉네임', () => {
     const invalidNickname = '.qwer';
     expect(isNickname(invalidNickname)).toBeFalsy();
+  });
+});
+
+/*
+  정규표현식을 통해 비밀번호 유효성을 검증하는 isPassword 함수 테스트
+*/
+
+describe('유효한 비밀번호 검증하기', () => {
+  test('영어와 숫자를 조합한 유효한 비밀번호', () => {
+    const validPassword = 'nicePassword1';
+    expect(isPassword(validPassword)).toBeTruthy();
+  });
+
+  test('영어,숫자,특수문자를 포함한 비밀번호', () => {
+    const validPassword = 'qwer12!@';
+    expect(isPassword(validPassword)).toBeTruthy();
+  });
+
+  test('가장 짧은 비밀번호', () => {
+    const validPassword = 'qqqq12';
+    expect(isPassword(validPassword)).toBeTruthy();
+  });
+
+  test('가장 긴 비밀번호', () => {
+    const validPassword = 'qqqqqaaaaa1010101010';
+    expect(isPassword(validPassword)).toBeTruthy();
+  });
+});
+
+describe('유효하지 않은 비밀번호 검증하기', () => {
+  test('영어만 포함한 비밀번호', () => {
+    const invalidPassword = 'qwertyui';
+    expect(isPassword(invalidPassword)).toBeFalsy();
+  });
+
+  test('숫자만 포함한 비밀번호', () => {
+    const invalidPassword = '1234566789';
+    expect(isPassword(invalidPassword)).toBeFalsy();
+  });
+
+  test('영어와 특수문자를 포함한 비밀번호', () => {
+    const invalidPassword = 'qwert!@';
+    expect(isPassword(invalidPassword)).toBeFalsy();
+  });
+
+  test('이상한 특수문자를 추가로 포함한 비밀번호', () => {
+    const invalidPassword = 'qwer12!🌝';
+    expect(isPassword(invalidPassword)).toBeFalsy();
+  });
+
+  test('특수문자로 시작하는 비밀번호', () => {
+    const invalidPassword = '!qwer12';
+    expect(isPassword(invalidPassword)).toBeFalsy();
+  });
+
+  test('숫자로 시작하는 비밀번호', () => {
+    const invalidPassword = '1qwer12';
+    expect(isPassword(invalidPassword)).toBeFalsy();
   });
 });
