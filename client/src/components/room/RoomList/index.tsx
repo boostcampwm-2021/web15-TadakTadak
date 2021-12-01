@@ -41,7 +41,10 @@ function RoomList(): JSX.Element {
       const type = tabState.tadak ? '타닥타닥' : '캠프파이어';
       const queryObj = getRoomQueryObj({ type, search: searchStr, page: page.current });
       const { isOk, data } = await getRoom(queryObj);
-      if (isOk && data) setRooms([...data.results]);
+      if (isOk && data) {
+        if (page.current === 1) setRooms([...data.results]);
+        else setRooms((preRooms) => [...preRooms, ...data.results]);
+      }
       setLoading(false);
     },
     [tabState],
