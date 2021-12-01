@@ -6,7 +6,7 @@ export const isEmail = (email: string): boolean => {
 };
 
 export const isNickname = (nickname: string): boolean => {
-  const regExp = /^(?=.*[a-zA-Z가-힣])[-a-zA-Z가-힣0-9_.]{2,15}$/;
+  const regExp = /^(?=[a-zA-Z가-힣])[-a-zA-Z가-힣0-9_.]{2,15}$/;
   return regExp.test(nickname);
 };
 
