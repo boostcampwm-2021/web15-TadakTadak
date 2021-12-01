@@ -1,4 +1,4 @@
-import { isEmail, isNickname, isPassword } from './utils';
+import { isEmail, isNickname, isPassword, getPrevYear } from './utils';
 
 /*
     정규표현식을 통해 이메일의 유효성을 검증하는 isEmail 함수 테스트
@@ -146,5 +146,32 @@ describe('유효하지 않은 비밀번호 검증하기', () => {
   test('숫자로 시작하는 비밀번호', () => {
     const invalidPassword = '1qwer12';
     expect(isPassword(invalidPassword)).toBeFalsy();
+  });
+});
+
+/*
+  특정 날짜로부터 n년 전 날짜를 알려주는 getPrevYear 함수 테스트
+*/
+
+describe('특정 날짜로부터 N년 전 날짜를 구하기', () => {
+  test('2021-12-01의 1년 전', () => {
+    const baseDate = new Date('2021-12-01');
+    const targetDate = new Date('2020-12-02');
+    const year = 1;
+    expect(getPrevYear(baseDate, year)).toEqual(targetDate);
+  });
+
+  test('2021-12-31의 2년 전', () => {
+    const baseDate = new Date('2021-12-31');
+    const targetDate = new Date('2020-01-01');
+    const year = 2;
+    expect(getPrevYear(baseDate, year)).toEqual(targetDate);
+  });
+
+  test('2021-11-30의 3년 전', () => {
+    const baseDate = new Date('2021-11-30');
+    const targetDate = new Date('2018-12-01');
+    const year = 3;
+    expect(getPrevYear(baseDate, year)).toEqual(targetDate);
   });
 });
