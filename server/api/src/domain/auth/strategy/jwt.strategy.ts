@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
 import * as dotenv from 'dotenv';
-dotenv.load({
+dotenv.config({
   path: '../../../../../',
 });
 
