@@ -24,6 +24,12 @@ export class UserRepository extends Repository<User> {
     return await this.findOne({ where: { nickname: nickname }, relations: ['devField'] });
   }
 
+  async isExistUserByNickname(nickname: string): Promise<boolean> {
+    return (
+      (await this.createQueryBuilder('user').where('user.nickname = :nickname', { nickname: nickname }).getCount()) > 0
+    );
+  }
+
   async exists(user): Promise<boolean> {
     return (
       (await this.createQueryBuilder('user')

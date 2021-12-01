@@ -1,8 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
 export class UserUpdateDto {
   @IsNotEmpty()
-  readonly nickname: string;
+  nickname: string;
 
   @IsNotEmpty()
-  readonly devField: number;
+  devField: number;
 }
