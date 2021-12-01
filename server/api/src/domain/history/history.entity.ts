@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDate } from 'js-joda';
-import { LocalDateTransformer } from '../../transformer/LocalDateTransformer';
+import { LocalDateTransformer } from '../../transformer/local-date.transformer.';
 import { User } from '../user/user.entity';
 
 @Entity()
