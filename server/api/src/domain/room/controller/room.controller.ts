@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } fro
 import { ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { RoomAPIDocs } from '../room.docs';
-import { Pagination } from 'src/paginate';
+import { Pagination } from '../../../paginate';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth-guard';
 import { RoomType } from '../room.entity';
 import { RoomService } from '../service/room.service';

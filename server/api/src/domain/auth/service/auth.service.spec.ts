@@ -13,7 +13,7 @@ import { VisitRepository } from '../../history/repository/visit.repository';
 import { JoinRequestDto } from '../dto/join-request.dto';
 import { JoinRequestDtoBuilder } from '../../../builder/auth/join-request.dto.builder';
 import { datatype, lorem, internet } from 'faker';
-import { DevFieldBuilder } from '../../../builder/dev-field.builder';
+import { DevFieldBuilder } from '../../../builder';
 import { HistoryBuilder, LoginRequestDtoBuilder, UserBuilder, UserResponseDtoBuilder } from '../../../builder';
 import { BadRequestException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { UserException } from '../../../exception';
