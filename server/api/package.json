@@ -84,6 +84,9 @@
     "typescript": "^4.3.5"
   },
   "jest": {
+    "setupFiles": [
+      "dotenv/config"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",
