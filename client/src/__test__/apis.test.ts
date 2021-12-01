@@ -17,10 +17,16 @@ interface ResBody {
 }
 
 describe('api 실패 테스트', () => {
-  const mockFetch = (body: ResBody) => {
+  const mockFetch = (body: ResBody | undefined) => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
-      json: async () => body,
+      json: async () => {
+        if (body) return body;
+        return {
+          message: '에러가 발생했습니다.',
+          statusCode: 400,
+        };
+      },
     });
   };
 
@@ -36,6 +42,7 @@ describe('api 실패 테스트', () => {
     expect(response.isOk).toBe(false);
     expect(response.errorData?.message).toBe('입력하신 사용자 정보가 올바르지 않습니다.');
   });
+
   it('중복된 이메일로 가입하는 경우', async () => {
     mockFetch({
       statusCode: 400,
@@ -49,6 +56,20 @@ describe('api 실패 테스트', () => {
     const response = await postJoin(loginBody);
     expect(response.isOk).toBe(false);
     expect(response.errorData?.message).toBe('이미 존재하는 회원입니다.');
+    expect(response.errorData?.statusCode).toBe(400);
+  });
+
+  it('catch 여부', async () => {
+    mockFetch(undefined);
+    const loginBody = {
+      email: 'test@naver.com',
+      password: 'test',
+      nickname: 'testman2',
+    };
+    const response = await postJoin(loginBody);
+    expect(response.isOk).toBe(false);
+    expect(response.errorData?.message).toBe('에러가 발생했습니다.');
+    expect(response.errorData?.statusCode).toBe(400);
   });
 });
 
