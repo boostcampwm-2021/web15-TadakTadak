@@ -35,7 +35,12 @@ jobs:
       - name: CI 작업을 수행합니다.
         run: npm run ci
 
-      - name: 테스트 코드를 실행합니다.
+      - name: JWT_SECRET 전달
         run: |
-          export JWT_SECRET=${{ secrets.JWT_SECRET }}
-          npm test
+          touch .env
+          echo "JWT_SECRET=$JWT_SECRET" >> .env
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      - name: 테스트를 수행합니다.
+        run: npm test
