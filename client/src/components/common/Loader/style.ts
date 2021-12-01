@@ -7,7 +7,7 @@ export interface LoaderProps {
 export const LoaderWrap = styled.div<LoaderProps>`
   ${({ theme }) => theme.flexCenter};
   width: 100%;
-  height: 80%;
+  height: 20%;
   ${({ isWholeScreen }) =>
     isWholeScreen &&
     css`
