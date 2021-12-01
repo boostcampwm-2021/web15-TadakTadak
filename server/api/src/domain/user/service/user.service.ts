@@ -8,7 +8,7 @@ import { ImageService } from '../../image/service/image.service';
 import { DevFieldRepository } from '../../field/repository/dev-field.repository';
 import { UserRepository } from '../repository/user.repository';
 import { UserUpdateDto } from '../dto/user-update.dto';
-import { UserResponseDto } from '../../auth/dto/user-response.dto';
+import { UserResponseDto } from '../dto/user-response.dto';
 
 @Injectable()
 export class UserService {
@@ -37,7 +37,7 @@ export class UserService {
     if (!updateUser) throw UserException.userNotFound();
     const sameNickname: boolean = nickname === userUpdateDto.nickname;
     if (!sameNickname) {
-      const existUser: User = await this.authRepository.findUserByNickname(userUpdateDto.nickname);
+      const existUser: boolean = await this.authRepository.isExistUserByNickname(userUpdateDto.nickname);
       if (existUser) throw UserException.userIsExist();
     }
     const newDevField: DevField = await this.devFieldRepository.findDevById(userUpdateDto.devField);

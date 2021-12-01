@@ -11,7 +11,7 @@ import { HistoryService } from '../../history/service/history.service';
 import { UserRepository } from '../../user/repository/user.repository';
 import { DevFieldRepository } from '../../field/repository/dev-field.repository';
 import { LoginRequestDto } from '../dto/login-request.dto';
-import { UserResponseDto } from '../dto/user-response.dto';
+import { UserResponseDto } from '../../user/dto/user-response.dto';
 import { JoinRequestDto } from '../dto/join-request.dto';
 
 @Injectable()
