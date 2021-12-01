@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config({
-  path: '../../../../../',
+  path: '../../../../',
 });
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
