@@ -1,5 +1,6 @@
 import { getUrl } from '../apis/apiUtils';
 import { postLogin, postJoin, postLogout } from '../apis/index';
+import UserInfoType from '@src/types/userInfo';
 
 describe('API 유틸 함수 테스트', () => {
   it('환경변수 설정이 안돼있는 경우', () => {
@@ -9,8 +10,14 @@ describe('API 유틸 함수 테스트', () => {
   });
 });
 
+interface ResBody {
+  message: string;
+  statusCode: number;
+  data?: boolean | string | UserInfoType;
+}
+
 describe('api 실패 테스트', () => {
-  const mockFetch = (body: any) => {
+  const mockFetch = (body: ResBody) => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
       json: async () => body,
@@ -46,7 +53,7 @@ describe('api 실패 테스트', () => {
 });
 
 describe('api 성공 테스트', () => {
-  const mockFetch = (body: any) => {
+  const mockFetch = (body: ResBody) => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: async () => body,
