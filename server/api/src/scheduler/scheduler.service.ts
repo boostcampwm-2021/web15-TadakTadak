@@ -15,6 +15,6 @@ export class SchedulerService {
   @Cron('0 0 * * *')
   async handleCron() {
     const count = await this.userRepository.getLastVisitCount();
-    this.visitRepository.addVisitCount(count);
+    await this.visitRepository.addVisitCount(count);
   }
 }
