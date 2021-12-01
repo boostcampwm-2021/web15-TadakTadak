@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { pubClient as Redis } from '../redis.adapter';
-import { RoomException } from '../exception/room.exception';
 import { RoomEvent } from './room.event';
 import { Server, Socket } from 'socket.io';
 import { IRoomRequest } from './room.interface';
-import { ClientException } from '../exception/client.exception';
+import { Exception } from '../exception/exception';
 import { LocalDateTime } from '@js-joda/core';
 import axios from 'axios';
 import { baseURL } from '../constant/url.constant';
@@ -14,7 +13,7 @@ export class RoomService {
   joinRoom(client: Socket, server: Server, iRoomRequest: IRoomRequest) {
     const { uuid } = iRoomRequest;
     Redis.get(uuid, (err, data) => {
-      if (err) throw RoomException.roomCreateError();
+      if (err) return this.emitEventForError({ client, server }, Exception.roomCreateError);
       if (!data) {
         this.createRoom(client, iRoomRequest);
       } else {
@@ -27,7 +26,7 @@ export class RoomService {
 
   leaveRoom(client: Socket, server: Server, uuid: string) {
     Redis.get(uuid, (err, data) => {
-      if (err || !data) throw RoomException.roomNotFound();
+      if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
       const findMyNickname = findRoom['userList'][client.id].nickname;
       if (findRoom.owner === findMyNickname) {
@@ -48,11 +47,13 @@ export class RoomService {
 
   kickRoom(client: Socket, server: Server, uuid: string, kickNickname: string) {
     Redis.get(uuid, (err, data) => {
-      if (err || !data) throw RoomException.roomNotFound();
+      if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
       const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
       const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findOwnerNickname !== findMyNickname) throw ClientException.clientUnauthorized();
+      if (findOwnerNickname !== findMyNickname) {
+        return this.emitEventForError({ client, server }, Exception.clientUnauthorized);
+      }
       for (const userInfo of Object.entries(findRoom.userList)) {
         const [socketId, socketData]: any = userInfo;
         if (socketData.nickname === kickNickname) {
@@ -70,7 +71,7 @@ export class RoomService {
   removeRoom(client: Socket, server: Server, uuid: string) {
     client.leave(uuid);
     Redis.get(uuid, (err, data) => {
-      if (err || !data) throw RoomException.roomNotFound();
+      if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
       const findMyNickname = findRoom['userList'][client.id].nickname;
       if (findRoom.owner === findMyNickname) {
@@ -87,12 +88,12 @@ export class RoomService {
   verifyRoom(client: Socket, server: Server, uuid: string, nickname: string) {
     const fromTo = { client, server };
     Redis.get(client.id, (err, data) => {
-      if (err) throw RoomException.roomVerifyError();
+      if (err) return this.emitEventForError({ client, server }, Exception.roomVerifyError);
       if (data) {
         return this.emitEventForVerify(fromTo, false);
       }
       Redis.get(uuid, (err, data) => {
-        if (err) throw RoomException.roomVerifyError();
+        if (err) return this.emitEventForError({ client, server }, Exception.roomVerifyError);
         if (!data) {
           return this.emitEventForVerify(fromTo, true);
         }
@@ -167,7 +168,7 @@ export class RoomService {
 
   emitEventForUserList(server: Server, uuid: string) {
     Redis.get(uuid, (err, data) => {
-      if (err || !data) throw RoomException.roomNotFound();
+      if (err || !data) return this.emitEventForError({ client: uuid, server }, Exception.roomNotFound);
       server.to(uuid).emit(RoomEvent.UserList, JSON.parse(data).userList);
     });
   }
@@ -178,6 +179,10 @@ export class RoomService {
 
   emitEventForVerify({ client, server }, isVerify: boolean) {
     server.to(client.id).emit(RoomEvent.IsVerify, isVerify);
+  }
+
+  emitEventForError({ client, server }, message) {
+    server.to(client.id).emit(RoomEvent.Error, message);
   }
 
   // Same := registerRoom()
