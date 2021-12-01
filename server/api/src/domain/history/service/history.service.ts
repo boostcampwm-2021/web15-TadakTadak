@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LocalDate } from 'js-joda';
-import { UserException } from '../../../exception/index';
+import { UserException } from '../../../exception';
 import { User } from '../../user/user.entity';
 import { UserRepository } from '../../user/repository/user.repository';
 import { HistoryRepository } from '../repository/history.repository';

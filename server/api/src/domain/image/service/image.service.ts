@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
-import { Multer } from 'multer';
 import { ObjectKey } from 'aws-sdk/clients/s3';
 
 export interface ObjectStorageData {

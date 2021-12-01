@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { HistoryService } from 'src/domain/history/service/history.service';
+import { HistoryService } from '../service/history.service';
 
 @Controller('history')
 export class HistoryController {
