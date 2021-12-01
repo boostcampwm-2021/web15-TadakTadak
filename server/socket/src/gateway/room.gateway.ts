@@ -10,7 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { IMessage, IRoomRequest } from './room.interface';
-import { LocalDateTime } from '@js-joda/core';
+import { LocalDateTime, TemporalQueries, ZoneId } from '@js-joda/core';
 import { RoomEvent } from './room.event';
 import { RoomService } from './room.service';
 
@@ -25,7 +25,7 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleMessage(client: Socket, { uuid, message, nickname }: IMessage): void {
     const emitMessage: IMessage = {
       message: `${message} from ${process.env.NODE_PORT}`,
-      time: LocalDateTime.now(),
+      time: LocalDateTime.now(ZoneId.of('Asia/Seoul')),
       nickname: nickname,
       uuid: uuid,
     };
