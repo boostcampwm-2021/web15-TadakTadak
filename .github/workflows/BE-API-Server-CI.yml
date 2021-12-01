@@ -32,15 +32,10 @@ jobs:
       - name: npm 으로 패키지 다운로드합니다.
         run: npm install
 
-      - name: env 파일 생성
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          directory: ./server/api
-          file_name: .env
-
       - name: CI 작업을 수행합니다.
         run: npm run ci
 
       - name: 테스트 코드를 실행합니다.
-        run: npm test
+        run: |
+          export JWT_SECRET=${{ secrets.JWT_SECRET }}
+          npm test
