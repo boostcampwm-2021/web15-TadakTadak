@@ -9,23 +9,40 @@ describe('API 유틸 함수 테스트', () => {
   });
 });
 
-describe('api 성공 테스트', () => {
-  const mockFetch = (data: string | undefined, body: any | undefined = undefined) => {
+describe('api 실패 테스트', () => {
+  const mockFetch = (body: any) => {
     global.fetch = jest.fn().mockResolvedValue({
-      status: 200,
-      ok: true,
-      json: async () => {
-        if (body) return body;
-        if (data) return { data };
-        throw Error();
-      },
+      ok: false,
+      json: async () => body,
+    });
+  };
+
+  beforeEach(() => jest.clearAllMocks());
+
+  it('올바르지 않은 정보 입력시', async () => {
+    mockFetch({ message: '입력하신 사용자 정보가 올바르지 않습니다.', statusCode: 401 });
+    const loginBody = {
+      email: 'test@naver.com',
+      password: 'test',
+    };
+    const response = await postLogin(loginBody);
+    expect(response.isOk).toBe(false);
+    expect(response.errorData?.message).toBe('입력하신 사용자 정보가 올바르지 않습니다.');
+  });
+});
+
+describe('api 성공 테스트', () => {
+  const mockFetch = (body: any) => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      json: async () => body,
     });
   };
 
   beforeEach(() => jest.clearAllMocks());
 
   it('로그인 시도', async () => {
-    mockFetch('로그인 성공!');
+    mockFetch({ data: '로그인 성공!' });
     const loginBody = {
       email: 'test@naver.com',
       password: 'test',
