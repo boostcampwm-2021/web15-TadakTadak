@@ -1,4 +1,4 @@
-import { isEmail, isNickname, isPassword, getPrevYear } from './utils';
+import { isEmail, isNickname, isPassword, getPrevYear, getDateListFromStartToLast } from './utils';
 
 /*
     정규표현식을 통해 이메일의 유효성을 검증하는 isEmail 함수 테스트
@@ -173,5 +173,33 @@ describe('특정 날짜로부터 N년 전 날짜를 구하기', () => {
     const targetDate = new Date('2018-12-01');
     const year = 3;
     expect(getPrevYear(baseDate, year)).toEqual(targetDate);
+  });
+});
+
+/*
+  기준 날짜부터 특정 날짜까지의 yyyy-mm-dd를 배열로 주는
+  getDateListFromStartToLast 함수 테스트
+*/
+
+describe('A날짜부터 B날짜까지 모든 날짜에 대한 yyyy-mm-dd 배열을 반환하는 함수 테스트', () => {
+  test('2021-12-01 ~ 2021-12-31 까지의 배열 크기 구하기', () => {
+    const baseDate = '2021-12-01';
+    const targetDate = '2021-12-31';
+    const expectLength = 31;
+    expect(getDateListFromStartToLast(baseDate, targetDate)).toHaveLength(expectLength);
+  });
+
+  test('2020-12-02 ~ 2021-12-01 까지의 배열 크기 구하기', () => {
+    const baseDate = '2020-12-02';
+    const targetDate = '2021-12-01';
+    const expectLength = 365;
+    expect(getDateListFromStartToLast(baseDate, targetDate)).toHaveLength(expectLength);
+  });
+
+  test('2021-01-01 ~ 2021-12-31 까지의 배열 크기 구하기', () => {
+    const baseDate = '2021-01-01';
+    const targetDate = '2021-12-31';
+    const expectLength = 365;
+    expect(getDateListFromStartToLast(baseDate, targetDate)).toHaveLength(expectLength);
   });
 });

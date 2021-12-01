@@ -25,7 +25,7 @@ export const getPrevYear = (now: Date, number: number): Date => {
 
 const dateToString = (date: Date): string => date.toISOString().split('T')[0];
 
-const getDateListFromStartToLast = (startDate: string, lastDate: string): string[] => {
+export const getDateListFromStartToLast = (startDate: string, lastDate: string): string[] => {
   const dataList = [];
   const start = new Date(startDate);
   const last = new Date(lastDate);
