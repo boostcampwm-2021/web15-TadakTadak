@@ -1,10 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt } from 'passport-jwt';
-import { Strategy } from 'passport-local';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.load({
+  path: '../../../../../',
+});
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
