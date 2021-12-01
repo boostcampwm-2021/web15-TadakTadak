@@ -34,21 +34,32 @@ describe('api 실패 테스트', () => {
 describe('api 성공 테스트', () => {
   const mockFetch = (body: any) => {
     global.fetch = jest.fn().mockResolvedValue({
-      ok: false,
+      ok: true,
       json: async () => body,
     });
   };
 
   beforeEach(() => jest.clearAllMocks());
 
-  it('로그인 시도', async () => {
-    mockFetch({ data: '로그인 성공!' });
+  it('회원가입 성공', async () => {
+    mockFetch({ statusCode: 201, data: true, message: 'success' });
+    const loginBody = {
+      email: 'test@naver.com',
+      password: 'test',
+    };
+    const response = await postLogin(loginBody);
+    expect(response.isOk).toBe(true);
+    expect(response.data).toBe(true);
+  });
+
+  it('로그인 성공', async () => {
+    mockFetch({ statusCode: 201, data: { id: 1, nickname: 'test' }, message: 'success' });
     const loginBody = {
       email: 'test@naver.com',
       password: 'test',
     };
     const { isOk, data } = await postLogin(loginBody);
     expect(isOk).toBe(true);
-    expect(data).toBe('로그인 성공!');
+    expect(data?.nickname).toBe('test');
   });
 });
