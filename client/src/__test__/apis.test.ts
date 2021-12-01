@@ -62,4 +62,15 @@ describe('api 성공 테스트', () => {
     expect(isOk).toBe(true);
     expect(data?.nickname).toBe('test');
   });
+
+  it('로그아웃 성공', async () => {
+    mockFetch({ statusCode: 201, data: true, message: 'success' });
+    const loginBody = {
+      email: 'test@naver.com',
+      password: 'test',
+    };
+    const { isOk, data } = await postLogin(loginBody);
+    expect(isOk).toBe(true);
+    expect(data).toBe(true);
+  });
 });
