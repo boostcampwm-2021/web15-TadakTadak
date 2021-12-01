@@ -1,5 +1,7 @@
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({
+  path: '../../../../../',
+});
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from '../strategy/jwt.strategy';
