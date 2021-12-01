@@ -1,4 +1,4 @@
-import { getUrl } from '../apis/apiUtils';
+import { getUrl, queryObjToString } from '../apis/apiUtils';
 import { postLogin, postJoin, postLogout } from '../apis/index';
 import UserInfoType from '@src/types/userInfo';
 
@@ -7,6 +7,11 @@ describe('API 유틸 함수 테스트', () => {
     const inputUrl = 'tadaktadak.com';
     const resUrl = getUrl(inputUrl);
     expect(resUrl).toEqual('tadaktadak.com');
+  });
+  it('쿼리객체가 문자열로 변환되는지 여부', () => {
+    const queryObj = { nickname: 'testman', email: 'test@naver.com', id: 1 };
+    const queryStr = queryObjToString(queryObj);
+    expect(queryStr).toEqual('nickname=testman&email=test@naver.com&id=1');
   });
 });
 
