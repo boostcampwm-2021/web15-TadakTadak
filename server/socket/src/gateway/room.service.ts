@@ -19,7 +19,6 @@ export class RoomService {
       } else {
         this.updateRoom(client, data, iRoomRequest);
       }
-      this.registerUserBySocketID(client.id, uuid);
       this.emitEventForUserList(server, uuid);
     });
   }
@@ -39,8 +38,7 @@ export class RoomService {
         return;
       }
       delete findRoom['userList'][client.id];
-      this.saveRoomByUUID(uuid, findRoom);
-      this.deRegisterUserBySocketID(client.id);
+      Redis.multi().set(uuid, JSON.stringify(findRoom)).del(client.id).exec();
       this.emitEventForUserList(server, uuid);
     });
   }
@@ -157,13 +155,14 @@ export class RoomService {
   createRoom(client: Socket, { field, img, nickname, uuid, maxHead }: IRoomRequest) {
     const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {}, kickList: {} });
     newRoom.userList = Object({ [client.id]: { nickname, img, field } });
-    this.saveRoomByUUID(uuid, newRoom);
+    Redis.multi().set(uuid, JSON.stringify(newRoom)).set(client.id, uuid).exec();
   }
 
   updateRoom(client: Socket, roomData: string, { uuid, nickname, img, field }: IRoomRequest) {
     const findRoom = JSON.parse(roomData);
     findRoom.userList[client.id] = Object({ nickname, img, field });
     this.saveRoomByUUID(uuid, findRoom);
+    Redis.multi().set(uuid, JSON.stringify(findRoom)).set(client.id, uuid).exec();
   }
 
   emitEventForUserList(server: Server, uuid: string) {
