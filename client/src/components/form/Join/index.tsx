@@ -31,8 +31,10 @@ const JoinForm = ({ onClickModalToggle, setIsLogin }: JoinProps): JSX.Element =>
     if (!isPassword(password)) return toast('error', TOAST_MESSAGE.invalidFormatPwd);
     if (!devField) return toast('error', TOAST_MESSAGE.emptyDevField);
     const requestBody = { email, nickname, password, devField: +devField };
-    const { isOk } = await postJoin(requestBody);
-    if (!isOk) return toast('error', TOAST_MESSAGE.alreadyEmail);
+    const { isOk, errorData } = await postJoin(requestBody);
+    if (!isOk && errorData) {
+      return toast('error', errorData.message);
+    }
     setIsLogin(true);
     toast('success', TOAST_MESSAGE.joinSuccess);
   };
