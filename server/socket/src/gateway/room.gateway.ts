@@ -10,11 +10,11 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { IMessage, IRoomRequest } from './room.interface';
-import { LocalDateTime } from '@js-joda/core';
+import { LocalDateTime, ZoneId } from '@js-joda/core';
 import { RoomEvent } from './room.event';
 import { RoomService } from './room.service';
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({ cors: true, allowEIO3: true })
 export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
@@ -25,10 +25,11 @@ export class RoomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   handleMessage(client: Socket, { uuid, message, nickname }: IMessage): void {
     const emitMessage: IMessage = {
       message: `${message} from ${process.env.NODE_PORT}`,
-      time: LocalDateTime.now(),
+      time: LocalDateTime.now().plusHours(9),
       nickname: nickname,
       uuid: uuid,
     };
+    this.logger.log(emitMessage);
     this.server.to(uuid).emit(RoomEvent.MsgToClient, emitMessage);
   }
 

@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { LocalDate } from 'js-joda';
-import { HistoryBuilder } from '../../../builder/index';
+import { HistoryBuilder } from '../../../builder';
 import { History } from '../history.entity';
 import { User } from '../../user/user.entity';
 

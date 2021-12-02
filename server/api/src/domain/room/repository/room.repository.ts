@@ -1,4 +1,4 @@
-import { DeleteResult, EntityRepository, Like, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, EntityRepository, Repository, UpdateResult } from 'typeorm';
 import { PaginationOptions } from '../../../paginate';
 import { Room, RoomType } from '../room.entity';
 
@@ -11,19 +11,14 @@ export enum RoomProcessOption {
 export class RoomRepository extends Repository<Room> {
   async findByKeywordAndCount(options: PaginationOptions, roomType: RoomType): Promise<[Room[], number]> {
     const { search, take, page } = options;
-    return this.findAndCount({
-      join: {
-        alias: 'room',
-        leftJoin: {
-          owner: 'room.owner',
-        },
-      },
-      where: { title: Like('%' + search + '%'), roomType: roomType },
-      order: { nowHeadcount: 'DESC' },
-      take: take,
-      skip: take * (page - 1),
-      relations: ['owner', 'owner.devField'],
-    });
+    return this.createQueryBuilder('room')
+      .leftJoinAndSelect('room.owner', 'user')
+      .leftJoinAndSelect('user.devField', 'devField')
+      .where('title like :search', { search: `%${search}%` })
+      .andWhere('room_type = :roomType', { roomType })
+      .take(take)
+      .skip(take * (page - 1))
+      .getManyAndCount();
   }
 
   async createRoom(room: Room) {
