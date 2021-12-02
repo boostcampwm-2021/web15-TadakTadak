@@ -22,7 +22,7 @@ const BGMContextProvider = ({ children }: { children: React.ReactNode }): JSX.El
   return (
     <BGMContext.Provider value={{ isPlay, fn: { togglePlay } }}>
       {children}
-      {isPlay && <audio src={campfireSoundPath} autoPlay={true}></audio>}
+      {isPlay && <audio src={campfireSoundPath} loop={true} autoPlay={true}></audio>}
     </BGMContext.Provider>
   );
 };
