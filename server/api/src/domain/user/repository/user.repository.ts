@@ -29,7 +29,7 @@ export class UserRepository extends Repository<User> {
   }
 
   async isExistsEmail(email: string): Promise<boolean> {
-    return (await this.createQueryBuilder('uesr').where('user.email = :email', { email }).getCount()) > 0;
+    return (await this.createQueryBuilder('user').where('user.email = :email', { email }).getCount()) > 0;
   }
 
   // async exists(user): Promise<boolean> {

@@ -37,8 +37,8 @@ export class UserService {
     if (!updateUser) throw UserException.userNotFound();
     const sameNickname: boolean = nickname === userUpdateDto.nickname;
     if (!sameNickname) {
-      const existUser: boolean = await this.authRepository.isExistUserByNickname(userUpdateDto.nickname);
-      if (existUser) throw UserException.userIsExist();
+      const existUser: boolean = await this.authRepository.isExistNickname(userUpdateDto.nickname);
+      if (existUser) throw UserException.userNicknameIsExist();
     }
     const newDevField: DevField = await this.devFieldRepository.findDevById(userUpdateDto.devField);
     if (!newDevField) throw DevFieldException.devFieldNotFound();
