@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { TadakContainer, TadakWrapper } from './style';
 import { useClient, useMicrophoneAndCameraTracks } from '@components/video/config';
@@ -8,6 +9,7 @@ import VideoList from '@components/video/VideoList';
 import Loader from '@components/common/Loader';
 import { useUser } from '@contexts/userContext';
 import { RoomInfoType } from '@src/types';
+import { postLeaveRoom } from '@src/apis';
 
 interface LocationProps {
   pathname: string;
@@ -25,8 +27,14 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
   const userInfo = useUser();
+  const history = useHistory();
 
   useEffect(() => {
+    if (!userInfo.login) {
+      postLeaveRoom(uuid);
+      history.goBack();
+      return;
+    }
     const init = async () => {
       client.on('user-published', async (user, mediaType) => {
         await client.subscribe(user, mediaType);
@@ -73,7 +81,7 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
       console.log('init ready');
       init();
     }
-  }, [uuid, agoraAppId, agoraToken, client, ready, tracks, userInfo]);
+  }, [uuid, agoraAppId, agoraToken, client, ready, tracks, userInfo, history]);
 
   return (
     <TadakWrapper>
