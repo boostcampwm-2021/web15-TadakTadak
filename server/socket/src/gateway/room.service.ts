@@ -27,8 +27,9 @@ export class RoomService {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
+      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
       const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findRoom.owner === findMyNickname) {
+      if (findOwnerNickname === findMyNickname) {
         for (const userInfo of Object.entries(findRoom.userList)) {
           const socketId: string = userInfo[0];
           this.deRegisterUserBySocketID(socketId);
@@ -67,7 +68,6 @@ export class RoomService {
   }
 
   removeRoom(client: Socket, server: Server, uuid: string) {
-    client.leave(uuid);
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
@@ -81,6 +81,7 @@ export class RoomService {
         this.emitEventForEmptyUserList(server, uuid);
       }
     });
+    client.leave(uuid);
   }
 
   verifyRoom(client: Socket, server: Server, uuid: string, nickname: string) {
@@ -115,8 +116,9 @@ export class RoomService {
       Redis.get(uuid, async (err, data) => {
         if (err || !data) return;
         const findRoom = JSON.parse(data);
+        const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
         const findMyNickname = findRoom['userList'][client.id].nickname;
-        if (findMyNickname === findRoom.owner) {
+        if (findMyNickname === findOwnerNickname) {
           for (const userInfo of Object.entries(findRoom.userList)) {
             const socketId: string = userInfo[0];
             this.deRegisterUserBySocketID(socketId);
@@ -134,6 +136,7 @@ export class RoomService {
             }
           }
           this.saveRoomByUUID(uuid, findRoom);
+
           this.emitEventForUserList(server, uuid);
         }
       });
@@ -187,6 +190,14 @@ export class RoomService {
   // Same := registerRoom()
   saveRoomByUUID(uuid: string, roomData: any): void {
     Redis.set(uuid, JSON.stringify(roomData));
+  }
+
+  async leaveRoomRequestToApiServer(uuid): Promise<void> {
+    await axios.post(`${baseURL}/api/room/socket/leave/${uuid}`, {
+      headers: {
+        'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
+      },
+    });
   }
 
   async deleteRoomRequestToApiServer(uuid): Promise<void> {
