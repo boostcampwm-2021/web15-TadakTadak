@@ -24,7 +24,7 @@ export const SPEAK = {
 
 export const INPUT = {
   emailMaxLen: 25,
-  nicknameMaxLen: 15,
+  nicknameMaxLen: 11,
   pwdMinLen: 6,
   pwdMaxLen: 20,
   roomTitleMaxLen: 20,
