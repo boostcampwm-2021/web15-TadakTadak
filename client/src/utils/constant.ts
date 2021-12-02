@@ -75,13 +75,14 @@ export const TOAST_MESSAGE = {
   alreadyRoom: '방은 최대 1개까지 생성할 수 있습니다.',
   emptyDevField: '개발 분야를 선택해주세요.',
   emptyTitle: '방 제목을 입력해주세요.',
+  emptyDescription: '방 설명을 입력해주세요.',
   emptyRoomType: '방 유형을 선택해주세요.',
   emptyHeadcount: '최대 입장 가능한 인원을 선택해주세요.',
 };
 
 export const PLACEHOLDER_TXT = {
   roomTitle: `방 제목을 입력해주세요. (최대 ${INPUT.roomTitleMaxLen}자)`,
-  roomDiscrpt: '방에 대한 설명을 입력해주세요.(선택)',
+  roomDiscrpt: `방에 대한 설명을 입력해주세요.(최대 ${INPUT.roomDescMaxLen}자)`,
   email: '이메일 (Ex : user@tadaktadak.com)',
   nickname: `닉네임 (최소 2자, 최대 ${INPUT.nicknameMaxLen}자, 영문/숫자/한글)`,
   password: `비밀번호 (최소 ${INPUT.pwdMinLen}자, 최대 ${INPUT.pwdMaxLen}자, 영문, 숫자 조합 / 특수문자 가능)`,
