@@ -137,7 +137,7 @@ export class RoomService {
             }
           }
           this.saveRoomByUUID(uuid, findRoom);
-
+          await this.leaveRoomRequestToApiServer(uuid);
           this.emitEventForUserList(server, uuid);
         }
       });
