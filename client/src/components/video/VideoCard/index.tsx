@@ -40,7 +40,7 @@ const VideoCard = ({ videoTrack, audioTrack }: VideoCardProps): JSX.Element => {
     },
     [isInterval, audioTrack],
   );
-  const onClickInfo = () => toast('easterEgg', TOAST_MESSAGE.infoDoubleClick);
+  const onClickInfo = () => toast('easterEggRoom', TOAST_MESSAGE.infoDoubleClick);
 
   function openFullscreen() {
     if (videoRef.current) {

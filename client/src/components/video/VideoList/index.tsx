@@ -16,7 +16,7 @@ const Videos = ({ users, tracks }: VideosProps): JSX.Element => {
   const userInfo = useUser();
   const toast = useToast();
 
-  const onClickMe = () => toast('easterEgg', TOAST_MESSAGE.narcissism);
+  const onClickMe = () => toast('easterEggRoom', TOAST_MESSAGE.narcissism);
 
   return (
     <VideosContainer>

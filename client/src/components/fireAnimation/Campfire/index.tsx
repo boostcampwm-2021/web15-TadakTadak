@@ -22,7 +22,7 @@ function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
     clicks.current += 1;
     setToggle((ps) => !ps);
     setFireOn(true);
-    if (clicks.current > 5) toast('easterEgg', TOAST_MESSAGE.playingWithFire);
+    if (clicks.current > 5) toast('easterEggRoom', TOAST_MESSAGE.playingWithFire);
   };
   return (
     <FireContainer className={toggle ? 'fire-container' : 'fire-container fire-off'}>
