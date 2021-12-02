@@ -5,6 +5,8 @@ import { Container, List, Participant, Avatar, Nickname, DevField, Position, Get
 import { useUser } from '@src/contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
 import { ParticipantType } from '@src/types';
+import { useToast } from '@hooks/useToast';
+import { TOAST_MESSAGE } from '@utils/constant';
 
 interface ParticipantListProps<T> {
   participants: Record<string, T>;
@@ -15,6 +17,7 @@ interface ParticipantListProps<T> {
 const ParticipantList = ({ participants, hostNickname, uuid }: ParticipantListProps<ParticipantType>): JSX.Element => {
   const theme = useTheme();
   const user = useUser();
+  const toast = useToast();
 
   const onClickGetOutBtn = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -24,6 +27,10 @@ const ParticipantList = ({ participants, hostNickname, uuid }: ParticipantListPr
     },
     [uuid],
   );
+  const onClickHost = () => toast('easterEgg', TOAST_MESSAGE.introduceHost);
+  const onClickMe = (name: string) => {
+    if (name === hostNickname) toast('easterEgg', TOAST_MESSAGE.narcissism);
+  };
 
   return (
     <Container>
@@ -31,9 +38,9 @@ const ParticipantList = ({ participants, hostNickname, uuid }: ParticipantListPr
         {Object.values(participants).map(({ nickname, field, img }) => (
           <Participant key={nickname}>
             <Avatar src={img} />
-            <Nickname>{nickname}</Nickname>
+            <Nickname onClick={() => onClickMe(nickname)}>{nickname}</Nickname>
             {field && <DevField bgColor={theme.tagColors[field.name]}>{field.name}</DevField>}
-            {hostNickname === nickname && <Position>호스트</Position>}
+            {hostNickname === nickname && <Position onClick={onClickHost}>호스트</Position>}
             {user.nickname === hostNickname && user.nickname !== nickname && (
               <GetOutBtn onClick={onClickGetOutBtn} data-nickname={nickname}>
                 추방

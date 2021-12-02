@@ -2,6 +2,8 @@ import { IAgoraRTCRemoteUser, IMicrophoneAudioTrack, ICameraVideoTrack } from 'a
 import { VideosContainer, VideosGrid, VideoCardWrapper, UserInfoDiv } from './style';
 import VideoCard from '@components/video/VideoCard';
 import { useUser } from '@contexts/userContext';
+import { useToast } from '@hooks/useToast';
+import { TOAST_MESSAGE } from '@utils/constant';
 
 interface VideosProps {
   users: IAgoraRTCRemoteUser[];
@@ -12,13 +14,16 @@ const Videos = ({ users, tracks }: VideosProps): JSX.Element => {
   const myVideoTrack = tracks[1];
   const myAudioTrack = tracks[0];
   const userInfo = useUser();
+  const toast = useToast();
+
+  const onClickMe = () => toast('easterEgg', TOAST_MESSAGE.narcissism);
 
   return (
     <VideosContainer>
       <VideosGrid id="videos">
         <VideoCardWrapper key={userInfo.nickname}>
           <VideoCard videoTrack={myVideoTrack} audioTrack={myAudioTrack} />
-          <UserInfoDiv>{userInfo.nickname}(나)</UserInfoDiv>
+          <UserInfoDiv onClick={onClickMe}>{userInfo.nickname}(나)</UserInfoDiv>
         </VideoCardWrapper>
         {users.length > 0 &&
           users.map((user) => (

@@ -77,6 +77,13 @@ export const TOAST_MESSAGE = {
   emptyTitle: '방 제목을 입력해주세요.',
   emptyRoomType: '방 유형을 선택해주세요.',
   emptyHeadcount: '최대 입장 가능한 인원을 선택해주세요.',
+  introduceEasterEgg: '안녕하세요 TadakTadak팀입니다.　　숨겨진 이스터에그를 찾아보세요...!',
+  introduceFire: `모닥불의 어워은 '뒹굴다가 모인 것'을 뜻하는 르완다어 mokorwa dudubize에서 기원한 것으로 "떨어져서 뒹구는 잡동사니들을 모두어서 태우는 불"을 의미합니다.`,
+  playingWithFire: '불장난은 좋지 않습니다...!',
+  introduceHost:
+    '호스트는 참가자를 강퇴할 수 있습니다.　 강퇴 당한 사용자는 다시 이 방에 들어올 수 없으니 신중하게 사용해주세요!',
+  narcissism: '누구나 자기 자신을 좋아합니다...!',
+  infoDoubleClick: '더블 클릭 하면 어떤 일이 일어날까요...?',
 };
 
 export const PLACEHOLDER_TXT = {

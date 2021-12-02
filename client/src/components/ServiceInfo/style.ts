@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { PAGE_TITLE } from '@utils/styleConstant';
 
-export const MainTitleLink = styled(Link)`
+export const MainTitle = styled.div`
   font-size: ${PAGE_TITLE.mainFontSize};
   color: ${({ theme }) => theme.colors.bgGreen};
+  cursor: pointer;
 `;
 
 export const MainInfo = styled.div`
