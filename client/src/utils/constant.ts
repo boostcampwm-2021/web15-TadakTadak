@@ -14,7 +14,7 @@ export const DEBOUNCE = {
 
 export const INFINITE_SCROLL = {
   unit: 15,
-  threshold: 0.9,
+  threshold: 0.3,
 };
 
 export const SPEAK = {
