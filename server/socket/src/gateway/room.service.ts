@@ -222,7 +222,7 @@ export class RoomService {
     const headers = {
       'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
     };
-    const response = await axios.post(`${baseURL}/api/room/socket/leave/${uuid}`, undefined, { headers });
+    await axios.post(`${baseURL}/api/room/socket/leave/${uuid}`, undefined, { headers });
   }
 
   async deleteRoomRequestToApiServer(uuid): Promise<void> {
