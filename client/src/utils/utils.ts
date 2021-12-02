@@ -6,18 +6,18 @@ export const isEmail = (email: string): boolean => {
 };
 
 export const isNickname = (nickname: string): boolean => {
-  const regExp = /^(?=.*[a-zA-Z가-힣])[-a-zA-Z가-힣0-9_.]{2,15}$/;
+  const regExp = /^(?=[a-zA-Z가-힣])[-a-zA-Z가-힣0-9_.]{2,15}$/;
   return regExp.test(nickname);
 };
 
 export const isPassword = (password: string): boolean => {
-  const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{6,20}$/;
+  const regExp = /^(?=.*\d)(?=[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{6,20}$/;
   return regExp.test(password);
 };
 
 export const adminOptions = new Array(9).fill(0).map((_, i) => ({ value: i + 1, label: i + 1 }));
 
-const getPrevYear = (now: Date, number: number): Date => {
+export const getPrevYear = (now: Date, number: number): Date => {
   const tomorrow = new Date(now.setDate(now.getDate() + 1));
   const prevYear = new Date(tomorrow.setFullYear(tomorrow.getFullYear() - number));
   return prevYear;
@@ -25,7 +25,7 @@ const getPrevYear = (now: Date, number: number): Date => {
 
 const dateToString = (date: Date): string => date.toISOString().split('T')[0];
 
-const getDateListFromStartToLast = (startDate: string, lastDate: string): string[] => {
+export const getDateListFromStartToLast = (startDate: string, lastDate: string): string[] => {
   const dataList = [];
   const start = new Date(startDate);
   const last = new Date(lastDate);

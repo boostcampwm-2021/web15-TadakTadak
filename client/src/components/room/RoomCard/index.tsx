@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { SocketEvents } from '@socket/socketEvents';
 import socket from '@socket/socket';
@@ -23,7 +23,7 @@ interface RoomCardProps {
   roomInfo: RoomInfoType;
 }
 
-const RoomCard = ({ roomInfo }: RoomCardProps): JSX.Element => {
+const RoomCard = React.memo(({ roomInfo }: RoomCardProps): JSX.Element => {
   const { uuid, title, description, nowHeadcount, maxHeadcount, roomType, owner } = roomInfo;
   const { login, nickname } = useUser();
   const toast = useToast();
@@ -76,6 +76,6 @@ const RoomCard = ({ roomInfo }: RoomCardProps): JSX.Element => {
       </RoomCardBottom>
     </RoomCardWrapper>
   );
-};
+});
 
 export default RoomCard;
