@@ -219,18 +219,16 @@ export class RoomService {
   }
 
   async leaveRoomRequestToApiServer(uuid): Promise<void> {
-    await axios.post(`${baseURL}/api/room/socket/leave/${uuid}`, {
-      headers: {
-        'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
-      },
-    });
+    const headers = {
+      'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
+    };
+    const response = await axios.post(`${baseURL}/api/room/socket/leave/${uuid}`, undefined, { headers });
   }
 
   async deleteRoomRequestToApiServer(uuid): Promise<void> {
-    await axios.delete(`${baseURL}/api/room/socket/${uuid}`, {
-      headers: {
-        'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
-      },
-    });
+    const headers = {
+      'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
+    };
+    await axios.delete(`${baseURL}/api/room/socket/${uuid}`, { headers });
   }
 }

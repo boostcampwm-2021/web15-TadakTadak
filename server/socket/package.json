@@ -12,7 +12,7 @@
     "start": "nest start",
     "start:dev": "set NODE_ENV=dev&&nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "set NODE_ENV=prod&&nest start",
+    "start:prod": "set NODE_ENV=production&&nest start",
     "start:3000": "cross-env NODE_PORT=3000 nest start",
     "start:3001": "cross-env NODE_PORT=3001 nest start",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
