@@ -71,8 +71,9 @@ export class RoomService {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
+      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
       const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findRoom.owner === findMyNickname) {
+      if (findOwnerNickname === findMyNickname) {
         for (const userInfo of Object.entries(findRoom.userList)) {
           const socketId: string = userInfo[0];
           this.deRegisterUserBySocketID(socketId);
