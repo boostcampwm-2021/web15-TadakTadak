@@ -49,6 +49,7 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
     if (!isKicked.current) {
       socket.emit(SocketEvents.leaveRoom, { uuid });
     }
+    socket.removeAllListeners();
     postLeaveRoom(uuid);
   }, [uuid]);
 
@@ -60,7 +61,6 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
 
   const registerParticipants = useCallback(
     (userList: ParticipantsProps) => {
-      console.log(userList);
       if (!nickname || !userList[socket.id]) {
         isKicked.current = true;
         return exitRoom();
