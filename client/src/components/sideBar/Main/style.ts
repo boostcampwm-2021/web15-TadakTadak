@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { DevFieldType } from '@src/types';
-import { USER_AVATAR } from '@utils/styleConstant';
+import { USER_AVATAR, SIDEBAR } from '@utils/styleConstant';
 
 export const MakeRoomBtn = styled.button`
   ${({ theme }) => css`
@@ -86,7 +86,9 @@ export const UserAvatar = styled.img`
   overflow: hidden;
 `;
 
-export const UserNickname = styled.span``;
+export const UserNickname = styled.div`
+  max-width: ${SIDEBAR.userNicknameMaxWidth};
+`;
 
 export const UserDevField = styled.div<{ bgColor: DevFieldType }>`
   ${({ theme, bgColor }) => css`
