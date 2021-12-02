@@ -22,10 +22,10 @@ import { UserUpdateDto } from '../dto/user-update.dto';
 export class UserController {
   constructor(private readonly userService: UserService, private readonly historyService: HistoryService) {}
 
-  @Patch('/:userId')
+  @Patch()
   @UseGuards(JwtAuthGuard)
-  async patchUserInfo(@Param('userId') nickname: string, @Body() userUpdateDto: UserUpdateDto) {
-    return { result: await this.userService.updateUserInfo(nickname, userUpdateDto) };
+  async patchUserInfo(@Req() req: Request, @Body() userUpdateDto: UserUpdateDto) {
+    return { result: await this.userService.updateUserInfo(req.user['email'], userUpdateDto) };
   }
 
   @Get('/log/year')
