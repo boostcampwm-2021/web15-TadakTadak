@@ -3,6 +3,7 @@ import 'dotenv/config';
 
 const options: Partial<ManagerOptions & SocketOptions> = {
   secure: true,
+  transports: ['websocket'],
 };
 
 const socketUrl = process.env.REACT_APP_SOCKET_SERVER_URL || '/';
