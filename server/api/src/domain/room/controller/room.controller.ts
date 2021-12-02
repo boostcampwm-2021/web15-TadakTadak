@@ -65,6 +65,15 @@ export class RoomController {
     return { result: await this.roomService.deleteRoomByEmail(userEmail, uuid) };
   }
 
+  @Post('socket/leave/:uuid')
+  async leaveRoomBySocket(@Req() req: Request, @Param('uuid') uuid: string): Promise<{ result: boolean }> {
+    const key = req.header('socket-secret-key');
+    if (key === process.env.SOCKET_SECRET_KEY) {
+      return { result: await this.roomService.leaveRoom(uuid) };
+    }
+    return { result: false };
+  }
+
   @Delete('socket/:uuid')
   async deleteRoomBySocket(@Req() req: Request, @Param('uuid') uuid: string): Promise<{ result: boolean }> {
     const key = req.header('socket-secret-key');
