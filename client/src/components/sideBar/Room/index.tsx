@@ -17,7 +17,7 @@ import { ParticipantType } from '@src/types';
 
 const initialTabState = {
   isChat: false,
-  isParticipant: false,
+  isParticipant: true,
 };
 
 interface ParticipantsProps {
