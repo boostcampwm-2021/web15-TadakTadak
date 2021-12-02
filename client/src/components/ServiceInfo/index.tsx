@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { MainTitleLink, MainInfo } from './style';
+import { MainTitle, MainInfo } from './style';
 import { getVisitCount } from '@src/apis';
-import { PATH } from '@src/utils/constant';
+import { useToast } from '@hooks/useToast';
+import { TOAST_MESSAGE } from '@utils/constant';
 
 function ServiceInfo(): JSX.Element {
   const [visit, setVisit] = useState<number>();
+  const toast = useToast();
 
   const getServiceInfo = async () => {
     const { isOk, data } = await getVisitCount();
@@ -13,14 +15,19 @@ function ServiceInfo(): JSX.Element {
     }
   };
 
+  const onClickTitle = () => toast('easterEgg', TOAST_MESSAGE.introduceEasterEgg);
+  const onClickFire = () => toast('easterEgg', TOAST_MESSAGE.introduceFire);
+
   useEffect(() => {
     getServiceInfo();
   }, []);
 
   return (
     <>
-      <MainTitleLink to={PATH.main}>타닥타닥</MainTitleLink>
-      <MainInfo>🔥어제 모닥불을 피운 사용자는 {visit}명입니다🔥</MainInfo>
+      <MainTitle onClick={onClickTitle}>타닥타닥</MainTitle>
+      <MainInfo>
+        🔥어제 <span onClick={onClickFire}>모닥불</span>을 피운 사용자는 {visit}명입니다🔥
+      </MainInfo>
     </>
   );
 }

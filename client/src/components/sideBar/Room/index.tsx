@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Tabs } from './style';
 import { SocketEvents } from '@socket/socketEvents';
@@ -17,7 +17,7 @@ import { ParticipantType } from '@src/types';
 
 const initialTabState = {
   isChat: false,
-  isParticipant: false,
+  isParticipant: true,
 };
 
 interface ParticipantsProps {
@@ -40,12 +40,16 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
   const [chats, setChats] = useState<Array<Record<string, string | undefined>>>([]);
   const [participants, setParticipants] = useState({});
   const { isChat, isParticipant } = tabs;
+  const isKicked = useRef(false);
 
   const onClickChatTap = () => setTabs({ ...initialTabState, isChat: !isChat });
   const onClickParticipantTap = () => setTabs({ ...initialTabState, isParticipant: !isParticipant });
 
   const leaveSocket = useCallback(() => {
-    socket.emit(SocketEvents.leaveRoom, { uuid });
+    if (!isKicked.current) {
+      socket.emit(SocketEvents.leaveRoom, { uuid });
+    }
+    socket.removeAllListeners();
     postLeaveRoom(uuid);
   }, [uuid]);
 
@@ -57,13 +61,17 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
 
   const registerParticipants = useCallback(
     (userList: ParticipantsProps) => {
-      if (!nickname || !userList[socket.id]) return exitRoom();
+      if (!nickname || !userList[socket.id]) {
+        isKicked.current = true;
+        return exitRoom();
+      }
       setParticipants({ ...userList });
     },
     [nickname, exitRoom],
   );
 
   const initSocket = useCallback(() => {
+    if (!nickname) return;
     const joinPayload = { nickname, uuid, field: devField, img: imageUrl, maxHead: maxHeadcount };
     socket.emit(SocketEvents.joinRoom, joinPayload);
     socket.on(SocketEvents.receiveUserList, registerParticipants);
@@ -72,7 +80,7 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
   useEffect(() => {
     initSocket();
     return leaveSocket;
-  }, [initSocket, leaveSocket]);
+  }, [initSocket, leaveSocket, uuid, isKicked]);
 
   return (
     <SideBar

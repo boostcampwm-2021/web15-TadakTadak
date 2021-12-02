@@ -64,7 +64,7 @@ describe('유효한 닉네임 검증하기', () => {
   });
 
   test('가장 긴 닉네임', () => {
-    const validNickname = '한글영어숫자-_.15자가능.';
+    const validNickname = '한글영어숫자-_.11';
     expect(isNickname(validNickname)).toBeTruthy();
   });
 });

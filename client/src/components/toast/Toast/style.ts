@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { TOAST } from '@utils/styleConstant';
+import { TOAST, SIDEBAR } from '@utils/styleConstant';
 
 const boxFade = keyframes`
   0%{
@@ -18,6 +18,15 @@ export const ToastDiv = styled.div`
   position: absolute;
   width: ${TOAST.width};
   left: calc((100vw - ${TOAST.width}) / 2);
+  top: ${TOAST.topPosition};
+`;
+export const ToastDivRoom = styled.div`
+  z-index: 100;
+  background: transparent;
+  ${({ theme }) => theme.flexCenter}
+  position: absolute;
+  width: ${TOAST.width};
+  left: calc((100vw - ${TOAST.width} + ${SIDEBAR.minWidth}) / 2);
   top: ${TOAST.topPosition};
 `;
 export const ToastWrapper = styled.div`

@@ -3,7 +3,7 @@ import { TOAST_TIME } from './constant';
 const WINDOW_HEIGHT = window.innerHeight;
 
 export const CHAT = {
-  listHeight: '80vh',
+  listHeight: '84vh',
   inputHeight: '10vh',
   inputWidth: '90%',
   msgWidth: '20rem',
@@ -32,6 +32,7 @@ export const SIDEBAR = {
   minWidth: '29rem',
   height: '100vh',
   zIndex: 10,
+  userNicknameMaxWidth: '100px',
   RoomBottomMenuHeight: '100%',
 };
 
