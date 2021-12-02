@@ -5,6 +5,7 @@ import Tab from '@components/common/Tab';
 import RoomCard from '@components/room/RoomCard';
 import SearchBar from '@components/SearchBar';
 import TabInfo from '@components/room/TabInfo';
+import RefreshButton from '@components/room/RefreshButton';
 import useDebounce from '@hooks/useDebounce';
 import useInput from '@hooks/useInput';
 import { getRoom } from '@src/apis';
@@ -94,6 +95,7 @@ function RoomList(): JSX.Element {
       </TabWrapper>
       <RoomListGrid ref={target}>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
       {isLoading && <Loader />}
+      <RefreshButton onResetSearch={onResetSearch} />
     </>
   );
 }
