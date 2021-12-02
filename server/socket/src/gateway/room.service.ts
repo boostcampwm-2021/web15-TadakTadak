@@ -113,9 +113,9 @@ export class RoomService {
 
   disconnectClient(client: Socket, server: Server) {
     Redis.get(client.id, (err, uuid) => {
-      if (err || !uuid) return;
+      if (err || !uuid) return this.emitEventForError({ client, server }, Exception.clientNotFound);
       Redis.get(uuid, async (err, data) => {
-        if (err || !data) return;
+        if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
         const findRoom = JSON.parse(data);
         const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
         const findMyNickname = findRoom['userList'][client.id].nickname;
