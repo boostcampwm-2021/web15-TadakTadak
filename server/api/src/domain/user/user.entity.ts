@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDate } from 'js-joda';
-import { LocalDateTransformer } from '../../transformer/LocalDateTransformer';
+import { LocalDateTransformer } from '../../transformer/local-date.transformer.';
 import { DevField } from '../field/dev-field.entity';
 import { History } from '../history/history.entity';
 

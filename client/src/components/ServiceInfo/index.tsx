@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { MainTitle, MainInfo } from './style';
+import { MainTitleLink, MainInfo } from './style';
 import { getVisitCount } from '@src/apis';
+import { PATH } from '@src/utils/constant';
 
 function ServiceInfo(): JSX.Element {
   const [visit, setVisit] = useState<number>();
@@ -18,7 +19,7 @@ function ServiceInfo(): JSX.Element {
 
   return (
     <>
-      <MainTitle>타닥타닥</MainTitle>
+      <MainTitleLink to={PATH.main}>타닥타닥</MainTitleLink>
       <MainInfo>🔥어제 모닥불을 피운 사용자는 {visit}명입니다🔥</MainInfo>
     </>
   );

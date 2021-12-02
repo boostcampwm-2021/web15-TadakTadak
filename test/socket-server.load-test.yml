@@ -1,0 +1,18 @@
+config:
+  target: # Socket Test 서버 주소
+  phases:
+    - duration: 60
+      arrivalRate: 20
+
+scenarios:
+  - name: "Emit an event"
+    engine: socketio
+    flow:
+      - loop:
+        - emit:
+            channel: "msgToServer"
+            data:
+              message: "{{$randomString()}}"
+              uuid: "f7f82a22-0c55-4981-b7d4-5b382c1bfaac"
+              nickname: "{{$randomString()}}"
+        - think: 10

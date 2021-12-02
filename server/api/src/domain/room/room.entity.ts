@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { BaseTimeEntity } from '../BaseTimeEntity';
+import { BaseTimeEntity } from '../base-time.entity';
 import { User } from '../user/user.entity';
 
 export enum RoomType {
