@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-react';
 import { RoomContainer, RoomWrapper } from '@pages/Campfire/style';
 import { useClient, useMicrophoneTrack } from '@components/video/config';
@@ -11,6 +12,7 @@ import BGMContextProvider from '@contexts/bgmContext';
 import { useUser } from '@contexts/userContext';
 import { RoomType } from '@utils/constant';
 import { RoomInfoType } from '@src/types';
+import { postLeaveRoom } from '@src/apis';
 
 interface LocationProps {
   pathname: string;
@@ -29,8 +31,14 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
   const { ready, track } = useMicrophoneTrack();
   const [fireOn, setFireOn] = useState(false);
   const userInfo = useUser();
+  const history = useHistory();
 
   useEffect(() => {
+    if (!userInfo.login) {
+      postLeaveRoom(uuid);
+      history.goBack();
+      return;
+    }
     const init = async () => {
       client.on('user-published', async (user, mediaType) => {
         await client.subscribe(user, mediaType);
@@ -71,7 +79,8 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
       console.log('init ready');
       init();
     }
-  }, [uuid, agoraAppId, agoraToken, client, ready, track, userInfo]);
+  }, [uuid, agoraAppId, agoraToken, client, ready, track, userInfo, history]);
+
   useEffect(() => setFireOn(true), []);
 
   return (
