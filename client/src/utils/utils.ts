@@ -15,7 +15,7 @@ export const isPassword = (password: string): boolean => {
   return regExp.test(password);
 };
 
-export const adminOptions = new Array(9).fill(0).map((_, i) => ({ value: i + 1, label: i + 1 }));
+export const adminOptions = new Array(8).fill(0).map((_, i) => ({ value: i + 2, label: i + 2 }));
 
 export const getPrevYear = (now: Date, number: number): Date => {
   const tomorrow = new Date(now.setDate(now.getDate() + 1));
