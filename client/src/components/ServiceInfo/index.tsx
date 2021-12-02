@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { MainTitle, MainInfo } from './style';
 import { getVisitCount } from '@src/apis';
 import { useToast } from '@hooks/useToast';
-import { TOAST_MESSAGE } from '@src/utils/constant';
+import { TOAST_MESSAGE } from '@utils/constant';
 
 function ServiceInfo(): JSX.Element {
   const [visit, setVisit] = useState<number>();

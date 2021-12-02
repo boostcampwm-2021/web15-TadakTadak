@@ -1,8 +1,8 @@
 import './style.css';
 import styled from 'styled-components';
 import React, { useRef, useState } from 'react';
-import { useToast } from '@src/hooks/useToast';
-import { TOAST_MESSAGE } from '@src/utils/constant';
+import { useToast } from '@hooks/useToast';
+import { TOAST_MESSAGE } from '@utils/constant';
 
 const FireContainer = styled.div`
   width: 100vw;
