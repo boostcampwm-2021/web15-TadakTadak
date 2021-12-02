@@ -83,6 +83,7 @@ export const TOAST_MESSAGE = {
   introduceHost:
     '호스트는 참가자를 강퇴할 수 있습니다.　 강퇴 당한 사용자는 다시 이 방에 들어올 수 없으니 신중하게 사용해주세요!',
   narcissism: '누구나 자기 자신을 좋아합니다...!',
+  infoDoubleClick: '더블 클릭하면 전체화면으로 볼 수 있습니다...!',
 };
 
 export const PLACEHOLDER_TXT = {

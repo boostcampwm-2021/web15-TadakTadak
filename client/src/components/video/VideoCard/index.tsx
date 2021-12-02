@@ -8,6 +8,8 @@ import {
 } from 'agora-rtc-react';
 import { VideoWrap, VolumeVisualizer } from './style';
 import { SPEAK } from '@utils/constant';
+import { useToast } from '@hooks/useToast';
+import { TOAST_MESSAGE } from '@utils/constant';
 
 interface VideoCardProps {
   videoTrack: ICameraVideoTrack | IRemoteVideoTrack | undefined;
@@ -24,6 +26,7 @@ const VideoCard = ({ videoTrack, audioTrack }: VideoCardProps): JSX.Element => {
   const [isSpeak, setIsSpeak] = useState(false);
   const isInterval = useRef(false);
   const videoRef = useRef<DivWithFullscreen>(null);
+  const toast = useToast();
   const initInterval = useCallback(
     function () {
       if (!isInterval.current) {
@@ -37,6 +40,7 @@ const VideoCard = ({ videoTrack, audioTrack }: VideoCardProps): JSX.Element => {
     },
     [isInterval, audioTrack],
   );
+  const onClickInfo = () => toast('easterEgg', TOAST_MESSAGE.infoDoubleClick);
 
   function openFullscreen() {
     if (videoRef.current) {
@@ -63,6 +67,7 @@ const VideoCard = ({ videoTrack, audioTrack }: VideoCardProps): JSX.Element => {
 
   return (
     <VideoWrap
+      onClick={onClickInfo}
       onDoubleClick={() => {
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         videoTrack?.getMediaStreamTrack().readyState === 'live' && openFullscreen();
