@@ -27,16 +27,13 @@ export class RoomService {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
-      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
-      const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findOwnerNickname === findMyNickname) {
+      if (this.isOwner(findRoom, client)) {
         for (const userInfo of Object.entries(findRoom.userList)) {
           const socketId: string = userInfo[0];
           this.deRegisterUserBySocketID(socketId);
         }
         this.deRegisterRoom(uuid);
-        this.emitEventForEmptyUserList(server, uuid);
-        return;
+        return this.emitEventForEmptyUserList(server, uuid);
       }
       delete findRoom['userList'][client.id];
       Redis.multi().set(uuid, JSON.stringify(findRoom)).del(client.id).exec();
@@ -48,9 +45,7 @@ export class RoomService {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
-      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
-      const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findOwnerNickname !== findMyNickname) {
+      if (!this.isOwner(findRoom, client)) {
         return this.emitEventForError({ client, server }, Exception.clientUnauthorized);
       }
       for (const userInfo of Object.entries(findRoom.userList)) {
@@ -71,9 +66,7 @@ export class RoomService {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
-      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
-      const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findOwnerNickname === findMyNickname) {
+      if (this.isOwner(findRoom, client)) {
         for (const userInfo of Object.entries(findRoom.userList)) {
           const socketId: string = userInfo[0];
           this.deRegisterUserBySocketID(socketId);
@@ -111,15 +104,20 @@ export class RoomService {
     });
   }
 
+  isOwner(findRoom: any, client: Socket): boolean {
+    const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
+    const findMyNickname = findRoom['userList'][client.id].nickname;
+    return findOwnerNickname === findMyNickname;
+  }
+
   disconnectClient(client: Socket, server: Server) {
     Redis.get(client.id, (err, uuid) => {
       if (err || !uuid) return this.emitEventForError({ client, server }, Exception.clientNotFound);
       Redis.get(uuid, async (err, data) => {
         if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
         const findRoom = JSON.parse(data);
-        const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
         const findMyNickname = findRoom['userList'][client.id].nickname;
-        if (findMyNickname === findOwnerNickname) {
+        if (this.isOwner(findRoom, client)) {
           for (const userInfo of Object.entries(findRoom.userList)) {
             const socketId: string = userInfo[0];
             this.deRegisterUserBySocketID(socketId);
@@ -210,7 +208,6 @@ export class RoomService {
     server.to(client.id).emit(RoomEvent.Error, message);
   }
 
-  // Same := registerRoom()
   /**
    * Redis 에 uuid:roomData 구조로 저장합니다.
    * registerRoom() 개념과 같습니다.
