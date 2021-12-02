@@ -11,7 +11,7 @@ import { useUser } from '@contexts/userContext';
 import { useTheme } from '@contexts/themeContext';
 import { useClient } from '@components/video/config';
 import { postLeaveRoom } from '@src/apis';
-import { RoomType, TabType } from '@utils/constant';
+import { PATH, RoomType, TabType } from '@utils/constant';
 import { SIDEBAR } from '@utils/styleConstant';
 import { ParticipantType } from '@src/types';
 
@@ -53,11 +53,15 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
     postLeaveRoom(uuid);
   }, [uuid]);
 
-  const exitRoom = useCallback(() => {
+  const leaveAgora = useCallback(() => {
     client.removeAllListeners();
     client.leave();
-    history.replace('/main');
-  }, [history, client]);
+  }, [client]);
+
+  const exitRoom = useCallback(() => {
+    leaveAgora();
+    history.replace(PATH.main);
+  }, [history, leaveAgora]);
 
   const registerParticipants = useCallback(
     (userList: ParticipantsProps) => {
