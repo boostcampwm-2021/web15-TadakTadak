@@ -95,7 +95,7 @@ function RoomList(): JSX.Element {
       </TabWrapper>
       <RoomListGrid ref={target}>{rooms && <ListGenerator list={rooms} renderItem={renderRoomList} />}</RoomListGrid>
       {isLoading && <Loader />}
-      <RefreshButton onResetSearch={onResetSearch} />
+      <RefreshButton page={page} search={search} getRoomList={getRoomList} />
     </>
   );
 }
