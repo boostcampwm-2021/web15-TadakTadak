@@ -16,11 +16,13 @@ interface FireAnimationProps {
 function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
   const [toggle, setToggle] = useState(false);
   const toast = useToast();
+
   const onClickFire = () => toast('easterEgg', TOAST_MESSAGE.introEasterEgg);
   const onClickWoods = (e: React.MouseEvent) => {
     e.stopPropagation();
     toast('easterEgg', TOAST_MESSAGE.introEasterEgg2);
   };
+
   const handleToggle = () => {
     setToggle((ps) => !ps);
     setFireOn(true);
