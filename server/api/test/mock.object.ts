@@ -1,4 +1,4 @@
-import { DevFieldBuilder } from '../src/builder/dev-field.builder';
+import { DevFieldBuilder } from '../src/builder/dev-field/dev-field.builder';
 import { RoomBuilder, UserBuilder } from '../src/builder';
 import { datatype, internet, lorem } from 'faker';
 import { RoomType } from '../src/domain/room/room.entity';

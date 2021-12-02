@@ -1,7 +1,7 @@
 import { LocalDate } from 'js-joda';
-import { BuilderCommon } from './builder';
-import { User } from '../domain/user/user.entity';
-import { History } from '../domain/history/history.entity';
+import { BuilderCommon } from '../builder';
+import { User } from '../../domain/user/user.entity';
+import { History } from '../../domain/history/history.entity';
 
 export class HistoryBuilder extends BuilderCommon<History> {
   constructor() {

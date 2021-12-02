@@ -1,6 +1,6 @@
 import { LocalDate } from 'js-joda';
-import { BuilderCommon } from './builder';
-import { Visit } from '../domain/history/visit.entity';
+import { BuilderCommon } from '../builder';
+import { Visit } from '../../domain/history/visit.entity';
 export class VisitBuilder extends BuilderCommon<Visit> {
   constructor() {
     super(Visit);

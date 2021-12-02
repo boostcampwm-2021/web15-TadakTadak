@@ -4,7 +4,6 @@ import {
   Req,
   Delete,
   Get,
-  Param,
   Patch,
   Post,
   UploadedFile,
