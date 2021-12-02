@@ -1,4 +1,4 @@
-import { IoRefreshCircleOutline } from 'react-icons/io5';
+import { IoRefresh } from 'react-icons/io5';
 import { ButtonWrapper } from './style';
 
 interface RefreshButtonProps {
@@ -14,7 +14,7 @@ function RefreshButton({ page, search, getRoomList }: RefreshButtonProps): JSX.E
   };
   return (
     <ButtonWrapper>
-      <IoRefreshCircleOutline onClick={onClickButton} size="50" cursor="pointer" />
+      <IoRefresh onClick={onClickButton} stroke="white" size="50" cursor="pointer" />
     </ButtonWrapper>
   );
 }
