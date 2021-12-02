@@ -10,7 +10,7 @@ import { DevFieldRepository } from '../../field/repository/dev-field.repository'
 import { UserRepository } from '../repository/user.repository';
 import { UserResponseDto } from '../dto/user-response.dto';
 import { UserUpdateDto } from '../dto/user-update.dto';
-import { lorem } from 'faker';
+import { datatype, internet, lorem } from 'faker';
 import 'dotenv/config';
 
 describe('UserService', () => {
@@ -70,13 +70,13 @@ describe('UserService', () => {
 
   it('존재하지 않는 사용자의 정보를 수정하면 404 예외를 발생한다.', async () => {
     //given
-    const userNickname = lorem.sentence();
+    const userEmail = internet.email();
 
-    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(undefined);
+    jest.spyOn(userRepository, 'findUserByUserEmail').mockResolvedValue(undefined);
 
     try {
       //when
-      const result = await userService.updateUserInfo(userNickname, new UserUpdateDto());
+      const result = await userService.updateUserInfo(userEmail, new UserUpdateDto());
     } catch (e) {
       //then
       expect(e).toBeInstanceOf(NotFoundException);
@@ -87,14 +87,29 @@ describe('UserService', () => {
 
   it('중복되는 닉네임으로 사용자의 정보를 수정하면 404 예외를 발생한다.', async () => {
     //given
-    const userNickname = lorem.sentence();
-
-    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
+    const userEmail = internet.email();
+    const user = new UserBuilder()
+      .setId(datatype.number())
+      .setNickname(lorem.sentence())
+      .setEmail(internet.email())
+      .setPassword(lorem.sentence())
+      .setDevField(new DevField())
+      .setIntroduction('')
+      .setImageName('')
+      .setImageURL(process.env.DEFAULT_IMG)
+      .setHistorys([])
+      .setIsSocial(false)
+      .build();
+    const userUpdateDto: UserUpdateDto = new UserUpdateDtoBuilder()
+      .setNickname(lorem.sentence())
+      .setDevField(1)
+      .build();
+    jest.spyOn(userRepository, 'findUserByUserEmail').mockResolvedValue(user);
     jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(true);
 
     try {
       //when
-      const result = await userService.updateUserInfo(userNickname, new UserUpdateDto());
+      const result = await userService.updateUserInfo(userEmail, userUpdateDto);
     } catch (e) {
       //then
       expect(e).toBeInstanceOf(BadRequestException);
@@ -105,14 +120,14 @@ describe('UserService', () => {
 
   it('존재하지 않는 개발 필드로 사용자의 정보를 수정하면 예외를 발생한다.', async () => {
     //given
-    const userNickname = lorem.sentence();
+    const userEmail = internet.email();
 
-    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
+    jest.spyOn(userRepository, 'findUserByUserEmail').mockResolvedValue(new User());
     jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(false);
     jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(undefined);
     try {
       //when
-      const result = await userService.updateUserInfo(userNickname, new UserUpdateDto());
+      const result = await userService.updateUserInfo(userEmail, new UserUpdateDto());
     } catch (e) {
       //then
       expect(e).toBeInstanceOf(NotFoundException);
@@ -123,17 +138,17 @@ describe('UserService', () => {
 
   it('사용자의 닉네임 수정이 성공한다.', async () => {
     //given
-    const originalNickname = lorem.sentence();
+    const userEmail = internet.email();
     const changedNickname = lorem.sentence();
     const userUpdateDto: UserUpdateDto = new UserUpdateDtoBuilder().setNickname(changedNickname).setDevField(1).build();
 
-    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
+    jest.spyOn(userRepository, 'findUserByUserEmail').mockResolvedValue(new User());
     jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(false);
     jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(new DevField());
     jest.spyOn(userRepository, 'save').mockResolvedValue(new User());
 
     //when
-    const result: UserResponseDto = await userService.updateUserInfo(originalNickname, userUpdateDto);
+    const result: UserResponseDto = await userService.updateUserInfo(userEmail, userUpdateDto);
 
     //then
     expect(result.nickname).toBe(changedNickname);
@@ -141,19 +156,22 @@ describe('UserService', () => {
 
   it('사용자의 개발 분야 수정이 성공한다.', async () => {
     //given
-    const userNickname = lorem.sentence();
+    const userEmail = internet.email();
 
-    const userUpdateDto: UserUpdateDto = new UserUpdateDtoBuilder().setNickname(userNickname).setDevField(1).build();
+    const userUpdateDto: UserUpdateDto = new UserUpdateDtoBuilder()
+      .setNickname(lorem.sentence())
+      .setDevField(1)
+      .build();
 
     const updateDevField: DevField = new DevFieldBuilder().setId(1).setName('Back-end').build();
 
-    jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
+    jest.spyOn(userRepository, 'findUserByUserEmail').mockResolvedValue(new User());
     jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(false);
     jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(updateDevField);
     jest.spyOn(userRepository, 'save').mockResolvedValue(new User());
 
     //when
-    const result = await userService.updateUserInfo(userNickname, userUpdateDto);
+    const result = await userService.updateUserInfo(userEmail, userUpdateDto);
 
     //then
     expect(result.devField.id).toBe(1);
