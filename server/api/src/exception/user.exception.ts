@@ -21,10 +21,17 @@ export class UserException {
     });
   }
 
-  static userIsExist(): HttpException {
+  static userEmailIsExist(): HttpException {
     return new BadRequestException({
       statusCode: HttpStatus.BAD_REQUEST,
-      message: '이미 존재하는 회원입니다.',
+      message: '이미 존재하는 이메일입니다.',
+    });
+  }
+
+  static userNicknameIsExist(): HttpException {
+    return new BadRequestException({
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: '이미 존재하는 닉네임입니다.',
     });
   }
 

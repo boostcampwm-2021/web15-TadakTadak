@@ -39,7 +39,7 @@ interface PatchUpdate {
 }
 
 export const patchUpdate = async (body: PatchUpdate): Promise<HTTPResponse<UserInfoType>> => {
-  const response = await fetchPatch<UserInfoType>(`/api/user/${body.originalName}`, { ...body });
+  const response = await fetchPatch<UserInfoType>(`/api/user`, { ...body });
   return response;
 };
 

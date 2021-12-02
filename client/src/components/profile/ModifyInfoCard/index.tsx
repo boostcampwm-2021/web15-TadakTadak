@@ -6,7 +6,7 @@ import { useDevField } from '@contexts/devFieldContext';
 import { useToast } from '@hooks/useToast';
 import useInput from '@hooks/useInput';
 import { patchUpdate } from '@src/apis';
-import { TOAST_MESSAGE } from '@utils/constant';
+import { INPUT, TOAST_MESSAGE } from '@utils/constant';
 
 interface InfoProps {
   onnClickCancelBtn: React.MouseEventHandler<HTMLButtonElement>;
@@ -31,7 +31,8 @@ const ModifyInfoCard = ({ onnClickCancelBtn, setIsModify }: InfoProps): JSX.Elem
     }
     const originalName = user.nickname ?? '';
     const requestBody = { originalName, nickname, devField: devField === 0 ? user.devField?.id : devField };
-    const { data } = await patchUpdate(requestBody);
+    const { isOk, data } = await patchUpdate(requestBody);
+    if (!isOk) return toast('error', TOAST_MESSAGE.alreadyNickname);
     if (data) {
       logUserIn(data);
       setIsModify(false);
@@ -47,7 +48,7 @@ const ModifyInfoCard = ({ onnClickCancelBtn, setIsModify }: InfoProps): JSX.Elem
         </InfoSet>
         <InfoSet>
           <Legend>{`닉네임`}</Legend>
-          <Input type="text" value={nickname} onChange={onChangeNickname}></Input>
+          <Input type="text" value={nickname} onChange={onChangeNickname} maxLength={INPUT.nicknameMaxLen}></Input>
         </InfoSet>
         <InfoSet>
           <Legend>{`관심 분야`}</Legend>

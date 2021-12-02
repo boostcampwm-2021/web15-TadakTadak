@@ -17,7 +17,7 @@ import { ParticipantType } from '@src/types';
 
 const initialTabState = {
   isChat: false,
-  isParticipant: false,
+  isParticipant: true,
 };
 
 interface ParticipantsProps {
@@ -42,8 +42,8 @@ const RoomSideBar = ({ uuid, hostNickname, maxHeadcount, roomType }: RoomSideBar
   const { isChat, isParticipant } = tabs;
   const isKicked = useRef(false);
 
-  const onClickChatTap = () => setTabs({ ...initialTabState, isChat: !isChat });
-  const onClickParticipantTap = () => setTabs({ ...initialTabState, isParticipant: !isParticipant });
+  const onClickChatTap = () => setTabs({ isChat: true, isParticipant: false });
+  const onClickParticipantTap = () => setTabs({ isChat: false, isParticipant: true });
 
   const leaveSocket = useCallback(() => {
     if (!isKicked.current) {

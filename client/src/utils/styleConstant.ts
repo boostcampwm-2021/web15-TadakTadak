@@ -32,6 +32,7 @@ export const SIDEBAR = {
   minWidth: '29rem',
   height: '100vh',
   zIndex: 10,
+  userNicknameMaxWidth: '100px',
   RoomBottomMenuHeight: '100%',
 };
 
