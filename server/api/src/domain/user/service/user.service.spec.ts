@@ -98,7 +98,7 @@ describe('UserService', () => {
     } catch (e) {
       //then
       expect(e).toBeInstanceOf(BadRequestException);
-      expect(e.message).toBe('이미 존재하는 회원입니다.');
+      expect(e.message).toBe('이미 존재하는 닉네임입니다.');
       expect(e.status).toBe(HttpStatus.BAD_REQUEST);
     }
   });
