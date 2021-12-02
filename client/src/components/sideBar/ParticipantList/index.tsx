@@ -27,9 +27,9 @@ const ParticipantList = ({ participants, hostNickname, uuid }: ParticipantListPr
     },
     [uuid],
   );
-  const onClickHost = () => toast('easterEgg', TOAST_MESSAGE.introduceHost);
+  const onClickHost = () => toast('easterEggRoom', TOAST_MESSAGE.introduceHost);
   const onClickMe = (name: string) => {
-    if (name === hostNickname) toast('easterEgg', TOAST_MESSAGE.narcissism);
+    if (name === user.nickname) toast('easterEggRoom', TOAST_MESSAGE.narcissism);
   };
 
   return (

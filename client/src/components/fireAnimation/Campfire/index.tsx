@@ -18,11 +18,34 @@ function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
   const [toggle, setToggle] = useState(true);
   const clicks = useRef(0);
   const toast = useToast();
+
+  const onClickFire = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast('easterEggRoom', TOAST_MESSAGE.introFireAnimation);
+  };
+  const onClickMoon = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast('easterEggRoom', TOAST_MESSAGE.introMoon);
+  };
+  const onClickSmoke = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast('easterEggRoom', TOAST_MESSAGE.introEasterEgg2);
+  };
+  const onClickSky = () => toast('easterEggRoom', TOAST_MESSAGE.introSky);
+
   const handleToggle = () => {
     clicks.current += 1;
     setToggle((ps) => !ps);
     setFireOn(true);
-    if (clicks.current > 5) toast('easterEgg', TOAST_MESSAGE.playingWithFire);
+    if (clicks.current > 19) {
+      clicks.current = 1;
+      toast('easterEggRoom', TOAST_MESSAGE.playingWithFire2);
+      setTimeout(() => toast('easterEggRoom', '4초 뒤 폭파됩니다.'), 1000);
+      setTimeout(() => toast('easterEggRoom', '3초 뒤 폭파됩니다.'), 2000);
+      setTimeout(() => toast('easterEggRoom', '2초 뒤 폭파됩니다.'), 3000);
+      setTimeout(() => toast('easterEggRoom', '1초 뒤 폭파됩니다.'), 4000);
+      setTimeout(() => toast('easterEggRoom', '농담입니다ㅎ'), 6000);
+    } else if (clicks.current > 9) toast('easterEggRoom', TOAST_MESSAGE.playingWithFire);
   };
   return (
     <FireContainer className={toggle ? 'fire-container' : 'fire-container fire-off'}>
@@ -32,8 +55,8 @@ function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
           <div id="circle"></div>
         </div>
       </div>
-      <div className="section-center">
-        <div className="moon">
+      <div className="section-center" onClick={onClickSky}>
+        <div className="moon" onClick={onClickMoon}>
           <div></div>
           <div></div>
           <div></div>
@@ -47,15 +70,15 @@ function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
         <div className="star fith"></div>
         <div className="circle"></div>
         <div className="wood-circle"></div>
-        <div className="wood"></div>
+        <div className="wood" onClick={onClickFire}></div>
         <div className="tree-1"></div>
         <div className="tree-2"></div>
-        <div className="fire">
+        <div className="fire" onClick={onClickFire}>
           <span></span>
           <span></span>
           <span></span>
         </div>
-        <div className="smoke">
+        <div className="smoke" onClick={onClickSmoke}>
           <span className="s-0"></span>
           <span className="s-1"></span>
           <span className="s-2"></span>

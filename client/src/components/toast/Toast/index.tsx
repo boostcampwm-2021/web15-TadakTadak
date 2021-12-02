@@ -1,5 +1,5 @@
 import { IoMdClose } from 'react-icons/io';
-import { ToastDiv, ToastWrapper } from './style';
+import { ToastDiv, ToastDivRoom, ToastWrapper } from './style';
 import { useToastDispatchContext, MessageType } from '@contexts/toastContext';
 import { useTheme } from '@contexts/themeContext';
 
@@ -40,6 +40,14 @@ export default function Toast({ type, message, id }: ToastProps): JSX.Element {
             <IoMdClose className="button" onClick={onClickDispatch} fill="white" />
           </ToastWrapper>
         </ToastDiv>
+      )}
+      {type === 'easterEggRoom' && (
+        <ToastDivRoom>
+          <ToastWrapper color={theme.colors.blue2}>
+            <div>{message}</div>
+            <IoMdClose className="button" onClick={onClickDispatch} fill="white" />
+          </ToastWrapper>
+        </ToastDivRoom>
       )}
     </>
   );
