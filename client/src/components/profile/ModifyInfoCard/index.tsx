@@ -6,7 +6,7 @@ import { useDevField } from '@contexts/devFieldContext';
 import { useToast } from '@hooks/useToast';
 import useInput from '@hooks/useInput';
 import { patchUpdate } from '@src/apis';
-import { TOAST_MESSAGE } from '@utils/constant';
+import { INPUT, TOAST_MESSAGE } from '@utils/constant';
 
 interface InfoProps {
   onnClickCancelBtn: React.MouseEventHandler<HTMLButtonElement>;
@@ -47,7 +47,7 @@ const ModifyInfoCard = ({ onnClickCancelBtn, setIsModify }: InfoProps): JSX.Elem
         </InfoSet>
         <InfoSet>
           <Legend>{`닉네임`}</Legend>
-          <Input type="text" value={nickname} onChange={onChangeNickname}></Input>
+          <Input type="text" value={nickname} onChange={onChangeNickname} maxLength={INPUT.nicknameMaxLen}></Input>
         </InfoSet>
         <InfoSet>
           <Legend>{`관심 분야`}</Legend>
