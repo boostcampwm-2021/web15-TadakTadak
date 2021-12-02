@@ -51,8 +51,10 @@ export class AuthService {
 
   async join(joinRequestDto: JoinRequestDto) {
     const { nickname, email, password } = joinRequestDto;
-    const isExistUser = await this.userRepository.exists(joinRequestDto);
-    if (isExistUser) throw UserException.userIsExist();
+    const isExistEmail = await this.userRepository.isExistsEmail(email);
+    if (isExistEmail) throw UserException.userEmailIsExist();
+    const isExistNickname = await this.userRepository.isExistNickname(nickname);
+    if (isExistNickname) throw UserException.userNicknameIsExist();
     const devField: DevField = await this.devFieldRepository.findDevById(joinRequestDto.devField);
     if (!devField) throw DevFieldException.devFieldNotFound();
     const user: User = new UserBuilder()
