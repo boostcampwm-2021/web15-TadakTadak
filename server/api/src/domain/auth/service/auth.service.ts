@@ -51,7 +51,7 @@ export class AuthService {
 
   async join(joinRequestDto: JoinRequestDto) {
     const { nickname, email, password } = joinRequestDto;
-    const isExistEmail = await this.userRepository.isExistsEmail(email);
+    const isExistEmail = await this.userRepository.isExistEmail(email);
     if (isExistEmail) throw UserException.userEmailIsExist();
     const isExistNickname = await this.userRepository.isExistNickname(nickname);
     if (isExistNickname) throw UserException.userNicknameIsExist();

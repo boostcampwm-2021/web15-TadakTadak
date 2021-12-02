@@ -84,14 +84,15 @@ describe('AuthService', () => {
         .setIsSocial(false)
         .build();
 
-      jest.spyOn(userRepository, 'exists').mockResolvedValue(false);
+      jest.spyOn(userRepository, 'isExistEmail').mockResolvedValue(false);
+      jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(false);
       jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(findDevByIdResponseDevField);
       jest.spyOn(userRepository, 'save').mockResolvedValue(saveResponseUser);
       const result = await authService.join(joinRequestDto);
       expect(result).toEqual(true);
     });
 
-    it('동일한 닉네임 혹은 이메일로 회원가입을 할 수 없다.', async () => {
+    it('동일한 닉네임으로 회원가입을 할 수 없다.', async () => {
       const joinRequestDto: JoinRequestDto = new JoinRequestDtoBuilder()
         .setNickname(lorem.sentence())
         .setEmail(internet.email())
@@ -113,14 +114,49 @@ describe('AuthService', () => {
         .setIsSocial(false)
         .build();
 
-      jest.spyOn(userRepository, 'exists').mockResolvedValue(true);
+      jest.spyOn(userRepository, 'isExistEmail').mockResolvedValue(false);
+      jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(true);
       jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(findDevByIdResponseDevField);
       jest.spyOn(userRepository, 'save').mockResolvedValue(saveResponseUser);
       try {
         await authService.join(joinRequestDto);
       } catch (e) {
         expect(e).toBeInstanceOf(BadRequestException);
-        expect(e.message).toBe(UserException.userIsExist().message);
+        expect(e.message).toBe(UserException.userNicknameIsExist().message);
+      }
+    });
+
+    it('동일한 이메일로 회원가입을 할 수 없다.', async () => {
+      const joinRequestDto: JoinRequestDto = new JoinRequestDtoBuilder()
+        .setNickname(lorem.sentence())
+        .setEmail(internet.email())
+        .setPassword(lorem.sentence())
+        .setDevField(0)
+        .setIntroduction('')
+        .build();
+      const findDevByIdResponseDevField = new DevFieldBuilder().setId(0).setName('Front-end').build();
+      const saveResponseUser = new UserBuilder()
+        .setId(datatype.number())
+        .setNickname(joinRequestDto.nickname)
+        .setEmail(joinRequestDto.email)
+        .setPassword(joinRequestDto.password)
+        .setDevField(findDevByIdResponseDevField)
+        .setIntroduction('')
+        .setImageName('')
+        .setImageURL(process.env.DEFAULT_IMG)
+        .setHistorys([])
+        .setIsSocial(false)
+        .build();
+
+      jest.spyOn(userRepository, 'isExistEmail').mockResolvedValue(true);
+      jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(false);
+      jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(findDevByIdResponseDevField);
+      jest.spyOn(userRepository, 'save').mockResolvedValue(saveResponseUser);
+      try {
+        await authService.join(joinRequestDto);
+      } catch (e) {
+        expect(e).toBeInstanceOf(BadRequestException);
+        expect(e.message).toBe(UserException.userEmailIsExist().message);
       }
     });
 

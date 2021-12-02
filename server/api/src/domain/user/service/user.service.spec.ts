@@ -90,7 +90,7 @@ describe('UserService', () => {
     const userNickname = lorem.sentence();
 
     jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
-    jest.spyOn(userRepository, 'isExistUserByNickname').mockResolvedValue(true);
+    jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(true);
 
     try {
       //when
@@ -108,7 +108,7 @@ describe('UserService', () => {
     const userNickname = lorem.sentence();
 
     jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
-    jest.spyOn(userRepository, 'isExistUserByNickname').mockResolvedValue(false);
+    jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(false);
     jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(undefined);
     try {
       //when
@@ -128,7 +128,7 @@ describe('UserService', () => {
     const userUpdateDto: UserUpdateDto = new UserUpdateDtoBuilder().setNickname(changedNickname).setDevField(1).build();
 
     jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
-    jest.spyOn(userRepository, 'isExistUserByNickname').mockResolvedValue(false);
+    jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(false);
     jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(new DevField());
     jest.spyOn(userRepository, 'save').mockResolvedValue(new User());
 
@@ -148,7 +148,7 @@ describe('UserService', () => {
     const updateDevField: DevField = new DevFieldBuilder().setId(1).setName('Back-end').build();
 
     jest.spyOn(userRepository, 'findUserByNickname').mockResolvedValue(new User());
-    jest.spyOn(userRepository, 'isExistUserByNickname').mockResolvedValue(false);
+    jest.spyOn(userRepository, 'isExistNickname').mockResolvedValue(false);
     jest.spyOn(devFieldRepository, 'findDevById').mockResolvedValue(updateDevField);
     jest.spyOn(userRepository, 'save').mockResolvedValue(new User());
 
