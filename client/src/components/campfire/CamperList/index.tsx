@@ -20,8 +20,8 @@ const CamperList = ({ users, track }: CamperListProps): JSX.Element => {
           </CamperWrapper>
           {users.length > 0 &&
             users.map((user) => (
-              <CamperWrapper>
-                <CamperAvatar key={user.uid} audioTrack={user.audioTrack} />
+              <CamperWrapper key={user.uid}>
+                <CamperAvatar audioTrack={user.audioTrack} />
                 <CamperInfoDiv>{decodeURI(String(user.uid))}</CamperInfoDiv>
               </CamperWrapper>
             ))}
