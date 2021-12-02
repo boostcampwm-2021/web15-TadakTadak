@@ -4,7 +4,7 @@ import { SIDEBAR } from '@utils/styleConstant';
 export const Container = styled.div<{ bgColor?: string; borderColor?: string }>`
   ${({ theme, bgColor, borderColor }) => css`
     ${theme.flexColumn};
-    padding: ${theme.paddings.lg};
+    padding: ${theme.paddings.base};
     background-color: ${bgColor || theme.colors.white};
     border: 1px solid ${borderColor || theme.colors.borderGrey};
   `};

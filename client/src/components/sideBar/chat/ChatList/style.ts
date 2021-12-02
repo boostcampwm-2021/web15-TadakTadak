@@ -28,11 +28,14 @@ export const TextAreaWrapper = styled.div`
 export const TextArea = styled.textarea`
   width: ${CHAT.inputWidth};
   height: 6rem;
+  min-height: 4rem;
+  max-height: 7.5rem;
   font-size: ${CHAT.fontSize};
   padding: ${({ theme }) => theme.paddings.sm};
   border: 2px solid ${({ theme }) => theme.colors.borderGrey};
   border-radius: ${({ theme }) => theme.borderRadius.base};
   background-color: transparent;
+  resize: vertical;
   ::placeholder {
     font-size: ${CHAT.fontSize};
   }
