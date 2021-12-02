@@ -1,6 +1,8 @@
 import './style.css';
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useToast } from '@src/hooks/useToast';
+import { TOAST_MESSAGE } from '@src/utils/constant';
 
 const FireContainer = styled.div`
   width: 100vw;
@@ -14,9 +16,13 @@ interface FireAnimationProps {
 
 function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
   const [toggle, setToggle] = useState(true);
+  const clicks = useRef(0);
+  const toast = useToast();
   const handleToggle = () => {
+    clicks.current += 1;
     setToggle((ps) => !ps);
     setFireOn(true);
+    if (clicks.current > 5) toast('easterEgg', TOAST_MESSAGE.playingWithFire);
   };
   return (
     <FireContainer className={toggle ? 'fire-container' : 'fire-container fire-off'}>
