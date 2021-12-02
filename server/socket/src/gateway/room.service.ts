@@ -169,6 +169,11 @@ export class RoomService {
     Redis.multi().set(uuid, JSON.stringify(findRoom)).set(client.id, uuid).exec();
   }
 
+  /**
+   * 소켓으로 유저 리스트 이벤트를 해당 방에 접속중인 클라이언트에게 보냅니다.
+   * @param server 보낼 주체(서버)
+   * @param uuid 이벤트를 보낼 대상이 접속중인 방의 고유 uuid
+   */
   emitEventForUserList(server: Server, uuid: string) {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client: uuid, server }, Exception.roomNotFound);
@@ -176,19 +181,42 @@ export class RoomService {
     });
   }
 
+  /**
+   * 소켓으로 빈 유저 리스트 이벤트를 해당 방에 접속중인 클라이언트에게 보냅니다.
+   * @param server 보낼 주체(서버)
+   * @param uuid 이벤트를 보낼 대상이 접속중인 방의 고유 uuid
+   */
   emitEventForEmptyUserList(server: Server, uuid: string) {
     server.to(uuid).emit(RoomEvent.UserList, {});
   }
 
+  /**
+   * 소켓으로 검증 이벤트를 해당 클라이언트에게 보냅니다.
+   * @param client 소켓으로 검증 이벤트를 받을 클라이언트
+   * @param server 소켓으로 검증 이벤트를 보낼 서버
+   * @param isVerify 검증의 유무
+   */
   emitEventForVerify({ client, server }, isVerify: boolean) {
     server.to(client.id).emit(RoomEvent.IsVerify, isVerify);
   }
 
+  /**
+   * 소켓으로 에러 이벤트를 해당 클라이언트에게 보냅니다.
+   * @param client 소켓으로 에러 이벤트를 받을 클라이언트
+   * @param server 소켓으로 에러 이벤트를 보낼 서버
+   * @param message 에러 메시지
+   */
   emitEventForError({ client, server }, message) {
     server.to(client.id).emit(RoomEvent.Error, message);
   }
 
   // Same := registerRoom()
+  /**
+   * Redis 에 uuid:roomData 구조로 저장합니다.
+   * registerRoom() 개념과 같습니다.
+   * @param uuid key
+   * @param roomData value
+   */
   saveRoomByUUID(uuid: string, roomData: any): void {
     Redis.set(uuid, JSON.stringify(roomData));
   }
