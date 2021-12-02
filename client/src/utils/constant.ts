@@ -85,6 +85,11 @@ export const TOAST_MESSAGE = {
     '호스트는 참가자를 강퇴할 수 있습니다.　 강퇴 당한 사용자는 다시 이 방에 들어올 수 없으니 신중하게 사용해주세요!',
   narcissism: '누구나 자기 자신을 좋아합니다...!',
   infoDoubleClick: '더블 클릭 하면 어떤 일이 일어날까요...?',
+  introFireAnimation: '자세히 보시면 불꽃이 일렁입니다...!',
+  introMoon: '자세히 보시면 달이 반짝입니다...!',
+  introSky: '자세히 보시면 별이 반짝이고 별똥별이 떨어집니다...!',
+  introEasterEgg: ' 아래 버튼을 클릭해서 모닥불을 피워주세요...!',
+  introEasterEgg2: '불씨가 아직 살아있습니다...!',
 };
 
 export const PLACEHOLDER_TXT = {

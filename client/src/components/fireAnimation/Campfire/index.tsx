@@ -18,6 +18,16 @@ function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
   const [toggle, setToggle] = useState(true);
   const clicks = useRef(0);
   const toast = useToast();
+  const onClickFire = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast('easterEggRoom', TOAST_MESSAGE.introFireAnimation);
+  };
+  const onClickMoon = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast('easterEggRoom', TOAST_MESSAGE.introMoon);
+  };
+  const onClickSky = () => toast('easterEggRoom', TOAST_MESSAGE.introSky);
+
   const handleToggle = () => {
     clicks.current += 1;
     setToggle((ps) => !ps);
@@ -32,8 +42,8 @@ function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
           <div id="circle"></div>
         </div>
       </div>
-      <div className="section-center">
-        <div className="moon">
+      <div className="section-center" onClick={onClickSky}>
+        <div className="moon" onClick={onClickMoon}>
           <div></div>
           <div></div>
           <div></div>
@@ -50,7 +60,7 @@ function FireAnimation({ setFireOn }: FireAnimationProps): JSX.Element {
         <div className="wood"></div>
         <div className="tree-1"></div>
         <div className="tree-2"></div>
-        <div className="fire">
+        <div className="fire" onClick={onClickFire}>
           <span></span>
           <span></span>
           <span></span>
