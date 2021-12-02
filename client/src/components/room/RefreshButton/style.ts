@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const ButtonWrapper = styled.div`
   width: ${({ theme }) => theme.buttonSizes.base};
+  cursor: pointer;
   height: ${({ theme }) => theme.buttonSizes.base};
   background-color: ${({ theme }) => theme.colors.blue2};
   border-radius: 50%;
