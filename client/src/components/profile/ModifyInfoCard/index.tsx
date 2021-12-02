@@ -31,7 +31,8 @@ const ModifyInfoCard = ({ onnClickCancelBtn, setIsModify }: InfoProps): JSX.Elem
     }
     const originalName = user.nickname ?? '';
     const requestBody = { originalName, nickname, devField: devField === 0 ? user.devField?.id : devField };
-    const { data } = await patchUpdate(requestBody);
+    const { isOk, data } = await patchUpdate(requestBody);
+    if (!isOk) return toast('error', TOAST_MESSAGE.alreadyNickname);
     if (data) {
       logUserIn(data);
       setIsModify(false);

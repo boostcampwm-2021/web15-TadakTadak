@@ -72,6 +72,7 @@ export const TOAST_MESSAGE = {
   notAllowedNonLogin: '로그인 후 입장할 수 있습니다.',
   loginConfirm: '이메일 및 비밀번호를 확인해주세요',
   alreadyEmail: '이미 등록되어 있는 이메일입니다.',
+  alreadyNickname: '이미 등록되어 있는 닉네임입니다.',
   alreadyRoom: '방은 최대 1개까지 생성할 수 있습니다.',
   emptyDevField: '개발 분야를 선택해주세요.',
   emptyTitle: '방 제목을 입력해주세요.',

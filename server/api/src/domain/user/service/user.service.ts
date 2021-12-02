@@ -32,17 +32,18 @@ export class UserService {
       .build();
   }
 
-  async updateUserInfo(nickname: string, userUpdateDto: UserUpdateDto) {
-    const updateUser: User = await this.authRepository.findUserByNickname(nickname);
+  async updateUserInfo(email: string, userUpdateDto: UserUpdateDto) {
+    const { nickname, devField } = userUpdateDto;
+    const updateUser: User = await this.authRepository.findUserByUserEmail(email);
     if (!updateUser) throw UserException.userNotFound();
-    const sameNickname: boolean = nickname === userUpdateDto.nickname;
+    const sameNickname: boolean = updateUser.nickname === userUpdateDto.nickname;
     if (!sameNickname) {
-      const existUser: boolean = await this.authRepository.isExistUserByNickname(userUpdateDto.nickname);
-      if (existUser) throw UserException.userIsExist();
+      const existUser: boolean = await this.authRepository.isExistNickname(nickname);
+      if (existUser) throw UserException.userNicknameIsExist();
     }
-    const newDevField: DevField = await this.devFieldRepository.findDevById(userUpdateDto.devField);
+    const newDevField: DevField = await this.devFieldRepository.findDevById(devField);
     if (!newDevField) throw DevFieldException.devFieldNotFound();
-    updateUser.setNickname(userUpdateDto.nickname);
+    updateUser.setNickname(nickname);
     updateUser.setDevField(newDevField);
     await this.authRepository.save(updateUser);
     return new UserResponseDtoBuilder()

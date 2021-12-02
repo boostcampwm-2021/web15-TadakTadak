@@ -24,21 +24,12 @@ export class UserRepository extends Repository<User> {
     return await this.findOne({ where: { nickname: nickname }, relations: ['devField'] });
   }
 
-  async isExistUserByNickname(nickname: string): Promise<boolean> {
-    return (
-      (await this.createQueryBuilder('user').where('user.nickname = :nickname', { nickname: nickname }).getCount()) > 0
-    );
+  async isExistNickname(nickname: string): Promise<boolean> {
+    return (await this.createQueryBuilder('user').where('user.nickname = :nickname', { nickname }).getCount()) > 0;
   }
 
-  async exists(user): Promise<boolean> {
-    return (
-      (await this.createQueryBuilder('user')
-        .where('user.nickname = :nickname OR user.email = :email', {
-          nickname: user.nickname,
-          email: user.email,
-        })
-        .getCount()) > 0
-    );
+  async isExistEmail(email: string): Promise<boolean> {
+    return (await this.createQueryBuilder('user').where('user.email = :email', { email }).getCount()) > 0;
   }
 
   async getLastVisitCount() {
