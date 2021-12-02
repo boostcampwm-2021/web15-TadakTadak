@@ -13,8 +13,8 @@ function RefreshButton({ page, search, getRoomList }: RefreshButtonProps): JSX.E
     getRoomList(search);
   };
   return (
-    <ButtonWrapper>
-      <IoRefresh onClick={onClickButton} stroke="white" size="50" cursor="pointer" />
+    <ButtonWrapper onClick={onClickButton}>
+      <IoRefresh stroke="white" size="50" cursor="pointer" />
     </ButtonWrapper>
   );
 }
