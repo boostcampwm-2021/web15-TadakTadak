@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, useContext, Dispatch } from 'react';
 
 export type ActionType = 'ADD_TOAST' | 'DELETE_TOAST';
-export type MessageType = 'success' | 'error';
+export type MessageType = 'success' | 'error' | 'easterEgg';
 export interface Toast {
   id: string;
   message: string;
