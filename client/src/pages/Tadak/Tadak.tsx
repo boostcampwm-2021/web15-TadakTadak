@@ -9,7 +9,6 @@ import VideoList from '@components/video/VideoList';
 import Loader from '@components/common/Loader';
 import { useUser } from '@contexts/userContext';
 import { RoomInfoType } from '@src/types';
-import { postLeaveRoom } from '@src/apis';
 
 interface LocationProps {
   pathname: string;
@@ -31,7 +30,6 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
 
   useEffect(() => {
     if (!userInfo.login) {
-      postLeaveRoom(uuid);
       history.goBack();
       return;
     }
