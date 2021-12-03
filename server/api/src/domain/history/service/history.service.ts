@@ -34,10 +34,7 @@ export class HistoryService {
     const user: User = await this.userRepository.findUserByUserEmail(email);
     if (!user) throw UserException.userNotFound();
     const year = LocalDate.now().year();
-    const result: HistoryResponseDto = new HistoryResponseDto(
-      await this.historyRepository.getMonthHistoryByUser(user, year),
-    );
-    return result;
+    return new HistoryResponseDto(await this.historyRepository.getMonthHistoryByUser(user, year));
   }
 
   async getLastVisitCount() {

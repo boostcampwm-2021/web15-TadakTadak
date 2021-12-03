@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDate } from 'js-joda';
-import { LocalDateTransformer } from '../../transformer/local-date.transformer.';
+import { LocalDateTransformer } from '../../transformer';
 
 @Entity()
 export class Visit {
