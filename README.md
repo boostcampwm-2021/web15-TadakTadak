@@ -90,8 +90,8 @@ TadakTadak은 다수의 사용자간 영상, 음성, 채팅을 지원하는 실�
   
   </div>
 
-<details open>
-<summary>모든 구현 기능 리스트</summary>
+<details>
+<summary>✅ 모든 구현 기능 리스트</summary>
 <br>
   
 **메인 페이지**
@@ -131,7 +131,7 @@ TadakTadak은 다수의 사용자간 영상, 음성, 채팅을 지원하는 실�
 ![infra](https://user-images.githubusercontent.com/66074802/141459748-2d7b50ed-04d6-45e7-a42e-43e24c993fae.png)
 
 ## 기술 특장점 🛠
-<details open>
+<details>
 <summary>🛠 프론트엔드 코드 통일성에 대한 지속적인 고민</summary>
 <br>
 
@@ -146,7 +146,7 @@ TadakTadak은 다수의 사용자간 영상, 음성, 채팅을 지원하는 실�
   
 </details>
 
-<details open>
+<details>
 <summary>🛠 Agora PaaS의 SDK를 활용한 빠른 실시간 화상 통화 기능</summary>
 <br>
 
@@ -157,7 +157,7 @@ TadakTadak은 다수의 사용자간 영상, 음성, 채팅을 지원하는 실�
   
 </details>
 
-<details open>
+<details>
 <summary>🛠 Socket.IO를 통한 방 별 실시간 기능</summary>
 <br>
   
@@ -170,7 +170,7 @@ Agora SDK에서 영상과 음성 관리에 대한 처리를 담당해줬지만, 
 
 </details>
 
-<details open>
+<details>
 <summary>🛠 서버 부하 감소를 위한 인프라 구조</summary>
 <br>
   
@@ -183,7 +183,7 @@ Redis의 **Pub/Sub 기능**을 사용해 소켓간의 메시지를 **클러스�
   
 </details>
 
-<details open>
+<details>
 <summary>🛠 NestJS 로 견고한 서버 프로젝트 관리</summary>
 <br>
   
@@ -195,7 +195,7 @@ Redis의 **Pub/Sub 기능**을 사용해 소켓간의 메시지를 **클러스�
   
 </details>
 
-<details open>
+<details>
 <summary>🛠 통일된 API 규격 및 에러 처리</summary>
 <br>
   
