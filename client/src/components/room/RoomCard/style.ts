@@ -7,6 +7,7 @@ export const RoomCardWrapper = styled.div`
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.paddings.base};
+  min-width: 15rem;
   width: 100%;
   height: ${ROOM_CARD.height}rem;
   border-radius: ${({ theme }) => theme.borderRadius.base};
@@ -77,6 +78,7 @@ export const RoomCardBottom = styled.div`
 `;
 
 export const RoomFieldType = styled.div<{ bgColor: DevFieldType }>`
+  min-width: 5.1rem;
   width: 6rem;
   height: 2rem;
   ${({ theme, bgColor }) => css`

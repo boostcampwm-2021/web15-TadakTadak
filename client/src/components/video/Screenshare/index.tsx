@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-react';
 import { useClient, useScreenVideoTrack } from '@components/video/config';
 
@@ -19,27 +19,35 @@ const ScreenShare = ({
 }: ScreenShareDivProps): JSX.Element => {
   const client = useClient();
   const { ready, tracks, error } = useScreenVideoTrack();
+  const firstRenderRef = useRef(true);
 
   useEffect(() => {
     const pulishScreenShare = async () => {
-      setStart(false);
       await client.unpublish(preTracks[1]);
       await client.publish(tracks);
-      setStart(true);
       if (!Array.isArray(tracks)) {
         tracks.on('track-ended', async () => {
-          setScreenShare(false);
           await client.unpublish(tracks);
+          tracks.close();
           if (trackState.video) {
             await client.publish(preTracks[1]);
           }
+          setScreenShare(false);
         });
       }
     };
-    if (ready) pulishScreenShare();
+    if (ready && tracks) pulishScreenShare();
     if (error) setScreenShare(false);
+
     return () => {
-      client.unpublish(tracks);
+      if (firstRenderRef.current) {
+        firstRenderRef.current = false;
+        return;
+      }
+      if (!error && !Array.isArray(tracks)) {
+        client.unpublish(tracks);
+        tracks.close();
+      }
     };
   }, [setStart, setScreenShare, screenShare, client, preTracks, trackState, tracks, ready, error]);
 
