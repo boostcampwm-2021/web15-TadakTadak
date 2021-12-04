@@ -8,6 +8,7 @@ import {
   ILocalVideoTrack,
   AgoraRTCError,
 } from 'agora-rtc-react';
+import { SCREEN_SHARE_HEIGHT } from '@utils/constant';
 
 const config: ClientConfig = {
   mode: 'rtc',
@@ -24,7 +25,7 @@ const useScreenVideoTrack = (): {
 } => {
   const screenShare = createScreenVideoTrack(
     {
-      encoderConfig: '1080p_1',
+      encoderConfig: `${SCREEN_SHARE_HEIGHT}p_1`,
       optimizationMode: 'detail',
     },
     'disable',

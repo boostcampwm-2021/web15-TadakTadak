@@ -7,7 +7,7 @@ import {
   AgoraVideoPlayer,
 } from 'agora-rtc-react';
 import { VideoWrap, VolumeVisualizer } from './style';
-import { SPEAK } from '@utils/constant';
+import { SCREEN_SHARE_HEIGHT, SPEAK } from '@utils/constant';
 import { useToast } from '@hooks/useToast';
 import { TOAST_MESSAGE } from '@utils/constant';
 
@@ -69,8 +69,9 @@ const VideoCard = ({ videoTrack, audioTrack }: VideoCardProps): JSX.Element => {
     <VideoWrap
       onClick={onClickInfo}
       onDoubleClick={() => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        videoTrack?.getMediaStreamTrack().readyState === 'live' && openFullscreen();
+        if (videoTrack?.getCurrentFrameData()?.height === SCREEN_SHARE_HEIGHT) {
+          openFullscreen();
+        }
       }}
       ref={videoRef}>
       {videoTrack && (
