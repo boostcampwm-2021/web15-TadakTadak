@@ -43,7 +43,9 @@ const VideoController = ({ tracks, setStart, uuid, ownerId }: VideoControllerPro
     }
   };
 
-  const handleScreenShare = () => setScreenShare(!screenShare);
+  const handleScreenShare = useCallback(() => {
+    setScreenShare((prev) => !prev);
+  }, []);
 
   const leaveChannel = useCallback(async () => {
     if (ownerId === user.id) {
