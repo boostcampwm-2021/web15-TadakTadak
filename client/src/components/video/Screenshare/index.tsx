@@ -22,24 +22,27 @@ const ScreenShare = ({
 
   useEffect(() => {
     const pulishScreenShare = async () => {
-      setStart(false);
       await client.unpublish(preTracks[1]);
       await client.publish(tracks);
-      setStart(true);
       if (!Array.isArray(tracks)) {
         tracks.on('track-ended', async () => {
-          setScreenShare(false);
           await client.unpublish(tracks);
+          tracks.close();
           if (trackState.video) {
             await client.publish(preTracks[1]);
           }
+          setScreenShare(false);
         });
       }
     };
-    if (ready) pulishScreenShare();
+    if (ready && tracks) pulishScreenShare();
     if (error) setScreenShare(false);
+
     return () => {
-      client.unpublish(tracks);
+      if (!error && !Array.isArray(tracks)) {
+        client.unpublish(tracks);
+        tracks.close();
+      }
     };
   }, [setStart, setScreenShare, screenShare, client, preTracks, trackState, tracks, ready, error]);
 
