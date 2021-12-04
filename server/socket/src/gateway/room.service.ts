@@ -52,7 +52,7 @@ export class RoomService {
         const [socketId, socketData]: any = userInfo;
         if (socketData.nickname === kickNickname) {
           delete findRoom['userList'][socketId];
-          findRoom.kickList[kickNickname] = Object({ time: LocalDateTime.now() });
+          findRoom.kickList[kickNickname] = { time: LocalDateTime.now() };
           this.deRegisterUserBySocketID(socketId);
           break;
         }
@@ -155,14 +155,14 @@ export class RoomService {
   }
 
   createRoom(client: Socket, { field, img, nickname, uuid, maxHead }: IRoomRequest) {
-    const newRoom = Object({ maxHead: maxHead, owner: client.id, userList: {}, kickList: {} });
-    newRoom.userList = Object({ [client.id]: { nickname, img, field } });
+    const newRoom = { maxHead: maxHead, owner: client.id, userList: {}, kickList: {} };
+    newRoom.userList = { [client.id]: { nickname, img, field } };
     Redis.multi().set(uuid, JSON.stringify(newRoom)).set(client.id, uuid).exec();
   }
 
   updateRoom(client: Socket, roomData: string, { uuid, nickname, img, field }: IRoomRequest) {
     const findRoom = JSON.parse(roomData);
-    findRoom.userList[client.id] = Object({ nickname, img, field });
+    findRoom.userList[client.id] = { nickname, img, field };
     this.saveRoomByUUID(uuid, findRoom);
     Redis.multi().set(uuid, JSON.stringify(findRoom)).set(client.id, uuid).exec();
   }
