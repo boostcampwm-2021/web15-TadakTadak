@@ -12,7 +12,6 @@ import BGMContextProvider from '@contexts/bgmContext';
 import { useUser } from '@contexts/userContext';
 import { RoomType } from '@utils/constant';
 import { RoomInfoType } from '@src/types';
-import { postLeaveRoom } from '@src/apis';
 
 interface LocationProps {
   pathname: string;
@@ -35,7 +34,6 @@ const Campfire = ({ location }: RoomProps): JSX.Element => {
 
   useEffect(() => {
     if (!userInfo.login) {
-      postLeaveRoom(uuid);
       history.goBack();
       return;
     }

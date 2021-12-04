@@ -1,5 +1,5 @@
-import { BuilderCommon } from './builder';
-import { DevField } from '../domain/field/dev-field.entity';
+import { BuilderCommon } from '../builder';
+import { DevField } from '../../domain/field/dev-field.entity';
 
 export class DevFieldBuilder extends BuilderCommon<DevField> {
   constructor() {

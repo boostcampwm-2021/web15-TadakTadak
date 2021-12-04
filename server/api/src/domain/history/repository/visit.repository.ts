@@ -12,6 +12,6 @@ export class VisitRepository extends Repository<Visit> {
 
   async addVisitCount(count: number) {
     const visit: Visit = new VisitBuilder().setDate(LocalDate.now().minusDays(1)).setTotalVisit(count).build();
-    this.save(visit);
+    await this.save(visit);
   }
 }

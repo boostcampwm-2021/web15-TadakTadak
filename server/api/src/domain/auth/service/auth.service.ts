@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { LocalDate } from 'js-joda';
-import { Bcrypt } from '../../../utils/bcrypt.util';
+import { Bcrypt } from '../../../utils';
 import { UserBuilder, UserResponseDtoBuilder } from '../../../builder';
 import { DevFieldException, UserException } from '../../../exception';
 import { User } from '../../user/user.entity';

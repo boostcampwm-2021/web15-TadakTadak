@@ -1,8 +1,8 @@
 export { RoomBuilder } from './room/room.builder';
 export { UserBuilder } from './user/user.builder';
-export { HistoryBuilder } from './history.builder';
-export { VisitBuilder } from './visit.builder';
-export { DevFieldBuilder } from './dev-field.builder';
+export { HistoryBuilder } from './history/history.builder';
+export { VisitBuilder } from './visit/visit.builder';
+export { DevFieldBuilder } from './dev-field/dev-field.builder';
 export { LoginRequestDtoBuilder } from './auth/login-request.dto.builder';
 export { UserResponseDtoBuilder } from './user/user-response.dto.builder';
 export { UserUpdateDtoBuilder } from './user/user-update.dto.builder';

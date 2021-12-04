@@ -27,16 +27,13 @@ export class RoomService {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
-      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
-      const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findOwnerNickname === findMyNickname) {
+      if (this.isOwner(findRoom, client)) {
         for (const userInfo of Object.entries(findRoom.userList)) {
           const socketId: string = userInfo[0];
           this.deRegisterUserBySocketID(socketId);
         }
         this.deRegisterRoom(uuid);
-        this.emitEventForEmptyUserList(server, uuid);
-        return;
+        return this.emitEventForEmptyUserList(server, uuid);
       }
       delete findRoom['userList'][client.id];
       Redis.multi().set(uuid, JSON.stringify(findRoom)).del(client.id).exec();
@@ -48,9 +45,7 @@ export class RoomService {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
-      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
-      const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findOwnerNickname !== findMyNickname) {
+      if (!this.isOwner(findRoom, client)) {
         return this.emitEventForError({ client, server }, Exception.clientUnauthorized);
       }
       for (const userInfo of Object.entries(findRoom.userList)) {
@@ -71,9 +66,7 @@ export class RoomService {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
       const findRoom = JSON.parse(data);
-      const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
-      const findMyNickname = findRoom['userList'][client.id].nickname;
-      if (findOwnerNickname === findMyNickname) {
+      if (this.isOwner(findRoom, client)) {
         for (const userInfo of Object.entries(findRoom.userList)) {
           const socketId: string = userInfo[0];
           this.deRegisterUserBySocketID(socketId);
@@ -111,15 +104,20 @@ export class RoomService {
     });
   }
 
+  isOwner(findRoom: any, client: Socket): boolean {
+    const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
+    const findMyNickname = findRoom['userList'][client.id].nickname;
+    return findOwnerNickname === findMyNickname;
+  }
+
   disconnectClient(client: Socket, server: Server) {
     Redis.get(client.id, (err, uuid) => {
-      if (err || !uuid) return;
+      if (err || !uuid) return this.emitEventForError({ client, server }, Exception.clientNotFound);
       Redis.get(uuid, async (err, data) => {
-        if (err || !data) return;
+        if (err || !data) return this.emitEventForError({ client, server }, Exception.roomNotFound);
         const findRoom = JSON.parse(data);
-        const findOwnerNickname = findRoom['userList'][findRoom.owner].nickname;
         const findMyNickname = findRoom['userList'][client.id].nickname;
-        if (findMyNickname === findOwnerNickname) {
+        if (this.isOwner(findRoom, client)) {
           for (const userInfo of Object.entries(findRoom.userList)) {
             const socketId: string = userInfo[0];
             this.deRegisterUserBySocketID(socketId);
@@ -137,7 +135,7 @@ export class RoomService {
             }
           }
           this.saveRoomByUUID(uuid, findRoom);
-
+          await this.leaveRoomRequestToApiServer(uuid);
           this.emitEventForUserList(server, uuid);
         }
       });
@@ -169,6 +167,11 @@ export class RoomService {
     Redis.multi().set(uuid, JSON.stringify(findRoom)).set(client.id, uuid).exec();
   }
 
+  /**
+   * 소켓으로 유저 리스트 이벤트를 해당 방에 접속중인 클라이언트에게 보냅니다.
+   * @param server 보낼 주체(서버)
+   * @param uuid 이벤트를 보낼 대상이 접속중인 방의 고유 uuid
+   */
   emitEventForUserList(server: Server, uuid: string) {
     Redis.get(uuid, (err, data) => {
       if (err || !data) return this.emitEventForError({ client: uuid, server }, Exception.roomNotFound);
@@ -176,36 +179,56 @@ export class RoomService {
     });
   }
 
+  /**
+   * 소켓으로 빈 유저 리스트 이벤트를 해당 방에 접속중인 클라이언트에게 보냅니다.
+   * @param server 보낼 주체(서버)
+   * @param uuid 이벤트를 보낼 대상이 접속중인 방의 고유 uuid
+   */
   emitEventForEmptyUserList(server: Server, uuid: string) {
     server.to(uuid).emit(RoomEvent.UserList, {});
   }
 
+  /**
+   * 소켓으로 검증 이벤트를 해당 클라이언트에게 보냅니다.
+   * @param client 소켓으로 검증 이벤트를 받을 클라이언트
+   * @param server 소켓으로 검증 이벤트를 보낼 서버
+   * @param isVerify 검증의 유무
+   */
   emitEventForVerify({ client, server }, isVerify: boolean) {
     server.to(client.id).emit(RoomEvent.IsVerify, isVerify);
   }
 
+  /**
+   * 소켓으로 에러 이벤트를 해당 클라이언트에게 보냅니다.
+   * @param client 소켓으로 에러 이벤트를 받을 클라이언트
+   * @param server 소켓으로 에러 이벤트를 보낼 서버
+   * @param message 에러 메시지
+   */
   emitEventForError({ client, server }, message) {
     server.to(client.id).emit(RoomEvent.Error, message);
   }
 
-  // Same := registerRoom()
+  /**
+   * Redis 에 uuid:roomData 구조로 저장합니다.
+   * registerRoom() 개념과 같습니다.
+   * @param uuid key
+   * @param roomData value
+   */
   saveRoomByUUID(uuid: string, roomData: any): void {
     Redis.set(uuid, JSON.stringify(roomData));
   }
 
   async leaveRoomRequestToApiServer(uuid): Promise<void> {
-    await axios.post(`${baseURL}/api/room/socket/leave/${uuid}`, {
-      headers: {
-        'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
-      },
-    });
+    const headers = {
+      'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
+    };
+    await axios.post(`${baseURL}/api/room/socket/leave/${uuid}`, undefined, { headers });
   }
 
   async deleteRoomRequestToApiServer(uuid): Promise<void> {
-    await axios.delete(`${baseURL}/api/room/socket/${uuid}`, {
-      headers: {
-        'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
-      },
-    });
+    const headers = {
+      'socket-secret-key': process.env.SOCKET_SECRET_KEY ?? '',
+    };
+    await axios.delete(`${baseURL}/api/room/socket/${uuid}`, { headers });
   }
 }

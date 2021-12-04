@@ -9,7 +9,6 @@ import VideoList from '@components/video/VideoList';
 import Loader from '@components/common/Loader';
 import { useUser } from '@contexts/userContext';
 import { RoomInfoType } from '@src/types';
-import { postLeaveRoom } from '@src/apis';
 
 interface LocationProps {
   pathname: string;
@@ -23,7 +22,8 @@ interface TadakProps {
 const Tadak = ({ location }: TadakProps): JSX.Element => {
   const { agoraAppId, agoraToken, uuid, owner, maxHeadcount } = location?.state;
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
-  const [start, setStart] = useState<boolean>(false);
+  const [start, setStart] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
   const userInfo = useUser();
@@ -31,7 +31,6 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
 
   useEffect(() => {
     if (!userInfo.login) {
-      postLeaveRoom(uuid);
       history.goBack();
       return;
     }
@@ -74,6 +73,7 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
         await tracks[1].setEnabled(false);
         await tracks[0].setEnabled(false);
       }
+      setIsLoading(false);
       setStart(true);
     };
 
@@ -85,14 +85,14 @@ const Tadak = ({ location }: TadakProps): JSX.Element => {
 
   return (
     <TadakWrapper>
-      {!start ? (
+      {isLoading ? (
         <Loader isWholeScreen={true} />
       ) : (
         <>
           <RoomSideBar uuid={uuid} hostNickname={owner?.nickname} maxHeadcount={maxHeadcount} />
           <TadakContainer>
-            {tracks && <VideoList users={users} tracks={tracks} />}
-            {tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
+            {start && tracks && <VideoList users={users} tracks={tracks} />}
+            {ready && tracks && <VideoController tracks={tracks} setStart={setStart} uuid={uuid} ownerId={owner?.id} />}
           </TadakContainer>
         </>
       )}
