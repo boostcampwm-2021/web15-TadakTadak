@@ -43,7 +43,7 @@
   <tr>
     <th>
       <div>
-        <img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a43aef04-7e58-4209-bb4b-42ee991d58ba/%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB_%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8_2021-11-24_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_6.12.00_%281%29.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211203%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211203T193331Z&X-Amz-Expires=86400&X-Amz-Signature=25f2809eacde901ce6d3b0db665d3282bc61727521bf25cba513b271acd3a72b&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22%25E1%2584%2592%25E1%2585%25AA%25E1%2584%2586%25E1%2585%25A7%25E1%2586%25AB%2520%25E1%2584%2580%25E1%2585%25B5%25E1%2584%2585%25E1%2585%25A9%25E1%2586%25A8%25202021-11-24%2520%25E1%2584%258B%25E1%2585%25A9%25E1%2584%2592%25E1%2585%25AE%25206.12.00%2520%281%29.gif%22&x-id=GetObject" width="300" height="180">
+        <img src="https://user-images.githubusercontent.com/66074802/145715155-298a1677-1d09-401f-bd06-8b049424ad30.gif" width="300" height="180">
       </div>
       실시간으로 서로 학습하는 모습을 공유해요!
     </th>
@@ -58,21 +58,19 @@
   <tr>
     <th>
       <div>
-        <img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/178d6b75-f362-4cb6-bc5b-7954cd9b85c9/%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB-%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8-2021-11-26-%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE-3.37.37.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211203%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211203T193459Z&X-Amz-Expires=86400&X-Amz-Signature=bb6c2301eb5999c002cda9f3abbccc42b85c9f4ec59419652b7b9195293ed08c&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22%25E1%2584%2592%25E1%2585%25AA%25E1%2584%2586%25E1%2585%25A7%25E1%2586%25AB-%25E1%2584%2580%25E1%2585%25B5%25E1%2584%2585%25E1%2585%25A9%25E1%2586%25A8-2021-11-26-%25E1%2584%258B%25E1%2585%25A9%25E1%2584%2592%25E1%2585%25AE-3.37.37.gif%22&x-id=GetObject" width="300" height="180">
+        <img src="https://user-images.githubusercontent.com/66074802/145715161-51255c33-5c39-45ad-9235-91391536d47e.gif" width="300" height="180">
       </div>
       온라인 불멍과 함께 캠프파이어를 체험해보세요!
     </th>
     <th>
       <div>
-       <img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/27e4b368-7e3c-4ea9-8992-00a2bdc76211/%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB_%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8_2021-11-24_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_6.14.23_%281%29.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211203%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211203T193515Z&X-Amz-Expires=86400&X-Amz-Signature=31d1fe9b0089beda5dcaa388dc38ad9e3d7c35dea3c023057d2322e3c5f247a6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22%25E1%2584%2592%25E1%2585%25AA%25E1%2584%2586%25E1%2585%25A7%25E1%2586%25AB%2520%25E1%2584%2580%25E1%2585%25B5%25E1%2584%2585%25E1%2585%25A9%25E1%2586%25A8%25202021-11-24%2520%25E1%2584%258B%25E1%2585%25A9%25E1%2584%2592%25E1%2585%25AE%25206.14.23%2520%281%29.gif%22&x-id=GetObject" width="300" height="180">
+       <img src="https://user-images.githubusercontent.com/66074802/145715158-766ec4dd-8e56-4695-8c90-6e14c0ad8523.gif" width="300" height="180">
       </div>
        직접 호스트가 되어 방을 운영해보세요!
     </th>
   </tr>
 </tbody>
 </table>
- 
- 
 
 | J051_김재훈 | J100_배지호 | J146_이영범 | J198_조한별 |
 |:--------:|:--------:|:--------:|:--------:|
