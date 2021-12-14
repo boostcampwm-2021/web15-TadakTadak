@@ -16,7 +16,7 @@ import { HistoryModule } from '../history/history.module';
     PassportModule,
     JwtModule.register({
       secret: Process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '12h' },
     }),
     HistoryModule,
   ],
